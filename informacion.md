@@ -1,6 +1,8 @@
 informacion
 ================
 
+## Información principal
+
 - R for data Science (functions):
   <https://r4ds.had.co.nz/functions.html>
 
@@ -19,4 +21,9 @@ informacion
 - Sacando el máximo partido a Tidyverse:
   <https://github.com/Julenasti/intro_tidyverse/blob/main/04-scripts/intro_tidyverse.md>
 
+## No directamente relacionado pero útil
+
 - Style guide: <http://adv-r.had.co.nz/Style.html>
+
+- Quince consejos para mejorar nuestro código y flujo de trabajo con R:
+  <https://www.revistaecosistemas.net/index.php/ecosistemas/article/view/2129>

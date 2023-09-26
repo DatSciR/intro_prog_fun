@@ -1,0 +1,37 @@
+---
+title: "Iteraciones"
+format: html
+editor: visual
+---
+
+Otra herramienta para reducir la duplicación son las iteraciones que sirven para realizar la misma acción en múltiples entradas. Existen dos grandes paradigmas de iteración: la programación imperativa y la **programación funcional**.
+
+## Programación imperativa
+
+Bucles for y while (for loops y while loops)
+
+Recomendable para empezar porque hacen que cada iteración sea muy explícita por lo que está claro lo que está ocurriendo.
+
+### Bucles for
+
+Ejemplo basado en lo que previamente tenemos de funciones y explicar los tres componentes de los for: resultado, secuencia y cuerpo (output, sequence, and body).
+
+Existen distintas variaciones de los bucles for: (i) modificar un objeto existente; (ii) bucles sobre nombres o valores; (iii) bucles cuando desconocemos la longitud de los resultados; (iv) bucles cuando desconocemos la secuencia de entrada, bucles while. (https://r4ds.had.co.nz/iteration.html#for-loop-variations)
+
+Algunos errores comunes cuando se utilizan bucles for: https://adv-r.hadley.nz/control-flow.html, 5.3.1 Common pitfalls
+
+Sin embargo, en R los bucles for no son tan importantes como pueden ser en otros lenguajes porque R es un lenguaje de programación funcional. Esto significa que es posible envolver los bucles for en una función y llamar a esa función en vez de utilizar el bucle. Ejemplo para mostrar la importancia de esto (pag. 322 R for data science).
+
+Existe la creencia de que los bucles for son lentos, pero la desventaja real de los bucles for es que son demasiado flexibles: un bucle comunica que estás iterando, pero no lo que se debe hacer con los resultados. Esto implica que pueden ser demasiado detallados/largos y pueden requerir que se duplique código por cada bucle. Cada funcional está diseñado para una tarea específica, por lo que cuando reconoces el funcional, inmediatamente sabes por qué se está utilizando.
+
+Frase de Bjarne Stroustrup (pag. 209 Advanced R)
+
+## Programación funcional
+
+La idea de pasar una función a otra función es una idea muy potente y es una de las caracterísitcas que hace que R sea un lenguaje de programación funcional. En este taller, aprenderemos a utilizar el paquete purrr, que proporciona funciones para eliminar muchos bucles comunes. La familia apply de R base soluciona problemas similares, pero purrr es más consistente y por lo tanto más fácil de aprender. El objetivo de utilizar purrr en vez de bucles for es que nos permiten dividir los desafíos comunes de manipulación de listas en partes independientes.
+
+¿Cómo podemos resolver el problema de un solo elemento de la lista? Una vez que hayas resuelto ese problema, purrr se encarga de generalizar tu solución a cada elemento de la lista.
+
+Si estás resolviendo un problema complejo, ¿cómo puedes dividirlo en partes pequeñas que te permitan avanzar un pequeño paso hacia una solución? Con purrr obtienes muchas piezas pequeñas que puedes componer junto con la pipa.
+
+Permiten extraer código duplicado, por lo que cada bucle for tiene su propia función. Una vez que domines la programación funcional, podrás solventar muchos problemas de iteración con menos código, más facilidad y menos errores.

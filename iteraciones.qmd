@@ -22,7 +22,7 @@ Algunos errores comunes cuando se utilizan bucles for: https://adv-r.hadley.nz/c
 
 Sin embargo, en R los bucles for no son tan importantes como pueden ser en otros lenguajes porque R es un lenguaje de programación funcional. Esto significa que es posible envolver los bucles for en una función y llamar a esa función en vez de utilizar el bucle. Ejemplo para mostrar la importancia de esto (pag. 322 R for data science).
 
-Existe la creencia de que los bucles for son lentos, pero la desventaja real de los bucles for es que son demasiado flexibles: un bucle comunica que estás iterando, pero no lo que se debe hacer con los resultados. Esto implica que pueden ser demasiado detallados/largos y pueden requerir que se duplique código por cada bucle. Cada funcional está diseñado para una tarea específica, por lo que cuando reconoces el funcional, inmediatamente sabes por qué se está utilizando.
+Existe la creencia de que los bucles for son lentos, pero la desventaja real de los bucles for es que son demasiado flexibles: un bucle comunica que estás iterando, pero no lo que se debe hacer con los resultados. Esto implica que pueden ser demasiado detallados/largos y pueden requerir que se duplique código por cada bucle. Cada funcional está diseñado para una tarea específica, por lo que cuando reconoces el funcional, inmediatamente sabes por qué se está utilizando. Es decir, la principal ventaja es su claridad, hacen que el código sea más fácil de escribir y de leer. De todas formas, nunca os sintáis mal por utilizar un bucle en vez de un funcional. Los funcionales necesitan un paso más de abstracción y pueden requerir tiempo hasta que lo entiendas. Lo más importante es que soluciones el problema y poco a poco ir escribiendo código cada vez más sencillo y elegante.
 
 Frase de Bjarne Stroustrup (pag. 209 Advanced R)
 
@@ -35,3 +35,60 @@ La idea de pasar una función a otra función es una idea muy potente y es una d
 Si estás resolviendo un problema complejo, ¿cómo puedes dividirlo en partes pequeñas que te permitan avanzar un pequeño paso hacia una solución? Con purrr obtienes muchas piezas pequeñas que puedes componer junto con la pipa.
 
 Permiten extraer código duplicado, por lo que cada bucle for tiene su propia función. Una vez que domines la programación funcional, podrás solventar muchos problemas de iteración con menos código, más facilidad y menos errores.
+
+Iteracionar sobre un vector es tan común que el paquete purrr proporciona una familia de funciones para ello (los data frames son listas conteniendo vectores de la misma longitud). Existe una función para cada tipo de output/resultado. Los sufijos indican el tipo de output que queremos. Ejemplos (con y sin pipe):
+
+Comparado con un for loop, el foco está en la operación que se está realizando, más que en todo el código necesario para iteraciones sobre cada elemento y guardar el output.
+
+## Iteraciones sobre un argumento
+
+map() está vectorizado sobre un argumento, e.g. (x)
+
+### Nuestro primer funcional: generando listas, map()
+
+Explicación, ejemplo, dibujo, comparación con for y lapply
+
+### Nuestro segundo funcional: generando vectores, map_*()
+
+Ejemplos, comparación con sapply y vapply
+
+Ejemplo de una función anónima, y otro pasando argumentos con ...
+(explicación vero en la primera parte)
+
+## Iteraciones sobre múltiples argumentos
+
+A veces necesitamos iteracionar sobre diversos inputs/entradas en paralelo
+
+### Nuestro tercer funcional: dos inputs, map2()
+
+map2() está vectorizado sobre dos argumentos
+
+Ejemplo, dibujo, comparación con for
+
+### Nuestro cuarto funcional: múltiples inputs, pmap()
+
+Toma una lista con cualquier número de argumentos
+
+Ejemplo, dibujo
+
+### Nuestro quinto funcional: sin output/resultado, walk(), walk2() y pwalk()
+
+Cuando queremos utilizar funciones por sus side effects (e.g. ggsave()) y no por su resultado. Los outputs son efímeros y el input es devuelto de forma invisible.
+
+Dibujo, comparación con R base
+
+## Otros patrones de bucles for, 336
+
+Explicación + ejemplos principales
+
+## Lidiando con el fracaso, 329
+
+safely(), possibly(), quietly() algún ejemplo + link para más información
+
+
+
+
+
+### Invoking different functions (R for data science, 334) DUDA
+
+Ejemplo final avanzado comparando purrr, lapply y for (ver purrr style, pag 221 Advanced R)

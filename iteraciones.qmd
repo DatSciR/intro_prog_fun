@@ -46,9 +46,11 @@ map() está vectorizado sobre un argumento, e.g. (x)
 
 ### Nuestro primer funcional: generando listas, map()
 
-Explicación, ejemplo, dibujo, comparación con for y lapply
+Explicación, ejemplo, dibujo 1, comparación con for y lapply
 
 ### Nuestro segundo funcional: generando vectores, map_*()
+
+añadir también map_vec()
 
 Ejemplos, comparación con sapply y vapply
 
@@ -63,32 +65,55 @@ A veces necesitamos iteracionar sobre diversos inputs/entradas en paralelo
 
 map2() está vectorizado sobre dos argumentos
 
-Ejemplo, dibujo, comparación con for
+Ejemplo, dibujo 2, comparación con for
 
 ### Nuestro cuarto funcional: múltiples inputs, pmap()
 
 Toma una lista con cualquier número de argumentos
 
-Ejemplo, dibujo
+Ejemplo, dibujo 3
 
-### Nuestro quinto funcional: sin output/resultado, walk(), walk2() y pwalk()
+## Sin output/resultado
+
+### Nuestro quinto funcional: walk(), walk2() y pwalk()
 
 Cuando queremos utilizar funciones por sus side effects (e.g. ggsave()) y no por su resultado. Los outputs son efímeros y el input es devuelto de forma invisible.
 
-Dibujo, comparación con R base
+Dibujo 4, comparación con R base
 
-## Otros patrones de bucles for, 336
-
-Explicación + ejemplos principales
+Examples of some specific tasks with purrr: https://r4ds.hadley.nz/iteration
 
 ## Lidiando con el fracaso, 329
 
+Cuando utilizamos las funciones map() para repetir muchas operaciones, las posibilidades de que una de esas operaciones falle son mucho mayores. Cuando esto suceda, recibimos un mensaje de error y no obtenemos los resultados. purrr proporciona algunos operadores de funciones (function operators) en forma de adverbios para asegurar que una manzana podrida no arruine todo el barril.
+
 safely(), possibly(), quietly() algún ejemplo + link para más información
 
+## Otros patrones de bucles for, 336
+
+### Funcionales predicate
+
+Los predicate son funciones que devuelven un solo TRUE o FALSE (e.g., is.character())
+
+Un predicado funcional aplica un predicado a cada elemento de un vector
+
+keep(), discard(), some(), every(), detect(), detect_index() algún ejemplo + link para más información
+
+### Reduce and Accumulate
+
+reduce(): es una forma útil de generalizar una función que funciona con dos entradas (función binaria) para trabajar con cualquier número de entradas
+
+accumulate(): en lugar de devolver solo el resultado final, devuelve todos los resultados intermedios
+
+un ejemplo de cada
 
 
 
 
-### Invoking different functions (R for data science, 334) DUDA
+
+
+
+
+
 
 Ejemplo final avanzado comparando purrr, lapply y for (ver purrr style, pag 221 Advanced R)

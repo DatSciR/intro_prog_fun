@@ -35,9 +35,9 @@ df_ej <- data.frame(
   c = rnorm(5)
 )
 
-salida <- vector("double", ncol(df_ej)) # 1. output
-for (i in seq_along(df_ej)) {           # 2. sequence
-  salida[[i]] <- max(df_ej[[i]])        # 3. body
+salida <- vector("double", ncol(df_ej)) # 1. salida
+for (i in seq_along(df_ej)) {           # 2. secuencia
+  salida[[i]] <- max(df_ej[[i]])        # 3. cuerpo
 }
 salida
 
@@ -148,7 +148,7 @@ DIBUJO VERO
 
 #### Ejercicio
 
-Generad un vector, una función y aplicarle la función a cada uno de los elementos del vector utilizando `map()`
+Generad un vector, una función y aplicarle la función a cada uno de los elementos del vector utilizando `map()`.
 
 Implementación de map()
 
@@ -186,11 +186,10 @@ map_int(penguins, \(x) length(unique(x)))
 
 ```
 
-```{=html}
-<!-- DIBUJO VERO: se podria dibujar lo que indico a continuacion tambien? es el dibujo que viene justo despues de este ejemplo aqui: map_dbl(x, mean, na.rm = TRUE)
+<!-- DIBUJO VERO: menos prioritario. se podria dibujar lo que indico a continuacion tambien? es el dibujo que viene justo despues de este ejemplo aqui: map_dbl(x, mean, na.rm = TRUE)
 https://adv-r.hadley.nz/functionals.html-->
-```
-Los argumentos que varían para cada ejecución vienen antes de la función y los argumentos que son los mismos para cada llamada vienen después (`na.rm = T`).
+
+Los argumentos que varían para cada ejecución vienen antes de la función y los argumentos que son los mismos para cada ejecución vienen después (`na.rm = T`).
 
 R base tiene dos funciones `apply()` que pueden devolver vectores atómicos: `sapply()` y `vapply()`. Recomendamos evitar `sapply()` porque intenta simplificar el resultado, por lo que puede devolver una lista, un vector o una matriz. `vapply()` es más seguro porque permite proporcionar una plantilla, FUN.VALUE, que describe la forma de salida. La principal desventaja de `vapply()` es que se necesitan especificar más argumentos que en `map_*()`.
 
@@ -316,7 +315,7 @@ DIBUJO VERO
 
 ## Sin resultado
 
-### Nuestro quinto funcional: walk(), walk2() y pwalk()
+### Nuestro quinto funcional: `walk()`, `walk2()` y `pwalk()`
 
 Cuando queremos utilizar funciones por sus efectos secundarios/side effects (e.g. `ggsave()`) y no por su valor resultante. Lo importante es la acción y no el valor resultante.
 

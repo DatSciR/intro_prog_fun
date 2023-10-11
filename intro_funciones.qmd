@@ -1,0 +1,145 @@
+---
+title: ""
+author:
+    - names: "Julen Astigarraga & Verónica Cruz-Alonso"
+    - affiliations: Universidad de Alcalá | Universidad Complutense de Madrid
+format: 
+  gfm: default
+editor: visual
+---
+
+Figuras de monchi: iterando por color de ojos, bigotes y lengua
+
+## Introducción
+
+Los **objetivos** de este taller son:
+
+\- aprender a escribir funciones
+
+\- aplicar funciones en programación iterativa mediante el paquete {purrr} de {tidyverse}
+
+\- aprender estilos de código que facilitan su comprensión
+
+Ventajas de la programación funcional (funciones + iteración)
+
+-   Facilidad para ver la intención del código
+    -   Las funciones nombre evocativo
+    -   Bucle puede ser más explícito
+-   Rapidez si se necesitan hacer cambios
+    -   Las funciones son piezas independientes
+-   Disminuye la probabilidad de error: "do not repeat yourself" (or DRY) principle
+
+La idea de pasar una función a otra función es una idea muy potente y es una de las características que hace que R sea un lenguaje de programación funcional. Además de las funciones, otra herramienta para reducir la duplicación son las iteraciones que sirven para realizar la misma acción a múltiples entradas. Existen dos grandes paradigmas de iteración: la programación imperativa y la programación funcional. En este taller, nos centraremos principalmente en la **programación funcional** y aprenderemos a utilizar el paquete {purrr}, que proporciona funciones para eliminar muchos bucles comunes.
+
+Ejemplo (lo haría con el scale)
+
+```{r}
+df <- tibble::tibble(   a = rnorm(10),   b = rnorm(10),   c = rnorm(10),   d = rnorm(10) )  df$a <- (df$a - min(df$a, na.rm = TRUE)) /    (max(df$a, na.rm = TRUE) - min(df$a, na.rm = TRUE)) df$b <- (df$b - min(df$b, na.rm = TRUE)) /    (max(df$b, na.rm = TRUE) - min(df$a, na.rm = TRUE)) df$c <- (df$c - min(df$c, na.rm = TRUE)) /    (max(df$c, na.rm = TRUE) - min(df$c, na.rm = TRUE)) df$d <- (df$d - min(df$d, na.rm = TRUE)) /    (max(df$d, na.rm = TRUE) - min(df$d, na.rm = TRUE))  rescale01 <- function(x) {   rng <- range(x, na.rm = TRUE)   (x - rng[1]) / (rng[2] - rng[1]) } rescale01(c(0, 5, 10)) 
+#> [1] 0.0 0.5 1.0  
+df$a <- rescale01(df$a) df$b <- rescale01(df$b) df$c <- rescale01(df$c) df$d <- rescale01(df$d)  
+#Meter un NA en los datos y rehacer la funcion 
+```
+
+### 
+
+## Estructura del curso
+
+| Bloques                                | Tiempo estimado |
+|----------------------------------------|-----------------|
+| Introducción                           | 15 min          |
+| Instalación                            | 25 min          |
+| Repositorios y proyectos               | 20 min          |
+| Flujo de trabajo en Git y GitHub       | 1 h             |
+| Descanso                               | 20 min          |
+| La he liado ¿cómo deshago los cambios? | 35 min          |
+| ¿Cómo se puede trabajar paralelamente? | 30 min          |
+| Descanso                               | 10 min          |
+| Otros comandos útiles                  | 15 min          |
+| Otras utilidades de Github             | 10 min          |
+
+## Quiénes somos
+
+Y vosotros ¿quiénes sois?
+
+![QR](images/mentimeter_qr_code.png) <https://www.menti.com/alyyd29vgomt>
+
+## Funciones
+
+### ¿Por qué trabajar con funciones?
+
+La creciente disponibilidad de datos y de versatilidad de los programas de análisis han provocado el incremento en la cantidad y complejidad de los análisis que realizamos en ecología. Esto hace cada vez más necesaria la eficiencia en el proceso de gestión y análisis de datos. Una de las posibles formas para optimizar estos procesos y acortar los tiempos de trabajo para los usuarios de R es la programación basada en funciones. Las funciones permiten automatizar tareas comunes (por ejemplo, leer diferentes bases de datos) de una forma más potente y general, simplificando el código.
+
+Tipos de funciones
+
+-   Closures
+-   anomimas
+
+### Principios
+
+Lexical scooping
+
+\- Name masking
+
+\- Functions vs. variables
+
+\- A fresh start
+
+\- Dynamic lookup
+
+### Cúando usar funciones
+
+-   Cuando has copiado y pegado más de dos veces lo mismo
+
+### Cómo estribir funciones
+
+p.270
+
+-   Analizar el código ¿cuantos imputs? ¿hay partes replicadas?
+
+-   Simplificar
+
+-   Elegir un buen nombre
+
+-   Enumerar los argumentos (inputs) dentro de function (arguments)
+
+-   Poner el código simplificado dentro del cuerpo de la función (body)
+
+-   Probar con inputs diferentes (hablar de los tests)
+
+#### Argumentos
+
+... hablar de esto
+
+#### Retornos
+
+**Style guide**
+
+Ejercicio 1: función básica
+
+Datos titanic
+
+Ejercicio 2: función más compleja para usar
+
+## Información principal
+
+-   R for data Science (functions): <https://r4ds.had.co.nz/functions.html>
+
+-   Advanced R (functions): <https://adv-r.hadley.nz/functions.html>
+
+-   R for data Science (iteration): <https://r4ds.had.co.nz/iteration.html>
+
+-   Advanced R (functionals): <https://adv-r.hadley.nz/functionals.html>
+
+-   purrr 1.0.0: <https://www.tidyverse.org/blog/2022/12/purrr-1-0-0/>
+
+-   Learn to purrr (Rebecca Barter): <https://www.rebeccabarter.com/blog/2019-08-19_purrr>
+
+-   Sacando el máximo partido a Tidyverse: <https://github.com/Julenasti/intro_tidyverse/blob/main/04-scripts/intro_tidyverse.md>
+
+-   R for Data Science (2e): <https://r4ds.hadley.nz/>
+
+## No directamente relacionado pero útil
+
+-   Style guide: <http://adv-r.had.co.nz/Style.html>
+
+-   Quince consejos para mejorar nuestro código y flujo de trabajo con R: <https://www.revistaecosistemas.net/index.php/ecosistemas/article/view/2129>

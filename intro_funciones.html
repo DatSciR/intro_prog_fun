@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Julen Astigarraga y Verónica Cruz-Alonso">
+<meta name="dcterms.date" content="2023-10-16">
+
+<title>Programación funcional en R y como dejar de pensar en bucle</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="intro_funciones_files/libs/clipboard/clipboard.min.js"></script>
+<script src="intro_funciones_files/libs/quarto-html/quarto.js"></script>
+<script src="intro_funciones_files/libs/quarto-html/popper.min.js"></script>
+<script src="intro_funciones_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="intro_funciones_files/libs/quarto-html/anchor.min.js"></script>
+<link href="intro_funciones_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="intro_funciones_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="intro_funciones_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="intro_funciones_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="intro_funciones_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#presentación" id="toc-presentación" class="nav-link active" data-scroll-target="#presentación">Presentación</a>
+  <ul class="collapse">
+  <li><a href="#estructura-del-curso" id="toc-estructura-del-curso" class="nav-link" data-scroll-target="#estructura-del-curso">Estructura del curso</a></li>
+  <li><a href="#quiénes-somos" id="toc-quiénes-somos" class="nav-link" data-scroll-target="#quiénes-somos">Quiénes somos</a></li>
+  <li><a href="#introducción-a-la-programación-funcional" id="toc-introducción-a-la-programación-funcional" class="nav-link" data-scroll-target="#introducción-a-la-programación-funcional">Introducción a la programación funcional</a></li>
+  <li><a href="#cuándo-hay-que-usar-una-función" id="toc-cuándo-hay-que-usar-una-función" class="nav-link" data-scroll-target="#cuándo-hay-que-usar-una-función">¿Cuándo hay que usar una función?</a></li>
+  </ul></li>
+  <li><a href="#funciones" id="toc-funciones" class="nav-link" data-scroll-target="#funciones">Funciones</a>
+  <ul class="collapse">
+  <li><a href="#principios" id="toc-principios" class="nav-link" data-scroll-target="#principios">Principios</a></li>
+  <li><a href="#cómo-estribir-funciones" id="toc-cómo-estribir-funciones" class="nav-link" data-scroll-target="#cómo-estribir-funciones">Cómo estribir funciones</a></li>
+  </ul></li>
+  <li><a href="#información-principal" id="toc-información-principal" class="nav-link" data-scroll-target="#información-principal">Información principal</a></li>
+  <li><a href="#no-directamente-relacionado-pero-útil" id="toc-no-directamente-relacionado-pero-útil" class="nav-link" data-scroll-target="#no-directamente-relacionado-pero-útil">No directamente relacionado pero útil</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="intro_funciones.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Programación funcional en R y como dejar de pensar en bucle</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Julen Astigarraga y Verónica Cruz-Alonso </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 16, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Logo_ecoinf_10.jpg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">EcoInf</figcaption>
+</figure>
+</div>
+<section id="presentación" class="level2">
+<h2 class="anchored" data-anchor-id="presentación">Presentación</h2>
+<p>Los <strong>objetivos</strong> de este taller son:</p>
+<p>- aprender a escribir funciones</p>
+<p>- aplicar funciones en programación iterativa mediante el paquete {purrr} de {tidyverse}</p>
+<p>- aprender estilos de código que facilitan su comprensión</p>
+<section id="estructura-del-curso" class="level3">
+<h3 class="anchored" data-anchor-id="estructura-del-curso">Estructura del curso</h3>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Bloques</th>
+<th>Tiempo estimado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Introducción</td>
+<td>15 min</td>
+</tr>
+<tr class="even">
+<td>Funciones teoria</td>
+<td>15 min</td>
+</tr>
+<tr class="odd">
+<td>Funciones practica</td>
+<td>25 min</td>
+</tr>
+<tr class="even">
+<td>Progamación imperativa vs.&nbsp;funcional</td>
+<td>25 min</td>
+</tr>
+<tr class="odd">
+<td>Descanso</td>
+<td>15 min</td>
+</tr>
+<tr class="even">
+<td>Iteraciones con purrr</td>
+<td>75 min</td>
+</tr>
+</tbody>
+</table>
+<!--# Faltan 10 min-->
+</section>
+<section id="quiénes-somos" class="level3">
+<h3 class="anchored" data-anchor-id="quiénes-somos">Quiénes somos</h3>
+<p>Y vosotros ¿quiénes sois?</p>
+<p><img src="images/mentimeter_qr_code.png" class="img-fluid" alt="QR"> <a href="https://www.menti.com/alyyd29vgomt" class="uri">https://www.menti.com/alyyd29vgomt</a></p>
+</section>
+<section id="introducción-a-la-programación-funcional" class="level3">
+<h3 class="anchored" data-anchor-id="introducción-a-la-programación-funcional">Introducción a la programación funcional</h3>
+<p>La creciente disponibilidad de datos y de versatilidad de los programas de análisis han provocado el incremento en la cantidad y complejidad de los análisis que realizamos en ecología. Esto hace cada vez más necesaria la eficiencia en el proceso de gestión y análisis de datos. Una de las posibles formas para optimizar estos procesos y acortar los tiempos de trabajo para los usuarios de R es la programación basada en funciones. Las funciones permiten automatizar tareas comunes (por ejemplo, leer diferentes bases de datos) simplificando el código.</p>
+<p>Las funciones son objetos de R que toman un input y lo transforman en un output haciendo una acción concreta (funcionalidad específica). Son los <em>bloques de construcción</em> fundamentales en cualquier script de R que es un lenguaje funcional.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/function.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">fun</figcaption>
+</figure>
+</div>
+<p>Se puede llamar a una función a través de otra función e iterar el proceso haciendo que R sea una herramienta muy potente. Las iteraciones sirven para realizar la misma acción a múltiples entradas. Existen dos grandes paradigmas de iteración: la programación imperativa y la programación funcional. En este taller, nos centraremos principalmente en la <strong>programación funcional</strong> y aprenderemos a utilizar el paquete {purrr}, que proporciona funciones para eliminar muchos bucles comunes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("tidyverse")</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("palmerpenguins")</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.2     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.2     ✔ tibble    3.2.1
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 344
+Columns: 8
+$ species           &lt;fct&gt; Adelie, Adelie, Adelie, Adelie, Adelie, Adelie, Adel…
+$ island            &lt;fct&gt; Torgersen, Torgersen, Torgersen, Torgersen, Torgerse…
+$ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, NA, 36.7, 39.3, 38.9, 39.2, 34.1, …
+$ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, NA, 19.3, 20.6, 17.8, 19.6, 18.1, …
+$ flipper_length_mm &lt;int&gt; 181, 186, 195, NA, 193, 190, 181, 195, 193, 190, 186…
+$ body_mass_g       &lt;int&gt; 3750, 3800, 3250, NA, 3450, 3650, 3625, 4675, 3475, …
+$ sex               &lt;fct&gt; male, female, female, NA, female, male, female, male…
+$ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>bill_length_mm <span class="ot">&lt;-</span> (df<span class="sc">$</span>bill_length_mm <span class="sc">-</span> <span class="fu">min</span>(df<span class="sc">$</span>bill_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))<span class="sc">/</span>(<span class="fu">max</span>(df<span class="sc">$</span>bill_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">-</span> <span class="fu">min</span>(df<span class="sc">$</span>bill_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>bill_depth_mm <span class="ot">&lt;-</span> (df<span class="sc">$</span>bill_depth_mm<span class="sc">-</span> <span class="fu">min</span>(df<span class="sc">$</span>bill_depth_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))<span class="sc">/</span>(<span class="fu">max</span>(df<span class="sc">$</span>bill_depth_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">-</span> <span class="fu">min</span>(df<span class="sc">$</span>bill_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>flipper_length_mm <span class="ot">&lt;-</span> (df<span class="sc">$</span>flipper_length_mm <span class="sc">-</span> <span class="fu">min</span>(df<span class="sc">$</span>flipper_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))<span class="sc">/</span>(<span class="fu">max</span>(df<span class="sc">$</span>flipper_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">-</span> <span class="fu">min</span>(df<span class="sc">$</span>flipper_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>body_mass_g <span class="ot">&lt;-</span> (df<span class="sc">$</span>body_mass_g <span class="sc">-</span> <span class="fu">min</span>(df<span class="sc">$</span>body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))<span class="sc">/</span>(<span class="fu">max</span>(df<span class="sc">$</span>body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">-</span> <span class="fu">min</span>(df<span class="sc">$</span>body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>rescale01 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  rng <span class="ot">&lt;-</span> <span class="fu">range</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  (x <span class="sc">-</span> rng[<span class="dv">1</span>]) <span class="sc">/</span> (rng[<span class="dv">2</span>] <span class="sc">-</span> rng[<span class="dv">1</span>]) </span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>} </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="fu">rescale01</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">10</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0 0.5 1.0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>bill_length_mm <span class="ot">&lt;-</span> <span class="fu">rescale01</span>(df<span class="sc">$</span>bill_length_mm) </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>bill_depth_mm <span class="ot">&lt;-</span> <span class="fu">rescale01</span>(df<span class="sc">$</span>bill_depth_mm) </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>flipper_length_mm <span class="ot">&lt;-</span> <span class="fu">rescale01</span>(df<span class="sc">$</span>flipper_length_mm) </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>body_mass_g <span class="ot">&lt;-</span> <span class="fu">rescale01</span>(df<span class="sc">$</span>body_mass_g)  </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span> </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(df, rescale01)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$bill_length_mm
+  [1] 0.25454545 0.26909091 0.29818182         NA 0.16727273 0.26181818
+  [7] 0.24727273 0.25818182 0.07272727 0.36000000 0.20727273 0.20727273
+ [13] 0.32727273 0.23636364 0.09090909 0.16363636 0.24000000 0.37818182
+ [19] 0.08363636 0.50545455 0.20727273 0.20363636 0.13818182 0.22181818
+ [25] 0.24363636 0.11636364 0.30909091 0.30545455 0.21090909 0.30545455
+ [31] 0.26909091 0.18545455 0.26909091 0.32000000 0.15636364 0.25818182
+ [37] 0.24363636 0.36727273 0.20000000 0.28000000 0.16000000 0.31636364
+ [43] 0.14181818 0.43636364 0.17818182 0.27272727 0.32727273 0.19636364
+ [49] 0.14181818 0.37090909 0.27272727 0.29090909 0.10545455 0.36000000
+ [55] 0.08727273 0.33818182 0.25090909 0.30909091 0.16000000 0.20000000
+ [61] 0.13090909 0.33454545 0.20000000 0.32727273 0.15636364 0.34545455
+ [67] 0.12363636 0.32727273 0.13818182 0.35272727 0.05090909 0.27636364
+ [73] 0.27272727 0.49818182 0.12363636 0.38909091 0.32000000 0.18545455
+ [79] 0.14909091 0.36363636 0.09090909 0.39272727 0.16727273 0.10909091
+ [85] 0.18909091 0.33454545 0.15272727 0.17454545 0.22545455 0.24727273
+ [91] 0.13090909 0.32727273 0.06909091 0.27272727 0.14909091 0.31636364
+ [97] 0.21818182 0.29818182 0.03636364 0.40363636 0.10545455 0.32363636
+[103] 0.20363636 0.20727273 0.21090909 0.27636364 0.23636364 0.22181818
+[109] 0.21818182 0.40363636 0.21818182 0.49090909 0.27636364 0.36727273
+[115] 0.27272727 0.38545455 0.23636364 0.18909091 0.13090909 0.32727273
+[121] 0.14909091 0.20363636 0.29454545 0.33818182 0.11272727 0.30909091
+[127] 0.24363636 0.34181818 0.25090909 0.43636364 0.23272727 0.40000000
+[133] 0.17090909 0.19636364 0.21818182 0.32727273 0.12727273 0.29454545
+[139] 0.17818182 0.27636364 0.29454545 0.30909091 0.00000000 0.31272727
+[145] 0.18909091 0.25090909 0.25818182 0.16363636 0.14181818 0.20727273
+[151] 0.14181818 0.34181818 0.50909091 0.65090909 0.60363636 0.65090909
+[157] 0.56363636 0.52363636 0.48363636 0.53090909 0.40727273 0.53454545
+[163] 0.32000000 0.61454545 0.48727273 0.59272727 0.49818182 0.62545455
+[169] 0.36000000 0.62181818 0.51272727 0.60363636 0.65818182 0.47272727
+[175] 0.52363636 0.51636364 0.39272727 0.50909091 0.45090909 0.57090909
+[181] 0.58545455 0.65090909 0.55272727 0.38909091 0.47272727 1.00000000
+[187] 0.61818182 0.59272727 0.38181818 0.44727273 0.43272727 0.60363636
+[193] 0.38545455 0.63636364 0.48000000 0.63636364 0.66909091 0.41818182
+[199] 0.48727273 0.66909091 0.46545455 0.47636364 0.52727273 0.59636364
+[205] 0.47272727 0.65454545 0.52363636 0.46909091 0.42545455 0.48727273
+[211] 0.40363636 0.66545455 0.48000000 0.51272727 0.49454545 0.80727273
+[217] 0.49818182 0.64363636 0.51272727 0.63272727 0.41454545 0.67636364
+[223] 0.56727273 0.52000000 0.58545455 0.52363636 0.52000000 0.60000000
+[229] 0.56000000 0.69090909 0.47636364 0.47636364 0.61818182 0.74181818
+[235] 0.55636364 0.65090909 0.46545455 0.68000000 0.41090909 0.69818182
+[241] 0.56000000 0.72727273 0.56000000 0.73090909 0.48727273 0.63272727
+[247] 0.45090909 0.68000000 0.62909091 0.53818182 0.59272727 0.69090909
+[253] 0.59636364 0.86545455 0.54909091 0.61818182 0.55272727 0.53454545
+[259] 0.34909091 0.77454545 0.40727273 0.58181818 0.66909091 0.64363636
+[265] 0.41454545 0.70545455 0.51272727 0.83636364 0.45090909 0.60727273
+[271] 0.54909091         NA 0.53454545 0.66545455 0.47636364 0.64727273
+[277] 0.52363636 0.65090909 0.69818182 0.48363636 0.74909091 0.47636364
+[283] 0.50909091 0.69818182 0.50545455 0.69818182 0.52727273 0.71272727
+[289] 0.54181818 0.72363636 0.50181818 0.66909091 0.66181818 0.94181818
+[295] 0.52000000 0.62181818 0.37454545 0.59636364 0.40363636 0.67272727
+[301] 0.53090909 0.72363636 0.66909091 0.63272727 0.52000000 0.75272727
+[307] 0.32000000 0.80363636 0.37818182 0.68727273 0.64000000 0.56000000
+[313] 0.56363636 0.72363636 0.53818182 0.77818182 0.61454545 0.51272727
+[319] 0.68363636 0.48727273 0.68363636 0.68000000 0.65454545 0.61454545
+[325] 0.70545455 0.64363636 0.58181818 0.70181818 0.49454545 0.67636364
+[331] 0.37818182 0.73090909 0.47636364 0.62545455 0.65818182 0.49090909
+[337] 0.72000000 0.53454545 0.49454545 0.86181818 0.41454545 0.63636364
+[343] 0.68000000 0.65818182
+
+$bill_depth_mm
+  [1] 0.66666667 0.51190476 0.58333333         NA 0.73809524 0.89285714
+  [7] 0.55952381 0.77380952 0.59523810 0.84523810 0.47619048 0.50000000
+ [13] 0.53571429 0.96428571 0.95238095 0.55952381 0.70238095 0.90476190
+ [19] 0.63095238 1.00000000 0.61904762 0.66666667 0.72619048 0.59523810
+ [25] 0.48809524 0.69047619 0.65476190 0.57142857 0.65476190 0.69047619
+ [31] 0.42857143 0.59523810 0.55952381 0.69047619 0.46428571 0.95238095
+ [37] 0.82142857 0.64285714 0.73809524 0.71428571 0.58333333 0.63095238
+ [43] 0.64285714 0.78571429 0.45238095 0.67857143 0.70238095 0.69047619
+ [49] 0.57142857 0.96428571 0.54761905 0.69047619 0.57142857 0.76190476
+ [55] 0.59523810 0.65476190 0.52380952 0.67857143 0.41666667 0.71428571
+ [61] 0.45238095 0.95238095 0.46428571 0.60714286 0.47619048 0.58333333
+ [67] 0.36904762 0.71428571 0.41666667 0.75000000 0.70238095 0.63095238
+ [73] 0.48809524 0.69047619 0.52380952 0.64285714 0.44047619 0.75000000
+ [79] 0.35714286 0.71428571 0.48809524 0.53571429 0.67857143 0.75000000
+ [85] 0.55952381 0.85714286 0.76190476 0.65476190 0.72619048 0.67857143
+ [91] 0.58333333 0.59523810 0.47619048 0.59523810 0.50000000 0.69047619
+ [97] 0.65476190 0.64285714 0.35714286 0.64285714 0.57142857 0.82142857
+[103] 0.34523810 0.82142857 0.65476190 0.69047619 0.48809524 0.82142857
+[109] 0.46428571 0.70238095 0.40476190 0.85714286 0.54761905 0.76190476
+[115] 0.90476190 0.61904762 0.46428571 0.88095238 0.46428571 0.65476190
+[121] 0.48809524 0.79761905 0.46428571 0.64285714 0.33333333 0.70238095
+[127] 0.53571429 0.61904762 0.47619048 0.58333333 0.57142857 0.72619048
+[133] 0.64285714 0.64285714 0.53571429 0.52380952 0.52380952 0.83333333
+[139] 0.40476190 0.57142857 0.47619048 0.48809524 0.28571429 0.46428571
+[145] 0.44047619 0.66666667 0.65476190 0.63095238 0.55952381 0.59523810
+[151] 0.47619048 0.64285714 0.01190476 0.38095238 0.11904762 0.25000000
+[157] 0.16666667 0.04761905 0.17857143 0.26190476 0.03571429 0.27380952
+[163] 0.07142857 0.35714286 0.07142857 0.17857143 0.17857143 0.30952381
+[169] 0.04761905 0.25000000 0.16666667 0.23809524 0.14285714 0.16666667
+[175] 0.16666667 0.32142857 0.00000000 0.23809524 0.14285714 0.22619048
+[181] 0.14285714 0.26190476 0.26190476 0.13095238 0.16666667 0.46428571
+[187] 0.20238095 0.38095238 0.07142857 0.50000000 0.05952381 0.30952381
+[193] 0.07142857 0.34523810 0.07142857 0.22619048 0.33333333 0.09523810
+[199] 0.09523810 0.33333333 0.02380952 0.32142857 0.13095238 0.11904762
+[205] 0.15476190 0.22619048 0.15476190 0.27380952 0.09523810 0.22619048
+[211] 0.16666667 0.26190476 0.08333333 0.21428571 0.09523810 0.30952381
+[217] 0.13095238 0.44047619 0.15476190 0.36904762 0.13095238 0.22619048
+[223] 0.22619048 0.29761905 0.29761905 0.20238095 0.22619048 0.34523810
+[229] 0.13095238 0.38095238 0.08333333 0.39285714 0.16666667 0.29761905
+[235] 0.17857143 0.33333333 0.08333333 0.50000000 0.15476190 0.13095238
+[241] 0.10714286 0.46428571 0.22619048 0.47619048 0.16666667 0.35714286
+[247] 0.19047619 0.30952381 0.32142857 0.17857143 0.15476190 0.40476190
+[253] 0.22619048 0.46428571 0.28571429 0.22619048 0.08333333 0.35714286
+[259] 0.19047619 0.32142857 0.10714286 0.23809524 0.25000000 0.33333333
+[265] 0.25000000 0.38095238 0.11904762 0.34523810 0.30952381 0.36904762
+[271] 0.07142857         NA 0.14285714 0.30952381 0.20238095 0.35714286
+[277] 0.57142857 0.76190476 0.72619048 0.66666667 0.79761905 0.55952381
+[283] 0.60714286 0.60714286 0.69047619 0.80952381 0.55952381 0.85714286
+[289] 0.50000000 0.59523810 0.47619048 0.77380952 0.82142857 0.55952381
+[295] 0.65476190 0.60714286 0.50000000 0.52380952 0.41666667 0.75000000
+[301] 0.57142857 0.70238095 0.63095238 0.70238095 0.55952381 0.82142857
+[307] 0.41666667 0.91666667 0.42857143 0.67857143 0.65476190 0.44047619
+[313] 0.61904762 0.90476190 0.41666667 0.80952381 0.76190476 0.52380952
+[319] 0.71428571 0.46428571 0.57142857 0.64285714 0.57142857 0.77380952
+[325] 0.66666667 0.50000000 0.39285714 0.70238095 0.50000000 0.78571429
+[331] 0.50000000 0.67857143 0.41666667 0.80952381 0.67857143 0.75000000
+[337] 0.76190476 0.40476190 0.46428571 0.79761905 0.59523810 0.60714286
+[343] 0.70238095 0.66666667
+
+$flipper_length_mm
+  [1] 0.15254237 0.23728814 0.38983051         NA 0.35593220 0.30508475
+  [7] 0.15254237 0.38983051 0.35593220 0.30508475 0.23728814 0.13559322
+ [13] 0.16949153 0.32203390 0.44067797 0.22033898 0.38983051 0.42372881
+ [19] 0.20338983 0.37288136 0.03389831 0.13559322 0.28813559 0.22033898
+ [25] 0.13559322 0.25423729 0.18644068 0.25423729 0.00000000 0.13559322
+ [31] 0.10169492 0.10169492 0.27118644 0.20338983 0.38983051 0.40677966
+ [37] 0.30508475 0.13559322 0.15254237 0.20338983 0.16949153 0.38983051
+ [43] 0.23728814 0.40677966 0.22033898 0.30508475 0.16949153 0.11864407
+ [49] 0.30508475 0.32203390 0.23728814 0.27118644 0.30508475 0.47457627
+ [55] 0.25423729 0.32203390 0.23728814 0.35593220 0.15254237 0.37288136
+ [61] 0.22033898 0.38983051 0.22033898 0.33898305 0.20338983 0.33898305
+ [67] 0.38983051 0.27118644 0.30508475 0.44067797 0.30508475 0.30508475
+ [73] 0.40677966 0.42372881 0.30508475 0.38983051 0.32203390 0.20338983
+ [79] 0.25423729 0.38983051 0.28813559 0.40677966 0.25423729 0.35593220
+ [85] 0.32203390 0.37288136 0.30508475 0.28813559 0.28813559 0.30508475
+ [91] 0.50847458 0.55932203 0.22033898 0.23728814 0.25423729 0.61016949
+ [97] 0.30508475 0.40677966 0.10169492 0.33898305 0.33898305 0.52542373
+[103] 0.18644068 0.30508475 0.35593220 0.20338983 0.45762712 0.30508475
+[109] 0.15254237 0.42372881 0.44067797 0.32203390 0.35593220 0.42372881
+[115] 0.32203390 0.40677966 0.27118644 0.45762712 0.28813559 0.28813559
+[121] 0.25423729 0.44067797 0.06779661 0.50847458 0.23728814 0.45762712
+[127] 0.32203390 0.38983051 0.32203390 0.64406780 0.30508475 0.42372881
+[133] 0.35593220 0.45762712 0.25423729 0.30508475 0.32203390 0.47457627
+[139] 0.22033898 0.35593220 0.35593220 0.25423729 0.27118644 0.30508475
+[145] 0.33898305 0.22033898 0.30508475 0.20338983 0.38983051 0.35593220
+[151] 0.25423729 0.49152542 0.66101695 0.98305085 0.64406780 0.77966102
+[157] 0.72881356 0.64406780 0.66101695 0.79661017 0.62711864 0.72881356
+[163] 0.71186441 0.74576271 0.71186441 0.69491525 0.64406780 0.76271186
+[169] 0.64406780 0.83050847 0.62711864 0.84745763 0.77966102 0.72881356
+[175] 0.69491525 0.72881356 0.72881356 0.72881356 0.74576271 0.72881356
+[181] 0.64406780 0.81355932 0.84745763 0.62711864 0.59322034 0.98305085
+[187] 0.81355932 0.81355932 0.69491525 0.79661017 0.61016949 0.61016949
+[193] 0.61016949 0.89830508 0.64406780 0.74576271 0.84745763 0.76271186
+[199] 0.64406780 0.89830508 0.69491525 0.72881356 0.64406780 0.81355932
+[205] 0.64406780 0.89830508 0.76271186 0.81355932 0.61016949 0.81355932
+[211] 0.61016949 0.88135593 0.61016949 0.83050847 0.71186441 1.00000000
+[217] 0.79661017 0.98305085 0.71186441 0.96610169 0.81355932 0.86440678
+[223] 0.74576271 0.83050847 0.83050847 0.76271186 0.74576271 0.98305085
+[229] 0.62711864 0.81355932 0.72881356 0.86440678 0.67796610 0.83050847
+[235] 0.67796610 0.88135593 0.67796610 0.94915254 0.77966102 0.77966102
+[241] 0.67796610 0.98305085 0.77966102 0.94915254 0.67796610 0.88135593
+[247] 0.71186441 0.91525424 0.74576271 0.84745763 0.52542373 0.89830508
+[253] 0.79661017 0.94915254 0.72881356 0.94915254 0.74576271 0.72881356
+[259] 0.64406780 0.79661017 0.61016949 0.62711864 0.74576271 0.96610169
+[265] 0.69491525 0.98305085 0.76271186 0.98305085 0.76271186 0.84745763
+[271] 0.71186441         NA 0.72881356 0.84745763 0.67796610 0.69491525
+[277] 0.33898305 0.40677966 0.35593220 0.27118644 0.42372881 0.44067797
+[283] 0.10169492 0.42372881 0.38983051 0.44067797 0.35593220 0.37288136
+[289] 0.22033898 0.49152542 0.30508475 0.49152542 0.42372881 0.15254237
+[295] 0.30508475 0.38983051 0.15254237 0.32203390 0.25423729 0.35593220
+[301] 0.38983051 0.42372881 0.47457627 0.47457627 0.32203390 0.55932203
+[307] 0.25423729 0.49152542 0.25423729 0.52542373 0.38983051 0.45762712
+[313] 0.38983051 0.64406780 0.33898305 0.55932203 0.64406780 0.25423729
+[319] 0.40677966 0.40677966 0.40677966 0.49152542 0.30508475 0.67796610
+[325] 0.25423729 0.44067797 0.45762712 0.49152542 0.35593220 0.52542373
+[331] 0.25423729 0.42372881 0.32203390 0.52542373 0.50847458 0.37288136
+[337] 0.57627119 0.28813559 0.38983051 0.59322034 0.50847458 0.35593220
+[343] 0.64406780 0.44067797
+
+$body_mass_g
+  [1] 0.29166667 0.30555556 0.15277778         NA 0.20833333 0.26388889
+  [7] 0.25694444 0.54861111 0.21527778 0.43055556 0.16666667 0.27777778
+ [13] 0.13888889 0.30555556 0.47222222 0.27777778 0.20833333 0.50000000
+ [19] 0.17361111 0.41666667 0.19444444 0.25000000 0.30555556 0.34722222
+ [25] 0.30555556 0.30555556 0.23611111 0.13888889 0.12500000 0.34722222
+ [31] 0.15277778 0.33333333 0.16666667 0.33333333 0.17361111 0.40277778
+ [37] 0.34722222 0.23611111 0.16666667 0.54166667 0.12500000 0.33333333
+ [43] 0.11111111 0.47222222 0.08333333 0.52777778 0.20138889 0.07638889
+ [49] 0.20833333 0.40277778 0.22222222 0.44444444 0.20833333 0.37500000
+ [55] 0.05555556 0.27777778 0.23611111 0.30555556 0.04166667 0.29166667
+ [61] 0.12500000 0.47222222 0.25000000 0.37500000 0.04166667 0.34722222
+ [67] 0.18055556 0.38888889 0.09722222 0.48611111 0.25000000 0.33333333
+ [73] 0.23611111 0.40277778 0.27777778 0.43055556 0.27777778 0.33333333
+ [79] 0.23611111 0.36111111 0.13888889 0.55555556 0.30555556 0.41666667
+ [85] 0.18055556 0.23611111 0.30555556 0.22222222 0.34722222 0.25000000
+ [91] 0.23611111 0.44444444 0.19444444 0.48611111 0.16666667 0.44444444
+ [97] 0.27777778 0.45833333 0.05555556 0.38888889 0.28472222 0.56250000
+[103] 0.10416667 0.43055556 0.06250000 0.23611111 0.29166667 0.33333333
+[109] 0.13194444 0.57638889 0.31250000 0.52777778 0.13888889 0.43750000
+[115] 0.33333333 0.38194444 0.05555556 0.29861111 0.18055556 0.17361111
+[121] 0.12500000 0.22222222 0.20833333 0.32638889 0.09722222 0.36111111
+[127] 0.15972222 0.44444444 0.09722222 0.36111111 0.17361111 0.22222222
+[133] 0.22222222 0.49305556 0.20138889 0.33333333 0.13194444 0.35416667
+[139] 0.19444444 0.43055556 0.19444444 0.21527778 0.09722222 0.28472222
+[145] 0.08333333 0.26388889 0.43055556 0.21527778 0.20833333 0.29166667
+[151] 0.27777778 0.36111111 0.50000000 0.83333333 0.48611111 0.83333333
+[157] 0.75000000 0.51388889 0.58333333 0.69444444 0.47222222 0.68055556
+[163] 0.54166667 0.79166667 0.54166667 0.87500000 0.41666667 0.87500000
+[169] 0.40277778 1.00000000 0.58333333 0.73611111 0.83333333 0.63888889
+[175] 0.47222222 0.65277778 0.63888889 0.66666667 0.38888889 0.81944444
+[181] 0.52777778 0.79166667 0.70833333 0.55555556 0.65277778 0.93055556
+[187] 0.68055556 0.75000000 0.62500000 0.70833333 0.45833333 0.73611111
+[193] 0.34722222 0.83333333 0.44444444 0.56944444 0.79166667 0.61111111
+[199] 0.41666667 0.75000000 0.66666667 0.72222222 0.59722222 0.72222222
+[205] 0.47222222 0.63888889 0.61111111 0.65277778 0.44444444 0.63888889
+[211] 0.48611111 0.79166667 0.41666667 0.72222222 0.47222222 0.81944444
+[217] 0.55555556 0.83333333 0.54166667 0.86111111 0.55555556 0.79166667
+[223] 0.56944444 0.63888889 0.66666667 0.69444444 0.55555556 0.86111111
+[229] 0.52777778 0.91666667 0.56944444 0.90277778 0.53472222 0.76388889
+[235] 0.56250000 0.73611111 0.56944444 0.80555556 0.52777778 0.72222222
+[241] 0.60416667 0.79166667 0.62500000 0.75000000 0.56944444 0.81944444
+[247] 0.59722222 0.69444444 0.61805556 0.60416667 0.53472222 0.70833333
+[253] 0.59722222 0.80555556 0.63194444 0.77777778 0.56250000 0.77777778
+[259] 0.55555556 0.77777778 0.52083333 0.77777778 0.63888889 0.90277778
+[265] 0.54166667 0.77777778 0.46527778 0.87500000 0.60416667 0.91666667
+[271] 0.61805556         NA 0.59722222 0.84722222 0.69444444 0.75000000
+[277] 0.22222222 0.33333333 0.26388889 0.22916667 0.28472222 0.34722222
+[283] 0.15277778 0.29166667 0.40277778 0.27777778 0.30555556 0.29861111
+[289] 0.27777778 0.37500000 0.24305556 0.37500000 0.16666667 0.27777778
+[295] 0.20833333 0.47222222 0.25000000 0.19444444 0.05555556 0.30555556
+[301] 0.16666667 0.40277778 0.19444444 0.30555556 0.27777778 0.51388889
+[307] 0.13888889 0.44444444 0.18055556 0.38888889 0.25000000 0.33333333
+[313] 0.31944444 0.58333333 0.00000000 0.50000000 0.34722222 0.26388889
+[319] 0.23611111 0.22222222 0.27083333 0.48611111 0.19444444 0.44444444
+[325] 0.15277778 0.27083333 0.17361111 0.34722222 0.25000000 0.37500000
+[331] 0.18055556 0.20833333 0.15277778 0.37500000 0.30555556 0.22916667
+[337] 0.34722222 0.26388889 0.26388889 0.36111111 0.19444444 0.29861111
+[343] 0.38888889 0.29861111</code></pre>
+</div>
+</div>
+<p>Las principales ventajas de la programación funcional (uso de funciones e iteraciones) son:</p>
+<ul>
+<li>Facilidad para ver la intención del código y, por tanto, mejorar la <strong>comprensión</strong> para uno mismo, colaboradores y revisores.
+<ul>
+<li>Las funciones tienen un nombre evocativo</li>
+<li>Los bucles pueden ser más explícitos</li>
+</ul></li>
+<li><strong>Rapidez</strong> si se necesitan hacer cambios.
+<ul>
+<li>Las funciones son piezas independientes <!--# Cambiar arriba la funcion rescale para que divida por la media --></li>
+</ul></li>
+<li><strong>Disminuye la probabilidad de error</strong>. <!--# Enseñar error de arriba --></li>
+</ul>
+</section>
+<section id="cuándo-hay-que-usar-una-función" class="level3">
+<h3 class="anchored" data-anchor-id="cuándo-hay-que-usar-una-función">¿Cuándo hay que usar una función?</h3>
+<p>Principio “do not repeat yourself” (DRY principle): cada unidad de conocimiento o información debe tener un representación única, inequívoca y autoritativa en un sistema.</p>
+<p>Escribir una función ya merece la pena cuando has copiado y pegado más de dos veces lo mismo.</p>
+</section>
+</section>
+<section id="funciones" class="level2">
+<h2 class="anchored" data-anchor-id="funciones">Funciones</h2>
+<p>Las funciones tienen tres componentes: - <code>body()</code> (cuerpo): código dentro de la función. - <code>formals()</code>: lista de argumentos que controla como se puede llamar a la función. - <code>environment()</code>: localización de las variables que controlan la función.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">body</span>(rescale01)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{
+    rng &lt;- range(x, na.rm = TRUE)
+    (x - rng[1])/(rng[2] - rng[1])
+}</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">formals</span>(rescale01)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$x</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">environment</span>(rescale01)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;environment: R_GlobalEnv&gt;</code></pre>
+</div>
+</div>
+<p>ENLACE Hay una excepción a esta norma que son las <strong>funciones primitivas</strong>. Están escritas en C en lugar de R y sólo aparecen en el paquete <em>base</em>. Son más eficientes pero se comportan diferente a otras funciones, así que R Core Team intenta no crear nuevas funciones primitivas.</p>
+<p>Sintácticamente, las funciones en general tienen tres componentes: - Nombre - Argumentos: lista de inputs. - Cuerpo: trozo de código que sigue a function(…), tradicionalmente entre llaves.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>nombre1_v1 <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {<span class="fu">paste</span>(x, y, <span class="at">sep =</span> <span class="st">"_"</span>)}</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>nombre1_v2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) <span class="fu">paste</span>(x, y, <span class="at">sep =</span> <span class="st">"_"</span>) <span class="co">#Si pilla mas de dos lineas mejor llave</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>nombre1_v3 <span class="ot">&lt;-</span> \(x, y) <span class="fu">paste</span>(x, y, <span class="at">sep =</span> <span class="st">"_"</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">nombre1_v1</span>(<span class="st">"Vero"</span>, <span class="st">"Cruz"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Vero_Cruz"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nombre1_v2</span>(<span class="st">"Vero"</span>, <span class="st">"Cruz"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Vero_Cruz"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nombre1_v3</span>(<span class="st">"Vero"</span>, <span class="st">"Cruz"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Vero_Cruz"</code></pre>
+</div>
+</div>
+<p>###Tipos de funciones</p>
+<p>“To understand computations in R, two slogans are helpful: - Everything that exist is an object - Everything that happens is a function call.” (John Chambers)</p>
+<section id="first-class" class="level4">
+<h4 class="anchored" data-anchor-id="first-class">First class</h4>
+</section>
+<section id="primitive" class="level4">
+<h4 class="anchored" data-anchor-id="primitive">Primitive</h4>
+</section>
+<section id="operadores-comunes-en-r" class="level4">
+<h4 class="anchored" data-anchor-id="operadores-comunes-en-r">Operadores comunes en R</h4>
+<p>Los operadores infijos (<code>+</code>), de flujo (<code>for</code>, <code>if</code>), de subdivisión (<code>[ ]</code>, <code>$</code>) o llaves (<code>{ }</code>) también son funciones, de reemplazo</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="sc">+</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">+</span><span class="st">`</span>(<span class="dv">3</span>, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) <span class="fu">print</span>(i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1
+[1] 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">for</span><span class="st">`</span>(i, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="fu">print</span>(i))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1
+[1] 2</code></pre>
+</div>
+</div>
+<p>####Anomimas - closure con enlace</p>
+<p>####Funcionales</p>
+</section>
+<section id="principios" class="level3">
+<h3 class="anchored" data-anchor-id="principios">Principios</h3>
+<p>Lexical scooping</p>
+<p>- Name masking</p>
+<p>- Functions vs.&nbsp;variables</p>
+<p>- A fresh start</p>
+<p>- Dynamic lookup</p>
+</section>
+<section id="cómo-estribir-funciones" class="level3">
+<h3 class="anchored" data-anchor-id="cómo-estribir-funciones">Cómo estribir funciones</h3>
+<p>p.270</p>
+<ul>
+<li><p>Analizar el código ¿cuantos imputs? ¿hay partes replicadas?</p></li>
+<li><p>Simplificar</p></li>
+<li><p>Elegir un buen nombre</p></li>
+<li><p>Enumerar los argumentos (inputs) dentro de function (arguments)</p></li>
+<li><p>Poner el código simplificado dentro del cuerpo de la función (body)</p></li>
+<li><p>Probar con inputs diferentes (hablar de los tests)</p></li>
+</ul>
+<section id="argumentos" class="level4">
+<h4 class="anchored" data-anchor-id="argumentos">Argumentos</h4>
+<p>… hablar de esto</p>
+</section>
+<section id="retornos" class="level4">
+<h4 class="anchored" data-anchor-id="retornos">Retornos</h4>
+<p><strong>Style guide</strong></p>
+<p>Ejercicio 1: función básica</p>
+<p>Datos titanic</p>
+<p>Ejercicio 2: función más compleja para usar</p>
+</section>
+</section>
+</section>
+<section id="información-principal" class="level2">
+<h2 class="anchored" data-anchor-id="información-principal">Información principal</h2>
+<ul>
+<li><p>R for data Science (functions): <a href="https://r4ds.had.co.nz/functions.html" class="uri">https://r4ds.had.co.nz/functions.html</a></p></li>
+<li><p>Advanced R (functions): <a href="https://adv-r.hadley.nz/functions.html" class="uri">https://adv-r.hadley.nz/functions.html</a></p></li>
+<li><p>R for data Science (iteration): <a href="https://r4ds.had.co.nz/iteration.html" class="uri">https://r4ds.had.co.nz/iteration.html</a></p></li>
+<li><p>Advanced R (functionals): <a href="https://adv-r.hadley.nz/functionals.html" class="uri">https://adv-r.hadley.nz/functionals.html</a></p></li>
+<li><p>purrr 1.0.0: <a href="https://www.tidyverse.org/blog/2022/12/purrr-1-0-0/" class="uri">https://www.tidyverse.org/blog/2022/12/purrr-1-0-0/</a></p></li>
+<li><p>Learn to purrr (Rebecca Barter): <a href="https://www.rebeccabarter.com/blog/2019-08-19_purrr" class="uri">https://www.rebeccabarter.com/blog/2019-08-19_purrr</a></p></li>
+<li><p>Sacando el máximo partido a Tidyverse: <a href="https://github.com/Julenasti/intro_tidyverse/blob/main/04-scripts/intro_tidyverse.md" class="uri">https://github.com/Julenasti/intro_tidyverse/blob/main/04-scripts/intro_tidyverse.md</a></p></li>
+<li><p>R for Data Science (2e): <a href="https://r4ds.hadley.nz/" class="uri">https://r4ds.hadley.nz/</a></p></li>
+</ul>
+</section>
+<section id="no-directamente-relacionado-pero-útil" class="level2">
+<h2 class="anchored" data-anchor-id="no-directamente-relacionado-pero-útil">No directamente relacionado pero útil</h2>
+<ul>
+<li><p>Style guide: <a href="http://adv-r.had.co.nz/Style.html" class="uri">http://adv-r.had.co.nz/Style.html</a></p></li>
+<li><p>Quince consejos para mejorar nuestro código y flujo de trabajo con R: <a href="https://www.revistaecosistemas.net/index.php/ecosistemas/article/view/2129" class="uri">https://www.revistaecosistemas.net/index.php/ecosistemas/article/view/2129</a></p></li>
+</ul>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

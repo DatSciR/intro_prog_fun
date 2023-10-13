@@ -8,18 +8,15 @@ format:
     # css: styles.css
   gfm: default
 editor: visual
+editor_options: 
+  chunk_output_type: console
 ---
 
-```{r instalar_paquetes}
-
-# install.packages("tidyverse")
-# install.packages("palmerpenguins")
+```{r}
+# vero quitalo pero lo necesito para renderizar ahora
 library(tidyverse)
 library(palmerpenguins)
-
 ```
-
-<!--# Jul Me ha pedido instalar también git2r ? -->
 
 ## Programación imperativa
 
@@ -41,17 +38,27 @@ salida
 
 ```
 
-1.  Salida: aquí determinamos el espacio de la salida. Esto es muy importante para la eficiencia puesto que si aumentamos el tamaño del for loop en cada iteración con `c()`, el bucle for será mucho más lento. <!--# Jul Creo que no se entiende por qué c() es peor. Poner ejemplo? -->
+1.  Salida: aquí determinamos el espacio de la salida. Esto es muy importante para la eficiencia puesto que si aumentamos el tamaño del for loop en cada iteración con `c()`, el bucle for será mucho más lento.
 
-2.  Secuencia: aquí determinamos sobre lo que queremos iterar. Cada ejecución del bucle for asignará i a un valor diferente de `seq_along(df)`. Si generamos un vector de longitud cero accidentalmente, si utilizamos `1:length(x)`, podemos obtener un error. <!--# Jul Se puede quitar este ejemplo, creo que se entiende sin el -->
+```{r optimizacion}
 
-```{r seq_along}
+x <- c()
+system.time(
+  for(i in 1:20000) {
+    x <- c(x, i)
+  }
+)
 
-x <- vector("double", 0)
-seq_along(x)
-1:length(x)
+y <- vector("double", length = 20000)
+system.time(
+  for(i in seq_along(y)) {
+    y[i] <- i
+  }
+)
 
 ```
+
+2.  Secuencia: aquí determinamos sobre lo que queremos iterar. Cada ejecución del bucle for asignará i a un valor diferente de `seq_along(df)`. Si generamos un vector de longitud cero accidentalmente, si utilizamos `1:length(x)`, podemos obtener un error.
 
 3.  Cuerpo: aquí determinamos lo que queremos que haga cada iteración. Se ejecuta repetidamente, cada vez con un valor diferente para `i`.
 
@@ -69,19 +76,13 @@ De todas formas, nunca os sintáis mal por utilizar un bucle en vez de un funcio
 >
 > --- Bjarne Stroustrup ([Advanced R](https://adv-r.hadley.nz/index.html))
 
-![](forloops.png)
+!["Representación gráfica del funcionamiento de los bucles for donde se ve claramente que se está realizando una interación. Ilustración de Allison Horst obtenido de la charla de Hadley Wickham The Joy of Functional Programming (para ciencia de datos)"](images/forloops.png)
 
-!["Illustrations from Hadley Wickham's talk The Joy of Functional Programming (for Data Science)"](map_frosting.png)
-
-<!--# Jul poner en español la fuente y luego un pie de foto con lo que representa -->
+!["Representación gráfica del funcionamiento de `map()` donde el foco está en la operación realizada. Ilustración de Allison Horst obtenido de la charla de Hadley Wickham The Joy of Functional Programming (para ciencia de datos)"](images/map_frosting.png)
 
 ## Programación funcional
 
-<!--# Explicar en una frase a que nos referimos con PF? Luego explicaría lo que es un funcional y luego como se trabaja, que es la frase que empieza por "primero" -->
-
-Primero, solucionamos el problema para un elemento. Después, generamos una función que nos permita envolver la solución en una función. Por último, *aplicamos la función a todos los elementos que estamos interesados.*
-
-Un funcional es una función que toma una función como entrada y devuelve un vector como salida.
+R es un lenguaje de programación funcional. Esto significa que se basa principalmente en un estilo de resolución de problemas centrado en funciones (<https://adv-r.hadley.nz/fp.html>). Un funcional es una función que toma una función como entrada y devuelve un vector como salida.
 
 ```{r ejemplo_funcional}
 
@@ -92,9 +93,11 @@ aleatorizacion(median)
 
 ```
 
-La ventaja de utilizar purrr en vez de bucles for es que nos permiten dividir los desafíos comunes de manipulación de listas (que pueden contener diferentes tipos de objetos) en partes independientes, por lo que cada bucle for tiene su propia función. La familia apply de R base soluciona problemas similares, pero purrr es más consistente y, por lo tanto, más fácil de aprender. Una vez que dominemos la programación funcional, podremos solventar muchos problemas de iteración con menos código, más facilidad y menos errores.
+Primero, solucionamos el problema para un elemento. Después, generamos una función que nos permita envolver la solución en una función. Por último, *aplicamos la función a todos los elementos que estamos interesados.*
 
-Iteracionar sobre un vector es tan común que el paquete {purrr} proporciona una familia de funciones (la familia map) para ello. Recordad que los data frames son listas de vectores de la misma longitud por lo que cualquier cálculo por filas o columnas supone iteracionar sobre un vector. Existe una función en {purrr} para cada tipo de output/resultado. Los sufijos indican el tipo de output que queremos:
+La ventaja de utilizar {purrr} en vez de bucles for es que nos permiten distinguir en funciones los desafíos comunes de manipulación de listas, y por lo tanto cada bucle for tiene su propia función. La familia apply de R base soluciona problemas similares, pero purrr es más consistente y, por lo tanto, más fácil de aprender. Una vez que dominemos la programación funcional, podremos solventar muchos problemas de iteración con menos código, más facilidad y menos errores.
+
+Iteracionar sobre un vector es tan común que el paquete {purrr} proporciona una familia de funciones (la familia `map()`) para ello. Recordad que los data frames son listas de vectores de la misma longitud por lo que cualquier cálculo por filas o columnas supone iteracionar sobre un vector. Existe una función en {purrr} para cada tipo de salida. Los sufijos indican el tipo de salida que queremos:
 
 -   `map()` genera una lista.
 -   `map_lgl()` genera un vector lógico.
@@ -117,7 +120,7 @@ Comparando con un bucle el foco está en la operación que se está ejecutando (
 
 ## Iteraciones sobre un argumento
 
-`map_*()` está vectorizado sobre un argumento, e.g. `(x)`<!--# Creo que no se entiende que es estar vectorizado -->
+`map_*()` está vectorizado sobre un argumento, e.g. `(x)`, es decir, la función operará en todos los elementos del vector `x`.
 
 ### Nuestro primer funcional: generando listas, `map()`
 
@@ -136,8 +139,6 @@ lapply(X = 1:4, FUN = cuadratica)
 # algun uso mas interesante
 glimpse(penguins)
 
-#Jul me parece un poco lioso de entender el paso de hacer algo con cada elemento de un vector (figura de abajo) a hacer algo con cada columna de un data frame porque cada columna es un vector a su vez
-
 # atajo de para generar una funcion anonima
 map(penguins, \(x) length(unique(x)))
 
@@ -150,7 +151,7 @@ map_df(penguins, \(x) length(unique(x)))
 
 #### Ejercicio
 
-Generad un vector, una función y aplicarle la función a cada uno de los elementos del vector utilizando `map()`. <!--# Intento enlazarlo con mis ejercicios para que la funciónya la tengan -->
+Generad un vector, una función y aplicarle la función a cada uno de los elementos del vector utilizando `map()`.
 
 #### Implementación de map()
 
@@ -224,16 +225,6 @@ penguins_nested[["lm_obj"]]
 
 penguins_nested |>
   pluck("lm_obj")
-
-# across para iteracionar sobre columnas
-penguins_scaled <- penguins |>
-  mutate(across(where(is.numeric), scale))
-
-
-
-# Jul next lo explicaria como caso cuando no quieres iterar por columnas sino por grupos
-
-#Jul no sé si dejaría el across para más adelante y que queden claras sus diferencias con hacer map y un select previo. Across es un doble map no? a cada columna le aplicamos un scale (map normal -iteracion por columnas), pero este scale cambia cada valor del vector (segundo map -iteracion por elemento del vector)
 
 ```
 
@@ -320,7 +311,7 @@ args3 |>
 
 ![](images/pmap.png)
 
-## Sin resultado
+## Sin salida
 
 ### Nuestro quinto funcional: `walk()`, `walk2()` y `pwalk()`
 
@@ -333,7 +324,7 @@ En base a lo que dice en la definición sobre la familia `walk()`, corred este c
 ```{r walk_ejemplo}
 
 penguins_nested <- penguins_nested |> 
-  mutate(path = str_glue("penguins_{species}.csv"))
+  mutate(path = str_glue("results/penguins_{species}.csv"))
 
 penguins_nested
 
@@ -341,15 +332,11 @@ walk2(penguins_nested$data, penguins_nested$path, write_csv)
 
 ```
 
-DIBUJO VERO <!--# Este dibujo no se si me convence. Esque creo que no aporta mucho porque lo suyo sería dibujar la acción que es el resultado y no se me ocurre -->
-
 💡Ejemplos de algunas tareas específicas con {purrr}: <https://r4ds.hadley.nz/iteration>
 
-## Otras posibles iteraciones
+## Operadores funcionales
 
-### Operadores funcionales <!--# Jul Haria una apartado para esto fuera de "otras posibles iteraciones" porque no son iteraciones si no modificadores. Me gusta -->
-
-Cuando utilizamos las funciones `map()` para repetir muchas operaciones, aumenta la probabilidad de que una de esas operaciones falle y no obtenamos ningún resultado. {purrr\] proporciona algunos operadores funcionales (function operators) en forma de adverbios para asegurar que un error no arruine todo el proceso: `safely()`, `possibly()`, `quietly()`. Para más información ver: <https://r4ds.had.co.nz/iteration.html>, 21.6 Dealing with failure.
+Cuando utilizamos las funciones `map()` para repetir muchas operaciones, aumenta la probabilidad de que una de esas operaciones falle y no obtenamos ninguna salida. {purrr} proporciona algunos operadores funcionales (function operators) en forma de adverbios para asegurar que un error no arruine todo el proceso: `safely()`, `possibly()`, `quietly()`. Para más información ver: <https://r4ds.had.co.nz/iteration.html>, 21.6 Dealing with failure.
 
 ```{r ejemplo_operador_funcional}
 #| error: true
@@ -371,7 +358,7 @@ x |>
 
 ```
 
-### Funcionales predicate <!--# Jul Creo que esto lo juntaría con across porque me parece la misma filosofia: selecciono unas columnas y hago cosas jaja-->
+## Funcionales predicate y demás
 
 Los predicados son funciones que devuelven un solo TRUE o FALSE (e.g., `is.character()`). Así, un predicado funcional aplica un predicado a cada elemento de un vector: `keep()`, `discard()`, `some()`, `every()`, `detect()`, `detect_index()`... Para más información ver: <https://r4ds.had.co.nz/iteration.html>, 21.9.1 Predicate functions.
 
@@ -388,15 +375,14 @@ penguins |>
 
 ```
 
-### Reduce y Accumulate
+`dplyr::across()` es similar a `map()` pero en lugar de hacer algo con cada elemento de un vector, hace algo con cada columna en un data frame.
 
 `reduce()` es una forma útil de generalizar una función que funciona con dos entradas (función binaria) para trabajar con cualquier número de entradas.
 
-`accumulate()` en lugar de devolver solo el resultado final, devuelve todos los resultados intermedios.
+```{r extra}
 
-<!--# Jul Esto sería para aplicar iterativamente en cascada no? Quizás lo juntaría con nest porque es como otra forma de iterar (por grupos o en cascada). Creo que quitaría accumulate porque es solo una casuistica de reduce. Me gusta mucho el dibujo que viene en el libro para reduce para entenderlo-->
-
-```{r ejemplo_reduce}
+penguins_scaled <- penguins |>
+  mutate(across(where(is.numeric), scale))
 
 ls <- list(
   age = tibble(name = c("Vero", "Julen"), age = c(100, 140)),
@@ -441,9 +427,8 @@ Este taller está principalmente basado en la primera edición del libro [R for 
 
 <summary>Session Info</summary>
 
-```{r session-info}
+```{r session_info}
 Sys.time()
-git2r::repository()
 sessionInfo()
 ```
 

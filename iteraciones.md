@@ -25,26 +25,22 @@ Julen Astigarraga y Verónica Cruz-Alonso
   - <a href="#nuestro-cuarto-funcional-múltiples-entradas-pmap"
     id="toc-nuestro-cuarto-funcional-múltiples-entradas-pmap">Nuestro cuarto
     funcional: múltiples entradas, <code>pmap()</code></a>
-- <a href="#sin-resultado" id="toc-sin-resultado">Sin resultado</a>
+- <a href="#sin-salida" id="toc-sin-salida">Sin salida</a>
   - <a href="#nuestro-quinto-funcional-walk-walk2-y-pwalk"
     id="toc-nuestro-quinto-funcional-walk-walk2-y-pwalk">Nuestro quinto
-    funcional: walk(), walk2() y pwalk()</a>
-- <a href="#otras-posibles-iteraciones"
-  id="toc-otras-posibles-iteraciones">Otras posibles iteraciones</a>
-  - <a href="#operadores-funcionales"
-    id="toc-operadores-funcionales">Operadores funcionales</a>
-  - <a href="#funcionales-predicate"
-    id="toc-funcionales-predicate">Funcionales predicate</a>
-  - <a href="#reduce-y-accumulate" id="toc-reduce-y-accumulate">Reduce y
-    Accumulate</a>
+    funcional: <code>walk()</code>, <code>walk2()</code> y
+    <code>pwalk()</code></a>
+- <a href="#operadores-funcionales"
+  id="toc-operadores-funcionales">Operadores funcionales</a>
+- <a href="#funcionales-predicate-y-demás"
+  id="toc-funcionales-predicate-y-demás">Funcionales predicate y demás</a>
 - <a href="#más-información" id="toc-más-información">Más información</a>
   - <a href="#no-directamente-relacionado-pero-útil"
     id="toc-no-directamente-relacionado-pero-útil">No directamente
     relacionado pero útil</a>
 
 ``` r
-# install.packages("tidyverse")
-# install.packages("palmerpenguins")
+# vero quitalo pero lo necesito para renderizar ahora
 library(tidyverse)
 ```
 
@@ -74,18 +70,6 @@ library(tidyverse)
 library(palmerpenguins)
 ```
 
-<!-- lo que está hasta programación imperativa puede encajar mejor en la intro del taller, creo -->
-
-La idea de pasar una función a otra función es una idea muy potente y es
-una de las características que hace que R sea un lenguaje de
-programación funcional. Además de las funciones, otra herramienta para
-reducir la duplicación son las iteraciones que sirven para realizar la
-misma acción a múltiples entradas. Existen dos grandes paradigmas de
-iteración: la programación imperativa y la programación funcional. En
-este taller, nos centraremos principalmente en la **programación
-funcional** y aprenderemos a utilizar el paquete {purrr}, que
-proporciona funciones para eliminar muchos bucles comunes.
-
 ## Programación imperativa
 
 Los bucles for y bucles while (for loops y while loops) son
@@ -100,38 +84,49 @@ df_ej <- data.frame(
   c = rnorm(5)
 )
 
-salida <- vector("double", ncol(df_ej)) # 1. output
-for (i in seq_along(df_ej)) {           # 2. sequence
-  salida[[i]] <- max(df_ej[[i]])        # 3. body
+salida <- vector("double", ncol(df_ej)) # 1. salida
+for (i in seq_along(df_ej)) {           # 2. secuencia
+  salida[[i]] <- max(df_ej[[i]])        # 3. cuerpo
 }
 salida
 ```
 
-    [1] 0.4155016 0.1630024 1.7080865
+    [1] 1.4212510 0.6625917 0.8629171
 
 1.  Salida: aquí determinamos el espacio de la salida. Esto es muy
     importante para la eficiencia puesto que si aumentamos el tamaño del
     for loop en cada iteración con `c()`, el bucle for será mucho más
     lento.
 
+``` r
+x <- c()
+system.time(
+  for(i in 1:20000) {
+    x <- c(x, i)
+  }
+)
+```
+
+       user  system elapsed 
+       0.51    0.21    0.72 
+
+``` r
+y <- vector("double", length = 20000)
+system.time(
+  for(i in seq_along(y)) {
+    y[i] <- i
+  }
+)
+```
+
+       user  system elapsed 
+          0       0       0 
+
 2.  Secuencia: aquí determinamos sobre lo que queremos iterar. Cada
     ejecución del bucle for asignará i a un valor diferente de
     `seq_along(df)`. Si generamos un vector de longitud cero
     accidentalmente, si utilizamos `1:length(x)`, podemos obtener un
     error.
-
-``` r
-x <- vector("double", 0)
-seq_along(x)
-```
-
-    integer(0)
-
-``` r
-1:length(x)
-```
-
-    [1] 1 0
 
 3.  Cuerpo: aquí determinamos lo que queremos que haga cada iteración.
     Se ejecuta repetidamente, cada vez con un valor diferente para `i`.
@@ -146,8 +141,6 @@ while.
 Algunos [errores comunes](https://adv-r.hadley.nz/control-flow.html)
 cuando se utilizan bucles for (ver 5.3.1 Common pitfalls).
 
-<!-- lo que está en cursiva es lo que quería resaltar porque lo veremos a continuación -->
-
 Sin embargo, en R los bucles for no son tan importantes como pueden ser
 en otros lenguajes porque R es un lenguaje de programación funcional.
 Esto significa que *es posible envolver los bucles for en una función* y
@@ -155,8 +148,8 @@ llamar a esa función en vez de utilizar el bucle.
 
 Existe la creencia de que los bucles for son lentos, pero la desventaja
 real de *los bucles for es que son demasiado flexibles*. Cada funcional
-está diseñado para una tarea específica, por lo que cuando reconoces el
-funcional, inmediatamente sabes por qué se está utilizando. Es decir, la
+está diseñado para una tarea específica, por lo que en cuanto lo ves en
+el código, inmediatamente sabes por qué se está utilizando. Es decir, la
 principal ventaja es su claridad al hacer que el código sea más fácil de
 escribir y de leer (ver este ejemplo avanzado para entenderlo:
 <https://adv-r.hadley.nz/functionals.html>, 9.3 Purrr style).
@@ -175,20 +168,23 @@ sencillo y elegante.
 >
 > — Bjarne Stroustrup ([Advanced R](https://adv-r.hadley.nz/index.html))
 
-![](forloops.png)
+![“Representación gráfica del funcionamiento de los bucles for donde se
+ve claramente que se está realizando una interación. Ilustración de
+Allison Horst obtenido de la charla de Hadley Wickham The Joy of
+Functional Programming (para ciencia de datos)”](images/forloops.png)
 
-![“Illustrations from Hadley Wickham’s talk The Joy of Functional
-Programming (for Data Science)”](map_frosting.png)
+![“Representación gráfica del funcionamiento de `map()` donde el foco
+está en la operación realizada. Ilustración de Allison Horst obtenido de
+la charla de Hadley Wickham The Joy of Functional Programming (para
+ciencia de datos)”](images/map_frosting.png)
 
 ## Programación funcional
 
-Primero, solucionamos el problema para un elemento. Después, generamos
-una función que nos permita envolver la solución en una función. Por
-último, *aplicamos la función a todos los elementos que estamos
-interesados.*
-
-Un funcional es una función que toma una función como entrada y devuelve
-un vector como salida.
+R es un lenguaje de programación funcional. Esto significa que se basa
+principalmente en un estilo de resolución de problemas centrado en
+funciones (<https://adv-r.hadley.nz/fp.html>). Un funcional es una
+función que toma una función como entrada y devuelve un vector como
+salida.
 
 ``` r
 aleatorizacion <- function(f) {
@@ -197,31 +193,37 @@ aleatorizacion <- function(f) {
 aleatorizacion(median)
 ```
 
-    [1] 0.05190088
+    [1] 0.9822704
 
-El objetivo de utilizar purrr en vez de bucles for es que nos permiten
-dividir los desafíos comunes de manipulación de listas en partes
-independientes, por lo que cada bucle for tiene su propia función. La
-familia apply de R base soluciona problemas similares, pero purrr es más
-consistente y por lo tanto más fácil de aprender. Una vez que dominemos
-la programación funcional, podremos solventar muchos problemas de
-iteración con menos código, más facilidad y menos errores.
+Primero, solucionamos el problema para un elemento. Después, generamos
+una función que nos permita envolver la solución en una función. Por
+último, *aplicamos la función a todos los elementos que estamos
+interesados.*
+
+La ventaja de utilizar {purrr} en vez de bucles for es que nos permiten
+distinguir en funciones los desafíos comunes de manipulación de listas,
+y por lo tanto cada bucle for tiene su propia función. La familia apply
+de R base soluciona problemas similares, pero purrr es más consistente
+y, por lo tanto, más fácil de aprender. Una vez que dominemos la
+programación funcional, podremos solventar muchos problemas de iteración
+con menos código, más facilidad y menos errores.
 
 Iteracionar sobre un vector es tan común que el paquete {purrr}
-proporciona una familia de funciones para ello (recordad que los data
-frames son listas conteniendo vectores de la misma longitud). Existe una
-función para cada tipo de output/resultado. Los sufijos indican el tipo
-de output que queremos:
+proporciona una familia de funciones (la familia `map()`) para ello.
+Recordad que los data frames son listas de vectores de la misma longitud
+por lo que cualquier cálculo por filas o columnas supone iteracionar
+sobre un vector. Existe una función en {purrr} para cada tipo de salida.
+Los sufijos indican el tipo de salida que queremos:
 
-- `map()` genera una lista
-- `map_lgl()` genera un vector lógico
-- `map_int()` genera un vector de números enteros
-- `map_dbl()` genera un vector de números decimales
-- `map_chr()` genera un vector de caracteres
+- `map()` genera una lista.
+- `map_lgl()` genera un vector lógico.
+- `map_int()` genera un vector de números enteros.
+- `map_dbl()` genera un vector de números decimales.
+- `map_chr()` genera un vector de caracteres.
 - `map_vec()` genera un tipo arbitrario de vector, como fechas y
-  factores
+  factores.
 
-¿[Por qué está función se llama
+💡¿[Por qué está función se llama
 *map*](https://adv-r.hadley.nz/functionals.html#map)?
 
 ``` r
@@ -229,7 +231,7 @@ map_dbl(df_ej, mean)
 ```
 
              a          b          c 
-     0.2477570 -0.3479750  0.1545948 
+    -0.2118144 -0.1544319  0.1759940 
 
 ``` r
 df_ej |> 
@@ -237,7 +239,7 @@ df_ej |>
 ```
 
              a          b          c 
-     0.2477570 -0.3479750  0.1545948 
+    -0.2118144 -0.1544319  0.1759940 
 
 Comparando con un bucle el foco está en la operación que se está
 ejecutando (`mean()`), y no en el código necesario para iterar sobre
@@ -245,7 +247,8 @@ cada elemento y guardar la salida.
 
 ## Iteraciones sobre un argumento
 
-`map_*()` está vectorizado sobre un argumento, e.g. `(x)`
+`map_*()` está vectorizado sobre un argumento, e.g. `(x)`, es decir, la
+función operará en todos los elementos del vector `x`.
 
 ### Nuestro primer funcional: generando listas, `map()`
 
@@ -346,14 +349,14 @@ map_df(penguins, \(x) length(unique(x)))
     1       3      3            165            81                56          95
     # ℹ 2 more variables: sex <int>, year <int>
 
-DIBUJO VERO
+![](images/map.png)
 
 #### Ejercicio
 
 Generad un vector, una función y aplicarle la función a cada uno de los
-elementos del vector utilizando `map()`
+elementos del vector utilizando `map()`.
 
-Implementación de map()
+#### Implementación de map()
 
 ``` r
 imple_map <- function(x, f, ...) {
@@ -386,8 +389,8 @@ conserva los nombres y admite algunos atajos (e.g. `\(x)`).
 
 #### Ejercicio
 
-Dedicarle un par de minutos a entender lo que hacen las siguientes
-funciones
+Dedicadle un par de minutos a entender lo que hacen las siguientes
+funciones:
 
 ``` r
 map_lgl(penguins, is.numeric)
@@ -433,20 +436,19 @@ map_int(penguins, \(x) length(unique(x)))
 
     [1] "2024-10-16" "2025-10-16" "2026-10-16" "2027-10-16"
 
-<!-- DIBUJO VERO: se podria dibujar lo que indico a continuacion tambien? es el dibujo que viene justo despues de este ejemplo aqui: map_dbl(x, mean, na.rm = TRUE)
-https://adv-r.hadley.nz/functionals.html-->
-
 Los argumentos que varían para cada ejecución vienen antes de la función
-y los argumentos que son los mismos para cada llamada vienen después
+y los argumentos que son los mismos para cada ejecución vienen después
 (`na.rm = T`).
 
-R base tiene dos funciones `apply()` que pueden devolver vectores
-atómicos: `sapply()` y `vapply()`. Recomendamos evitar `sapply()` porque
-intenta simplificar el resultado, por lo que puede devolver una lista,
-un vector o una matriz. `vapply()` es más seguro porque permite
-proporcionar una plantilla, FUN.VALUE, que describe la forma de salida.
-La principal desventaja de `vapply()` es que se necesitan especificar
-más argumentos que en `map_*()`.
+![](images/map+fix.png)
+
+R base tiene dos funciones de la familia `apply()` que pueden devolver
+vectores atómicos: `sapply()` y `vapply()`. Recomendamos evitar
+`sapply()` porque intenta simplificar el resultado y elige un formato de
+salida por defecto, pudiendo devolver una lista, un vector o una matriz.
+`vapply()` es más seguro porque permite indicar el formato de salida con
+FUN.VALUE. La principal desventaja de `vapply()` es que se necesitan
+especificar más argumentos que en `map_*()`.
 
 ``` r
 vapply(penguins_num, median, na.rm = T, FUN.VALUE = double(1))
@@ -581,12 +583,6 @@ penguins_nested |>
     (Intercept)  body_mass_g  
       32.174193     0.004463  
 
-``` r
-# across para iteracionar sobre columnas
-penguins_scaled <- penguins |>
-  mutate(across(where(is.numeric), scale))
-```
-
 ## Iteraciones sobre múltiples argumentos
 
 ### Nuestro tercer funcional: dos entradas, `map2()`
@@ -605,24 +601,24 @@ map2(x, y, potencia)
 ```
 
     [[1]]
-    [1]   4 243   1  16 125
+    [1]    8    4   81    1 3125
 
     [[2]]
-    [1]    1    8  625    9 1024
+    [1]  32   4 625   9   1
 
     [[3]]
-    [1] 243 256   1   5   8
+    [1]    1    4    5 1024   81
 
     [[4]]
-    [1] 256   5   4   1  27
+    [1]   64   16    1    3 3125
 
-Importante! La primera iteración corresponde al primer valor del vector
-`x` y al primer valor del vector `y`. La segunda iteración corresponde
-al segundo valor del vector `x` y al segundo valor del vector `y`. No
-para todas las combinaciones posibles que se puedan hacer entre ambos
+⚡¡Importante! La primera iteración corresponde al primer valor del
+vector `x` y al primer valor del vector `y`. La segunda iteración
+corresponde al segundo valor del vector `x` y al segundo valor del
+vector `y`. No se hacen todas las combinaciones posibles entre ambos
 vectores.
 
-DIBUJO VERO 2
+![](images/map2.png)
 
 ``` r
 imple_map2 <- function(x, y, f, ...) {
@@ -637,16 +633,16 @@ imple_map2(x, y, potencia)
 ```
 
     [[1]]
-    [1]   4 243   1  16 125
+    [1]    8    4   81    1 3125
 
     [[2]]
-    [1]    1    8  625    9 1024
+    [1]  32   4 625   9   1
 
     [[3]]
-    [1] 243 256   1   5   8
+    [1]    1    4    5 1024   81
 
     [[4]]
-    [1] 256   5   4   1  27
+    [1]   64   16    1    3 3125
 
 ``` r
 penguins_nested <- penguins |>
@@ -697,32 +693,32 @@ map2(x, y, potencia)
 ```
 
     [[1]]
-    [1]   4 243   1  16 125
+    [1]    8    4   81    1 3125
 
     [[2]]
-    [1]    1    8  625    9 1024
+    [1]  32   4 625   9   1
 
     [[3]]
-    [1] 243 256   1   5   8
+    [1]    1    4    5 1024   81
 
     [[4]]
-    [1] 256   5   4   1  27
+    [1]   64   16    1    3 3125
 
 ``` r
 pmap(list(x, y), potencia)
 ```
 
     [[1]]
-    [1]   4 243   1  16 125
+    [1]    8    4   81    1 3125
 
     [[2]]
-    [1]    1    8  625    9 1024
+    [1]  32   4 625   9   1
 
     [[3]]
-    [1] 243 256   1   5   8
+    [1]    1    4    5 1024   81
 
     [[4]]
-    [1] 256   5   4   1  27
+    [1]   64   16    1    3 3125
 
 ``` r
 z <- map(1:4, \(x) sample(5))
@@ -731,45 +727,45 @@ pmap(list(x, y, z), rnorm)
 ```
 
     [[1]]
-    [1] 2.840389 5.137381 2.193561 7.108829 3.322763
+    [1] 0.74801206 2.70136728 5.22817625 0.03174436 4.14759259
 
     [[2]]
-    [1] -0.2963926 12.1605077  1.9942525  0.3315538  2.7085778
+    [1]  4.252776  2.781602  4.588782  2.560513 -2.564691
 
     [[3]]
-    [1]  4.40468475 -0.09098379  0.39340049 -4.02678259  0.33204042
+    [1]  5.01006538 -1.14208527 -0.08112755  5.39289303 -0.61627684
 
     [[4]]
-    [1]  7.039651 -3.667594  1.121721  6.317219 -1.213533
+    [1] 3.509050 6.640620 1.967138 1.727867 6.139998
 
 ``` r
-# si no nombramos los elementos de la lista, pmap() usara la coincidencia posicional al llamar a la funcion
+# si no nombramos los elementos de la lista, pmap() usara los elementos de la lista en su orden para los argumentos consecutivos de la función
 args3 <- list(mean = x, sd = y, n = z)
 args3 |> 
   pmap(rnorm)
 ```
 
     [[1]]
-    [1]  3.776502 -2.245997  3.356256  7.356338  4.367534
+    [1]  1.5347948  4.2401802  8.8131328 -0.7291920 -0.3726244
 
     [[2]]
-    [1] -0.1530343  5.0206689  1.3619006  5.9170735 10.5128195
+    [1]  0.8369058  3.9836470  2.9207355  4.2637195 -1.2496303
 
     [[3]]
-    [1]  8.2349303 -0.5948034  3.0821510  4.3537241 -1.0555295
+    [1] -1.7418355 -0.2842607  3.9742274  6.6575598  1.9040744
 
     [[4]]
-    [1] 5.35618853 5.55279648 0.09438961 0.07463715 2.88052651
+    [1]  1.7946906 -0.9931485  1.2188878  2.9541638  3.7878468
 
-DIBUJO VERO
+![](images/pmap.png)
 
-## Sin resultado
+## Sin salida
 
-### Nuestro quinto funcional: walk(), walk2() y pwalk()
+### Nuestro quinto funcional: `walk()`, `walk2()` y `pwalk()`
 
 Cuando queremos utilizar funciones por sus efectos secundarios/side
 effects (e.g. `ggsave()`) y no por su valor resultante. Lo importante es
-la acción y no el valor resultante.
+la acción y no el valor u objeto resultante en R.
 
 #### Ejercicio
 
@@ -778,35 +774,31 @@ este código y entended lo que hace.
 
 ``` r
 penguins_nested <- penguins_nested |> 
-  mutate(path = str_glue("penguins_{species}.csv"))
+  mutate(path = str_glue("results/penguins_{species}.csv"))
 
 penguins_nested
 ```
 
     # A tibble: 3 × 5
     # Groups:   species [3]
-      species   data               lm_obj pred        path                  
-      <fct>     <list>             <list> <list>      <glue>                
-    1 Adelie    <tibble [146 × 7]> <lm>   <dbl [146]> penguins_Adelie.csv   
-    2 Gentoo    <tibble [119 × 7]> <lm>   <dbl [119]> penguins_Gentoo.csv   
-    3 Chinstrap <tibble [68 × 7]>  <lm>   <dbl [68]>  penguins_Chinstrap.csv
+      species   data               lm_obj pred        path                          
+      <fct>     <list>             <list> <list>      <glue>                        
+    1 Adelie    <tibble [146 × 7]> <lm>   <dbl [146]> results/penguins_Adelie.csv   
+    2 Gentoo    <tibble [119 × 7]> <lm>   <dbl [119]> results/penguins_Gentoo.csv   
+    3 Chinstrap <tibble [68 × 7]>  <lm>   <dbl [68]>  results/penguins_Chinstrap.csv
 
 ``` r
 walk2(penguins_nested$data, penguins_nested$path, write_csv)
 ```
 
-DIBUJO VERO
-
-Ejemplos de algunas tareas específicas con {purrr}:
+💡Ejemplos de algunas tareas específicas con {purrr}:
 <https://r4ds.hadley.nz/iteration>
 
-## Otras posibles iteraciones
-
-### Operadores funcionales
+## Operadores funcionales
 
 Cuando utilizamos las funciones `map()` para repetir muchas operaciones,
 aumenta la probabilidad de que una de esas operaciones falle y no
-obtenamos ningún resultado. {purrr\] proporciona algunos operadores
+obtenamos ninguna salida. {purrr} proporciona algunos operadores
 funcionales (function operators) en forma de adverbios para asegurar que
 un error no arruine todo el proceso: `safely()`, `possibly()`,
 `quietly()`. Para más información ver:
@@ -893,7 +885,7 @@ x |>
     [[3]]
     [1] 1.098612
 
-### Funcionales predicate
+## Funcionales predicate y demás
 
 Los predicados son funciones que devuelven un solo TRUE o FALSE (e.g.,
 `is.character()`). Así, un predicado funcional aplica un predicado a
@@ -948,16 +940,17 @@ penguins |>
 
     [1] FALSE
 
-### Reduce y Accumulate
+`dplyr::across()` es similar a `map()` pero en lugar de hacer algo con
+cada elemento de un vector, hace algo con cada columna en un data frame.
 
 `reduce()` es una forma útil de generalizar una función que funciona con
 dos entradas (función binaria) para trabajar con cualquier número de
 entradas.
 
-`accumulate()` en lugar de devolver solo el resultado final, devuelve
-todos los resultados intermedios.
-
 ``` r
+penguins_scaled <- penguins |>
+  mutate(across(where(is.numeric), scale))
+
 ls <- list(
   age = tibble(name = c("Vero", "Julen"), age = c(100, 140)),
   sex = tibble(name = c("Vero", "Julen"), sex = c("F", "M")),
@@ -1012,24 +1005,14 @@ R](https://adv-r.hadley.nz/index.html) de Hadley Wickham.
 
 <details>
 <summary>
-
 Session Info
-
 </summary>
 
 ``` r
 Sys.time()
 ```
 
-    [1] "2023-10-10 18:05:06 CEST"
-
-``` r
-git2r::repository()
-```
-
-    Local:    main C:/Users/julen/OneDrive/Escritorio/GitHub_col/intro_prog_fun
-    Remote:   main @ origin (https://github.com/Julenasti/intro_prog_fun.git)
-    Head:     [a02bbe7] 2023-10-09: add iteraciones un argumento
+    [1] "2023-10-13 18:36:58 CEST"
 
 ``` r
 sessionInfo()
@@ -1077,6 +1060,6 @@ sessionInfo()
     [49] xml2_1.3.3          reprex_2.0.1        googledrive_2.0.0  
     [52] lubridate_1.8.0     assertthat_0.2.1    rmarkdown_2.16     
     [55] httr_1.4.3          rstudioapi_0.13     R6_2.5.1           
-    [58] git2r_0.30.1        compiler_4.2.2     
+    [58] compiler_4.2.2     
 
 </details>

@@ -76,7 +76,7 @@ De todas formas, nunca os sintáis mal por utilizar un bucle en vez de un funcio
 >
 > --- Bjarne Stroustrup ([Advanced R](https://adv-r.hadley.nz/index.html))
 
-!["Representación gráfica del funcionamiento de los bucles for donde se ve claramente que se está realizando una interación. Ilustración de Allison Horst obtenido de la charla de Hadley Wickham The Joy of Functional Programming (para ciencia de datos)"](images/forloops.png)
+!["Representación gráfica del funcionamiento de los bucles for donde se ve claramente que se está realizando una iteración. Ilustración de Allison Horst obtenido de la charla de Hadley Wickham The Joy of Functional Programming (para ciencia de datos)"](images/forloops.png)
 
 !["Representación gráfica del funcionamiento de `map()` donde el foco está en la operación realizada. Ilustración de Allison Horst obtenido de la charla de Hadley Wickham The Joy of Functional Programming (para ciencia de datos)"](images/map_frosting.png)
 

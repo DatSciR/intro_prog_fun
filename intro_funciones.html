@@ -85,16 +85,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#estructura-del-curso" id="toc-estructura-del-curso" class="nav-link" data-scroll-target="#estructura-del-curso">Estructura del curso</a></li>
   <li><a href="#quiénes-somos" id="toc-quiénes-somos" class="nav-link" data-scroll-target="#quiénes-somos">Quiénes somos</a></li>
-  <li><a href="#introducción-a-la-programación-funcional" id="toc-introducción-a-la-programación-funcional" class="nav-link" data-scroll-target="#introducción-a-la-programación-funcional">Introducción a la programación funcional</a></li>
+  </ul></li>
+  <li><a href="#introducción-a-la-programación-funcional" id="toc-introducción-a-la-programación-funcional" class="nav-link" data-scroll-target="#introducción-a-la-programación-funcional">Introducción a la programación funcional</a>
+  <ul class="collapse">
   <li><a href="#cuándo-hay-que-usar-una-función" id="toc-cuándo-hay-que-usar-una-función" class="nav-link" data-scroll-target="#cuándo-hay-que-usar-una-función">¿Cuándo hay que usar una función?</a></li>
   </ul></li>
-  <li><a href="#funciones" id="toc-funciones" class="nav-link" data-scroll-target="#funciones">Funciones</a>
+  <li><a href="#teoría-sobre-funciones-en-r" id="toc-teoría-sobre-funciones-en-r" class="nav-link" data-scroll-target="#teoría-sobre-funciones-en-r">Teoría sobre funciones en R</a></li>
+  <li><a href="#cómo-escribir-funciones" id="toc-cómo-escribir-funciones" class="nav-link" data-scroll-target="#cómo-escribir-funciones">Cómo escribir funciones</a>
   <ul class="collapse">
-  <li><a href="#principios" id="toc-principios" class="nav-link" data-scroll-target="#principios">Principios</a></li>
-  <li><a href="#cómo-estribir-funciones" id="toc-cómo-estribir-funciones" class="nav-link" data-scroll-target="#cómo-estribir-funciones">Cómo estribir funciones</a></li>
+  <li><a href="#argumentos" id="toc-argumentos" class="nav-link" data-scroll-target="#argumentos">Argumentos</a></li>
+  <li><a href="#valores-de-retorno" id="toc-valores-de-retorno" class="nav-link" data-scroll-target="#valores-de-retorno">Valores de retorno</a></li>
   </ul></li>
-  <li><a href="#información-principal" id="toc-información-principal" class="nav-link" data-scroll-target="#información-principal">Información principal</a></li>
-  <li><a href="#no-directamente-relacionado-pero-útil" id="toc-no-directamente-relacionado-pero-útil" class="nav-link" data-scroll-target="#no-directamente-relacionado-pero-útil">No directamente relacionado pero útil</a></li>
+  <li><a href="#enlaces-de-interés" id="toc-enlaces-de-interés" class="nav-link" data-scroll-target="#enlaces-de-interés">Enlaces de interés</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="intro_funciones.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
 </div>
@@ -129,18 +131,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/Logo_ecoinf_10.jpg" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">EcoInf</figcaption>
-</figure>
-</div>
+<p><img src="images/Logo_ecoinf_10.jpg" class="img-fluid"></p>
 <section id="presentación" class="level2">
 <h2 class="anchored" data-anchor-id="presentación">Presentación</h2>
 <p>Los <strong>objetivos</strong> de este taller son:</p>
-<p>- aprender a escribir funciones</p>
-<p>- aplicar funciones en programación iterativa mediante el paquete {purrr} de {tidyverse}</p>
-<p>- aprender estilos de código que facilitan su comprensión</p>
+<ul>
+<li><p>aprender a escribir funciones</p></li>
+<li><p>aplicar funciones en programación iterativa mediante el paquete {purrr} de {tidyverse}</p></li>
+<li><p>aprender estilos de código que facilitan su comprensión</p></li>
+</ul>
 <section id="estructura-del-curso" class="level3">
 <h3 class="anchored" data-anchor-id="estructura-del-curso">Estructura del curso</h3>
 <table class="table">
@@ -156,11 +155,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>15 min</td>
 </tr>
 <tr class="even">
-<td>Funciones teoria</td>
-<td>15 min</td>
+<td>Teoría sobre funciones</td>
+<td>20 min</td>
 </tr>
 <tr class="odd">
-<td>Funciones practica</td>
+<td>Cómo escribir funciones</td>
 <td>25 min</td>
 </tr>
 <tr class="even">
@@ -181,20 +180,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="quiénes-somos" class="level3">
 <h3 class="anchored" data-anchor-id="quiénes-somos">Quiénes somos</h3>
+<p><img src="images/1_N_0YimgDh2_IbBT9jJNtOg.jpg" class="img-fluid"></p>
 <p>Y vosotros ¿quiénes sois?</p>
 <p><img src="images/mentimeter_qr_code.png" class="img-fluid" alt="QR"> <a href="https://www.menti.com/alyyd29vgomt" class="uri">https://www.menti.com/alyyd29vgomt</a></p>
 </section>
-<section id="introducción-a-la-programación-funcional" class="level3">
-<h3 class="anchored" data-anchor-id="introducción-a-la-programación-funcional">Introducción a la programación funcional</h3>
+</section>
+<section id="introducción-a-la-programación-funcional" class="level2">
+<h2 class="anchored" data-anchor-id="introducción-a-la-programación-funcional">Introducción a la programación funcional</h2>
 <p>La creciente disponibilidad de datos y de versatilidad de los programas de análisis han provocado el incremento en la cantidad y complejidad de los análisis que realizamos en ecología. Esto hace cada vez más necesaria la eficiencia en el proceso de gestión y análisis de datos. Una de las posibles formas para optimizar estos procesos y acortar los tiempos de trabajo para los usuarios de R es la programación basada en funciones. Las funciones permiten automatizar tareas comunes (por ejemplo, leer diferentes bases de datos) simplificando el código.</p>
-<p>Las funciones son objetos de R que toman un input y lo transforman en un output haciendo una acción concreta (funcionalidad específica). Son los <em>bloques de construcción</em> fundamentales en cualquier script de R que es un lenguaje funcional.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/function.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">fun</figcaption>
-</figure>
-</div>
-<p>Se puede llamar a una función a través de otra función e iterar el proceso haciendo que R sea una herramienta muy potente. Las iteraciones sirven para realizar la misma acción a múltiples entradas. Existen dos grandes paradigmas de iteración: la programación imperativa y la programación funcional. En este taller, nos centraremos principalmente en la <strong>programación funcional</strong> y aprenderemos a utilizar el paquete {purrr}, que proporciona funciones para eliminar muchos bucles comunes.</p>
+<p>Las <strong>funciones</strong> son objetos de R que toman un input y consiguen un output haciendo una acción concreta (funcionalidad específica). Son los <em>bloques de construcción</em> fundamentales en cualquier script de R que es un lenguaje funcional.</p>
+<p><img src="images/function.png" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p>To understand computations in R, two slogans are helpful:</p>
+<p>- Everything that exist is an object</p>
+<p>- Everything that happens is a function call.</p>
+<p>— John Chambers (<a href="https://adv-r.hadley.nz/index.html">Advanced R</a>)</p>
+</blockquote>
+<p>Se puede llamar a una función a través de otra función e iterar el proceso lo que hace que R sea una herramienta muy potente. Las iteraciones sirven para realizar la misma acción a múltiples entradas. Existen dos grandes paradigmas de iteración: la programación imperativa y la programación funcional. En este taller, nos centraremos principalmente en la <strong>programación funcional</strong> y aprenderemos a utilizar el paquete {purrr}, que proporciona funciones para eliminar muchos bucles comunes.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("tidyverse")</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("palmerpenguins")</span></span>
@@ -241,20 +243,16 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  (x <span class="sc">-</span> rng[<span class="dv">1</span>]) <span class="sc">/</span> (rng[<span class="dv">2</span>] <span class="sc">-</span> rng[<span class="dv">1</span>]) </span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>} </span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="fu">rescale01</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">10</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0 0.5 1.0</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>bill_length_mm <span class="ot">&lt;-</span> <span class="fu">rescale01</span>(df<span class="sc">$</span>bill_length_mm) </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>bill_depth_mm <span class="ot">&lt;-</span> <span class="fu">rescale01</span>(df<span class="sc">$</span>bill_depth_mm) </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>flipper_length_mm <span class="ot">&lt;-</span> <span class="fu">rescale01</span>(df<span class="sc">$</span>flipper_length_mm) </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>body_mass_g <span class="ot">&lt;-</span> <span class="fu">rescale01</span>(df<span class="sc">$</span>body_mass_g)  </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span> </span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(df, rescale01)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>bill_length_mm <span class="ot">&lt;-</span> <span class="fu">rescale01</span>(df<span class="sc">$</span>bill_length_mm) </span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>bill_depth_mm <span class="ot">&lt;-</span> <span class="fu">rescale01</span>(df<span class="sc">$</span>bill_depth_mm) </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>flipper_length_mm <span class="ot">&lt;-</span> <span class="fu">rescale01</span>(df<span class="sc">$</span>flipper_length_mm) </span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>body_mass_g <span class="ot">&lt;-</span> <span class="fu">rescale01</span>(df<span class="sc">$</span>body_mass_g)  </span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span> </span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(df, rescale01)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$bill_length_mm
   [1] 0.25454545 0.26909091 0.29818182         NA 0.16727273 0.26181818
@@ -497,136 +495,420 @@ $body_mass_g
 [343] 0.38888889 0.29861111</code></pre>
 </div>
 </div>
-<p>Las principales ventajas de la programación funcional (uso de funciones e iteraciones) son:</p>
+<p>Las principales <strong>ventajas de la programación funcional</strong> (uso de funciones e iteraciones) son:</p>
 <ul>
-<li>Facilidad para ver la intención del código y, por tanto, mejorar la <strong>comprensión</strong> para uno mismo, colaboradores y revisores.
+<li>Facilidad para ver la intención del código y, por tanto, mejorar la <strong>comprensión</strong> para uno mismo, colaboradores y revisores:
 <ul>
-<li>Las funciones tienen un nombre evocativo</li>
-<li>Los bucles pueden ser más explícitos</li>
+<li>Las funciones tienen un nombre evocativo.</li>
+<li>El código queda más ordenado.</li>
 </ul></li>
-<li><strong>Rapidez</strong> si se necesitan hacer cambios.
-<ul>
-<li>Las funciones son piezas independientes <!--# Cambiar arriba la funcion rescale para que divida por la media --></li>
-</ul></li>
-<li><strong>Disminuye la probabilidad de error</strong>. <!--# Enseñar error de arriba --></li>
+<li><strong>Rapidez</strong> si se necesitan hacer cambios ya que las funciones son piezas independientes que resuelven un problema concreto.</li>
 </ul>
-</section>
+<!-- -->
+<ul>
+<li><strong>Disminuye la probabilidad de error</strong>.</li>
+</ul>
+<!--# Enseñar error de arriba -->
+<p>💡Los bucles pueden ser más explícitos en cuanto a que se ve claramente la iteración, pero se necesita más tiempo para entender que se está haciendo.</p>
 <section id="cuándo-hay-que-usar-una-función" class="level3">
 <h3 class="anchored" data-anchor-id="cuándo-hay-que-usar-una-función">¿Cuándo hay que usar una función?</h3>
-<p>Principio “do not repeat yourself” (DRY principle): cada unidad de conocimiento o información debe tener un representación única, inequívoca y autoritativa en un sistema.</p>
-<p>Escribir una función ya merece la pena cuando has copiado y pegado más de dos veces lo mismo.</p>
+<p>Se recomienda seguir el principio “do not repeat yourself” (<a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself#:~:text=%22Don't%20repeat%20yourself%22,redundancy%20in%20the%20first%20place.">DRY principle</a>): cada unidad de conocimiento o información debe tener un representación única, inequívoca y autoritativa en un sistema.</p>
+<p>Escribir una función ya merece la pena cuando has copiado y pegado más de dos veces lo mismo. Cuantas más veces esté repetido un código en más sitios necesitarás actualizarlo si hay algun cambio.</p>
 </section>
 </section>
-<section id="funciones" class="level2">
-<h2 class="anchored" data-anchor-id="funciones">Funciones</h2>
-<p>Las funciones tienen tres componentes: - <code>body()</code> (cuerpo): código dentro de la función. - <code>formals()</code>: lista de argumentos que controla como se puede llamar a la función. - <code>environment()</code>: localización de las variables que controlan la función.</p>
+<section id="teoría-sobre-funciones-en-r" class="level2">
+<h2 class="anchored" data-anchor-id="teoría-sobre-funciones-en-r">Teoría sobre funciones en R</h2>
+<p>Las funciones tienen tres componentes:</p>
+<ul>
+<li><code>body()</code> (cuerpo): código dentro de la función.</li>
+<li><code>formals()</code>: lista de argumentos que controla como se puede ejecutar la función.</li>
+<li><code>environment()</code>: la estructura que alimenta el <em>scoping</em> de la función, es decir, el entorno donde se ubica la función.</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">body</span>(rescale01)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">body</span>(rescale01)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>{
     rng &lt;- range(x, na.rm = TRUE)
     (x - rng[1])/(rng[2] - rng[1])
 }</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">formals</span>(rescale01)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">formals</span>(rescale01)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$x</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">environment</span>(rescale01)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">environment</span>(rescale01)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;environment: R_GlobalEnv&gt;</code></pre>
 </div>
 </div>
-<p>ENLACE Hay una excepción a esta norma que son las <strong>funciones primitivas</strong>. Están escritas en C en lugar de R y sólo aparecen en el paquete <em>base</em>. Son más eficientes pero se comportan diferente a otras funciones, así que R Core Team intenta no crear nuevas funciones primitivas.</p>
-<p>Sintácticamente, las funciones en general tienen tres componentes: - Nombre - Argumentos: lista de inputs. - Cuerpo: trozo de código que sigue a function(…), tradicionalmente entre llaves.</p>
+<p>El <a href="https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping"><em>lexical scoping</em> (ámbito léxico)</a> son el conjunto de normas sobre cómo los valores de las variables son extraidos del entorno en cada lenguaje de programación, es decir, como se asocia una variable a un valor. En R tiene cuatro normas básicas, pero la más importante para empezar con programación funcional es que si un argumento no está definido en una función, R buscará ese nombre en el nivel del entorno inmediatamente superior (<em>name masking</em>).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>nombre1_v1 <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {<span class="fu">paste</span>(x, y, <span class="at">sep =</span> <span class="st">"_"</span>)}</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>nombre1_v2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) <span class="fu">paste</span>(x, y, <span class="at">sep =</span> <span class="st">"_"</span>) <span class="co">#Si pilla mas de dos lineas mejor llave</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>nombre1_v3 <span class="ot">&lt;-</span> \(x, y) <span class="fu">paste</span>(x, y, <span class="at">sep =</span> <span class="st">"_"</span>)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">nombre1_v1</span>(<span class="st">"Vero"</span>, <span class="st">"Cruz"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Vero_Cruz"</code></pre>
+<pre><code>[1] 110</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nombre1_v2</span>(<span class="st">"Vero"</span>, <span class="st">"Cruz"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Vero_Cruz"</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nombre1_v3</span>(<span class="st">"Vero"</span>, <span class="st">"Cruz"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Vero_Cruz"</code></pre>
+<pre><code>[1] 1010</code></pre>
 </div>
 </div>
-<p>###Tipos de funciones</p>
-<p>“To understand computations in R, two slogans are helpful: - Everything that exist is an object - Everything that happens is a function call.” (John Chambers)</p>
-<section id="first-class" class="level4">
-<h4 class="anchored" data-anchor-id="first-class">First class</h4>
-</section>
-<section id="primitive" class="level4">
-<h4 class="anchored" data-anchor-id="primitive">Primitive</h4>
-</section>
-<section id="operadores-comunes-en-r" class="level4">
-<h4 class="anchored" data-anchor-id="operadores-comunes-en-r">Operadores comunes en R</h4>
-<p>Los operadores infijos (<code>+</code>), de flujo (<code>for</code>, <code>if</code>), de subdivisión (<code>[ ]</code>, <code>$</code>) o llaves (<code>{ }</code>) también son funciones, de reemplazo</p>
+<p>Hay una excepción a esta norma que son las <strong>funciones primitivas</strong>. Están escritas en C en lugar de R y sólo aparecen en el paquete <em>base</em>. Son más eficientes pero se comportan diferente a otras funciones, así que R Core Team intenta no crear nuevas funciones primitivas. El resto de funciones siguen la estructura indicada arriba. Dentro de estas.</p>
+<p>Según el tipo de output generado hay dos tipos de funciones: - Las <strong>funciones de transformación</strong> transforman el objeto que entra en la función (primer argumento) y devuelven otro objeto o el anterior modificado. Los funcionales son tipos especiales de funciones de transformación. - Las <strong>funciones secundarias</strong> (<em>side-effect functions</em>) tienen efectos colaterales y ejecutan una acción, como guardar un archivo o dibujar un plot. Algunos ejemplos que se usan comunmente son: library(), setwd(), plot(), write.csv()… Estas funciones retornan <em>de forma invisible</em> el primer argumento, que no se guarda, pero puede ser usado en un pipeline.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="sc">+</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sum</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5</code></pre>
+<pre><code>function (..., na.rm = FALSE)  .Primitive("sum")</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">+</span><span class="st">`</span>(<span class="dv">3</span>, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">body</span>(sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) <span class="fu">print</span>(i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1
-[1] 2</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">for</span><span class="st">`</span>(i, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="fu">print</span>(i))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1
-[1] 2</code></pre>
+<pre><code>NULL</code></pre>
 </div>
 </div>
-<p>####Anomimas - closure con enlace</p>
-<p>####Funcionales</p>
-</section>
-<section id="principios" class="level3">
-<h3 class="anchored" data-anchor-id="principios">Principios</h3>
-<p>Lexical scooping</p>
-<p>- Name masking</p>
-<p>- Functions vs.&nbsp;variables</p>
-<p>- A fresh start</p>
-<p>- Dynamic lookup</p>
-</section>
-<section id="cómo-estribir-funciones" class="level3">
-<h3 class="anchored" data-anchor-id="cómo-estribir-funciones">Cómo estribir funciones</h3>
-<p>p.270</p>
+<p>Sintácticamente, las funciones en general tienen tres componentes:</p>
 <ul>
-<li><p>Analizar el código ¿cuantos imputs? ¿hay partes replicadas?</p></li>
-<li><p>Simplificar</p></li>
-<li><p>Elegir un buen nombre</p></li>
-<li><p>Enumerar los argumentos (inputs) dentro de function (arguments)</p></li>
-<li><p>Poner el código simplificado dentro del cuerpo de la función (body)</p></li>
-<li><p>Probar con inputs diferentes (hablar de los tests)</p></li>
+<li>Función <code>function()</code> (primitiva)</li>
+<li>Argumentos: lista de inputs.</li>
+<li>Cuerpo: trozo de código que sigue a function(…), tradicionalmente entre llaves.</li>
 </ul>
-<section id="argumentos" class="level4">
-<h4 class="anchored" data-anchor-id="argumentos">Argumentos</h4>
-<p>… hablar de esto</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>nombre1_v1 <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(x, y, <span class="at">sep =</span> <span class="st">"_"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>nombre1_v2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) <span class="fu">paste</span>(x, y, <span class="at">sep =</span> <span class="st">"_"</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>nombre1_v3 <span class="ot">&lt;-</span> \(x, y) <span class="fu">paste</span>(x, y, <span class="at">sep =</span> <span class="st">"_"</span>)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="fu">nombre1_v1</span>(<span class="st">"Vero"</span>, <span class="st">"Cruz"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Vero_Cruz"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nombre1_v2</span>(<span class="st">"Vero"</span>, <span class="st">"Cruz"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Vero_Cruz"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nombre1_v3</span>(<span class="st">"Vero"</span>, <span class="st">"Cruz"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Vero_Cruz"</code></pre>
+</div>
+</div>
+<p>📝 Si la función tiene mas de dos lineas es mejor usar llaves siempre para que quede bien delimitada. La llave de apertura nunca debe ir sóla (excepto con <em>else</em>) pero si la de cierre. Y por favor… ¡usad sangrias! (Code &gt; Reindent lines/Reformat code)</p>
+<p>💡Los operadores infijos (<code>+</code>), de flujo (<code>for</code>, <code>if</code>), de subdivisión (<code>[ ]</code>, <code>$</code>) o llaves (<code>{ }</code>) o de reemplazo (<code>&lt;-</code>) también son funciones. La tilde invertida ``` permite referirse a funciones o variables que de otro modo tienen “nombre ilegales”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="sc">+</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">+</span><span class="st">`</span>(<span class="dv">3</span>, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) <span class="fu">print</span>(i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1
+[1] 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">for</span><span class="st">`</span>(i, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="fu">print</span>(i))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1
+[1] 2</code></pre>
+</div>
+</div>
+<p>R tiene dos tipos de funciones con una sintaxis especial, donde los argumentos no van después de llamar a la función. Los operadores infijos, en los que el nombre de la función se coloca en medio de los argumentos, y las funciones de reemplazo.</p>
+<p>En general las funciones tienen un nombre que se ejecuta cuando se necesita como hemos visto hasta ahora, pero esto no es obligatorio. Algunos paquetes como {purrr} o las funciones de la familia <code>apply</code> permiten el uso de <strong>funciones anónimas</strong> para iterar.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(penguins, <span class="cf">function</span>(x) <span class="fu">length</span>(<span class="fu">unique</span>(x)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$species
+[1] 3
+
+$island
+[1] 3
+
+$bill_length_mm
+[1] 165
+
+$bill_depth_mm
+[1] 81
+
+$flipper_length_mm
+[1] 56
+
+$body_mass_g
+[1] 95
+
+$sex
+[1] 3
+
+$year
+[1] 3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>models <span class="ot">&lt;-</span> penguins <span class="sc">%&gt;%</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">split</span>(.<span class="sc">$</span>species) <span class="sc">%&gt;%</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>( <span class="sc">~</span> <span class="fu">lm</span>(body_mass_g <span class="sc">~</span> bill_length_mm, <span class="at">data =</span> .)) <span class="co">#Método abreviado donde solo se utiliza un lado de la fórmula de la función</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="retornos" class="level4">
-<h4 class="anchored" data-anchor-id="retornos">Retornos</h4>
-<p><strong>Style guide</strong></p>
-<p>Ejercicio 1: función básica</p>
-<p>Datos titanic</p>
-<p>Ejercicio 2: función más compleja para usar</p>
+<section id="cómo-escribir-funciones" class="level2">
+<h2 class="anchored" data-anchor-id="cómo-escribir-funciones">Cómo escribir funciones</h2>
+<p>Imaginad que para un set de datos quisieramos hacer un gráfico de distribución de cada variable, en función de una categórica que nos interese especialmente, para ver como se distribuye.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 344
+Columns: 8
+$ species           &lt;fct&gt; Adelie, Adelie, Adelie, Adelie, Adelie, Adelie, Adel…
+$ island            &lt;fct&gt; Torgersen, Torgersen, Torgersen, Torgersen, Torgerse…
+$ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, NA, 36.7, 39.3, 38.9, 39.2, 34.1, …
+$ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, NA, 19.3, 20.6, 17.8, 19.6, 18.1, …
+$ flipper_length_mm &lt;int&gt; 181, 186, 195, NA, 193, 190, 181, 195, 193, 190, 186…
+$ body_mass_g       &lt;int&gt; 3750, 3800, 3250, NA, 3450, 3650, 3625, 4675, 3475, …
+$ sex               &lt;fct&gt; male, female, female, NA, female, male, female, male…
+$ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Nos interesan las diferencias entre especie y sexo</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> species, <span class="at">y =</span> bill_length_mm, <span class="at">color =</span> sex)) <span class="sc">+</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">position =</span> <span class="fu">position_jitterdodge</span>(), <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"turquoise"</span>, <span class="st">"goldenrod1"</span>)) <span class="sc">+</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values (`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="intro_funciones_files/figure-html/de%20codigo%20repetido%20a%20funcion-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> species, <span class="at">y =</span> bill_depth_mm, <span class="at">color =</span> sex)) <span class="sc">+</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">position =</span> <span class="fu">position_jitterdodge</span>(), <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"turquoise"</span>, <span class="st">"goldenrod1"</span>)) <span class="sc">+</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).
+Removed 2 rows containing missing values (`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="intro_funciones_files/figure-html/de%20codigo%20repetido%20a%20funcion-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> species, <span class="at">y =</span> island, <span class="at">color =</span> sex)) <span class="sc">+</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"turquoise"</span>, <span class="st">"goldenrod1"</span>)) <span class="sc">+</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="intro_funciones_files/figure-html/de%20codigo%20repetido%20a%20funcion-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Etc</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Hemos copiado un código más de dos veces para realizar una misma acción (es decir, un gráfico para ver como se distribuye una variable) así que hay que considerar la posibilidad de que estamos necesitando una función. A continuación vamos a seguir unos sencillos pasos para transformar cualquier código repetido en función.</p>
+<ol type="1">
+<li><p>Analizar el código: ¿cuáles son las partes replicadas? ¿cuantos inputs tenemos? ¿cuáles varían y cuáles no?</p></li>
+<li><p>Simplificar y reanalizar duplicaciones</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>var_cont <span class="ot">&lt;-</span> penguins<span class="sc">$</span>bill_length_mm</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>var_cat <span class="ot">&lt;-</span> penguins<span class="sc">$</span>island</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> species, <span class="at">y =</span> var_cont, <span class="at">color =</span> sex)) <span class="sc">+</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">position =</span> <span class="fu">position_jitterdodge</span>(), <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"turquoise"</span>, <span class="st">"goldenrod1"</span>)) <span class="sc">+</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values (`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="intro_funciones_files/figure-html/de%20codigo%20repetido%20a%20funcion,%20simplificar-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> species, <span class="at">y =</span> var_cat, <span class="at">color =</span> sex)) <span class="sc">+</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"turquoise"</span>, <span class="st">"goldenrod1"</span>)) <span class="sc">+</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="intro_funciones_files/figure-html/de%20codigo%20repetido%20a%20funcion,%20simplificar-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>var_cont <span class="ot">&lt;-</span> penguins<span class="sc">$</span>bill_length_mm</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>var_cat <span class="ot">&lt;-</span> penguins<span class="sc">$</span>island</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>miformato <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"turquoise"</span>, <span class="st">"goldenrod1"</span>)),</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">theme_light</span>())</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> species, <span class="at">y =</span> var_cont, <span class="at">color =</span> sex)) <span class="sc">+</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">position =</span> <span class="fu">position_jitterdodge</span>(), <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>  miformato</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values (`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="intro_funciones_files/figure-html/de%20codigo%20repetido%20a%20funcion,%20simplificar2-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> species, <span class="at">y =</span> var_cat, <span class="at">color =</span> sex)) <span class="sc">+</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  miformato</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="intro_funciones_files/figure-html/de%20codigo%20repetido%20a%20funcion,%20simplificar2-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>var <span class="ot">&lt;-</span> <span class="st">"island"</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>miformato <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"turquoise"</span>, <span class="st">"goldenrod1"</span>)),</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">theme_light</span>())</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> species, <span class="at">y =</span> <span class="fu">pull</span>(penguins, var), <span class="at">color =</span> sex)) <span class="sc">+</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  miformato</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">is.numeric</span>(<span class="fu">pull</span>(penguins, var))) {</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>  p <span class="sc">+</span> </span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">position =</span> <span class="fu">position_jitterdodge</span>(), <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) </span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a>  p <span class="sc">+</span> </span>
+<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_jitter</span>()</span>
+<span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb55-19"><a href="#cb55-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="intro_funciones_files/figure-html/de%20codigo%20repetido%20a%20funcion,%20simplificar3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>📝 Crear objetos con cálculos intermedios (en el ejemplo, el caso del objeto “p”), es una buena práctica porque deja más claro lo que el código está haciendo.</p>
+<ol start="3" type="1">
+<li>Elegir un nombre para la función (📝). Idealmente tiene que ser corto y evocar lo que la función hace. En general, debe ser un verbo (p.e. imputar_valores) mientras que los argumentos son nombres (p.e. data, variable, etc.). Usar un nombre para una función está permitido si la función calcula algo muy conocido (p.e. <code>mean()</code>) o si sirve para acceder a partes de un objeto (p.e. <code>residuals()</code>). También se recomienda evitar verbos muy genéricos (p.e. calcular) y si el nombre tiene varias palabras separarlas con guión bajo o mayúsculas, pero ser consistente. Si programas varias funciones que hacen cosas parecidas se recomienda usar el mismo prefijo para todas (p.e. “str_” en el paquete {stringr}).</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Ejemplos de nombres que no hacer</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>T <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>mean <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sum</span>(x)</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(T, c, mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="4" type="1">
+<li>Enumerar los argumentos dentro de function y poner el código simplificado dentro de las llaves.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Varias opciones</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>expplot <span class="ot">&lt;-</span> <span class="cf">function</span> (var) {</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  miformato <span class="ot">&lt;-</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"turquoise"</span>, <span class="st">"goldenrod1"</span>)),</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">theme_light</span>())</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> species, <span class="at">y =</span> <span class="fu">pull</span>(penguins, var), <span class="at">color =</span> sex)) <span class="sc">+</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(var) <span class="sc">+</span></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>    miformato</span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.numeric</span>(<span class="fu">pull</span>(penguins, var))) {</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>    p <span class="sc">+</span></span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="at">position =</span> <span class="fu">position_jitterdodge</span>(), <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>    p <span class="sc">+</span></span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_jitter</span>()</span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>📝 Utiliza comentarios (#) para explicar el razonamiento detrás de tus funciones. Se debe evitar explicar qué se está haciendo o cómo, ya que el propio código ya lo comunica. También se recomienda usar # para separar apartados (Cmd/Ctrl + Shift + R).</p>
+<ol start="5" type="1">
+<li>Probar con inputs diferentes</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">expplot</span>(<span class="at">var =</span> <span class="st">"island"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="intro_funciones_files/figure-html/de%20codigo%20repetido%20a%20funcion,%20pruebas-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">expplot</span>(<span class="at">var =</span> <span class="st">"year"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="intro_funciones_files/figure-html/de%20codigo%20repetido%20a%20funcion,%20pruebas-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">expplot</span>(<span class="at">var =</span> <span class="st">"body_mass_g"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values (`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="intro_funciones_files/figure-html/de%20codigo%20repetido%20a%20funcion,%20pruebas-3.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>💡Puedes querer convertir estas pruebas en test formales. En funciones complejas sirven para que, aunque hagas cambios, se pueda comprobar que la funcionalidad no se ha roto. Si estás interesado puede leer sobre tests aqui: <a href="https://r-pkgs.org/testing-basics.html" class="uri">https://r-pkgs.org/testing-basics.html</a></p>
+<section id="ejercicio-1" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicio-1">Ejercicio 1</h4>
+<p>Genera una función para escalar (es decir, restar la media y dividir por la desviación típica) las variables numéricas de penguins.</p>
+</section>
+<section id="argumentos" class="level3">
+<h3 class="anchored" data-anchor-id="argumentos">Argumentos</h3>
+<p>En general hay dos grupos: los que especifican los datos y los que especifican detalles de la ejecución de la función. Normalmente los que especifican datos van primero y los de detalle después y suelen tener valores por defecto (los más comunes), para cuando no se especifique nada.</p>
+<!--# Ver ayuda de quantile -->
+<p>📝 Los nombres de los argumentos deben ser cortos y descriptivos. Hay algunos comunes pero poco descriptivos que también se suelen usar (p.e. x, w, df, n, p, etc.), además de otros que ya existen y que no conviene definir de nuevo (p.e. na.rm).</p>
+<p>Los argumentos se pueden especificar utilizando el nombre completo, una abreviatura unequívoca o el órden de posición (<em>unnamed arguments</em>), siendo este el órden de prioridad a la hora de corresponder los argumentos con lo que se escribe.</p>
+<p>📝 Generalmente sólo se usa el orden de posición para para los primeros uno o dos argumentos, los más comunes que todo el mundo conoce. Si se cambia un argumento de detalle con valor por defecto conviene poner siempre el combre completo.</p>
+<p>📝 Usar espacios antes y después de “=” y después de “,” hace mucho más fácil identificar los componentes de la función.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>average <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">25</span>) <span class="sc">/</span> <span class="dv">12</span>, <span class="at">trim =</span> <span class="fl">0.2</span>)</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>average<span class="ot">&lt;-</span><span class="fu">mean</span>(<span class="fu">rnorm</span>(<span class="dv">10</span>,<span class="at">mean=</span><span class="dv">50</span>,<span class="at">sd=</span><span class="dv">25</span>)<span class="sc">/</span><span class="dv">12</span>,<span class="at">trim=</span><span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Hay un argumento especial llamado “…”, que captura cualquier otro argumento que no se corresponde con los nombrados en la función. Se utiliza para transmitir argumentos a otras funciones incluidas en nuestra función.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>?plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>starting httpd help server ... done</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="intro_funciones_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">main =</span> <span class="st">"Estoy usando argumentos de par"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="intro_funciones_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>📝 Usar “…” hace que las funciones sean muy flexibles, pero hace necesario leer cuidadosamente la documentación para poder usarlo. Además, si se escribe mal un argumento no sale error.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="at">na.mr =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="cn">NA</span>, <span class="at">na.mr =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+</div>
+</section>
+<section id="valores-de-retorno" class="level3">
+<h3 class="anchored" data-anchor-id="valores-de-retorno">Valores de retorno</h3>
+<p>La última expresión ejecutada en una función es el valor de retorno. Es el resultado de ejecutar la función, a no ser que se especifique <code>invisible()</code>. Las funciones arrojan un sólo objeto. Si se quieren obtener más, tendrá que ser en formato de lista.</p>
+<!--# Se os ocurre algún caso donde usar invisible? -->
+<p>📝 La función <code>return()</code> se usa para indicar explicitamente qué se quiere obtener en una función. Se recomienda su uso cuando el retorno no se espera al final de la función. P.e. en las ramas de una estructura if/else sobre todo hay alguna rama larga y compleja.</p>
+<section id="ejercicio-2" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicio-2">Ejercicio 2</h4>
+<p>¿Cómo generalizarías la función expplot para que te sirviera para cualquier base de datos y cualquier variable categórica?</p>
 </section>
 </section>
 </section>
-<section id="información-principal" class="level2">
-<h2 class="anchored" data-anchor-id="información-principal">Información principal</h2>
+<section id="enlaces-de-interés" class="level2">
+<h2 class="anchored" data-anchor-id="enlaces-de-interés">Enlaces de interés</h2>
 <ul>
 <li><p>R for data Science (functions): <a href="https://r4ds.had.co.nz/functions.html" class="uri">https://r4ds.had.co.nz/functions.html</a></p></li>
 <li><p>Advanced R (functions): <a href="https://adv-r.hadley.nz/functions.html" class="uri">https://adv-r.hadley.nz/functions.html</a></p></li>
@@ -636,11 +918,6 @@ $body_mass_g
 <li><p>Learn to purrr (Rebecca Barter): <a href="https://www.rebeccabarter.com/blog/2019-08-19_purrr" class="uri">https://www.rebeccabarter.com/blog/2019-08-19_purrr</a></p></li>
 <li><p>Sacando el máximo partido a Tidyverse: <a href="https://github.com/Julenasti/intro_tidyverse/blob/main/04-scripts/intro_tidyverse.md" class="uri">https://github.com/Julenasti/intro_tidyverse/blob/main/04-scripts/intro_tidyverse.md</a></p></li>
 <li><p>R for Data Science (2e): <a href="https://r4ds.hadley.nz/" class="uri">https://r4ds.hadley.nz/</a></p></li>
-</ul>
-</section>
-<section id="no-directamente-relacionado-pero-útil" class="level2">
-<h2 class="anchored" data-anchor-id="no-directamente-relacionado-pero-útil">No directamente relacionado pero útil</h2>
-<ul>
 <li><p>Style guide: <a href="http://adv-r.had.co.nz/Style.html" class="uri">http://adv-r.had.co.nz/Style.html</a></p></li>
 <li><p>Quince consejos para mejorar nuestro código y flujo de trabajo con R: <a href="https://www.revistaecosistemas.net/index.php/ecosistemas/article/view/2129" class="uri">https://www.revistaecosistemas.net/index.php/ecosistemas/article/view/2129</a></p></li>
 </ul>

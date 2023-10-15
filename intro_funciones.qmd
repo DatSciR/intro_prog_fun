@@ -16,22 +16,22 @@ editor: visual
 
 Los **objetivos** de este taller son:
 
-\- aprender a escribir funciones
+-   aprender a escribir funciones
 
-\- aplicar funciones en programación iterativa mediante el paquete {purrr} de {tidyverse}
+-   aplicar funciones en programación iterativa mediante el paquete {purrr} de {tidyverse}
 
-\- aprender estilos de código que facilitan su comprensión
+-   aprender estilos de código que facilitan su comprensión (📝)
 
 ### Estructura del curso
 
-| Bloques                              | Tiempo estimado |
-|--------------------------------------|-----------------|
-| Introducción                         | 15 min          |
-| Funciones teoria                     | 15 min          |
-| Funciones practica                   | 25 min          |
-| Progamación imperativa vs. funcional | 25 min          |
-| Descanso                             | 15 min          |
-| Iteraciones con purrr                | 75 min          |
+| Bloques                               | Tiempo estimado |
+|---------------------------------------|-----------------|
+| Introducción                          | 15 min          |
+| Teoría sobre funciones                | 20 min          |
+| Cómo escribir funciones               | 20 min          |
+| Programación imperativa vs. funcional | 25 min          |
+| Descanso                              | 15 min          |
+| Iteraciones con {purrr}               | 75 min          |
 
 <!--# Faltan 10 min-->
 
@@ -49,7 +49,7 @@ La creciente disponibilidad de datos y de versatilidad de los programas de anál
 
 Las **funciones** son objetos de R que toman un input y consiguen un output haciendo una acción concreta (funcionalidad específica). Son los *bloques de construcción* fundamentales en cualquier script de R que es un lenguaje funcional.
 
-![fun](images/function.png)
+![](images/function.png)
 
 > To understand computations in R, two slogans are helpful:
 >
@@ -59,9 +59,10 @@ Las **funciones** son objetos de R que toman un input y consiguen un output haci
 >
 > --- John Chambers ([Advanced R](https://adv-r.hadley.nz/index.html))
 
-Se puede llamar a una función a través de otra función e iterar el proceso lo que hace que R sea una herramienta muy potente. Las iteraciones sirven para realizar la misma acción a múltiples entradas. Existen dos grandes paradigmas de iteración: la programación imperativa y la programación funcional. En este taller, nos centraremos principalmente en la **programación funcional** y aprenderemos a utilizar el paquete {purrr}, que proporciona funciones para eliminar muchos bucles comunes.
+Se puede llamar a una función a través de otra función e iterar el proceso lo que hace que R sea una herramienta muy potente. Las **iteraciones** sirven para realizar la misma acción a múltiples inputs. Existen dos grandes paradigmas de iteración: la programación imperativa y la programación funcional. En este taller, nos centraremos principalmente en la **programación funcional** y aprenderemos a utilizar el paquete {purrr}, que proporciona funciones para eliminar muchos bucles comunes.
 
 ```{r ejemplo importancia PF}
+#| warning: false
 
 # install.packages("tidyverse")
 # install.packages("palmerpenguins")
@@ -69,66 +70,71 @@ library(tidyverse)
 library(palmerpenguins)
 
 glimpse(penguins)
+
+#
 df <- penguins |> 
   select(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g)
 
-#
 df$bill_length_mm <- (df$bill_length_mm - min(df$bill_length_mm, na.rm = TRUE))/(max(df$bill_length_mm, na.rm = TRUE) - min(df$bill_length_mm, na.rm = TRUE)) 
 df$bill_depth_mm <- (df$bill_depth_mm- min(df$bill_depth_mm, na.rm = TRUE))/(max(df$bill_depth_mm, na.rm = TRUE) - min(df$bill_length_mm, na.rm = TRUE)) 
 df$flipper_length_mm <- (df$flipper_length_mm - min(df$flipper_length_mm, na.rm = TRUE))/(max(df$flipper_length_mm, na.rm = TRUE) - min(df$flipper_length_mm, na.rm = TRUE)) 
 df$body_mass_g <- (df$body_mass_g - min(df$body_mass_g, na.rm = TRUE))/(max(df$body_mass_g, na.rm = TRUE) - min(df$body_mass_g, na.rm = TRUE))
 
 #
+df <- penguins |> 
+  select(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g)
+
 rescale01 <- function(x) {
   rng <- range(x, na.rm = TRUE)   
   (x - rng[1]) / (rng[2] - rng[1]) 
 } 
-
-rescale01(c(0, 5, 10)) 
 
 df$bill_length_mm <- rescale01(df$bill_length_mm) 
 df$bill_depth_mm <- rescale01(df$bill_depth_mm) 
 df$flipper_length_mm <- rescale01(df$flipper_length_mm) 
 df$body_mass_g <- rescale01(df$body_mass_g)  
 
+head(df)
+
 #
 df <- penguins |> 
   select(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g)
 
-lapply(df, rescale01)
+rescaled_df <- lapply(df, rescale01)
+
+head(rescaled_df[[1]])
+head(rescaled_df[[4]])
 
 ```
 
-Las principales ventajas de la programación funcional (uso de funciones e iteraciones) son:
+Las principales **ventajas de la programación funcional** (uso de funciones e iteraciones) son:
 
 -   Facilidad para ver la intención del código y, por tanto, mejorar la **comprensión** para uno mismo, colaboradores y revisores:
     -   Las funciones tienen un nombre evocativo.
     -   El código queda más ordenado.
+
+💡Los bucles pueden ser más explícitos en cuanto a que se ve claramente la iteración, pero se necesita más tiempo para entender que se está haciendo.
+
 -   **Rapidez** si se necesitan hacer cambios ya que las funciones son piezas independientes que resuelven un problema concreto.
-
-<!--# Cambiar arriba la funcion rescale para que divida por la media -->
-
 -   **Disminuye la probabilidad de error**.
 
 <!--# Enseñar error de arriba -->
-
-💡Los bucles pueden ser más explícitos en cuanto a que se ve claramente la iteración, pero se necesita más tiempo para entender que se está haciendo.
 
 ### ¿Cuándo hay que usar una función?
 
 Se recomienda seguir el principio "do not repeat yourself" ([DRY principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself#:~:text=%22Don't%20repeat%20yourself%22,redundancy%20in%20the%20first%20place.)): cada unidad de conocimiento o información debe tener un representación única, inequívoca y autoritativa en un sistema.
 
-Escribir una función ya merece la pena cuando has copiado y pegado más de dos veces lo mismo. Cuantas más veces esté repetido un código en más sitios necesitarás actualizarlo si hay algun cambio.
+Escribir una función ya merece la pena cuando has copiado y pegado más de dos veces lo mismo. Cuantas más veces esté repetido un código en más sitios necesitarás actualizarlo si hay algun cambio y más aumenta la probabilidad de error.
 
-## Funciones
+## Teoría sobre funciones en R
 
 Las funciones tienen tres componentes:
 
--   `body()` (cuerpo): código dentro de la función.
--   `formals()`: lista de argumentos que controla como se puede ejecutar la función.
--   `environment()`: la estructura que alimenta el *scoping* de la función, es decir, el entorno donde se ubica la función.
+-   `body()` (*cuerpo*): código dentro de la función.
+-   `formals()`: lista de *argumentos* que controlan como se ejecuta la función.
+-   `environment()`: la estructura que alimenta el *scoping* de la función, es decir, el *entorno* donde se ubica la función.
 
-```{r}
+```{r componentes}
 
 body(rescale01)
 formals(rescale01)
@@ -136,12 +142,12 @@ environment(rescale01)
 
 ```
 
-El [*lexical scoping* (ámbito léxico)](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) son el conjunto de normas sobre cómo los valores de las variables son extraidos del entorno en cada lenguaje de programación, es decir, como se asocia una variable a un valor. En R tiene cuatro normas básicas, pero la más importante para empezar con programación funcional es que si un argumento no está definido en una función, R buscará ese nombre en el nivel del entorno inmediatamente superior (*name masking*).
+💡El [*lexical scoping* (ámbito léxico)](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) son el conjunto de normas sobre cómo los valores de las variables son extraidos del entorno en cada lenguaje de programación, es decir, como se asocia una variable a un valor. En R tiene cuatro normas básicas, pero la más importante para empezar con programación funcional es el *name masking*: si un argumento no está definido en una función, R buscará ese nombre en el nivel del entorno inmediatamente superior.
 
 ```{r environment}
 
 f <- function(x) {
-x + y
+  x + y
 }
 
 y <- 100
@@ -152,9 +158,7 @@ f(10)
 
 ```
 
-Hay una excepción a esta norma que son las **funciones primitivas**. Están escritas en C en lugar de R y sólo aparecen en el paquete *base*. Son más eficientes pero se comportan diferente a otras funciones, así que R Core Team intenta no crear nuevas funciones primitivas. El resto de funciones siguen la estructura indicada arriba. Dentro de estas.
-
-Según el tipo de output generado hay dos tipos de funciones: - Las **funciones de transformación** transforman el objeto que entra en la función (primer argumento) y devuelven otro objeto o el anterior modificado. Los funcionales son tipos especiales de funciones de transformación. - Las **funciones secundarias** (*side-effect functions*) tienen efectos colaterales y ejecutan una acción, como guardar un archivo o dibujar un plot. Algunos ejemplos que se usan comunmente son: library(), setwd(), plot(), write.csv()... Estas funciones retornan *de forma invisible* el primer argumento, que no se guarda, pero puede ser usado en un pipeline.
+Las **funciones primitivas** son la excepción ya que no tienen los citados componentes. Están escritas en C en lugar de en R y sólo aparecen en el paquete *base*. Son más eficientes pero se comportan diferente a otras funciones, así que R Core Team intenta no crear nuevas funciones primitivas. El resto de funciones siguen la estructura indicada arriba.
 
 ```{r}
 
@@ -163,33 +167,15 @@ body(sum)
 
 ```
 
-Sintácticamente, las funciones en general tienen tres componentes:
+Según el tipo de output generado hay dos tipos de funciones:
 
--   Función `function()` (primitiva)
--   Argumentos: lista de inputs.
--   Cuerpo: trozo de código que sigue a function(...), tradicionalmente entre llaves.
+-   Las **funciones de transformación** transforman el objeto que entra en la función (primer argumento) y devuelven otro objeto o el anterior modificado. Los funcionales son tipos especiales de funciones de transformación.
 
-```{r notaciones}
+-   Las **funciones secundarias** (*side-effect functions*) tienen efectos colaterales y ejecutan una acción, como guardar un archivo o dibujar un plot. Algunos ejemplos que se usan comunmente son: library(), setwd(), plot(), write.csv()... Estas funciones retornan *de forma invisible* el primer argumento, que no se guarda, pero puede ser usado en un pipeline.
 
-nombre1_v1 <- function(x, y) {
-  paste(x, y, sep = "_")
-}
+💡Los operadores infijos (`+`), de flujo (`for`, `if`), de subdivisión (`[ ]`, `$`), de reemplazo (`<-`) o incluso las llaves (`{ }`) también son funciones. La tilde invertida "\`" permite referirse a funciones o variables que de otro modo tienen "nombre ilegales".
 
-nombre1_v2 <- function(x, y) paste(x, y, sep = "_")
-
-nombre1_v3 <- \(x, y) paste(x, y, sep = "_")
-
-nombre1_v1("Vero", "Cruz")
-nombre1_v2("Vero", "Cruz")
-nombre1_v3("Vero", "Cruz")
-
-```
-
-📝 Si la función tiene mas de dos lineas es mejor usar llaves siempre para que quede bien delimitada. La llave de apertura nunca debe ir sóla (excepto con *else*) pero si la de cierre. Y por favor... ¡usad sangrias! (Code \> Reindent lines/Reformat code)
-
-💡Los operadores infijos (`+`), de flujo (`for`, `if`), de subdivisión (`[ ]`, `$`) o llaves (`{ }`) o de reemplazo (`<-`) también son funciones. La tilde invertida \`\`\` permite referirse a funciones o variables que de otro modo tienen "nombre ilegales".
-
-```{r}
+```{r nombre ilegales}
 
 3 + 2
 `+`(3, 2)
@@ -199,13 +185,34 @@ for (i in 1:2) print(i)
 
 ```
 
-R tiene dos tipos de funciones con una sintaxis especial, donde los argumentos no van después de llamar a la función. Los operadores infijos, en los que el nombre de la función se coloca en medio de los argumentos, y las funciones de reemplazo.
+En general, sintácticamente, las funciones tienen tres componentes:
+
+-   Función `function()` (primitiva)
+-   Argumentos: lista de inputs.
+-   Cuerpo: trozo de código que sigue a `function()`, tradicionalmente entre llaves.
+
+```{r notaciones}
+
+nombre1_v1 <- function(x, y) {
+  paste(x, y, sep = "_") }  
+
+nombre1_v2 <- function(x, y) paste(x, y, sep = "_")  
+
+nombre1_v3 <- \(x, y) paste(x, y, sep = "_")  
+
+nombre1_v1("Vero", "Cruz") 
+nombre1_v2("Vero", "Cruz") 
+nombre1_v3("Vero", "Cruz") 
+
+```
+
+📝 Si la función tiene más de dos lineas es mejor usar llaves siempre para que quede bien delimitada. La llave de apertura nunca debe ir sola pero sí la de cierre (excepto con *else*). Las sangrías también ayudan mucho a entender la jerarquía del código dentro de las funciones. En este sentido recomendamos usar *Code \> Reindent lines/Reformat code* en el menú de RStudio.
 
 En general las funciones tienen un nombre que se ejecuta cuando se necesita como hemos visto hasta ahora, pero esto no es obligatorio. Algunos paquetes como {purrr} o las funciones de la familia `apply` permiten el uso de **funciones anónimas** para iterar.
 
 ```{r funciones anonimas}
 
-lapply(penguins, function(x) length(unique(x)))
+nxcaso <- lapply(penguins, function(x) length(unique(x)))
 
 models <- penguins %>%
   split(.$species) %>%
@@ -213,11 +220,12 @@ models <- penguins %>%
 
 ```
 
-### Cómo escribir funciones
+## Cómo escribir funciones
 
-Imaginad que para un set de datos quisieramos hacer un gráfico de distribución de cada variable, en función de una categórica que nos interese especialmente, para ver como se distribuye.
+Imaginad que para un set de datos quisieramos hacer un gráfico de distribución de cada variable, en función de otra variable categórica que nos interese especialmente, para ver como se distribuye.
 
 ```{r de codigo repetido a funcion}
+#| warning: false
 
 glimpse(penguins)
 
@@ -287,11 +295,11 @@ ggplot(penguins, aes(x = species, y = var_cat, color = sex)) +
 
 ```{r de codigo repetido a funcion, simplificar3}
 
-var <- penguins$island
+var <- "island"
 miformato <- list(scale_color_manual(values = c("turquoise", "goldenrod1")),
                   theme_light())
 
-p <- ggplot(penguins, aes(x = species, y = var, color = sex)) +
+p <- ggplot(penguins, aes(x = species, y = pull(penguins, var), color = sex)) +
   miformato
 
 if (is.numeric(pull(penguins, var))) {
@@ -313,9 +321,9 @@ if (is.numeric(pull(penguins, var))) {
 
 3.  Elegir un nombre para la función (📝). Idealmente tiene que ser corto y evocar lo que la función hace. En general, debe ser un verbo (p.e. imputar_valores) mientras que los argumentos son nombres (p.e. data, variable, etc.). Usar un nombre para una función está permitido si la función calcula algo muy conocido (p.e. `mean()`) o si sirve para acceder a partes de un objeto (p.e. `residuals()`). También se recomienda evitar verbos muy genéricos (p.e. calcular) y si el nombre tiene varias palabras separarlas con guión bajo o mayúsculas, pero ser consistente. Si programas varias funciones que hacen cosas parecidas se recomienda usar el mismo prefijo para todas (p.e. "str\_" en el paquete {stringr}).
 
-```{r de codigo repetido a funcion, no hacer}
+```{r nombres que no hay que usar}
 
-#Ejemplos de nombres que no hacer
+#Ejemplos de nombres que no hay que usar
 
 T <- FALSE
 c <- 10
@@ -331,7 +339,7 @@ rm(T, c, mean)
 
 #Varias opciones
 
-expplot <- function (var) {
+exp_plot <- function (var) {
   miformato <-
     list(scale_color_manual(values = c("turquoise", "goldenrod1")),
          theme_light())
@@ -358,42 +366,37 @@ expplot <- function (var) {
 
 ```{r de codigo repetido a funcion, pruebas}
 
-expplot(var = "island") 
-expplot(var = "year") 
-expplot(var = "body_mass_g") 
+exp_plot(var = "island") 
+exp_plot(var = "year") 
+exp_plot(var = "body_mass_g") 
 
- 
 ```
 
-💡Puedes querer convertir estas pruebas en test formales. En funciones complejas sirven para que, aunque hagas cambios, se pueda comprobar que la funcionalidad no se ha roto. Si estás interesado puede leer sobre tests aqui: <https://r-pkgs.org/testing-basics.html>
+💡Puedes querer convertir estas pruebas en **test** formales. En funciones complejas sirven para que, aunque hagas cambios, se pueda comprobar que la funcionalidad no se ha roto. Si estás interesado mira este enlace: [https://r-pkgs.org/testing-basics.html](#0){.uri}
 
-#### Ejercicio
-
-¿Cómo generalizarías la función expplot para que te sirviera para cualquier base de datos y cualquier variable categórica?
-
-#### Ejercicio
+#### Ejercicio 1
 
 Genera una función para escalar (es decir, restar la media y dividir por la desviación típica) las variables numéricas de penguins.
 
-#### Argumentos
+### Argumentos
 
-En general hay dos grupos: los que especifican los datos y los que especifican detalles de la ejecución de la función. Normalmente los que especifican datos van primero y los de detalle después y suelen tener valores por defecto (los más comunes), para cuando no se especifique nada.
+En general hay dos grupos: los que especifican los **datos** y los que especifican **detalles** de la ejecución de la función. Normalmente los que especifican datos se colocan primero y los de detalle después. Estos últimos suelen tener valores por defecto (los más comunes), para cuando no se especifique nada.
 
 <!--# Ver ayuda de quantile -->
 
 📝 Los nombres de los argumentos deben ser cortos y descriptivos. Hay algunos comunes pero poco descriptivos que también se suelen usar (p.e. x, w, df, n, p, etc.), además de otros que ya existen y que no conviene definir de nuevo (p.e. na.rm).
 
-Los argumentos se pueden especificar utilizando el nombre completo, una abreviatura unequívoca o el órden de posición (*unnamed arguments*), siendo este el órden de prioridad a la hora de corresponder los argumentos con lo que se escribe.
+Los argumentos se pueden **especificar** utilizando el nombre completo, una abreviatura unequívoca o el órden de su posición (*unnamed arguments*), siendo esta secuencia (nombre \> abreviatura \> posición) el órden de prioridad a la hora de hacer corresponder los argumentos con lo que se escribe.
 
-📝 Generalmente sólo se usa el orden de posición para para los primeros uno o dos argumentos, los más comunes que todo el mundo conoce. Si se cambia un argumento de detalle con valor por defecto conviene poner siempre el combre completo.
+📝 Generalmente sólo se usa el orden de posición para para los primeros argumentos, los más comunes que todo el mundo conoce. Si se cambia un argumento de detalle con valor por defecto conviene poner siempre el combre completo.
 
-📝 Usar espacios antes y después de "=" y después de "," hace mucho más fácil identificar los componentes de la función.
+📝 Usar espacios antes y después de "=" y después de "," hace mucho más fácil identificar los argumentos de la función y, en general, todos los componentes.
 
 ```{r}
 
-average <- mean(feet / 12 + inches, na.rm = TRUE)
+average <- mean(rnorm(10, mean = 50, sd = 25) / 12, trim = 0.2)
 
-average<-mean(feet/12+inches,na.rm=TRUE)
+average<-mean(rnorm(10,mean=50,sd=25)/12,trim=0.2)
 
 ```
 
@@ -418,7 +421,7 @@ sum(1, 2, NA, na.mr = TRUE)
 
 ```
 
-#### Valores de retorno
+### Valores de retorno
 
 La última expresión ejecutada en una función es el valor de retorno. Es el resultado de ejecutar la función, a no ser que se especifique `invisible()`. Las funciones arrojan un sólo objeto. Si se quieren obtener más, tendrá que ser en formato de lista.
 
@@ -426,25 +429,11 @@ La última expresión ejecutada en una función es el valor de retorno. Es el re
 
 📝 La función `return()` se usa para indicar explicitamente qué se quiere obtener en una función. Se recomienda su uso cuando el retorno no se espera al final de la función. P.e. en las ramas de una estructura if/else sobre todo hay alguna rama larga y compleja.
 
-### *Lexical scoping* (Ámbito léxico)
+#### Ejercicio 2
 
-Viene de *lexing*, el proceso de convertir una secuencia de caracteres (como en un script o página web) en una secuencia de tokens léxicos (cadenas con un significado asignado y por lo tanto identificado). Hay 4 principios básicos en el ámbito léxico de R:
+¿Cómo generalizarías la función expplot para que te sirviera para cualquier base de datos y cualquier variable categórica?
 
--   Name masking: si un nombre no está definido en una función, R buscará en un nivel superior. Las funciones conservan su environment y por tanto los valores definidos en su interior.
-
--   Functions vs. variables: encontrar funciones funciona igual que encontrar variables, excepto que si es obvio que estás buscando una función (p.e. `f(3)`), R ignorará los objetos.
-
--   A fresh start: cada vez que se llama una función, se crea un nuevo environment para albergar la ejecución. Cada invocación es completamente independiente.
-
--   Dynamic lookup: el ámbito léxico indica donde y cómo buscar valores pero no *cuándo*. R busca valores cuando se ejecuta la función, no cuando es creada, por lo que puede arrojar valores diferentes según lo que haya en el environment de ejecución.
-
-Ejercicio 1: función básica
-
-Datos titanic
-
-Ejercicio 2: función más compleja para usar
-
-## Información principal
+## Enlaces de interés
 
 -   R for data Science (functions): <https://r4ds.had.co.nz/functions.html>
 
@@ -461,8 +450,6 @@ Ejercicio 2: función más compleja para usar
 -   Sacando el máximo partido a Tidyverse: <https://github.com/Julenasti/intro_tidyverse/blob/main/04-scripts/intro_tidyverse.md>
 
 -   R for Data Science (2e): <https://r4ds.hadley.nz/>
-
-## No directamente relacionado pero útil
 
 -   Style guide: <http://adv-r.had.co.nz/Style.html>
 

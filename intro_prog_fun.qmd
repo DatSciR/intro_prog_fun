@@ -29,13 +29,11 @@ Los **objetivos** de este taller son:
 | Bloques                               | Tiempo estimado |
 |---------------------------------------|-----------------|
 | Introducción                          | 15 min          |
-| Teoría sobre funciones                | 20 min          |
-| Cómo escribir funciones               | 20 min          |
+| Teoría sobre funciones                | 25 min          |
+| Cómo escribir funciones               | 25 min          |
 | Programación imperativa vs. funcional | 25 min          |
 | Descanso                              | 15 min          |
 | Iteraciones con {purrr}               | 75 min          |
-
-<!--# Faltan 10 min-->
 
 ### Quiénes somos
 
@@ -53,11 +51,11 @@ Las **funciones** son objetos de R que toman un input y consiguen un output haci
 
 ![](images/function.png)
 
-> To understand computations in R, two slogans are helpful:
+> Para comprender la computación en R, resultan útiles dos lemas:
 >
-> \- Everything that exist is an object
+> \- Todo lo que existe es un objeto.
 >
-> \- Everything that happens is a function call.
+> \- Todo lo que sucede es una llamada a función.
 >
 > --- John Chambers ([Advanced R](https://adv-r.hadley.nz/index.html))
 
@@ -124,7 +122,7 @@ Las principales **ventajas de la programación funcional** (uso de funciones e i
 
 ### ¿Cuándo hay que usar una función?
 
-Se recomienda seguir el principio "do not repeat yourself" ([DRY principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself#:~:text=%22Don't%20repeat%20yourself%22,redundancy%20in%20the%20first%20place.)): cada unidad de conocimiento o información debe tener un representación única, inequívoca y autoritativa en un sistema.
+Se recomienda seguir el principio "do not repeat yourself" ([DRY principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself#:~:text=%22Don't%20repeat%20yourself%22,redundancy%20in%20the%20first%20place.)): cada unidad de conocimiento o información debe tener una representación única, inequívoca y autoritativa en un sistema.
 
 Escribir una función ya merece la pena cuando has copiado y pegado más de dos veces lo mismo. Cuantas más veces esté repetido un código en más sitios necesitarás actualizarlo si hay algun cambio y más aumenta la probabilidad de error.
 
@@ -173,7 +171,7 @@ Según el tipo de output generado hay dos tipos de funciones:
 
 -   Las **funciones de transformación** transforman el objeto que entra en la función (primer argumento) y devuelven otro objeto o el anterior modificado. Los funcionales son tipos especiales de funciones de transformación.
 
--   Las **funciones secundarias** (*side-effect functions*) tienen efectos colaterales y ejecutan una acción, como guardar un archivo o dibujar un plot. Algunos ejemplos que se usan comunmente son: library(), setwd(), plot(), write.csv()... Estas funciones retornan *de forma invisible* el primer argumento, que no se guarda, pero puede ser usado en un pipeline.
+-   Las **funciones secundarias** (*side-effect functions*) tienen efectos colaterales y ejecutan una acción, como guardar un archivo o dibujar un plot. Algunos ejemplos que se usan comunmente son: `library()`, `setwd()`, `plot()`, `write.csv()`... Estas funciones retornan *de forma invisible* el primer argumento, que no se guarda, pero puede ser usado en un pipeline.
 
 💡Los operadores infijos (`+`), de flujo (`for`, `if`), de subdivisión (`[ ]`, `$`), de reemplazo (`<-`) o incluso las llaves (`{ }`) también son funciones. La tilde invertida "\`" permite referirse a funciones o variables que de otro modo tienen "nombre ilegales".
 
@@ -218,7 +216,7 @@ nxcaso <- lapply(penguins, function(x) length(unique(x)))
 
 models <- penguins %>%
   split(.$species) %>%
-  map( ~ lm(body_mass_g ~ bill_length_mm, data = .)) #Método abreviado donde solo se utiliza un lado de la fórmula de la función
+  map( ~ lm(body_mass_g ~ bill_length_mm, data = .)) #Metodo abreviado donde solo se utiliza un lado de la fórmula de la función
 
 ```
 
@@ -260,6 +258,7 @@ Hemos copiado un código más de dos veces para realizar una misma acción (es d
 2.  Simplificar y reanalizar duplicaciones
 
 ```{r de codigo repetido a funcion, simplificar}
+#| warning: false
 
 var_cont <- penguins$bill_length_mm
 var_cat <- penguins$island
@@ -278,6 +277,7 @@ ggplot(penguins, aes(x = species, y = var_cat, color = sex)) +
 ```
 
 ```{r de codigo repetido a funcion, simplificar2}
+#| warning: false
 
 var_cont <- penguins$bill_length_mm
 var_cat <- penguins$island
@@ -296,6 +296,7 @@ ggplot(penguins, aes(x = species, y = var_cat, color = sex)) +
 ```
 
 ```{r de codigo repetido a funcion, simplificar3}
+#| warning: false
 
 var <- "island"
 miformato <- list(scale_color_manual(values = c("turquoise", "goldenrod1")),
@@ -386,19 +387,19 @@ En general hay dos grupos: los que especifican los **datos** y los que especific
 
 <!--# Ver ayuda de quantile -->
 
-📝 Los nombres de los argumentos deben ser cortos y descriptivos. Hay algunos comunes pero poco descriptivos que también se suelen usar (p.e. x, w, df, n, p, etc.), además de otros que ya existen y que no conviene definir de nuevo (p.e. na.rm).
+📝 Los nombres de los argumentos deben ser cortos y descriptivos. Hay algunos comunes pero poco descriptivos que también se suelen usar (p.e. x, w, df, n, p, etc.), además de otros que ya existen y que no conviene definir de nuevo (p.e. `na.rm()`).
 
-Los argumentos se pueden **especificar** utilizando el nombre completo, una abreviatura unequívoca o el órden de su posición (*unnamed arguments*), siendo esta secuencia (nombre \> abreviatura \> posición) el órden de prioridad a la hora de hacer corresponder los argumentos con lo que se escribe.
+A la hora de ejecutar la función los argumentos se pueden **especificar** utilizando el nombre completo, una abreviatura unequívoca o el órden de su posición (*unnamed arguments*), siendo esta secuencia (nombre \> abreviatura \> posición) el órden de prioridad a la hora de hacer corresponder los argumentos con lo que se escribe.
 
 📝 Generalmente sólo se usa el orden de posición para para los primeros argumentos, los más comunes que todo el mundo conoce. Si se cambia un argumento de detalle con valor por defecto conviene poner siempre el combre completo.
 
-📝 Usar espacios antes y después de "=" y después de "," hace mucho más fácil identificar los argumentos de la función y, en general, todos los componentes.
+📝 Usar espacios antes y después de `=` y después de `,` hace mucho más fácil identificar los argumentos de la función y, en general, todos los componentes.
 
 ```{r}
 
 average <- mean(rnorm(10, mean = 50, sd = 25) / 12, trim = 0.2)
 
-average<-mean(rnorm(10,mean=50,sd=25)/12,trim=0.2)
+average <- mean(rnorm(10,mean=50,sd=25)/12,trim=0.2)
 
 ```
 
@@ -411,11 +412,11 @@ Hay un argumento especial llamado "...", que captura cualquier otro argumento qu
 
 plot(1:5, 1:5)
 
-plot(1:5, 1:5, main = "Estoy usando argumentos de par")
+plot(1:5, 1:5, main = "Estoy usando argumentos de title()")
 
 ```
 
-📝 Usar "..." hace que las funciones sean muy flexibles, pero hace necesario leer cuidadosamente la documentación para poder usarlo. Además, si se escribe mal un argumento no sale error.
+📝 Usar `…` hace que las funciones sean muy flexibles, pero hace necesario leer cuidadosamente la documentación para poder usarlo. Además, si se escribe mal un argumento no sale error.
 
 ```{r}
 
@@ -434,7 +435,7 @@ La última expresión ejecutada en una función es el valor de retorno. Es el re
 
 #### Ejercicio 2
 
-¿Cómo generalizarías la función expplot para que te sirviera para cualquier base de datos y cualquier variable categórica?
+¿Cómo generalizarías la función `exp_plot()` para que te sirviera para cualquier base de datos y cualquier variable categórica?
 
 ## Programación imperativa
 
@@ -490,7 +491,7 @@ Existe la creencia de que los bucles for son lentos, pero la desventaja real de 
 
 De todas formas, nunca os sintáis mal por utilizar un bucle en vez de un funcional. Los funcionales necesitan un paso más de abstracción y pueden requerir tiempo hasta que los comprendamos. Lo más importante es que soluciones el problema y poco a poco ir escribiendo código cada vez más sencillo y elegante.
 
-> Para ser significativamente más fiable, el código debe ser más transparente. En particular, las condiciones anidadas y los bucles deben considerarse con gran recelo. Los flujos de control complicados confunden a los programadores. El código desordenado suele ocultar errores.
+> Para ser significativamente más fiable, el código debe ser más transparente. En particular, las condiciones anidadas y los bucles deben considerarse con gran recelo. Las esctructuras de control complicados confunden a los programadores. El código desordenado suele ocultar errores.
 >
 > --- Bjarne Stroustrup ([Advanced R](https://adv-r.hadley.nz/index.html))
 

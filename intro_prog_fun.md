@@ -147,10 +147,14 @@ glimpse(penguins)
 df <- penguins |> 
   select(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g)
 
-df$bill_length_mm <- (df$bill_length_mm - min(df$bill_length_mm, na.rm = TRUE))/(max(df$bill_length_mm, na.rm = TRUE) - min(df$bill_length_mm, na.rm = TRUE)) 
-df$bill_depth_mm <- (df$bill_depth_mm- min(df$bill_depth_mm, na.rm = TRUE))/(max(df$bill_depth_mm, na.rm = TRUE) - min(df$bill_length_mm, na.rm = TRUE)) 
-df$flipper_length_mm <- (df$flipper_length_mm - min(df$flipper_length_mm, na.rm = TRUE))/(max(df$flipper_length_mm, na.rm = TRUE) - min(df$flipper_length_mm, na.rm = TRUE)) 
-df$body_mass_g <- (df$body_mass_g - min(df$body_mass_g, na.rm = TRUE))/(max(df$body_mass_g, na.rm = TRUE) - min(df$body_mass_g, na.rm = TRUE))
+df$bill_length_mm <-
+  (df$bill_length_mm - min(df$bill_length_mm, na.rm = TRUE)) / (max(df$bill_length_mm, na.rm = TRUE) - min(df$bill_length_mm, na.rm = TRUE))
+df$bill_depth_mm <-
+  (df$bill_depth_mm - min(df$bill_depth_mm, na.rm = TRUE)) / (max(df$bill_depth_mm, na.rm = TRUE) - min(df$bill_length_mm, na.rm = TRUE))
+df$flipper_length_mm <-
+  (df$flipper_length_mm - min(df$flipper_length_mm, na.rm = TRUE)) / (max(df$flipper_length_mm, na.rm = TRUE) - min(df$flipper_length_mm, na.rm = TRUE))
+df$body_mass_g <-
+  (df$body_mass_g - min(df$body_mass_g, na.rm = TRUE)) / (max(df$body_mass_g, na.rm = TRUE) - min(df$body_mass_g, na.rm = TRUE))
 
 #
 df <- penguins |> 
@@ -432,7 +436,7 @@ ggplot(penguins, aes(x = species, y = bill_length_mm, color = sex)) +
   theme_light()
 ```
 
-![](intro_prog_fun_files/figure-commonmark/de%20codigo%20repetido%20a%20funcion-1.png)
+![](intro_prog_fun_files/figure-commonmark/codigo_repetido-1.png)
 
 ``` r
 ggplot(penguins, aes(x = species, y = bill_depth_mm, color = sex)) +
@@ -442,7 +446,7 @@ ggplot(penguins, aes(x = species, y = bill_depth_mm, color = sex)) +
   theme_light()
 ```
 
-![](intro_prog_fun_files/figure-commonmark/de%20codigo%20repetido%20a%20funcion-2.png)
+![](intro_prog_fun_files/figure-commonmark/codigo_repetido-2.png)
 
 ``` r
 ggplot(penguins, aes(x = species, y = island, color = sex)) +
@@ -451,7 +455,7 @@ ggplot(penguins, aes(x = species, y = island, color = sex)) +
   theme_light()
 ```
 
-![](intro_prog_fun_files/figure-commonmark/de%20codigo%20repetido%20a%20funcion-3.png)
+![](intro_prog_fun_files/figure-commonmark/codigo_repetido-3.png)
 
 ``` r
 #Etc
@@ -479,7 +483,7 @@ ggplot(penguins, aes(x = species, y = var_cont, color = sex)) +
   theme_light()
 ```
 
-![](intro_prog_fun_files/figure-commonmark/de%20codigo%20repetido%20a%20funcion,%20simplificar-1.png)
+![](intro_prog_fun_files/figure-commonmark/funcion_simplificar-1.png)
 
 ``` r
 ggplot(penguins, aes(x = species, y = var_cat, color = sex)) +
@@ -488,7 +492,7 @@ ggplot(penguins, aes(x = species, y = var_cat, color = sex)) +
   theme_light()
 ```
 
-![](intro_prog_fun_files/figure-commonmark/de%20codigo%20repetido%20a%20funcion,%20simplificar-2.png)
+![](intro_prog_fun_files/figure-commonmark/funcion_simplificar-2.png)
 
 ``` r
 var_cont <- penguins$bill_length_mm
@@ -502,7 +506,7 @@ ggplot(penguins, aes(x = species, y = var_cont, color = sex)) +
   miformato
 ```
 
-![](intro_prog_fun_files/figure-commonmark/de%20codigo%20repetido%20a%20funcion,%20simplificar2-1.png)
+![](intro_prog_fun_files/figure-commonmark/funcion_simplificar_2-1.png)
 
 ``` r
 ggplot(penguins, aes(x = species, y = var_cat, color = sex)) +
@@ -510,7 +514,7 @@ ggplot(penguins, aes(x = species, y = var_cat, color = sex)) +
   miformato
 ```
 
-![](intro_prog_fun_files/figure-commonmark/de%20codigo%20repetido%20a%20funcion,%20simplificar2-2.png)
+![](intro_prog_fun_files/figure-commonmark/funcion_simplificar_2-2.png)
 
 ``` r
 var <- "island"
@@ -534,7 +538,7 @@ if (is.numeric(pull(penguins, var))) {
 }
 ```
 
-![](intro_prog_fun_files/figure-commonmark/de%20codigo%20repetido%20a%20funcion,%20simplificar3-1.png)
+![](intro_prog_fun_files/figure-commonmark/funcion_simplificar_3-1.png)
 
 📝 Crear objetos con cálculos intermedios (en el ejemplo, el caso del
 objeto “p”), es una buena práctica porque deja más claro lo que el
@@ -562,28 +566,28 @@ mean <- function(x) sum(x)
 rm(T, c, mean)
 ```
 
-4.  Enumerar los argumentos dentro de function y poner el código
+4.  Enumerar los argumentos dentro de `function()` y poner el código
     simplificado dentro de las llaves.
 
 ``` r
 #Varias opciones
 
-exp_plot <- function (var) {
+plot_exp <- function (var) {
   miformato <-
     list(scale_color_manual(values = c("turquoise", "goldenrod1")),
          theme_light())
-  p <- ggplot(penguins, aes(x = species, y = pull(penguins, var), color = sex)) +
+  p <- ggplot(penguins, aes(x = species, y = .data[[var]], color = sex)) +
     ylab(var) +
     miformato
-  if (is.numeric(pull(penguins, var))) {
+  if (is.numeric(penguins[[var]])) {
     p +
       geom_point(position = position_jitterdodge(), alpha = 0.3) +
       geom_boxplot(alpha = 0.5)
-    
+
   } else {
     p +
       geom_jitter()
-    
+
   }
 }
 ```
@@ -596,26 +600,26 @@ separar apartados (Cmd/Ctrl + Shift + R).
 5.  Probar con inputs diferentes
 
 ``` r
-exp_plot(var = "island") 
+plot_exp(var = "island") 
 ```
 
-![](intro_prog_fun_files/figure-commonmark/de%20codigo%20repetido%20a%20funcion,%20pruebas-1.png)
+![](intro_prog_fun_files/figure-commonmark/funcion_pruebas-1.png)
 
 ``` r
-exp_plot(var = "year") 
+plot_exp(var = "year") 
 ```
 
-![](intro_prog_fun_files/figure-commonmark/de%20codigo%20repetido%20a%20funcion,%20pruebas-2.png)
+![](intro_prog_fun_files/figure-commonmark/funcion_pruebas-2.png)
 
 ``` r
-exp_plot(var = "body_mass_g") 
+plot_exp(var = "body_mass_g") 
 ```
 
     Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).
 
     Warning: Removed 2 rows containing missing values (`geom_point()`).
 
-![](intro_prog_fun_files/figure-commonmark/de%20codigo%20repetido%20a%20funcion,%20pruebas-3.png)
+![](intro_prog_fun_files/figure-commonmark/funcion_pruebas-3.png)
 
 💡Puedes querer convertir estas pruebas en **test** formales. En
 funciones complejas sirven para que, aunque hagas cambios, se pueda
@@ -649,10 +653,10 @@ unequívoca o el órden de su posición (*unnamed arguments*), siendo esta
 secuencia (nombre \> abreviatura \> posición) el órden de prioridad a la
 hora de hacer corresponder los argumentos con lo que se escribe.
 
-📝 Generalmente sólo se usa el orden de posición para para los primeros
-argumentos, los más comunes que todo el mundo conoce. Si se cambia un
-argumento de detalle con valor por defecto conviene poner siempre el
-combre completo.
+📝 Generalmente sólo se usa el orden de posición para especificar los
+primeros argumentos, los más comunes que todo el mundo conoce. Si se
+cambia un argumento de detalle con valor por defecto conviene poner
+siempre el combre completo.
 
 📝 Usar espacios antes y después de `=` y después de `,` hace mucho más
 fácil identificar los argumentos de la función y, en general, todos los
@@ -705,11 +709,11 @@ obtener más, tendrá que ser en formato de lista.
 📝 La función `return()` se usa para indicar explicitamente qué se
 quiere obtener en una función. Se recomienda su uso cuando el retorno no
 se espera al final de la función. P.e. en las ramas de una estructura
-if/else sobre todo hay alguna rama larga y compleja.
+`if/else()` sobre todo hay alguna rama larga y compleja.
 
 #### Ejercicio 2
 
-¿Cómo generalizarías la función `exp_plot()` para que te sirviera para
+¿Cómo generalizarías la función `plot_exp()` para que te sirviera para
 cualquier base de datos y cualquier variable categórica?
 
 ## Programación imperativa
@@ -733,7 +737,7 @@ for (i in seq_along(df_ej)) {           # 2. secuencia
 salida
 ```
 
-    [1] 1.7977915 0.9483706 1.3032218
+    [1] 0.4549455 1.5076379 1.2932582
 
 1.  Salida: aquí determinamos el espacio de la salida. Esto es muy
     importante para la eficiencia puesto que si aumentamos el tamaño del
@@ -750,7 +754,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.68    0.35    1.03 
+       0.53    0.25    0.78 
 
 ``` r
 y <- vector("double", length = 20000)
@@ -762,7 +766,7 @@ system.time(
 ```
 
        user  system elapsed 
-          0       0       0 
+       0.02    0.00    0.02 
 
 2.  Secuencia: aquí determinamos sobre lo que queremos iterar. Cada
     ejecución del bucle for asignará i a un valor diferente de
@@ -835,7 +839,7 @@ aleatorizacion <- function(f) {
 aleatorizacion(median)
 ```
 
-    [1] -0.3417002
+    [1] 0.1090367
 
 Primero, solucionamos el problema para un elemento. Después, generamos
 una función que nos permita envolver la solución en una función. Por
@@ -872,16 +876,16 @@ Los sufijos indican el tipo de salida que queremos:
 map_dbl(df_ej, mean)
 ```
 
-             a          b          c 
-    0.09303762 0.33901796 0.23860149 
+              a           b           c 
+     0.02998148 -0.12960986  0.35130587 
 
 ``` r
 df_ej |> 
   map_dbl(mean)
 ```
 
-             a          b          c 
-    0.09303762 0.33901796 0.23860149 
+              a           b           c 
+     0.02998148 -0.12960986  0.35130587 
 
 Comparando con un bucle el foco está en la operación que se está
 ejecutando (`mean()`), y no en el código necesario para iterar sobre
@@ -1153,9 +1157,9 @@ penguins_nested <- penguins |>
   group_by(species) |>
   nest() |> 
   mutate(
-    lm_obj = map(data, \(dat) lm(
+    lm_obj = map(data, \(df) lm(
       bill_length_mm ~ body_mass_g,
-      data = dat))
+      data = df))
   )
 
 # seleccionar cada elemento de la lista
@@ -1165,7 +1169,7 @@ penguins_nested[["lm_obj"]]
     [[1]]
 
     Call:
-    lm(formula = bill_length_mm ~ body_mass_g, data = dat)
+    lm(formula = bill_length_mm ~ body_mass_g, data = df)
 
     Coefficients:
     (Intercept)  body_mass_g  
@@ -1175,7 +1179,7 @@ penguins_nested[["lm_obj"]]
     [[2]]
 
     Call:
-    lm(formula = bill_length_mm ~ body_mass_g, data = dat)
+    lm(formula = bill_length_mm ~ body_mass_g, data = df)
 
     Coefficients:
     (Intercept)  body_mass_g  
@@ -1185,7 +1189,7 @@ penguins_nested[["lm_obj"]]
     [[3]]
 
     Call:
-    lm(formula = bill_length_mm ~ body_mass_g, data = dat)
+    lm(formula = bill_length_mm ~ body_mass_g, data = df)
 
     Coefficients:
     (Intercept)  body_mass_g  
@@ -1199,7 +1203,7 @@ penguins_nested |>
     [[1]]
 
     Call:
-    lm(formula = bill_length_mm ~ body_mass_g, data = dat)
+    lm(formula = bill_length_mm ~ body_mass_g, data = df)
 
     Coefficients:
     (Intercept)  body_mass_g  
@@ -1209,7 +1213,7 @@ penguins_nested |>
     [[2]]
 
     Call:
-    lm(formula = bill_length_mm ~ body_mass_g, data = dat)
+    lm(formula = bill_length_mm ~ body_mass_g, data = df)
 
     Coefficients:
     (Intercept)  body_mass_g  
@@ -1219,7 +1223,7 @@ penguins_nested |>
     [[3]]
 
     Call:
-    lm(formula = bill_length_mm ~ body_mass_g, data = dat)
+    lm(formula = bill_length_mm ~ body_mass_g, data = df)
 
     Coefficients:
     (Intercept)  body_mass_g  
@@ -1243,16 +1247,16 @@ map2(x, y, potencia)
 ```
 
     [[1]]
-    [1] 256  25 243   2   1
+    [1] 243 125 256   1   2
 
     [[2]]
-    [1]   27    1    4    4 3125
+    [1]  1 64 32 25 81
 
     [[3]]
-    [1]  64   5 243   4   1
+    [1]  16   1  32  27 625
 
     [[4]]
-    [1] 125   9   4  16   1
+    [1]   9   1   8 256   5
 
 ⚡¡Importante! La primera iteración corresponde al primer valor del
 vector `x` y al primer valor del vector `y`. La segunda iteración
@@ -1275,25 +1279,25 @@ imple_map2(x, y, potencia)
 ```
 
     [[1]]
-    [1] 256  25 243   2   1
+    [1] 243 125 256   1   2
 
     [[2]]
-    [1]   27    1    4    4 3125
+    [1]  1 64 32 25 81
 
     [[3]]
-    [1]  64   5 243   4   1
+    [1]  16   1  32  27 625
 
     [[4]]
-    [1] 125   9   4  16   1
+    [1]   9   1   8 256   5
 
 ``` r
 penguins_nested <- penguins |>
   group_by(species) |>
   nest() |> 
   mutate(
-    lm_obj = map(data, \(dat) lm(
+    lm_obj = map(data, \(df) lm(
       bill_length_mm ~ body_mass_g,
-      data = dat)),
+      data = df)),
     pred = map2(lm_obj, data,
                 \(x, y) predict(x, y))
   )
@@ -1335,32 +1339,32 @@ map2(x, y, potencia)
 ```
 
     [[1]]
-    [1] 256  25 243   2   1
+    [1] 243 125 256   1   2
 
     [[2]]
-    [1]   27    1    4    4 3125
+    [1]  1 64 32 25 81
 
     [[3]]
-    [1]  64   5 243   4   1
+    [1]  16   1  32  27 625
 
     [[4]]
-    [1] 125   9   4  16   1
+    [1]   9   1   8 256   5
 
 ``` r
 pmap(list(x, y), potencia)
 ```
 
     [[1]]
-    [1] 256  25 243   2   1
+    [1] 243 125 256   1   2
 
     [[2]]
-    [1]   27    1    4    4 3125
+    [1]  1 64 32 25 81
 
     [[3]]
-    [1]  64   5 243   4   1
+    [1]  16   1  32  27 625
 
     [[4]]
-    [1] 125   9   4  16   1
+    [1]   9   1   8 256   5
 
 ``` r
 z <- map(1:4, \(x) sample(5))
@@ -1369,16 +1373,16 @@ pmap(list(x, y, z), rnorm)
 ```
 
     [[1]]
-    [1] 5.6822618 8.8920018 2.8035551 0.7200827 3.1937351
+    [1] 0.5679952 2.7570044 6.1489636 2.5729577 3.4856383
 
     [[2]]
-    [1]  9.621788  2.786051  1.419168  2.387328 11.181470
+    [1]  8.929029  1.786722  3.870481 -1.563861  8.171965
 
     [[3]]
-    [1] -0.9486085 -0.2173513  7.1610989 11.0028184  3.9983866
+    [1] 1.046899 3.481797 4.845789 2.725686 4.215498
 
     [[4]]
-    [1]  6.243105 -1.115881  2.200586  2.731040  4.832554
+    [1] 2.063431 3.307411 9.328700 3.360270 2.330222
 
 ``` r
 # si no nombramos los elementos de la lista, pmap() usara los elementos de la lista en su orden para los argumentos consecutivos de la función
@@ -1388,16 +1392,16 @@ args3 |>
 ```
 
     [[1]]
-    [1] 2.384602 7.214090 3.381156 2.513419 2.434247
+    [1] 4.490449 7.289197 4.098666 2.367661 2.055742
 
     [[2]]
-    [1]  1.1600578 -0.6947196  2.5704992  2.4318832 -0.4977608
+    [1] 0.2390069 2.5947262 4.5764238 7.7431761 3.5666532
 
     [[3]]
-    [1] 7.895207 4.221315 8.821764 1.130986 3.395119
+    [1]  2.6318542  1.4176386  3.5249896  5.2161008 -0.0600733
 
     [[4]]
-    [1]  4.022494  4.781531  3.242094 -2.228335  2.145377
+    [1]  1.461718 -5.106366 -2.001291  3.092964  5.142188
 
 ![](images/pmap.png)
 
@@ -1652,7 +1656,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2023-10-16 09:57:42 CEST"
+    [1] "2023-10-17 19:02:17 CEST"
 
 ``` r
 sessionInfo()

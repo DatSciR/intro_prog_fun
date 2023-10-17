@@ -61,7 +61,7 @@ Las **funciones** son objetos de R que toman un input y consiguen un output haci
 
 Se puede llamar a una función a través de otra función e iterar el proceso lo que hace que R sea una herramienta muy potente. Las **iteraciones** sirven para realizar la misma acción a múltiples inputs. Existen dos grandes paradigmas de iteración: la programación imperativa y la programación funcional. En este taller, nos centraremos principalmente en la **programación funcional** y aprenderemos a utilizar el paquete {purrr}, que proporciona funciones para eliminar muchos bucles comunes.
 
-```{r ejemplo importancia PF}
+```{r ejemplo_importancia_PF}
 #| warning: false
 
 # install.packages("tidyverse")
@@ -75,10 +75,14 @@ glimpse(penguins)
 df <- penguins |> 
   select(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g)
 
-df$bill_length_mm <- (df$bill_length_mm - min(df$bill_length_mm, na.rm = TRUE))/(max(df$bill_length_mm, na.rm = TRUE) - min(df$bill_length_mm, na.rm = TRUE)) 
-df$bill_depth_mm <- (df$bill_depth_mm- min(df$bill_depth_mm, na.rm = TRUE))/(max(df$bill_depth_mm, na.rm = TRUE) - min(df$bill_length_mm, na.rm = TRUE)) 
-df$flipper_length_mm <- (df$flipper_length_mm - min(df$flipper_length_mm, na.rm = TRUE))/(max(df$flipper_length_mm, na.rm = TRUE) - min(df$flipper_length_mm, na.rm = TRUE)) 
-df$body_mass_g <- (df$body_mass_g - min(df$body_mass_g, na.rm = TRUE))/(max(df$body_mass_g, na.rm = TRUE) - min(df$body_mass_g, na.rm = TRUE))
+df$bill_length_mm <-
+  (df$bill_length_mm - min(df$bill_length_mm, na.rm = TRUE)) / (max(df$bill_length_mm, na.rm = TRUE) - min(df$bill_length_mm, na.rm = TRUE))
+df$bill_depth_mm <-
+  (df$bill_depth_mm - min(df$bill_depth_mm, na.rm = TRUE)) / (max(df$bill_depth_mm, na.rm = TRUE) - min(df$bill_length_mm, na.rm = TRUE))
+df$flipper_length_mm <-
+  (df$flipper_length_mm - min(df$flipper_length_mm, na.rm = TRUE)) / (max(df$flipper_length_mm, na.rm = TRUE) - min(df$flipper_length_mm, na.rm = TRUE))
+df$body_mass_g <-
+  (df$body_mass_g - min(df$body_mass_g, na.rm = TRUE)) / (max(df$body_mass_g, na.rm = TRUE) - min(df$body_mass_g, na.rm = TRUE))
 
 #
 df <- penguins |> 
@@ -160,7 +164,7 @@ f(10)
 
 Las **funciones primitivas** son la excepción ya que no tienen los citados componentes. Están escritas en C en lugar de en R y sólo aparecen en el paquete *base*. Son más eficientes pero se comportan diferente a otras funciones, así que R Core Team intenta no crear nuevas funciones primitivas. El resto de funciones siguen la estructura indicada arriba.
 
-```{r}
+```{r funciones_primitivas}
 
 sum
 body(sum)
@@ -175,7 +179,7 @@ Según el tipo de output generado hay dos tipos de funciones:
 
 💡Los operadores infijos (`+`), de flujo (`for`, `if`), de subdivisión (`[ ]`, `$`), de reemplazo (`<-`) o incluso las llaves (`{ }`) también son funciones. La tilde invertida "\`" permite referirse a funciones o variables que de otro modo tienen "nombre ilegales".
 
-```{r nombre ilegales}
+```{r nombres_ilegales}
 
 3 + 2
 `+`(3, 2)
@@ -210,7 +214,7 @@ nombre1_v3("Vero", "Cruz")
 
 En general las funciones tienen un nombre que se ejecuta cuando se necesita como hemos visto hasta ahora, pero esto no es obligatorio. Algunos paquetes como {purrr} o las funciones de la familia `apply` permiten el uso de **funciones anónimas** para iterar.
 
-```{r funciones anonimas}
+```{r funciones_anonimas}
 
 nxcaso <- lapply(penguins, function(x) length(unique(x)))
 
@@ -224,7 +228,7 @@ models <- penguins %>%
 
 Imaginad que para un set de datos quisieramos hacer un gráfico de distribución de cada variable, en función de otra variable categórica que nos interese especialmente, para ver como se distribuye.
 
-```{r de codigo repetido a funcion}
+```{r codigo_repetido}
 #| warning: false
 
 glimpse(penguins)
@@ -257,7 +261,7 @@ Hemos copiado un código más de dos veces para realizar una misma acción (es d
 
 2.  Simplificar y reanalizar duplicaciones
 
-```{r de codigo repetido a funcion, simplificar}
+```{r funcion_simplificar}
 #| warning: false
 
 var_cont <- penguins$bill_length_mm
@@ -276,7 +280,7 @@ ggplot(penguins, aes(x = species, y = var_cat, color = sex)) +
  
 ```
 
-```{r de codigo repetido a funcion, simplificar2}
+```{r funcion_simplificar_2}
 #| warning: false
 
 var_cont <- penguins$bill_length_mm
@@ -295,7 +299,7 @@ ggplot(penguins, aes(x = species, y = var_cat, color = sex)) +
  
 ```
 
-```{r de codigo repetido a funcion, simplificar3}
+```{r funcion_simplificar_3}
 #| warning: false
 
 var <- "island"
@@ -324,7 +328,7 @@ if (is.numeric(pull(penguins, var))) {
 
 3.  Elegir un nombre para la función (📝). Idealmente tiene que ser corto y evocar lo que la función hace. En general, debe ser un verbo (p.e. imputar_valores) mientras que los argumentos son nombres (p.e. data, variable, etc.). Usar un nombre para una función está permitido si la función calcula algo muy conocido (p.e. `mean()`) o si sirve para acceder a partes de un objeto (p.e. `residuals()`). También se recomienda evitar verbos muy genéricos (p.e. calcular) y si el nombre tiene varias palabras separarlas con guión bajo o mayúsculas, pero ser consistente. Si programas varias funciones que hacen cosas parecidas se recomienda usar el mismo prefijo para todas (p.e. "str\_" en el paquete {stringr}).
 
-```{r nombres que no hay que usar}
+```{r nombres_mal}
 
 #Ejemplos de nombres que no hay que usar
 
@@ -336,28 +340,28 @@ rm(T, c, mean)
 
 ```
 
-4.  Enumerar los argumentos dentro de function y poner el código simplificado dentro de las llaves.
+4.  Enumerar los argumentos dentro de `function()` y poner el código simplificado dentro de las llaves.
 
-```{r de codigo repetido a funcion, escribir funcion}
+```{r funcion_escribir}
 
 #Varias opciones
 
-exp_plot <- function (var) {
+plot_exp <- function (var) {
   miformato <-
     list(scale_color_manual(values = c("turquoise", "goldenrod1")),
          theme_light())
-  p <- ggplot(penguins, aes(x = species, y = pull(penguins, var), color = sex)) +
+  p <- ggplot(penguins, aes(x = species, y = .data[[var]], color = sex)) +
     ylab(var) +
     miformato
-  if (is.numeric(pull(penguins, var))) {
+  if (is.numeric(penguins[[var]])) {
     p +
       geom_point(position = position_jitterdodge(), alpha = 0.3) +
       geom_boxplot(alpha = 0.5)
-    
+
   } else {
     p +
       geom_jitter()
-    
+
   }
 }
 
@@ -367,11 +371,11 @@ exp_plot <- function (var) {
 
 5.  Probar con inputs diferentes
 
-```{r de codigo repetido a funcion, pruebas}
+```{r funcion_pruebas}
 
-exp_plot(var = "island") 
-exp_plot(var = "year") 
-exp_plot(var = "body_mass_g") 
+plot_exp(var = "island") 
+plot_exp(var = "year") 
+plot_exp(var = "body_mass_g") 
 
 ```
 
@@ -391,11 +395,11 @@ En general hay dos grupos: los que especifican los **datos** y los que especific
 
 A la hora de ejecutar la función los argumentos se pueden **especificar** utilizando el nombre completo, una abreviatura unequívoca o el órden de su posición (*unnamed arguments*), siendo esta secuencia (nombre \> abreviatura \> posición) el órden de prioridad a la hora de hacer corresponder los argumentos con lo que se escribe.
 
-📝 Generalmente sólo se usa el orden de posición para para los primeros argumentos, los más comunes que todo el mundo conoce. Si se cambia un argumento de detalle con valor por defecto conviene poner siempre el combre completo.
+📝 Generalmente sólo se usa el orden de posición para especificar los primeros argumentos, los más comunes que todo el mundo conoce. Si se cambia un argumento de detalle con valor por defecto conviene poner siempre el combre completo.
 
 📝 Usar espacios antes y después de `=` y después de `,` hace mucho más fácil identificar los argumentos de la función y, en general, todos los componentes.
 
-```{r}
+```{r espacios}
 
 average <- mean(rnorm(10, mean = 50, sd = 25) / 12, trim = 0.2)
 
@@ -405,7 +409,7 @@ average <- mean(rnorm(10,mean=50,sd=25)/12,trim=0.2)
 
 Hay un argumento especial llamado "...", que captura cualquier otro argumento que no se corresponde con los nombrados en la función. Se utiliza para transmitir argumentos a otras funciones incluidas en nuestra función.
 
-```{r argumento dotdotdot}
+```{r argumento_dotdotdot}
 #| eval: false
 
 ?plot
@@ -418,7 +422,7 @@ plot(1:5, 1:5, main = "Estoy usando argumentos de title()")
 
 📝 Usar `…` hace que las funciones sean muy flexibles, pero hace necesario leer cuidadosamente la documentación para poder usarlo. Además, si se escribe mal un argumento no sale error.
 
-```{r}
+```{r dotdotdot_flexibilidad}
 
 sum(1, 2, 5, na.mr = TRUE)
 sum(1, 2, NA, na.mr = TRUE)
@@ -431,11 +435,11 @@ La última expresión ejecutada en una función es el valor de retorno. Es el re
 
 <!--# Se os ocurre algún caso donde usar invisible? -->
 
-📝 La función `return()` se usa para indicar explicitamente qué se quiere obtener en una función. Se recomienda su uso cuando el retorno no se espera al final de la función. P.e. en las ramas de una estructura if/else sobre todo hay alguna rama larga y compleja.
+📝 La función `return()` se usa para indicar explicitamente qué se quiere obtener en una función. Se recomienda su uso cuando el retorno no se espera al final de la función. P.e. en las ramas de una estructura `if/else()` sobre todo hay alguna rama larga y compleja.
 
 #### Ejercicio 2
 
-¿Cómo generalizarías la función `exp_plot()` para que te sirviera para cualquier base de datos y cualquier variable categórica?
+¿Cómo generalizarías la función `plot_exp()` para que te sirviera para cualquier base de datos y cualquier variable categórica?
 
 ## Programación imperativa
 
@@ -634,9 +638,9 @@ penguins_nested <- penguins |>
   group_by(species) |>
   nest() |> 
   mutate(
-    lm_obj = map(data, \(dat) lm(
+    lm_obj = map(data, \(df) lm(
       bill_length_mm ~ body_mass_g,
-      data = dat))
+      data = df))
   )
 
 # seleccionar cada elemento de la lista
@@ -690,9 +694,9 @@ penguins_nested <- penguins |>
   group_by(species) |>
   nest() |> 
   mutate(
-    lm_obj = map(data, \(dat) lm(
+    lm_obj = map(data, \(df) lm(
       bill_length_mm ~ body_mass_g,
-      data = dat)),
+      data = df)),
     pred = map2(lm_obj, data,
                 \(x, y) predict(x, y))
   )

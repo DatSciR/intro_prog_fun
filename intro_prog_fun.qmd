@@ -198,7 +198,8 @@ En general, sintácticamente, las funciones tienen tres componentes:
 ```{r notaciones}
 
 nombre1_v1 <- function(x, y) {
-  paste(x, y, sep = "_") }  
+  paste(x, y, sep = "_") 
+}  
 
 nombre1_v2 <- function(x, y) paste(x, y, sep = "_")  
 
@@ -218,11 +219,14 @@ En general las funciones tienen un nombre que se ejecuta cuando se necesita como
 
 nxcaso <- lapply(penguins, function(x) length(unique(x)))
 
-models <- penguins %>%
-  split(.$species) %>%
-  map( ~ lm(body_mass_g ~ bill_length_mm, data = .)) #Metodo abreviado donde solo se utiliza un lado de la fórmula de la función
+models <- penguins|>
+  split(.$species)|>
+  map( ~ lm(body_mass_g ~ bill_length_mm, data = .)) 
+# Metodo abreviado donde solo se utiliza un lado de la fórmula de la función
 
 ```
+
+📝 Mejor reservar el uso de funciones anónimas para funciones cortas y simples. Si la función es larga y ocupa varias líneas mejor darle un nombre.
 
 ## Cómo escribir funciones
 
@@ -233,7 +237,7 @@ Imaginad que para un set de datos quisieramos hacer un gráfico de distribución
 
 glimpse(penguins)
 
-#Nos interesan las diferencias entre especie y sexo
+# Nos interesan las diferencias entre especie y sexo
 
 ggplot(penguins, aes(x = species, y = bill_length_mm, color = sex)) +
   geom_point(position = position_jitterdodge(), alpha = 0.3) +
@@ -252,7 +256,7 @@ ggplot(penguins, aes(x = species, y = island, color = sex)) +
   scale_color_manual(values = c("turquoise", "goldenrod1")) +
   theme_light()
 
-#Etc
+# Etc
 ```
 
 Hemos copiado un código más de dos veces para realizar una misma acción (es decir, un gráfico para ver como se distribuye una variable) así que hay que considerar la posibilidad de que estamos necesitando una función. A continuación vamos a seguir unos sencillos pasos para transformar cualquier código repetido en función.
@@ -330,7 +334,7 @@ if (is.numeric(pull(penguins, var))) {
 
 ```{r nombres_mal}
 
-#Ejemplos de nombres que no hay que usar
+# Ejemplos de nombres que no hay que usar
 
 T <- FALSE
 c <- 10
@@ -344,7 +348,7 @@ rm(T, c, mean)
 
 ```{r funcion_escribir}
 
-#Varias opciones
+# Varias opciones
 
 plot_exp <- function (var) {
   miformato <-
@@ -407,7 +411,7 @@ average <- mean(rnorm(10,mean=50,sd=25)/12,trim=0.2)
 
 ```
 
-Hay un argumento especial llamado "...", que captura cualquier otro argumento que no se corresponde con los nombrados en la función. Se utiliza para transmitir argumentos a otras funciones incluidas en nuestra función.
+Hay un argumento especial llamado `…`, que captura cualquier otro argumento que no se corresponde con los nombrados en la función. Se utiliza para transmitir argumentos a otras funciones incluidas en nuestra función.
 
 ```{r argumento_dotdotdot}
 #| eval: false
@@ -441,7 +445,7 @@ La última expresión ejecutada en una función es el valor de retorno. Es el re
 
 ¿Cómo generalizarías la función `plot_exp()` para que te sirviera para cualquier base de datos y cualquier variable categórica?
 
-## Programación imperativa
+## Programación orientada a objetos
 
 Los bucles for y bucles while (for loops y while loops) son recomendables para adentrarse en el mundo de las iteraciones porque hacen que cada iteración sea muy explícita por lo que está claro lo que está ocurriendo.
 
@@ -481,7 +485,7 @@ system.time(
 
 ```
 
-2.  Secuencia: aquí determinamos sobre lo que queremos iterar. Cada ejecución del bucle for asignará i a un valor diferente de `seq_along(df)`. Si generamos un vector de longitud cero accidentalmente, si utilizamos `1:length(x)`, podemos obtener un error.
+2.  Secuencia: aquí determinamos sobre lo que queremos iterar. Cada ejecución del bucle for asignará i a un valor diferente de `seq_along(y)`. Si generamos un vector de longitud cero accidentalmente, si utilizamos `1:length(x)`, podemos obtener un error.
 
 3.  Cuerpo: aquí determinamos lo que queremos que haga cada iteración. Se ejecuta repetidamente, cada vez con un valor diferente para `i`.
 
@@ -516,9 +520,9 @@ aleatorizacion(median)
 
 ```
 
-Primero, solucionamos el problema para un elemento. Después, generamos una función que nos permita envolver la solución en una función. Por último, *aplicamos la función a todos los elementos que estamos interesados.*
+Estilo funcional: primero, solucionamos el problema para un elemento. Después, generamos una función que nos permita envolver la solución en una función. Por último, *aplicamos la función a todos los elementos que estamos interesados.* Es decir, dividimos los problemas grandes en problemas más pequeños y resolvemos cada problema con una o más funciones.
 
-La ventaja de utilizar {purrr} en vez de bucles for es que nos permiten distinguir en funciones los desafíos comunes de manipulación de listas, y por lo tanto cada bucle for tiene su propia función. La familia apply de R base soluciona problemas similares, pero purrr es más consistente y, por lo tanto, más fácil de aprender. Una vez que dominemos la programación funcional, podremos solventar muchos problemas de iteración con menos código, más facilidad y menos errores.
+La ventaja de utilizar {purrr} en vez de bucles for es que nos permiten distinguir en funciones los desafíos comunes de manipulación de listas, y por lo tanto cada bucle for tiene su propia función. La familia `apply` de R base soluciona problemas similares, pero {purrr} es más consistente y, por lo tanto, más fácil de aprender. Una vez que dominemos la programación funcional, podremos solventar muchos problemas de iteración con menos código, más facilidad y menos errores.
 
 Iteracionar sobre un vector es tan común que el paquete {purrr} proporciona una familia de funciones (la familia `map()`) para ello. Recordad que los data frames son listas de vectores de la misma longitud por lo que cualquier cálculo por filas o columnas supone iteracionar sobre un vector. Existe una función en {purrr} para cada tipo de salida. Los sufijos indican el tipo de salida que queremos:
 
@@ -717,7 +721,6 @@ Calculad la correlación entre las predicciones y `bill_length_mm`. Pista: hay q
 Toma una lista con cualquier número de argumentos de entrada.
 
 ```{r pmap_ejemplo}
-
 # son analogos
 map2(x, y, potencia)
 pmap(list(x, y), potencia)
@@ -725,11 +728,14 @@ pmap(list(x, y), potencia)
 z <- map(1:4, \(x) sample(5))
 
 pmap(list(x, y, z), rnorm)
-# si no nombramos los elementos de la lista, pmap() usara los elementos de la lista en su orden para los argumentos consecutivos de la función
+```
+
+Si no nombramos los elementos de la lista, `pmap()` usará los elementos de la lista en su orden para los argumentos consecutivos de la función. De todas formas, creemos que es una buena práctica nombrarlos para que quede muy claro lo que hará la función.
+
+```{r pmap_ejemplo_nombre}
 args3 <- list(mean = x, sd = y, n = z)
 args3 |> 
   pmap(rnorm)
-
 ```
 
 ![](images/pmap.png)
@@ -818,29 +824,69 @@ ls |>
 
 ```
 
+## Más información sobre programación orientada a objetos (POO)
+
+> \- Todo lo que existe es un objeto.
+>
+> --- John Chambers
+>
+> \- Sin embargo, no todo es orientado a objetos
+
+En R, la programación funcional suele ser más relevante que la POO, ya que frecuentemente se abordan problemas complejos descomponiéndolos en funciones simples en lugar de objetos simples.
+
+La principal razón para utilizar la POO es el polimorfismo (del latín "muchas formas"). El polimorfismo permite a un desarrollador considerar la interfaz de una función por separado de su implementación, lo que facilita el uso de la misma función con diferentes tipos de entrada. Para entender esto probar a correr el siguiente código.
+
+```{r polimorfismo}
+
+summary(penguins$bill_depth_mm)
+summary(penguins$sex)
+
+```
+
+Podrías pensar que `summary()` utilizara una serie de declaraciones `if-else` pero en este caso solo el autor original podría añadir nuevas implementaciones. Sin embargo, un sistema de POO permite que cualquier desarrollador extienda la interfaz mediante la creación de implementaciones para nuevos tipos de entrada.
+
+En los sistemas de POO, el tipo de un objeto se denomina su clase, y una implementación específica para una clase se conoce como método. En términos generales, una clase define las características de un objeto y los métodos describen las acciones que ese objeto puede realizar. La clase también especifica los campos de datos que cada instancia de esa clase posee.
+
+R base proporciona tres sistemas de POO (S3--que es la más utilizada--, S4 y RC), aunque también existen otros sistemas POO proporcionados por diferentes paquetes CRAN.
+
+```{r objetos}
+
+library(sloop)
+
+is.object(1:5) # objeto base pero no orientada a objetos
+otype(1:5) # objeto base 
+attr(1:5, "class") # no tienen clase
+
+is.object(penguins) # orientada a objetos
+otype(penguins) # S3
+attr(penguins, "class") # tienen una clase
+
+ftype(summary) # funcion generica S3
+# una funcion generica define la interfaz, que utiliza una implementacion (metodo) diferente dependiendo de la clase del argumento. Acuerdate de la idea del polimorfismo que hemos visto antes ;)
+
+```
+
+Información más detallada sobre [POO](https://adv-r.hadley.nz/oo.html) y [compromisos entre algunos sistemas de POO](https://adv-r.hadley.nz/oo-tradeoffs.html)
+
 Este taller está principalmente basado en la primera edición del libro [R for Data Science](https://r4ds.had.co.nz/) de Hadley Wickham & Garrett Grolemund y la segunda edición del libro [Advanced R](https://adv-r.hadley.nz/index.html) de Hadley Wickham.
 
 ## Enlaces de interés
 
--   R for data Science (functions): <https://r4ds.had.co.nz/functions.html>
+-   [R for data Science (functions)](https://r4ds.had.co.nz/functions.html)
 
--   Advanced R (functions): <https://adv-r.hadley.nz/functions.html>
+-   [Advanced R (functions)](https://adv-r.hadley.nz/functions.html)
 
--   R for data Science (iteration): <https://r4ds.had.co.nz/iteration.html>
+-   [R for data Science (iteration)](https://r4ds.had.co.nz/iteration.html)
 
--   Advanced R (functionals): <https://adv-r.hadley.nz/functionals.html>
+-   [Advanced R (functionals)](https://adv-r.hadley.nz/functionals.html)
 
--   purrr 1.0.0: <https://www.tidyverse.org/blog/2022/12/purrr-1-0-0/>
+-   [purrr 1.0.0](https://www.tidyverse.org/blog/2022/12/purrr-1-0-0/)
 
--   Learn to purrr (Rebecca Barter): <https://www.rebeccabarter.com/blog/2019-08-19_purrr>
+-   [Learn to purrr (Rebecca Barter)](https://www.rebeccabarter.com/blog/2019-08-19_purrr)
 
--   Sacando el máximo partido a Tidyverse: <https://github.com/Julenasti/intro_tidyverse/blob/main/04-scripts/intro_tidyverse.md>
+-   [Style guide](http://adv-r.had.co.nz/Style.html)
 
--   R for Data Science (2e): <https://r4ds.hadley.nz/>
-
--   Style guide: <http://adv-r.had.co.nz/Style.html>
-
--   Quince consejos para mejorar nuestro código y flujo de trabajo con R: <https://www.revistaecosistemas.net/index.php/ecosistemas/article/view/2129>
+-   [Quince consejos para mejorar nuestro código y flujo de trabajo con R](https://www.revistaecosistemas.net/index.php/ecosistemas/article/view/2129)
 
 ------------------------------------------------------------------------
 

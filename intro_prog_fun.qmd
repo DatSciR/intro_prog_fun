@@ -149,7 +149,7 @@ environment(rescale01)
 💡El [*lexical scoping* (ámbito léxico)](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) son el conjunto de normas sobre cómo los valores de las variables son extraidos del entorno en cada lenguaje de programación, es decir, como se asocia una variable a un valor. En R tiene cuatro normas básicas, pero la más importante para empezar con programación funcional es el *name masking*: si un argumento no está definido en una función, R buscará ese nombre en el nivel del entorno inmediatamente superior.
 
 ```{r environment}
-
+fun
 f <- function(x) {
   x + y
 }
@@ -332,6 +332,8 @@ if (is.numeric(pull(penguins, var))) {
 
 3.  Elegir un nombre para la función (📝). Idealmente tiene que ser corto y evocar lo que la función hace. En general, debe ser un verbo (p.e. imputar_valores) mientras que los argumentos son nombres (p.e. data, variable, etc.). Usar un nombre para una función está permitido si la función calcula algo muy conocido (p.e. `mean()`) o si sirve para acceder a partes de un objeto (p.e. `residuals()`). También se recomienda evitar verbos muy genéricos (p.e. calcular) y si el nombre tiene varias palabras separarlas con guión bajo o mayúsculas, pero ser consistente. Si programas varias funciones que hacen cosas parecidas se recomienda usar el mismo prefijo para todas (p.e. "str\_" en el paquete {stringr}).
 
+Cuanto más claramente puedas expresar la intención de tu código a través de los nombres de funciones, más fácilmente otros e incluyendo tu mismo en el futuro podrán leer y comprender el código.
+
 ```{r nombres_mal}
 
 # Ejemplos de nombres que no hay que usar
@@ -389,13 +391,29 @@ plot_exp(var = "body_mass_g")
 
 Genera una función para escalar (es decir, restar la media y dividir por la desviación típica) las variables numéricas de penguins.
 
+📝 Atajo para escribir funciones: escribir la palabra fun + tabulador
+
 ### Argumentos
 
 En general hay dos grupos: los que especifican los **datos** y los que especifican **detalles** de la ejecución de la función. Normalmente los que especifican datos se colocan primero y los de detalle después. Estos últimos suelen tener valores por defecto (los más comunes), para cuando no se especifique nada.
 
 <!--# Ver ayuda de quantile -->
 
-📝 Los nombres de los argumentos deben ser cortos y descriptivos. Hay algunos comunes pero poco descriptivos que también se suelen usar (p.e. x, w, df, n, p, etc.), además de otros que ya existen y que no conviene definir de nuevo (p.e. `na.rm()`).
+📝 Los nombres de los argumentos deben ser cortos y descriptivos. Hay algunos comunes pero poco descriptivos que ya son conocidos para la mayoría de los usuarios y está bien aprovecharlos:
+
+`x, y, z`: vectores
+
+`w`: vector de pesos
+
+`df`: data frame
+
+`i, j`: indices numericos, filas y columnas respectivamente
+
+`n`: longitud o número de filas
+
+`p`: numero de columnas
+
+`na.rm`: valores faltantes
 
 A la hora de ejecutar la función los argumentos se pueden **especificar** utilizando el nombre completo, una abreviatura unequívoca o el órden de su posición (*unnamed arguments*), siendo esta secuencia (nombre \> abreviatura \> posición) el órden de prioridad a la hora de hacer corresponder los argumentos con lo que se escribe.
 
@@ -566,7 +584,7 @@ lapply(X = 1:4, FUN = cuadratica)
 # algun uso mas interesante
 glimpse(penguins)
 
-# atajo de para generar una funcion anonima
+# atajo para generar una funcion anonima
 map(penguins, \(x) length(unique(x)))
 
 # salida dataframe
@@ -761,6 +779,31 @@ walk2(penguins_nested$data, penguins_nested$path, write_csv)
 
 ```
 
+## Más variantes de `map()`
+
+### `modify()` e `imap()`
+
+`modify()` e `imap()` también son funcionales de la familia map. `modify()` es análogo a `map()` pero devuelve el mismo tipo de resultado que el tipo de entrada.
+
+`imap()` sirve para iterar sobre indices, tanto indices numéricos como nombres. `imap(x, f)` es análogo a `map2(x, names(x), f)` cuando `x` tiene nombres y `map2(x, seq_along(x), f)` cuando no los tiene.
+
+```{r modify_imap}
+
+# modify
+map(1:4, cuadratica)
+
+modify(1:4, cuadratica)
+
+
+# imap
+map2(penguins, names(penguins), \(x, y) paste("La columna", y, "tiene", length(unique(x)), "valores unicos contando los NA's"))
+
+imap(penguins, \(x, y) paste("La columna", y, "tiene", length(unique(x)), "valores unicos contando los NA's"))
+
+```
+
+En este curso no los vemos más al detalle porque con los demás funcionales que hemos visto podemos abordar prácticamente todos los problemas sin necesidad de `modify()` e `imap()`, y creemos que es mejor primero aprender los funcionales más utilizados bien. Sin embargo, si alguien está interesado puede consultarlos en: [https://adv-r.hadley.nz/functionals.html](#0), 9.4 Map variants.
+
 💡Ejemplos de algunas tareas específicas con {purrr}: <https://r4ds.hadley.nz/iteration>
 
 ## Operadores funcionales
@@ -823,6 +866,48 @@ ls |>
   reduce(full_join, by = "name")
 
 ```
+
+## Paralelización
+
+Se pueden emplear distintos núcleos de la CPU (Central Processing Unit) para ejecutar el mismo proceso con diferentes conjuntos de datos en paralelo, lo que acelera tareas largas. Algunas tareas son especialmente adecuadas para la paralelización, como aquellas que son repetitivas y tienen poca o ninguna dependencia entre sí, salvo el origen de los datos de entrada, lo que permite dividirlas fácilmente en tareas paralelas. Estas tareas suelen ser aquellas que pueden ser resueltas mediante iteraciones como las que hemos visto anteriormente. En teoría, el proceso se acelera en proporción a 1/número de núcleos disponibles, pero en la práctica, hay que tener en cuenta otros factores como el tiempo consumido en transferir datos a cada proceso y el tiempo dedicado a reunir los resultados de los diferentes procesos. 
+
+R fue diseñado originalmente para ejecutarse en un solo proceso de CPU debido a que cuando se desarrolló, las CPU en general tenían un único núcleo y la computación paralela no era tan común o no estaba tan desarrollada como lo está hoy en día. Por lo tanto, para aprovechar la paralelización en R, necesitamos recurrir a paquetes adicionales. Sin embargo, es importante tener en cuenta que estos paquetes pueden estar limitados en su uso a casos y tipos de datos específicos.
+
+```{r paralelizacion}
+
+library(parallel) # detectar numero de cores
+library(future) # establecer numero de cores
+library(furrr) # paralelizacion con map
+
+detectCores()
+
+# funcion para elevar al cubo un numero
+cubo <- function(x) {
+  Sys.sleep(1) # simulacion tarea computacionalmente intensiva
+  return(x ^ 3)
+}
+
+# secuencial
+tiempo_inicio <- Sys.time()
+resultado <- map(1:10, cubo)
+tiempo_final <- Sys.time()
+cat("Tiempo de computación:", round(tiempo_final - tiempo_inicio, 1), "seconds\n")
+
+# establecer como vamos a resolver el proceso
+# aqui utilizaremos 3 nucleos pero en funcion del numero de nucleos disponibles en tu pc modificad este numero
+plan(multisession, workers = 3)
+
+# future_map para ejecutarlo paralelamente
+tiempo_inicio <- Sys.time()
+resultado <- future_map(1:10, cubo)
+tiempo_final <- Sys.time()
+cat("Tiempo de computación:", round(tiempo_final - tiempo_inicio, 1), "seconds\n")
+
+# vemos que el tiempo de computacion se ha reducido casi a un 1/3 (aprox. 1/numero de cores)
+
+```
+
+La información aquí expuesta sobre programación paralela está obtenida y mucho más ampliamente explicada en: https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/
 
 ## Más información sobre programación orientada a objetos (POO)
 

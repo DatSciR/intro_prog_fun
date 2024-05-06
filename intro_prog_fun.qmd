@@ -1,7 +1,8 @@
 ---
 title: "Programación funcional en R y como dejar de pensar en bucle"
 author: Julen Astigarraga y Verónica Cruz-Alonso
-date: 10/16/2023
+date: today
+date-format: "DD/MM/YYYY"
 toc: true
 format:
   html: default
@@ -10,6 +11,7 @@ format:
 editor: visual
 editor_options: 
   chunk_output_type: console
+number-sections: true
 ---
 
 ![](images/Logo_ecoinf_10.jpg)
@@ -149,7 +151,7 @@ environment(rescale01)
 💡El [*lexical scoping* (ámbito léxico)](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) son el conjunto de normas sobre cómo los valores de las variables son extraidos del entorno en cada lenguaje de programación, es decir, como se asocia una variable a un valor. En R tiene cuatro normas básicas, pero la más importante para empezar con programación funcional es el *name masking*: si un argumento no está definido en una función, R buscará ese nombre en el nivel del entorno inmediatamente superior.
 
 ```{r environment}
-fun
+
 f <- function(x) {
   x + y
 }
@@ -220,13 +222,15 @@ En general las funciones tienen un nombre que se ejecuta cuando se necesita como
 nxcaso <- lapply(penguins, function(x) length(unique(x)))
 
 models <- penguins|>
-  split(.$species)|>
-  map( ~ lm(body_mass_g ~ bill_length_mm, data = .)) 
-# Metodo abreviado donde solo se utiliza un lado de la fórmula de la función
+  group_split(species) |>
+  map(\(df) lm(body_mass_g ~ bill_length_mm, data = df)) 
 
 ```
 
 📝 Mejor reservar el uso de funciones anónimas para funciones cortas y simples. Si la función es larga y ocupa varias líneas mejor darle un nombre.
+
+### ejercicio julen
+aquí se podría añadir unas líneas de código con un estilo feo y que ellos lo corrijan. Quizás la ref de style guide que está en bibliografía se podría traer aquí? luego se hablar más de los nombres de funcionaes y demás pero eso ya lo podrían aplicar en el siguiente ejercicio
 
 ## Cómo escribir funciones
 
@@ -389,7 +393,7 @@ plot_exp(var = "body_mass_g")
 
 #### Ejercicio 1
 
-Genera una función para escalar (es decir, restar la media y dividir por la desviación típica) las variables numéricas de penguins.
+Genera una función para estandarizar (es decir, restar la media y dividir por la desviación típica) las variables numéricas de penguins.
 
 📝 Atajo para escribir funciones: escribir la palabra fun + tabulador
 
@@ -463,7 +467,9 @@ La última expresión ejecutada en una función es el valor de retorno. Es el re
 
 ¿Cómo generalizarías la función `plot_exp()` para que te sirviera para cualquier base de datos y cualquier variable categórica?
 
-## Programación orientada a objetos
+## Programación imperativa
+
+La mayoría de las personas tiende a programar de forma imperativa, en gran parte debido a que es la metodología que se enseña con más frecuencia en los centros de educación. En la programación imperativa, los scripts tienden a ser largos y cambian gradualmente el estado del programa. Esto a menudo implica el uso de bases de datos temporales que se modifican a lo largo del proceso de análisis. Como resultado, puede resultar más difícil comprender qué se está haciendo en cada paso del script.
 
 Los bucles for y bucles while (for loops y while loops) son recomendables para adentrarse en el mundo de las iteraciones porque hacen que cada iteración sea muy explícita por lo que está claro lo que está ocurriendo.
 
@@ -515,7 +521,7 @@ Sin embargo, en R los bucles for no son tan importantes como pueden ser en otros
 
 Existe la creencia de que los bucles for son lentos, pero la desventaja real de *los bucles for es que son demasiado flexibles*. Cada funcional está diseñado para una tarea específica, por lo que en cuanto lo ves en el código, inmediatamente sabes por qué se está utilizando. Es decir, la principal ventaja es su claridad al hacer que el código sea más fácil de escribir y de leer (ver este ejemplo avanzado para entenderlo: <https://adv-r.hadley.nz/functionals.html>, 9.3 Purrr style).
 
-De todas formas, nunca os sintáis mal por utilizar un bucle en vez de un funcional. Los funcionales necesitan un paso más de abstracción y pueden requerir tiempo hasta que los comprendamos. Lo más importante es que soluciones el problema y poco a poco ir escribiendo código cada vez más sencillo y elegante.
+De todas formas, nunca os sintáis mal por utilizar un bucle en vez de un funcional. Los funcionales necesitan un paso más de abstracción y pueden requerir tiempo hasta que los comprendamos. Lo más importante es que soluciones el problema y poco a poco ir escribiendo código cada vez más sencillo y elegante. Ver @sec-POO para obtener más información sobre programación imperativa o orientada a objetos.
 
 > Para ser significativamente más fiable, el código debe ser más transparente. En particular, las condiciones anidadas y los bucles deben considerarse con gran recelo. Las esctructuras de control complicados confunden a los programadores. El código desordenado suele ocultar errores.
 >
@@ -527,7 +533,9 @@ De todas formas, nunca os sintáis mal por utilizar un bucle en vez de un funcio
 
 ## Programación funcional
 
-R es un lenguaje de programación funcional. Esto significa que se basa principalmente en un estilo de resolución de problemas centrado en funciones (<https://adv-r.hadley.nz/fp.html>). Un funcional es una función que toma una función como entrada y devuelve un vector como salida.
+En la programación funcional, las funciones están diseñadas para realizar una única tarea específica, y luego se combinan llamando a estas funciones sucesivamente en el conjunto de datos. Una ventaja significativa de este enfoque es que estas funciones pueden ser reutilizadas en cualquier otro proyecto, lo que facilita la modularidad del código. Además, al estar bien documentadas y ser fácilmente testables, resulta sencillo comprender y mantener el programa. 
+
+R es un lenguaje de programación funcional por lo que se basa principalmente en un estilo de resolución de problemas centrado en funciones (<https://adv-r.hadley.nz/fp.html>). Un funcional es una función que toma una función como entrada y devuelve un vector como salida.
 
 ```{r ejemplo_funcional}
 
@@ -830,6 +838,9 @@ x |>
 
 ```
 
+### ejercicio julen
+aquí se los podría proponer utilizar un operador funcional de alguna forma que resulte util
+
 ## Funcionales predicate y demás
 
 Los predicados son funciones que devuelven un solo TRUE o FALSE (e.g., `is.character()`). Así, un predicado funcional aplica un predicado a cada elemento de un vector: `keep()`, `discard()`, `some()`, `every()`, `detect()`, `detect_index()`... Para más información ver: <https://r4ds.had.co.nz/iteration.html>, 21.9.1 Predicate functions.
@@ -869,11 +880,12 @@ ls |>
 
 ## Paralelización
 
-Se pueden emplear distintos núcleos de la CPU (Central Processing Unit) para ejecutar el mismo proceso con diferentes conjuntos de datos en paralelo, lo que acelera tareas largas. Algunas tareas son especialmente adecuadas para la paralelización, como aquellas que son repetitivas y tienen poca o ninguna dependencia entre sí, salvo el origen de los datos de entrada, lo que permite dividirlas fácilmente en tareas paralelas. Estas tareas suelen ser aquellas que pueden ser resueltas mediante iteraciones como las que hemos visto anteriormente. En teoría, el proceso se acelera en proporción a 1/número de núcleos disponibles, pero en la práctica, hay que tener en cuenta otros factores como el tiempo consumido en transferir datos a cada proceso y el tiempo dedicado a reunir los resultados de los diferentes procesos. 
+Se pueden emplear distintos núcleos de la CPU (Central Processing Unit) para ejecutar el mismo proceso con diferentes conjuntos de datos en paralelo, lo que acelera tareas largas. Algunas tareas son especialmente adecuadas para la paralelización, como aquellas que son repetitivas y tienen poca o ninguna dependencia entre sí, salvo el origen de los datos de entrada, lo que permite dividirlas fácilmente en tareas paralelas. Estas tareas suelen ser aquellas que pueden ser resueltas mediante iteraciones como las que hemos visto anteriormente. En teoría, el proceso se acelera en proporción a 1/número de núcleos disponibles, pero en la práctica, hay que tener en cuenta otros factores como el tiempo consumido en transferir datos a cada proceso y el tiempo dedicado a reunir los resultados de los diferentes procesos.
 
 R fue diseñado originalmente para ejecutarse en un solo proceso de CPU debido a que cuando se desarrolló, las CPU en general tenían un único núcleo y la computación paralela no era tan común o no estaba tan desarrollada como lo está hoy en día. Por lo tanto, para aprovechar la paralelización en R, necesitamos recurrir a paquetes adicionales. Sin embargo, es importante tener en cuenta que estos paquetes pueden estar limitados en su uso a casos y tipos de datos específicos.
 
 ```{r paralelizacion}
+#| eval: false
 
 library(parallel) # detectar numero de cores
 library(future) # establecer numero de cores
@@ -907,9 +919,12 @@ cat("Tiempo de computación:", round(tiempo_final - tiempo_inicio, 1), "seconds\
 
 ```
 
-La información aquí expuesta sobre programación paralela está obtenida y mucho más ampliamente explicada en: https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/
+La información aquí expuesta sobre programación paralela está obtenida y mucho más ampliamente explicada en: <https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/>
 
-## Más información sobre programación orientada a objetos (POO)
+### ejercicio julen
+aquí se los podría proponer que paralelicen algun ejemplo que han hecho anteriormente
+
+## Más información sobre programación orientada a objetos (POO) {#sec-POO}
 
 > \- Todo lo que existe es un objeto.
 >

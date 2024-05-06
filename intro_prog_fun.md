@@ -1,58 +1,63 @@
-Programación funcional en R y como dejar de pensar en bucle
-================
+# Programación funcional en R y como dejar de pensar en bucle
 Julen Astigarraga y Verónica Cruz-Alonso
-10/16/23
+2023-10-16
 
-- <a href="#presentación" id="toc-presentación">Presentación</a>
-  - <a href="#estructura-del-curso" id="toc-estructura-del-curso">Estructura
-    del curso</a>
-  - <a href="#quiénes-somos" id="toc-quiénes-somos">Quiénes somos</a>
-- <a href="#introducción-a-la-programación-funcional"
-  id="toc-introducción-a-la-programación-funcional">Introducción a la
-  programación funcional</a>
-  - <a href="#cuándo-hay-que-usar-una-función"
-    id="toc-cuándo-hay-que-usar-una-función">¿Cuándo hay que usar una
-    función?</a>
-- <a href="#teoría-sobre-funciones-en-r"
-  id="toc-teoría-sobre-funciones-en-r">Teoría sobre funciones en R</a>
-- <a href="#cómo-escribir-funciones" id="toc-cómo-escribir-funciones">Cómo
-  escribir funciones</a>
-  - <a href="#argumentos" id="toc-argumentos">Argumentos</a>
-  - <a href="#valores-de-retorno" id="toc-valores-de-retorno">Valores de
-    retorno</a>
-- <a href="#programación-imperativa"
-  id="toc-programación-imperativa">Programación imperativa</a>
-- <a href="#programación-funcional"
-  id="toc-programación-funcional">Programación funcional</a>
-- <a href="#iteraciones-sobre-un-argumento"
-  id="toc-iteraciones-sobre-un-argumento">Iteraciones sobre un
-  argumento</a>
-  - <a href="#nuestro-primer-funcional-generando-listas-map"
-    id="toc-nuestro-primer-funcional-generando-listas-map">Nuestro primer
-    funcional: generando listas, <code>map()</code></a>
-  - <a href="#nuestro-segundo-funcional-generando-vectores-map_"
-    id="toc-nuestro-segundo-funcional-generando-vectores-map_">Nuestro
-    segundo funcional: generando vectores, <code>map_*()</code></a>
-- <a href="#iteraciones-sobre-múltiples-argumentos"
-  id="toc-iteraciones-sobre-múltiples-argumentos">Iteraciones sobre
-  múltiples argumentos</a>
-  - <a href="#nuestro-tercer-funcional-dos-entradas-map2"
-    id="toc-nuestro-tercer-funcional-dos-entradas-map2">Nuestro tercer
-    funcional: dos entradas, <code>map2()</code></a>
-  - <a href="#nuestro-cuarto-funcional-múltiples-entradas-pmap"
-    id="toc-nuestro-cuarto-funcional-múltiples-entradas-pmap">Nuestro cuarto
-    funcional: múltiples entradas, <code>pmap()</code></a>
-- <a href="#sin-salida" id="toc-sin-salida">Sin salida</a>
-  - <a href="#nuestro-quinto-funcional-walk-walk2-y-pwalk"
-    id="toc-nuestro-quinto-funcional-walk-walk2-y-pwalk">Nuestro quinto
-    funcional: <code>walk()</code>, <code>walk2()</code> y
-    <code>pwalk()</code></a>
-- <a href="#operadores-funcionales"
-  id="toc-operadores-funcionales">Operadores funcionales</a>
-- <a href="#funcionales-predicate-y-demás"
-  id="toc-funcionales-predicate-y-demás">Funcionales predicate y demás</a>
-- <a href="#enlaces-de-interés" id="toc-enlaces-de-interés">Enlaces de
-  interés</a>
+- [<span class="toc-section-number">1</span>
+  Presentación](#presentación)
+  - [<span class="toc-section-number">1.1</span> Estructura del
+    curso](#estructura-del-curso)
+  - [<span class="toc-section-number">1.2</span> Quiénes
+    somos](#quiénes-somos)
+- [<span class="toc-section-number">2</span> Introducción a la
+  programación funcional](#introducción-a-la-programación-funcional)
+  - [<span class="toc-section-number">2.1</span> ¿Cuándo hay que usar
+    una función?](#cuándo-hay-que-usar-una-función)
+- [<span class="toc-section-number">3</span> Teoría sobre funciones en
+  R](#teoría-sobre-funciones-en-r)
+- [<span class="toc-section-number">4</span> Cómo escribir
+  funciones](#cómo-escribir-funciones)
+  - [<span class="toc-section-number">4.1</span>
+    Argumentos](#argumentos)
+  - [<span class="toc-section-number">4.2</span> Valores de
+    retorno](#valores-de-retorno)
+- [<span class="toc-section-number">5</span> Programación
+  imperativa](#programación-imperativa)
+- [<span class="toc-section-number">6</span> Programación
+  funcional](#programación-funcional)
+- [<span class="toc-section-number">7</span> Iteraciones sobre un
+  argumento](#iteraciones-sobre-un-argumento)
+  - [<span class="toc-section-number">7.1</span> Nuestro primer
+    funcional: generando listas,
+    `map()`](#nuestro-primer-funcional-generando-listas-map)
+  - [<span class="toc-section-number">7.2</span> Nuestro segundo
+    funcional: generando vectores,
+    `map_*()`](#nuestro-segundo-funcional-generando-vectores-map_)
+- [<span class="toc-section-number">8</span> Iteraciones sobre múltiples
+  argumentos](#iteraciones-sobre-múltiples-argumentos)
+  - [<span class="toc-section-number">8.1</span> Nuestro tercer
+    funcional: dos entradas,
+    `map2()`](#nuestro-tercer-funcional-dos-entradas-map2)
+  - [<span class="toc-section-number">8.2</span> Nuestro cuarto
+    funcional: múltiples entradas,
+    `pmap()`](#nuestro-cuarto-funcional-múltiples-entradas-pmap)
+- [<span class="toc-section-number">9</span> Sin salida](#sin-salida)
+  - [<span class="toc-section-number">9.1</span> Nuestro quinto
+    funcional: `walk()`, `walk2()` y
+    `pwalk()`](#nuestro-quinto-funcional-walk-walk2-y-pwalk)
+- [<span class="toc-section-number">10</span> Más variantes de
+  `map()`](#más-variantes-de-map)
+  - [<span class="toc-section-number">10.1</span> `modify()` e
+    `imap()`](#modify-e-imap)
+- [<span class="toc-section-number">11</span> Operadores
+  funcionales](#operadores-funcionales)
+- [<span class="toc-section-number">12</span> Funcionales predicate y
+  demás](#funcionales-predicate-y-demás)
+- [<span class="toc-section-number">13</span>
+  Paralelización](#paralelización)
+- [<span class="toc-section-number">14</span> Más información sobre
+  programación orientada a objetos (POO)](#sec-POO)
+- [<span class="toc-section-number">15</span> Enlaces de
+  interés](#enlaces-de-interés)
 
 ![](images/Logo_ecoinf_10.jpg)
 
@@ -362,7 +367,8 @@ En general, sintácticamente, las funciones tienen tres componentes:
 
 ``` r
 nombre1_v1 <- function(x, y) {
-  paste(x, y, sep = "_") }  
+  paste(x, y, sep = "_") 
+}  
 
 nombre1_v2 <- function(x, y) paste(x, y, sep = "_")  
 
@@ -400,10 +406,14 @@ permiten el uso de **funciones anónimas** para iterar.
 ``` r
 nxcaso <- lapply(penguins, function(x) length(unique(x)))
 
-models <- penguins %>%
-  split(.$species) %>%
-  map( ~ lm(body_mass_g ~ bill_length_mm, data = .)) #Metodo abreviado donde solo se utiliza un lado de la fórmula de la función
+models <- penguins|>
+  group_split(species) |>
+  map(\(df) lm(body_mass_g ~ bill_length_mm, data = df)) 
 ```
+
+📝 Mejor reservar el uso de funciones anónimas para funciones cortas y
+simples. Si la función es larga y ocupa varias líneas mejor darle un
+nombre.
 
 ## Cómo escribir funciones
 
@@ -427,7 +437,7 @@ glimpse(penguins)
     $ year              <int> 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…
 
 ``` r
-#Nos interesan las diferencias entre especie y sexo
+# Nos interesan las diferencias entre especie y sexo
 
 ggplot(penguins, aes(x = species, y = bill_length_mm, color = sex)) +
   geom_point(position = position_jitterdodge(), alpha = 0.3) +
@@ -458,7 +468,7 @@ ggplot(penguins, aes(x = species, y = island, color = sex)) +
 ![](intro_prog_fun_files/figure-commonmark/codigo_repetido-3.png)
 
 ``` r
-#Etc
+# Etc
 ```
 
 Hemos copiado un código más de dos veces para realizar una misma acción
@@ -556,8 +566,12 @@ código está haciendo.
     hacen cosas parecidas se recomienda usar el mismo prefijo para todas
     (p.e. “str\_” en el paquete {stringr}).
 
+Cuanto más claramente puedas expresar la intención de tu código a través
+de los nombres de funciones, más fácilmente otros e incluyendo tu mismo
+en el futuro podrán leer y comprender el código.
+
 ``` r
-#Ejemplos de nombres que no hay que usar
+# Ejemplos de nombres que no hay que usar
 
 T <- FALSE
 c <- 10
@@ -570,7 +584,7 @@ rm(T, c, mean)
     simplificado dentro de las llaves.
 
 ``` r
-#Varias opciones
+# Varias opciones
 
 plot_exp <- function (var) {
   miformato <-
@@ -632,6 +646,8 @@ este enlace:
 Genera una función para escalar (es decir, restar la media y dividir por
 la desviación típica) las variables numéricas de penguins.
 
+📝 Atajo para escribir funciones: escribir la palabra fun + tabulador
+
 ### Argumentos
 
 En general hay dos grupos: los que especifican los **datos** y los que
@@ -643,9 +659,22 @@ no se especifique nada.
 <!--# Ver ayuda de quantile -->
 
 📝 Los nombres de los argumentos deben ser cortos y descriptivos. Hay
-algunos comunes pero poco descriptivos que también se suelen usar (p.e.
-x, w, df, n, p, etc.), además de otros que ya existen y que no conviene
-definir de nuevo (p.e. `na.rm()`).
+algunos comunes pero poco descriptivos que ya son conocidos para la
+mayoría de los usuarios y está bien aprovecharlos:
+
+`x, y, z`: vectores
+
+`w`: vector de pesos
+
+`df`: data frame
+
+`i, j`: indices numericos, filas y columnas respectivamente
+
+`n`: longitud o número de filas
+
+`p`: numero de columnas
+
+`na.rm`: valores faltantes
 
 A la hora de ejecutar la función los argumentos se pueden
 **especificar** utilizando el nombre completo, una abreviatura
@@ -668,7 +697,7 @@ average <- mean(rnorm(10, mean = 50, sd = 25) / 12, trim = 0.2)
 average <- mean(rnorm(10,mean=50,sd=25)/12,trim=0.2)
 ```
 
-Hay un argumento especial llamado “…”, que captura cualquier otro
+Hay un argumento especial llamado `…`, que captura cualquier otro
 argumento que no se corresponde con los nombrados en la función. Se
 utiliza para transmitir argumentos a otras funciones incluidas en
 nuestra función.
@@ -737,7 +766,7 @@ for (i in seq_along(df_ej)) {           # 2. secuencia
 salida
 ```
 
-    [1] 0.4549455 1.5076379 1.2932582
+    [1] 1.1209708 1.9215022 0.7926311
 
 1.  Salida: aquí determinamos el espacio de la salida. Esto es muy
     importante para la eficiencia puesto que si aumentamos el tamaño del
@@ -754,7 +783,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.53    0.25    0.78 
+       0.75    0.31    1.16 
 
 ``` r
 y <- vector("double", length = 20000)
@@ -766,11 +795,11 @@ system.time(
 ```
 
        user  system elapsed 
-       0.02    0.00    0.02 
+       0.02    0.00    0.01 
 
 2.  Secuencia: aquí determinamos sobre lo que queremos iterar. Cada
     ejecución del bucle for asignará i a un valor diferente de
-    `seq_along(df)`. Si generamos un vector de longitud cero
+    `seq_along(y)`. Si generamos un vector de longitud cero
     accidentalmente, si utilizamos `1:length(x)`, podemos obtener un
     error.
 
@@ -804,7 +833,9 @@ De todas formas, nunca os sintáis mal por utilizar un bucle en vez de un
 funcional. Los funcionales necesitan un paso más de abstracción y pueden
 requerir tiempo hasta que los comprendamos. Lo más importante es que
 soluciones el problema y poco a poco ir escribiendo código cada vez más
-sencillo y elegante.
+sencillo y elegante. Ver
+<a href="#sec-POO" class="quarto-xref">Section 14</a> para obtener más
+información sobre programación imperativa o orientada a objetos.
 
 > Para ser significativamente más fiable, el código debe ser más
 > transparente. En particular, las condiciones anidadas y los bucles
@@ -839,20 +870,22 @@ aleatorizacion <- function(f) {
 aleatorizacion(median)
 ```
 
-    [1] 0.1090367
+    [1] -0.1584558
 
-Primero, solucionamos el problema para un elemento. Después, generamos
-una función que nos permita envolver la solución en una función. Por
-último, *aplicamos la función a todos los elementos que estamos
-interesados.*
+Estilo funcional: primero, solucionamos el problema para un elemento.
+Después, generamos una función que nos permita envolver la solución en
+una función. Por último, *aplicamos la función a todos los elementos que
+estamos interesados.* Es decir, dividimos los problemas grandes en
+problemas más pequeños y resolvemos cada problema con una o más
+funciones.
 
 La ventaja de utilizar {purrr} en vez de bucles for es que nos permiten
 distinguir en funciones los desafíos comunes de manipulación de listas,
-y por lo tanto cada bucle for tiene su propia función. La familia apply
-de R base soluciona problemas similares, pero purrr es más consistente
-y, por lo tanto, más fácil de aprender. Una vez que dominemos la
-programación funcional, podremos solventar muchos problemas de iteración
-con menos código, más facilidad y menos errores.
+y por lo tanto cada bucle for tiene su propia función. La familia
+`apply` de R base soluciona problemas similares, pero {purrr} es más
+consistente y, por lo tanto, más fácil de aprender. Una vez que
+dominemos la programación funcional, podremos solventar muchos problemas
+de iteración con menos código, más facilidad y menos errores.
 
 Iteracionar sobre un vector es tan común que el paquete {purrr}
 proporciona una familia de funciones (la familia `map()`) para ello.
@@ -876,16 +909,16 @@ Los sufijos indican el tipo de salida que queremos:
 map_dbl(df_ej, mean)
 ```
 
-              a           b           c 
-     0.02998148 -0.12960986  0.35130587 
+            a         b         c 
+    0.2175613 0.4495309 0.1194365 
 
 ``` r
 df_ej |> 
   map_dbl(mean)
 ```
 
-              a           b           c 
-     0.02998148 -0.12960986  0.35130587 
+            a         b         c 
+    0.2175613 0.4495309 0.1194365 
 
 Comparando con un bucle el foco está en la operación que se está
 ejecutando (`mean()`), y no en el código necesario para iterar sobre
@@ -956,7 +989,7 @@ glimpse(penguins)
     $ year              <int> 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…
 
 ``` r
-# atajo de para generar una funcion anonima
+# atajo para generar una funcion anonima
 map(penguins, \(x) length(unique(x)))
 ```
 
@@ -1247,16 +1280,16 @@ map2(x, y, potencia)
 ```
 
     [[1]]
-    [1] 243 125 256   1   2
+    [1] 625   4   1  64 243
 
     [[2]]
-    [1]  1 64 32 25 81
+    [1] 625  16  32   1  27
 
     [[3]]
-    [1]  16   1  32  27 625
+    [1]  25 243  16   1  64
 
     [[4]]
-    [1]   9   1   8 256   5
+    [1]   1  81   2  16 125
 
 ⚡¡Importante! La primera iteración corresponde al primer valor del
 vector `x` y al primer valor del vector `y`. La segunda iteración
@@ -1279,16 +1312,16 @@ imple_map2(x, y, potencia)
 ```
 
     [[1]]
-    [1] 243 125 256   1   2
+    [1] 625   4   1  64 243
 
     [[2]]
-    [1]  1 64 32 25 81
+    [1] 625  16  32   1  27
 
     [[3]]
-    [1]  16   1  32  27 625
+    [1]  25 243  16   1  64
 
     [[4]]
-    [1]   9   1   8 256   5
+    [1]   1  81   2  16 125
 
 ``` r
 penguins_nested <- penguins |>
@@ -1339,32 +1372,32 @@ map2(x, y, potencia)
 ```
 
     [[1]]
-    [1] 243 125 256   1   2
+    [1] 625   4   1  64 243
 
     [[2]]
-    [1]  1 64 32 25 81
+    [1] 625  16  32   1  27
 
     [[3]]
-    [1]  16   1  32  27 625
+    [1]  25 243  16   1  64
 
     [[4]]
-    [1]   9   1   8 256   5
+    [1]   1  81   2  16 125
 
 ``` r
 pmap(list(x, y), potencia)
 ```
 
     [[1]]
-    [1] 243 125 256   1   2
+    [1] 625   4   1  64 243
 
     [[2]]
-    [1]  1 64 32 25 81
+    [1] 625  16  32   1  27
 
     [[3]]
-    [1]  16   1  32  27 625
+    [1]  25 243  16   1  64
 
     [[4]]
-    [1]   9   1   8 256   5
+    [1]   1  81   2  16 125
 
 ``` r
 z <- map(1:4, \(x) sample(5))
@@ -1373,35 +1406,39 @@ pmap(list(x, y, z), rnorm)
 ```
 
     [[1]]
-    [1] 0.5679952 2.7570044 6.1489636 2.5729577 3.4856383
+    [1] -0.5943925  2.5608412  2.7245560  2.5064939  4.9302873
 
     [[2]]
-    [1]  8.929029  1.786722  3.870481 -1.563861  8.171965
+    [1]  5.417019  2.912762  7.998290 -4.287179  2.141707
 
     [[3]]
-    [1] 1.046899 3.481797 4.845789 2.725686 4.215498
+    [1]  3.128735 -2.118074  2.851086  1.747424  2.156159
 
     [[4]]
-    [1] 2.063431 3.307411 9.328700 3.360270 2.330222
+    [1] -0.613039  3.644730  2.802213 -5.526053  6.259502
+
+Si no nombramos los elementos de la lista, `pmap()` usará los elementos
+de la lista en su orden para los argumentos consecutivos de la función.
+De todas formas, creemos que es una buena práctica nombrarlos para que
+quede muy claro lo que hará la función.
 
 ``` r
-# si no nombramos los elementos de la lista, pmap() usara los elementos de la lista en su orden para los argumentos consecutivos de la función
 args3 <- list(mean = x, sd = y, n = z)
 args3 |> 
   pmap(rnorm)
 ```
 
     [[1]]
-    [1] 4.490449 7.289197 4.098666 2.367661 2.055742
+    [1]  5.6507061 -0.1986855  0.2368085 -0.5474779 -3.1371822
 
     [[2]]
-    [1] 0.2390069 2.5947262 4.5764238 7.7431761 3.5666532
+    [1] 10.0689941  3.6664264 -0.8286372  1.7459715  1.7882096
 
     [[3]]
-    [1]  2.6318542  1.4176386  3.5249896  5.2161008 -0.0600733
+    [1] 3.6455492 6.2454904 3.5279903 0.3789416 2.9878300
 
     [[4]]
-    [1]  1.461718 -5.106366 -2.001291  3.092964  5.142188
+    [1] -3.9150542  0.5115701  1.5520492  5.9155438  4.2506925
 
 ![](images/pmap.png)
 
@@ -1436,6 +1473,105 @@ penguins_nested
 ``` r
 walk2(penguins_nested$data, penguins_nested$path, write_csv)
 ```
+
+## Más variantes de `map()`
+
+### `modify()` e `imap()`
+
+`modify()` e `imap()` también son funcionales de la familia map.
+`modify()` es análogo a `map()` pero devuelve el mismo tipo de resultado
+que el tipo de entrada.
+
+`imap()` sirve para iterar sobre indices, tanto indices numéricos como
+nombres. `imap(x, f)` es análogo a `map2(x, names(x), f)` cuando `x`
+tiene nombres y `map2(x, seq_along(x), f)` cuando no los tiene.
+
+``` r
+# modify
+map(1:4, cuadratica)
+```
+
+    [[1]]
+    [1] 1
+
+    [[2]]
+    [1] 4
+
+    [[3]]
+    [1] 9
+
+    [[4]]
+    [1] 16
+
+``` r
+modify(1:4, cuadratica)
+```
+
+    [1]  1  4  9 16
+
+``` r
+# imap
+map2(penguins, names(penguins), \(x, y) paste("La columna", y, "tiene", length(unique(x)), "valores unicos contando los NA's"))
+```
+
+    $species
+    [1] "La columna species tiene 3 valores unicos contando los NA's"
+
+    $island
+    [1] "La columna island tiene 3 valores unicos contando los NA's"
+
+    $bill_length_mm
+    [1] "La columna bill_length_mm tiene 163 valores unicos contando los NA's"
+
+    $bill_depth_mm
+    [1] "La columna bill_depth_mm tiene 79 valores unicos contando los NA's"
+
+    $flipper_length_mm
+    [1] "La columna flipper_length_mm tiene 54 valores unicos contando los NA's"
+
+    $body_mass_g
+    [1] "La columna body_mass_g tiene 93 valores unicos contando los NA's"
+
+    $sex
+    [1] "La columna sex tiene 2 valores unicos contando los NA's"
+
+    $year
+    [1] "La columna year tiene 3 valores unicos contando los NA's"
+
+``` r
+imap(penguins, \(x, y) paste("La columna", y, "tiene", length(unique(x)), "valores unicos contando los NA's"))
+```
+
+    $species
+    [1] "La columna species tiene 3 valores unicos contando los NA's"
+
+    $island
+    [1] "La columna island tiene 3 valores unicos contando los NA's"
+
+    $bill_length_mm
+    [1] "La columna bill_length_mm tiene 163 valores unicos contando los NA's"
+
+    $bill_depth_mm
+    [1] "La columna bill_depth_mm tiene 79 valores unicos contando los NA's"
+
+    $flipper_length_mm
+    [1] "La columna flipper_length_mm tiene 54 valores unicos contando los NA's"
+
+    $body_mass_g
+    [1] "La columna body_mass_g tiene 93 valores unicos contando los NA's"
+
+    $sex
+    [1] "La columna sex tiene 2 valores unicos contando los NA's"
+
+    $year
+    [1] "La columna year tiene 3 valores unicos contando los NA's"
+
+En este curso no los vemos más al detalle porque con los demás
+funcionales que hemos visto podemos abordar prácticamente todos los
+problemas sin necesidad de `modify()` e `imap()`, y creemos que es mejor
+primero aprender los funcionales más utilizados bien. Sin embargo, si
+alguien está interesado puede consultarlos en:
+[https://adv-r.hadley.nz/functionals.html](#0), 9.4 Map variants.
 
 💡Ejemplos de algunas tareas específicas con {purrr}:
 <https://r4ds.hadley.nz/iteration>
@@ -1613,6 +1749,182 @@ ls |>
     1 Vero    100 F     180   
     2 Julen   140 M     150   
 
+## Paralelización
+
+Se pueden emplear distintos núcleos de la CPU (Central Processing Unit)
+para ejecutar el mismo proceso con diferentes conjuntos de datos en
+paralelo, lo que acelera tareas largas. Algunas tareas son especialmente
+adecuadas para la paralelización, como aquellas que son repetitivas y
+tienen poca o ninguna dependencia entre sí, salvo el origen de los datos
+de entrada, lo que permite dividirlas fácilmente en tareas paralelas.
+Estas tareas suelen ser aquellas que pueden ser resueltas mediante
+iteraciones como las que hemos visto anteriormente. En teoría, el
+proceso se acelera en proporción a 1/número de núcleos disponibles, pero
+en la práctica, hay que tener en cuenta otros factores como el tiempo
+consumido en transferir datos a cada proceso y el tiempo dedicado a
+reunir los resultados de los diferentes procesos.
+
+R fue diseñado originalmente para ejecutarse en un solo proceso de CPU
+debido a que cuando se desarrolló, las CPU en general tenían un único
+núcleo y la computación paralela no era tan común o no estaba tan
+desarrollada como lo está hoy en día. Por lo tanto, para aprovechar la
+paralelización en R, necesitamos recurrir a paquetes adicionales. Sin
+embargo, es importante tener en cuenta que estos paquetes pueden estar
+limitados en su uso a casos y tipos de datos específicos.
+
+``` r
+library(parallel) # detectar numero de cores
+library(future) # establecer numero de cores
+library(furrr) # paralelizacion con map
+
+detectCores()
+```
+
+    [1] 8
+
+``` r
+# funcion para elevar al cubo un numero
+cubo <- function(x) {
+  Sys.sleep(1) # simulacion tarea computacionalmente intensiva
+  return(x ^ 3)
+}
+
+# secuencial
+tiempo_inicio <- Sys.time()
+resultado <- map(1:10, cubo)
+tiempo_final <- Sys.time()
+cat("Tiempo de computación:", round(tiempo_final - tiempo_inicio, 1), "seconds\n")
+```
+
+    Tiempo de computación: 10.2 seconds
+
+``` r
+# establecer como vamos a resolver el proceso
+# aqui utilizaremos 3 nucleos pero en funcion del numero de nucleos disponibles en tu pc modificad este numero
+plan(multisession, workers = 3)
+
+# future_map para ejecutarlo paralelamente
+tiempo_inicio <- Sys.time()
+resultado <- future_map(1:10, cubo)
+tiempo_final <- Sys.time()
+cat("Tiempo de computación:", round(tiempo_final - tiempo_inicio, 1), "seconds\n")
+```
+
+    Tiempo de computación: 4.8 seconds
+
+``` r
+# vemos que el tiempo de computacion se ha reducido casi a un 1/3 (aprox. 1/numero de cores)
+```
+
+La información aquí expuesta sobre programación paralela está obtenida y
+mucho más ampliamente explicada en:
+https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/
+
+## Más información sobre programación orientada a objetos (POO)
+
+> \- Todo lo que existe es un objeto.
+>
+> — John Chambers
+>
+> \- Sin embargo, no todo es orientado a objetos
+
+En R, la programación funcional suele ser más relevante que la POO, ya
+que frecuentemente se abordan problemas complejos descomponiéndolos en
+funciones simples en lugar de objetos simples.
+
+La principal razón para utilizar la POO es el polimorfismo (del latín
+“muchas formas”). El polimorfismo permite a un desarrollador considerar
+la interfaz de una función por separado de su implementación, lo que
+facilita el uso de la misma función con diferentes tipos de entrada.
+Para entender esto probar a correr el siguiente código.
+
+``` r
+summary(penguins$bill_depth_mm)
+```
+
+       Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+      13.10   15.60   17.30   17.16   18.70   21.50 
+
+``` r
+summary(penguins$sex)
+```
+
+    female   male 
+       165    168 
+
+Podrías pensar que `summary()` utilizara una serie de declaraciones
+`if-else` pero en este caso solo el autor original podría añadir nuevas
+implementaciones. Sin embargo, un sistema de POO permite que cualquier
+desarrollador extienda la interfaz mediante la creación de
+implementaciones para nuevos tipos de entrada.
+
+En los sistemas de POO, el tipo de un objeto se denomina su clase, y una
+implementación específica para una clase se conoce como método. En
+términos generales, una clase define las características de un objeto y
+los métodos describen las acciones que ese objeto puede realizar. La
+clase también especifica los campos de datos que cada instancia de esa
+clase posee.
+
+R base proporciona tres sistemas de POO (S3–que es la más utilizada–, S4
+y RC), aunque también existen otros sistemas POO proporcionados por
+diferentes paquetes CRAN.
+
+``` r
+library(sloop)
+```
+
+    Warning: package 'sloop' was built under R version 4.2.3
+
+``` r
+is.object(1:5) # objeto base pero no orientada a objetos
+```
+
+    [1] FALSE
+
+``` r
+otype(1:5) # objeto base 
+```
+
+    [1] "base"
+
+``` r
+attr(1:5, "class") # no tienen clase
+```
+
+    NULL
+
+``` r
+is.object(penguins) # orientada a objetos
+```
+
+    [1] TRUE
+
+``` r
+otype(penguins) # S3
+```
+
+    [1] "S3"
+
+``` r
+attr(penguins, "class") # tienen una clase
+```
+
+    [1] "tbl_df"     "tbl"        "data.frame"
+
+``` r
+ftype(summary) # funcion generica S3
+```
+
+    [1] "S3"      "generic"
+
+``` r
+# una funcion generica define la interfaz, que utiliza una implementacion (metodo) diferente dependiendo de la clase del argumento. Acuerdate de la idea del polimorfismo que hemos visto antes ;)
+```
+
+Información más detallada sobre [POO](https://adv-r.hadley.nz/oo.html) y
+[compromisos entre algunos sistemas de
+POO](https://adv-r.hadley.nz/oo-tradeoffs.html)
+
 Este taller está principalmente basado en la primera edición del libro
 [R for Data Science](https://r4ds.had.co.nz/) de Hadley Wickham &
 Garrett Grolemund y la segunda edición del libro [Advanced
@@ -1620,30 +1932,25 @@ R](https://adv-r.hadley.nz/index.html) de Hadley Wickham.
 
 ## Enlaces de interés
 
-- R for data Science (functions):
-  <https://r4ds.had.co.nz/functions.html>
+- [R for data Science
+  (functions)](https://r4ds.had.co.nz/functions.html)
 
-- Advanced R (functions): <https://adv-r.hadley.nz/functions.html>
+- [Advanced R (functions)](https://adv-r.hadley.nz/functions.html)
 
-- R for data Science (iteration):
-  <https://r4ds.had.co.nz/iteration.html>
+- [R for data Science
+  (iteration)](https://r4ds.had.co.nz/iteration.html)
 
-- Advanced R (functionals): <https://adv-r.hadley.nz/functionals.html>
+- [Advanced R (functionals)](https://adv-r.hadley.nz/functionals.html)
 
-- purrr 1.0.0: <https://www.tidyverse.org/blog/2022/12/purrr-1-0-0/>
+- [purrr 1.0.0](https://www.tidyverse.org/blog/2022/12/purrr-1-0-0/)
 
-- Learn to purrr (Rebecca Barter):
-  <https://www.rebeccabarter.com/blog/2019-08-19_purrr>
+- [Learn to purrr (Rebecca
+  Barter)](https://www.rebeccabarter.com/blog/2019-08-19_purrr)
 
-- Sacando el máximo partido a Tidyverse:
-  <https://github.com/Julenasti/intro_tidyverse/blob/main/04-scripts/intro_tidyverse.md>
+- [Style guide](http://adv-r.had.co.nz/Style.html)
 
-- R for Data Science (2e): <https://r4ds.hadley.nz/>
-
-- Style guide: <http://adv-r.had.co.nz/Style.html>
-
-- Quince consejos para mejorar nuestro código y flujo de trabajo con R:
-  <https://www.revistaecosistemas.net/index.php/ecosistemas/article/view/2129>
+- [Quince consejos para mejorar nuestro código y flujo de trabajo con
+  R](https://www.revistaecosistemas.net/index.php/ecosistemas/article/view/2129)
 
 ------------------------------------------------------------------------
 
@@ -1656,7 +1963,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2023-10-17 19:02:17 CEST"
+    [1] "2024-05-06 12:16:52 CEST"
 
 ``` r
 sessionInfo()
@@ -1676,34 +1983,37 @@ sessionInfo()
     [5] LC_TIME=English_United Kingdom.utf8    
 
     attached base packages:
-    [1] stats     graphics  grDevices utils     datasets  methods   base     
+    [1] parallel  stats     graphics  grDevices utils     datasets  methods  
+    [8] base     
 
     other attached packages:
-     [1] palmerpenguins_0.1.1 forcats_0.5.1        stringr_1.5.0       
-     [4] dplyr_1.1.2          purrr_1.0.1          readr_2.1.2         
-     [7] tidyr_1.3.0          tibble_3.2.1         ggplot2_3.4.2       
-    [10] tidyverse_1.3.2     
+     [1] sloop_1.0.1          furrr_0.3.0          future_1.26.1       
+     [4] palmerpenguins_0.1.1 forcats_0.5.1        stringr_1.5.0       
+     [7] dplyr_1.1.2          purrr_1.0.1          readr_2.1.2         
+    [10] tidyr_1.3.0          tibble_3.2.1         ggplot2_3.4.2       
+    [13] tidyverse_1.3.2     
 
     loaded via a namespace (and not attached):
-     [1] lubridate_1.8.0     assertthat_0.2.1    digest_0.6.29      
-     [4] utf8_1.2.3          R6_2.5.1            cellranger_1.1.0   
-     [7] backports_1.4.1     reprex_2.0.1        evaluate_0.18      
-    [10] httr_1.4.3          pillar_1.9.0        rlang_1.1.1        
-    [13] googlesheets4_1.0.0 readxl_1.4.0        rstudioapi_0.13    
-    [16] rmarkdown_2.16      labeling_0.4.2      googledrive_2.0.0  
-    [19] bit_4.0.5           munsell_0.5.0       broom_1.0.0        
-    [22] compiler_4.2.2      modelr_0.1.8        xfun_0.39          
-    [25] pkgconfig_2.0.3     htmltools_0.5.3     tidyselect_1.2.0   
-    [28] fansi_1.0.4         crayon_1.5.2        tzdb_0.3.0         
-    [31] dbplyr_2.2.1        withr_2.5.0         grid_4.2.2         
-    [34] jsonlite_1.8.0      gtable_0.3.3        lifecycle_1.0.3    
-    [37] DBI_1.1.3           magrittr_2.0.3      scales_1.2.1       
-    [40] cli_3.6.1           stringi_1.7.12      vroom_1.5.7        
-    [43] farver_2.1.1        fs_1.5.2            xml2_1.3.3         
-    [46] ellipsis_0.3.2      generics_0.1.3      vctrs_0.6.3        
-    [49] tools_4.2.2         bit64_4.0.5         glue_1.6.2         
-    [52] hms_1.1.1           parallel_4.2.2      fastmap_1.1.0      
-    [55] yaml_2.3.5          colorspace_2.1-0    gargle_1.2.0       
-    [58] rvest_1.0.2         knitr_1.40.1        haven_2.5.0        
+     [1] lubridate_1.8.0     listenv_0.8.0       assertthat_0.2.1   
+     [4] digest_0.6.29       utf8_1.2.3          parallelly_1.32.0  
+     [7] R6_2.5.1            cellranger_1.1.0    backports_1.4.1    
+    [10] reprex_2.0.1        evaluate_0.18       httr_1.4.3         
+    [13] pillar_1.9.0        rlang_1.1.1         googlesheets4_1.0.0
+    [16] readxl_1.4.0        rstudioapi_0.13     rmarkdown_2.16     
+    [19] labeling_0.4.2      googledrive_2.0.0   bit_4.0.5          
+    [22] munsell_0.5.0       broom_1.0.0         compiler_4.2.2     
+    [25] modelr_0.1.8        xfun_0.39           pkgconfig_2.0.3    
+    [28] globals_0.15.1      htmltools_0.5.3     tidyselect_1.2.0   
+    [31] codetools_0.2-18    fansi_1.0.4         crayon_1.5.2       
+    [34] tzdb_0.3.0          dbplyr_2.2.1        withr_2.5.0        
+    [37] grid_4.2.2          jsonlite_1.8.0      gtable_0.3.3       
+    [40] lifecycle_1.0.3     DBI_1.1.3           magrittr_2.0.3     
+    [43] scales_1.2.1        cli_3.6.1           stringi_1.7.12     
+    [46] vroom_1.5.7         farver_2.1.1        fs_1.5.2           
+    [49] xml2_1.3.3          ellipsis_0.3.2      generics_0.1.3     
+    [52] vctrs_0.6.3         tools_4.2.2         bit64_4.0.5        
+    [55] glue_1.6.2          hms_1.1.1           fastmap_1.1.0      
+    [58] yaml_2.3.5          colorspace_2.1-0    gargle_1.2.0       
+    [61] rvest_1.0.2         knitr_1.40.1        haven_2.5.0        
 
 </details>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Julen Astigarraga y Verónica Cruz-Alonso">
-<meta name="dcterms.date" content="2024-06-05">
+<meta name="dcterms.date" content="2024-07-05">
 
 <title>Programación funcional en R y como dejar de pensar en bucle</title>
 <style>
@@ -116,11 +116,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#modify-e-imap" id="toc-modify-e-imap" class="nav-link" data-scroll-target="#modify-e-imap"><span class="header-section-number">10.1</span> <code>modify()</code> e <code>imap()</code></a></li>
   </ul></li>
-  <li><a href="#operadores-funcionales" id="toc-operadores-funcionales" class="nav-link" data-scroll-target="#operadores-funcionales"><span class="header-section-number">11</span> Operadores funcionales</a></li>
-  <li><a href="#funcionales-predicate-y-demás" id="toc-funcionales-predicate-y-demás" class="nav-link" data-scroll-target="#funcionales-predicate-y-demás"><span class="header-section-number">12</span> Funcionales predicate y demás</a></li>
-  <li><a href="#paralelización" id="toc-paralelización" class="nav-link" data-scroll-target="#paralelización"><span class="header-section-number">13</span> Paralelización</a></li>
-  <li><a href="#sec-POO" id="toc-sec-POO" class="nav-link" data-scroll-target="#sec-POO"><span class="header-section-number">14</span> Más información sobre programación orientada a objetos (POO)</a></li>
-  <li><a href="#enlaces-de-interés" id="toc-enlaces-de-interés" class="nav-link" data-scroll-target="#enlaces-de-interés"><span class="header-section-number">15</span> Enlaces de interés</a></li>
+  <li><a href="#funcionales-predicate-y-demás" id="toc-funcionales-predicate-y-demás" class="nav-link" data-scroll-target="#funcionales-predicate-y-demás"><span class="header-section-number">11</span> Funcionales predicate y demás</a>
+  <ul class="collapse">
+  <li><a href="#operadores-funcionales" id="toc-operadores-funcionales" class="nav-link" data-scroll-target="#operadores-funcionales"><span class="header-section-number">11.1</span> Operadores funcionales</a></li>
+  </ul></li>
+  <li><a href="#más-información" id="toc-más-información" class="nav-link" data-scroll-target="#más-información"><span class="header-section-number">12</span> Más información</a>
+  <ul class="collapse">
+  <li><a href="#paralelización" id="toc-paralelización" class="nav-link" data-scroll-target="#paralelización"><span class="header-section-number">12.1</span> Paralelización</a></li>
+  <li><a href="#sec-POO" id="toc-sec-POO" class="nav-link" data-scroll-target="#sec-POO"><span class="header-section-number">12.2</span> Programación orientada a objetos (POO)</a></li>
+  <li><a href="#enlaces-de-interés" id="toc-enlaces-de-interés" class="nav-link" data-scroll-target="#enlaces-de-interés"><span class="header-section-number">12.3</span> Enlaces de interés</a></li>
+  </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="intro_prog_fun.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
 </div>
@@ -145,7 +150,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">06/05/2024</p>
+      <p class="date">07/05/2024</p>
     </div>
   </div>
   
@@ -169,36 +174,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="estructura-del-curso" class="level3" data-number="1.1">
 <h3 data-number="1.1" class="anchored" data-anchor-id="estructura-del-curso"><span class="header-section-number">1.1</span> Estructura del curso</h3>
 <table class="table">
+<colgroup>
+<col style="width: 56%">
+<col style="width: 15%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Bloques</th>
-<th>Tiempo estimado</th>
+<th>Día</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Introducción</td>
-<td>15 min</td>
+<td>vero 1</td>
+<td>1</td>
 </tr>
 <tr class="even">
-<td>Teoría sobre funciones</td>
-<td>25 min</td>
+<td>vero 2</td>
+<td>2</td>
 </tr>
 <tr class="odd">
-<td>Cómo escribir funciones</td>
-<td>25 min</td>
+<td><p>Programación imperativa</p>
+<p>Programación funcional</p>
+<p>Iteraciones sobre uno y dos argumentos</p></td>
+<td>3</td>
 </tr>
 <tr class="even">
-<td>Programación imperativa vs.&nbsp;funcional</td>
-<td>25 min</td>
-</tr>
-<tr class="odd">
-<td>Descanso</td>
-<td>15 min</td>
-</tr>
-<tr class="even">
-<td>Iteraciones con {purrr}</td>
-<td>75 min</td>
+<td><p>Iteraciones sobre múltiples argumentos</p>
+<p>Iteraciones sin salida</p>
+<p>Más variantes de <code>map()</code></p>
+<p>Funcionales predicate y demás</p></td>
+<td>4</td>
 </tr>
 </tbody>
 </table>
@@ -654,9 +660,9 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </div>
 </div>
 <p>💡Puedes querer convertir estas pruebas en <strong>test</strong> formales. En funciones complejas sirven para que, aunque hagas cambios, se pueda comprobar que la funcionalidad no se ha roto. Si estás interesado mira este enlace: <a href="#0" class="uri">https://r-pkgs.org/testing-basics.html</a></p>
-<section id="ejercicio-1" class="level4" data-number="4.0.1">
-<h4 data-number="4.0.1" class="anchored" data-anchor-id="ejercicio-1"><span class="header-section-number">4.0.1</span> Ejercicio 1</h4>
-<p>Genera una función para escalar (es decir, restar la media y dividir por la desviación típica) las variables numéricas de penguins.</p>
+<section id="ejercicio" class="level4" data-number="4.0.1">
+<h4 data-number="4.0.1" class="anchored" data-anchor-id="ejercicio"><span class="header-section-number">4.0.1</span> Ejercicio</h4>
+<p>Generad una función para estandarizar (es decir, restar la media y dividir por la desviación típica) las variables numéricas de penguins.</p>
 <p>📝 Atajo para escribir funciones: escribir la palabra fun + tabulador</p>
 </section>
 <section id="argumentos" class="level3" data-number="4.1">
@@ -704,8 +710,8 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <p>La última expresión ejecutada en una función es el valor de retorno. Es el resultado de ejecutar la función, a no ser que se especifique <code>invisible()</code>. Las funciones arrojan un sólo objeto. Si se quieren obtener más, tendrá que ser en formato de lista.</p>
 <!--# Se os ocurre algún caso donde usar invisible? -->
 <p>📝 La función <code>return()</code> se usa para indicar explicitamente qué se quiere obtener en una función. Se recomienda su uso cuando el retorno no se espera al final de la función. P.e. en las ramas de una estructura <code>if/else()</code> sobre todo hay alguna rama larga y compleja.</p>
-<section id="ejercicio-2" class="level4" data-number="4.2.1">
-<h4 data-number="4.2.1" class="anchored" data-anchor-id="ejercicio-2"><span class="header-section-number">4.2.1</span> Ejercicio 2</h4>
+<section id="ejercicio-1" class="level4" data-number="4.2.1">
+<h4 data-number="4.2.1" class="anchored" data-anchor-id="ejercicio-1"><span class="header-section-number">4.2.1</span> Ejercicio</h4>
 <p>¿Cómo generalizarías la función <code>plot_exp()</code> para que te sirviera para cualquier base de datos y cualquier variable categórica?</p>
 </section>
 </section>
@@ -727,7 +733,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a>salida</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.9968187 1.3641073 0.7038599</code></pre>
+<pre><code>[1] 1.3748300 0.8899119 1.6336867</code></pre>
 </div>
 </div>
 <ol type="1">
@@ -742,7 +748,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-   0.43    0.33    0.77 </code></pre>
+   0.45    0.30    0.75 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"double"</span>, <span class="at">length =</span> <span class="dv">20000</span>)</span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(</span>
@@ -752,7 +758,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-      0       0       0 </code></pre>
+   0.01    0.00    0.02 </code></pre>
 </div>
 </div>
 <ol start="2" type="1">
@@ -763,7 +769,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <p>Algunos <a href="https://adv-r.hadley.nz/control-flow.html">errores comunes</a> cuando se utilizan bucles for (ver 5.3.1 Common pitfalls).</p>
 <p>Sin embargo, en R los bucles for no son tan importantes como pueden ser en otros lenguajes porque R es un lenguaje de programación funcional. Esto significa que <em>es posible envolver los bucles for en una función</em> y llamar a esa función en vez de utilizar el bucle.</p>
 <p>Existe la creencia de que los bucles for son lentos, pero la desventaja real de <em>los bucles for es que son demasiado flexibles</em>. Cada funcional está diseñado para una tarea específica, por lo que en cuanto lo ves en el código, inmediatamente sabes por qué se está utilizando. Es decir, la principal ventaja es su claridad al hacer que el código sea más fácil de escribir y de leer (ver este ejemplo avanzado para entenderlo: <a href="https://adv-r.hadley.nz/functionals.html" class="uri">https://adv-r.hadley.nz/functionals.html</a>, 9.3 Purrr style).</p>
-<p>De todas formas, nunca os sintáis mal por utilizar un bucle en vez de un funcional. Los funcionales necesitan un paso más de abstracción y pueden requerir tiempo hasta que los comprendamos. Lo más importante es que soluciones el problema y poco a poco ir escribiendo código cada vez más sencillo y elegante. Ver <a href="#sec-POO" class="quarto-xref">Section&nbsp;14</a> para obtener más información sobre programación imperativa o orientada a objetos.</p>
+<p>De todas formas, nunca os sintáis mal por utilizar un bucle en vez de un funcional. Los funcionales necesitan un paso más de abstracción y pueden requerir tiempo hasta que los comprendamos. Lo más importante es que soluciones el problema y poco a poco ir escribiendo código cada vez más sencillo y elegante. Ver <a href="#sec-POO" class="quarto-xref">Section&nbsp;12.2</a> para obtener más información sobre programación imperativa o orientada a objetos.</p>
 <blockquote class="blockquote">
 <p>Para ser significativamente más fiable, el código debe ser más transparente. En particular, las condiciones anidadas y los bucles deben considerarse con gran recelo. Las esctructuras de control complicados confunden a los programadores. El código desordenado suele ocultar errores.</p>
 <p>— Bjarne Stroustrup (<a href="https://adv-r.hadley.nz/index.html">Advanced R</a>)</p>
@@ -791,7 +797,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="fu">aleatorizacion</span>(median)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.4083256</code></pre>
+<pre><code>[1] 0.2757624</code></pre>
 </div>
 </div>
 <p>Estilo funcional: primero, solucionamos el problema para un elemento. Después, generamos una función que nos permita envolver la solución en una función. Por último, <em>aplicamos la función a todos los elementos que estamos interesados.</em> Es decir, dividimos los problemas grandes en problemas más pequeños y resolvemos cada problema con una o más funciones.</p>
@@ -809,14 +815,14 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(df_ej, mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         a          b          c 
- 0.7063355 -0.1052114 -0.3808230 </code></pre>
+<pre><code>          a           b           c 
+ 0.02890355 -0.43487385  0.38011501 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>df_ej <span class="sc">|&gt;</span> </span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_dbl</span>(mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         a          b          c 
- 0.7063355 -0.1052114 -0.3808230 </code></pre>
+<pre><code>          a           b           c 
+ 0.02890355 -0.43487385  0.38011501 </code></pre>
 </div>
 </div>
 <p>Comparando con un bucle el foco está en la operación que se está ejecutando (<code>mean()</code>), y no en el código necesario para iterar sobre cada elemento y guardar la salida.</p>
@@ -912,9 +918,9 @@ $year
 </div>
 </div>
 <p><img src="images/map.png" class="img-fluid"></p>
-<section id="ejercicio-3" class="level4" data-number="7.1.1">
-<h4 data-number="7.1.1" class="anchored" data-anchor-id="ejercicio-3"><span class="header-section-number">7.1.1</span> Ejercicio 3</h4>
-<p>Generad un vector, una función y aplicarle la función a cada uno de los elementos del vector utilizando <code>map()</code>.</p>
+<section id="ejercicio-2" class="level4" data-number="7.1.1">
+<h4 data-number="7.1.1" class="anchored" data-anchor-id="ejercicio-2"><span class="header-section-number">7.1.1</span> Ejercicio</h4>
+<p>Generad un vector, una función y aplicarle la función a cada uno de los elementos del vector utilizando <code>map()</code>. Generad otra función (o puede ser la misma) a la base de datos de penguins.</p>
 </section>
 <section id="implementación-de-map" class="level4" data-number="7.1.2">
 <h4 data-number="7.1.2" class="anchored" data-anchor-id="implementación-de-map"><span class="header-section-number">7.1.2</span> Implementación de map()</h4>
@@ -947,8 +953,8 @@ $year
 </section>
 <section id="nuestro-segundo-funcional-generando-vectores-map_" class="level3" data-number="7.2">
 <h3 data-number="7.2" class="anchored" data-anchor-id="nuestro-segundo-funcional-generando-vectores-map_"><span class="header-section-number">7.2</span> Nuestro segundo funcional: generando vectores, <code>map_*()</code></h3>
-<section id="ejercicio-4" class="level4" data-number="7.2.1">
-<h4 data-number="7.2.1" class="anchored" data-anchor-id="ejercicio-4"><span class="header-section-number">7.2.1</span> Ejercicio 4</h4>
+<section id="ejercicio-3" class="level4" data-number="7.2.1">
+<h4 data-number="7.2.1" class="anchored" data-anchor-id="ejercicio-3"><span class="header-section-number">7.2.1</span> Ejercicio</h4>
 <p>Dedicadle un par de minutos a entender lo que hacen las siguientes funciones:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_lgl</span>(penguins, is.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -981,9 +987,9 @@ flipper_length_mm       body_mass_g               sex              year
                56                95                 3                 3 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span> <span class="sc">|&gt;</span> </span>
-<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_vec</span>(\(x) <span class="fu">as.Date</span>(<span class="fu">ISOdate</span>(x <span class="sc">+</span> <span class="dv">2023</span>, <span class="dv">10</span>, <span class="dv">16</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_vec</span>(\(x) <span class="fu">as.Date</span>(<span class="fu">ISOdate</span>(x <span class="sc">+</span> <span class="dv">2024</span>, <span class="dv">05</span>, <span class="dv">13</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2024-10-16" "2025-10-16" "2026-10-16" "2027-10-16"</code></pre>
+<pre><code>[1] "2025-05-13" "2026-05-13" "2027-05-13" "2028-05-13"</code></pre>
 </div>
 </div>
 <p>Los argumentos que varían para cada ejecución vienen antes de la función y los argumentos que son los mismos para cada ejecución vienen después (<code>na.rm = T</code>).</p>
@@ -999,7 +1005,7 @@ flipper_length_mm       body_mass_g               sex              year
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(penguins, \(x) <span class="fu">class</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(penguins, class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$species
 [1] "factor"
@@ -1135,16 +1141,16 @@ Coefficients:
 <span id="cb106-8"><a href="#cb106-8" aria-hidden="true" tabindex="-1"></a><span class="fu">map2</span>(x, y, potencia)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
-[1]    1 1024    4    3  125
+[1]   4  64 625   1 243
 
 [[2]]
-[1]   1   5 256 243   4
+[1]  4  1 27 25 16
 
 [[3]]
-[1] 1024    4    5    1   81
+[1]   1 243  64  16   5
 
 [[4]]
-[1] 625   1  64 243   4</code></pre>
+[1]  1 16 81  5  8</code></pre>
 </div>
 </div>
 <p>⚡¡Importante! La primera iteración corresponde al primer valor del vector <code>x</code> y al primer valor del vector <code>y</code>. La segunda iteración corresponde al segundo valor del vector <code>x</code> y al segundo valor del vector <code>y</code>. No se hacen todas las combinaciones posibles entre ambos vectores.</p>
@@ -1161,34 +1167,47 @@ Coefficients:
 <span id="cb108-9"><a href="#cb108-9" aria-hidden="true" tabindex="-1"></a><span class="fu">imple_map2</span>(x, y, potencia)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
-[1]    1 1024    4    3  125
+[1]   4  64 625   1 243
 
 [[2]]
-[1]   1   5 256 243   4
+[1]  4  1 27 25 16
 
 [[3]]
-[1] 1024    4    5    1   81
+[1]   1 243  64  16   5
 
 [[4]]
-[1] 625   1  64 243   4</code></pre>
+[1]  1 16 81  5  8</code></pre>
+</div>
+</div>
+<section id="sec-ejercicio-map2" class="level4" data-number="8.1.1">
+<h4 data-number="8.1.1" class="anchored" data-anchor-id="sec-ejercicio-map2"><span class="header-section-number">8.1.1</span> Ejercicio</h4>
+<p>A partir del código que se muestra a continuación calculad la correlación entre <code>bill_length_mm</code> y <code>bill_depth_mm</code> para cada especie de pingüino. Pista: 1-primero tenéis que eliminar los NA’s de la lista; 2-luego hay que utilizar <code>map2_dbl()</code> para calcular la correlación.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>penguins_list <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span></span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_split</span>(species) </span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a><span class="co"># asi se haria para una sola lista</span></span>
+<span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(penguins_list[[<span class="dv">2</span>]]<span class="sc">$</span>bill_length_mm, penguins_list[[<span class="dv">2</span>]]<span class="sc">$</span>bill_depth_mm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6535362</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>penguins_nested <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span></span>
-<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
-<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lm_obj =</span> <span class="fu">map</span>(data, \(df) <span class="fu">lm</span>(</span>
-<span id="cb110-6"><a href="#cb110-6" aria-hidden="true" tabindex="-1"></a>      bill_length_mm <span class="sc">~</span> body_mass_g,</span>
-<span id="cb110-7"><a href="#cb110-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> df)),</span>
-<span id="cb110-8"><a href="#cb110-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">pred =</span> <span class="fu">map2</span>(lm_obj, data,</span>
-<span id="cb110-9"><a href="#cb110-9" aria-hidden="true" tabindex="-1"></a>                \(x, y) <span class="fu">predict</span>(x, y))</span>
-<span id="cb110-10"><a href="#cb110-10" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb110-11"><a href="#cb110-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb110-12"><a href="#cb110-12" aria-hidden="true" tabindex="-1"></a><span class="co"># unnest()</span></span>
-<span id="cb110-13"><a href="#cb110-13" aria-hidden="true" tabindex="-1"></a>penguins_nested <span class="sc">|&gt;</span> </span>
-<span id="cb110-14"><a href="#cb110-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(pred) <span class="sc">|&gt;</span> </span>
-<span id="cb110-15"><a href="#cb110-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">c</span>(data, lm_obj))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>penguins_nested <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span></span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lm_obj =</span> <span class="fu">map</span>(data, \(df) <span class="fu">lm</span>(</span>
+<span id="cb112-6"><a href="#cb112-6" aria-hidden="true" tabindex="-1"></a>      bill_length_mm <span class="sc">~</span> body_mass_g,</span>
+<span id="cb112-7"><a href="#cb112-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> df)),</span>
+<span id="cb112-8"><a href="#cb112-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">pred =</span> <span class="fu">map2</span>(lm_obj, data,</span>
+<span id="cb112-9"><a href="#cb112-9" aria-hidden="true" tabindex="-1"></a>                \(x, y) <span class="fu">predict</span>(x, y))</span>
+<span id="cb112-10"><a href="#cb112-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb112-11"><a href="#cb112-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-12"><a href="#cb112-12" aria-hidden="true" tabindex="-1"></a><span class="co"># unnest()</span></span>
+<span id="cb112-13"><a href="#cb112-13" aria-hidden="true" tabindex="-1"></a>penguins_nested <span class="sc">|&gt;</span> </span>
+<span id="cb112-14"><a href="#cb112-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(pred) <span class="sc">|&gt;</span> </span>
+<span id="cb112-15"><a href="#cb112-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">c</span>(data, lm_obj))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 333 × 2
 # Groups:   species [3]
@@ -1207,81 +1226,86 @@ Coefficients:
 # ℹ 323 more rows</code></pre>
 </div>
 </div>
-<section id="ejercicio-5" class="level4" data-number="8.1.1">
-<h4 data-number="8.1.1" class="anchored" data-anchor-id="ejercicio-5"><span class="header-section-number">8.1.1</span> Ejercicio 5</h4>
-<p>Calculad la correlación entre las predicciones y <code>bill_length_mm</code>. Pista: hay que utilizar <code>map2_dbl()</code></p>
+</section>
+<section id="ejercicio-avanzado" class="level4" data-number="8.1.2">
+<h4 data-number="8.1.2" class="anchored" data-anchor-id="ejercicio-avanzado"><span class="header-section-number">8.1.2</span> Ejercicio avanzado</h4>
+<p>Calculad la correlación entre las predicciones y <code>bill_length_mm</code>.</p>
 </section>
 </section>
 <section id="nuestro-cuarto-funcional-múltiples-entradas-pmap" class="level3" data-number="8.2">
 <h3 data-number="8.2" class="anchored" data-anchor-id="nuestro-cuarto-funcional-múltiples-entradas-pmap"><span class="header-section-number">8.2</span> Nuestro cuarto funcional: múltiples entradas, <code>pmap()</code></h3>
 <p>Toma una lista con cualquier número de argumentos de entrada.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># son analogos</span></span>
-<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="fu">map2</span>(x, y, potencia)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="co"># son analogos</span></span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a><span class="fu">map2</span>(x, y, potencia)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
-[1]    1 1024    4    3  125
+[1]   4  64 625   1 243
 
 [[2]]
-[1]   1   5 256 243   4
+[1]  4  1 27 25 16
 
 [[3]]
-[1] 1024    4    5    1   81
+[1]   1 243  64  16   5
 
 [[4]]
-[1] 625   1  64 243   4</code></pre>
+[1]  1 16 81  5  8</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pmap</span>(<span class="fu">list</span>(x, y), potencia)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pmap</span>(<span class="fu">list</span>(x, y), potencia)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
-[1]    1 1024    4    3  125
+[1]   4  64 625   1 243
 
 [[2]]
-[1]   1   5 256 243   4
+[1]  4  1 27 25 16
 
 [[3]]
-[1] 1024    4    5    1   81
+[1]   1 243  64  16   5
 
 [[4]]
-[1] 625   1  64 243   4</code></pre>
+[1]  1 16 81  5  8</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, \(x) <span class="fu">sample</span>(<span class="dv">5</span>))</span>
-<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pmap</span>(<span class="fu">list</span>(x, y, z), rnorm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, \(x) <span class="fu">sample</span>(<span class="dv">5</span>))</span>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pmap</span>(<span class="fu">list</span>(x, y, z), rnorm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
-[1] -1.1286532  9.9423693 10.1232209  1.5757807  0.0635729
+[1]  2.5019461  3.6161965  8.2073174  0.5577919 13.4592566
 
 [[2]]
-[1] 12.5623687 -0.2708950  2.3415407  4.1758286  0.9689605
+[1] -0.2472922  1.1831050  2.2905881 -0.1636469  6.4093590
 
 [[3]]
-[1]  6.761984 -1.263777 -1.406136  1.186487  6.204162
+[1]  2.7661842  4.2958805 -0.8585702  3.0498610  4.6342618
 
 [[4]]
-[1]  1.140349 -4.956154  1.074788  3.350652  1.122285</code></pre>
+[1] -6.2538932  1.3754561  4.7248266  0.7660076  3.2209799</code></pre>
 </div>
 </div>
 <p>Si no nombramos los elementos de la lista, <code>pmap()</code> usará los elementos de la lista en su orden para los argumentos consecutivos de la función. De todas formas, creemos que es una buena práctica nombrarlos para que quede muy claro lo que hará la función.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>args3 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">mean =</span> x, <span class="at">sd =</span> y, <span class="at">n =</span> z)</span>
-<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a>args3 <span class="sc">|&gt;</span> </span>
-<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pmap</span>(rnorm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>args3 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">mean =</span> x, <span class="at">sd =</span> y, <span class="at">n =</span> z)</span>
+<span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a>args3 <span class="sc">|&gt;</span> </span>
+<span id="cb120-3"><a href="#cb120-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pmap</span>(rnorm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
-[1]  9.134126 -1.863775  2.449523  3.116581  5.821683
+[1]  2.5271800  3.4051389  4.4673584  1.2903960 -0.9534537
 
 [[2]]
-[1] -3.412214  4.117022  8.577021  4.776169  2.550030
+[1]  5.199065  9.482589  2.152221  4.368482 -1.149155
 
 [[3]]
-[1] 11.3386789  4.9973976  5.5498181 -0.2217996 10.0279908
+[1]  2.485260 11.820307  6.030602 -4.451834  4.055262
 
 [[4]]
-[1] 2.3020436 0.2884883 0.8000780 7.3450419 1.9578047</code></pre>
+[1]  7.279007  3.945340 -1.829807  4.502129  8.038092</code></pre>
 </div>
 </div>
 <p><img src="images/pmap.png" class="img-fluid"></p>
+<section id="ejercicio-4" class="level4" data-number="8.2.1">
+<h4 data-number="8.2.1" class="anchored" data-anchor-id="ejercicio-4"><span class="header-section-number">8.2.1</span> Ejercicio</h4>
+<p>Transformad el <code>map2()</code> que habéis generado en el ejercicio <a href="#sec-ejercicio-map2" class="quarto-xref">Section&nbsp;8.1.1</a> a <code>pmap()</code>.</p>
+</section>
 </section>
 </section>
 <section id="sin-salida" class="level2" data-number="9">
@@ -1289,14 +1313,14 @@ Coefficients:
 <section id="nuestro-quinto-funcional-walk-walk2-y-pwalk" class="level3" data-number="9.1">
 <h3 data-number="9.1" class="anchored" data-anchor-id="nuestro-quinto-funcional-walk-walk2-y-pwalk"><span class="header-section-number">9.1</span> Nuestro quinto funcional: <code>walk()</code>, <code>walk2()</code> y <code>pwalk()</code></h3>
 <p>Cuando queremos utilizar funciones por sus efectos secundarios/side effects (e.g.&nbsp;<code>ggsave()</code>) y no por su valor resultante. Lo importante es la acción y no el valor u objeto resultante en R.</p>
-<section id="ejercicio-6" class="level4" data-number="9.1.1">
-<h4 data-number="9.1.1" class="anchored" data-anchor-id="ejercicio-6"><span class="header-section-number">9.1.1</span> Ejercicio 6</h4>
+<section id="ejercicio-5" class="level4" data-number="9.1.1">
+<h4 data-number="9.1.1" class="anchored" data-anchor-id="ejercicio-5"><span class="header-section-number">9.1.1</span> Ejercicio</h4>
 <p>En base a lo que dice en la definición sobre la familia <code>walk()</code>, corred este código y entended lo que hace.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>penguins_nested <span class="ot">&lt;-</span> penguins_nested <span class="sc">|&gt;</span> </span>
-<span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">path =</span> <span class="fu">str_glue</span>(<span class="st">"results/penguins_{species}.csv"</span>))</span>
-<span id="cb120-3"><a href="#cb120-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb120-4"><a href="#cb120-4" aria-hidden="true" tabindex="-1"></a>penguins_nested</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>penguins_nested <span class="ot">&lt;-</span> penguins_nested <span class="sc">|&gt;</span> </span>
+<span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">path =</span> <span class="fu">str_glue</span>(<span class="st">"results/penguins_{species}.csv"</span>))</span>
+<span id="cb122-3"><a href="#cb122-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-4"><a href="#cb122-4" aria-hidden="true" tabindex="-1"></a>penguins_nested</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 5
 # Groups:   species [3]
@@ -1306,8 +1330,12 @@ Coefficients:
 2 Gentoo    &lt;tibble [119 × 7]&gt; &lt;lm&gt;   &lt;dbl [119]&gt; results/penguins_Gentoo.csv   
 3 Chinstrap &lt;tibble [68 × 7]&gt;  &lt;lm&gt;   &lt;dbl [68]&gt;  results/penguins_Chinstrap.csv</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="fu">walk2</span>(penguins_nested<span class="sc">$</span>data, penguins_nested<span class="sc">$</span>path, write_csv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="fu">walk2</span>(penguins_nested<span class="sc">$</span>data, penguins_nested<span class="sc">$</span>path, write_csv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="ejercicio-avanzado-1" class="level4" data-number="9.1.2">
+<h4 data-number="9.1.2" class="anchored" data-anchor-id="ejercicio-avanzado-1"><span class="header-section-number">9.1.2</span> Ejercicio avanzado</h4>
+<p>Generad un ejemplo donde utiliceis <code>walk2()</code> para guardar múltiples ggplots. Pista: la primera entrada será el plot que queréis guardar y la segunda el nombre del archivo que le queréis dar.</p>
 </section>
 </section>
 </section>
@@ -1318,8 +1346,8 @@ Coefficients:
 <p><code>modify()</code> e <code>imap()</code> también son funcionales de la familia map. <code>modify()</code> es análogo a <code>map()</code> pero devuelve el mismo tipo de resultado que el tipo de entrada.</p>
 <p><code>imap()</code> sirve para iterar sobre indices, tanto indices numéricos como nombres. <code>imap(x, f)</code> es análogo a <code>map2(x, names(x), f)</code> cuando <code>x</code> tiene nombres y <code>map2(x, seq_along(x), f)</code> cuando no los tiene.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="co"># modify</span></span>
-<span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, cuadratica)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="co"># modify</span></span>
+<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, cuadratica)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
 [1] 1
@@ -1333,12 +1361,12 @@ Coefficients:
 [[4]]
 [1] 16</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modify</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, cuadratica)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modify</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, cuadratica)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  1  4  9 16</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="co"># imap</span></span>
-<span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a><span class="fu">map2</span>(penguins, <span class="fu">names</span>(penguins), \(x, y) <span class="fu">paste</span>(<span class="st">"La columna"</span>, y, <span class="st">"tiene"</span>, <span class="fu">length</span>(<span class="fu">unique</span>(x)), <span class="st">"valores unicos contando los NA's"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="co"># imap</span></span>
+<span id="cb129-2"><a href="#cb129-2" aria-hidden="true" tabindex="-1"></a><span class="fu">map2</span>(penguins, <span class="fu">names</span>(penguins), \(x, y) <span class="fu">paste</span>(<span class="st">"La columna"</span>, y, <span class="st">"tiene"</span>, <span class="fu">length</span>(<span class="fu">unique</span>(x)), <span class="st">"valores unicos contando los NA's"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$species
 [1] "La columna species tiene 3 valores unicos contando los NA's"
@@ -1364,7 +1392,7 @@ $sex
 $year
 [1] "La columna year tiene 3 valores unicos contando los NA's"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="fu">imap</span>(penguins, \(x, y) <span class="fu">paste</span>(<span class="st">"La columna"</span>, y, <span class="st">"tiene"</span>, <span class="fu">length</span>(<span class="fu">unique</span>(x)), <span class="st">"valores unicos contando los NA's"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">imap</span>(penguins, \(x, y) <span class="fu">paste</span>(<span class="st">"La columna"</span>, y, <span class="st">"tiene"</span>, <span class="fu">length</span>(<span class="fu">unique</span>(x)), <span class="st">"valores unicos contando los NA's"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$species
 [1] "La columna species tiene 3 valores unicos contando los NA's"
@@ -1395,22 +1423,90 @@ $year
 <p>💡Ejemplos de algunas tareas específicas con {purrr}: <a href="https://r4ds.hadley.nz/iteration" class="uri">https://r4ds.hadley.nz/iteration</a></p>
 </section>
 </section>
-<section id="operadores-funcionales" class="level2" data-number="11">
-<h2 data-number="11" class="anchored" data-anchor-id="operadores-funcionales"><span class="header-section-number">11</span> Operadores funcionales</h2>
+<section id="funcionales-predicate-y-demás" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="funcionales-predicate-y-demás"><span class="header-section-number">11</span> Funcionales predicate y demás</h2>
+<p>Los predicados son funciones que devuelven un solo TRUE o FALSE (e.g., <code>is.character()</code>). Así, un predicado funcional aplica un predicado a cada elemento de un vector: <code>keep()</code>, <code>discard()</code>, <code>some()</code>, <code>every()</code>, <code>detect()</code>, <code>detect_index()</code>… Para más información ver: <a href="https://r4ds.had.co.nz/iteration.html" class="uri">https://r4ds.had.co.nz/iteration.html</a>, 21.9.1 Predicate functions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">keep</span>(is.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 333 × 5
+   bill_length_mm bill_depth_mm flipper_length_mm body_mass_g  year
+            &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt; &lt;int&gt;
+ 1           39.1          18.7               181        3750  2007
+ 2           39.5          17.4               186        3800  2007
+ 3           40.3          18                 195        3250  2007
+ 4           36.7          19.3               193        3450  2007
+ 5           39.3          20.6               190        3650  2007
+ 6           38.9          17.8               181        3625  2007
+ 7           39.2          19.6               195        4675  2007
+ 8           41.1          17.6               182        3200  2007
+ 9           38.6          21.2               191        3800  2007
+10           34.6          21.1               198        4400  2007
+# ℹ 323 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">discard</span>(is.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 333 × 3
+   species island    sex   
+   &lt;fct&gt;   &lt;fct&gt;     &lt;fct&gt; 
+ 1 Adelie  Torgersen male  
+ 2 Adelie  Torgersen female
+ 3 Adelie  Torgersen female
+ 4 Adelie  Torgersen female
+ 5 Adelie  Torgersen male  
+ 6 Adelie  Torgersen female
+ 7 Adelie  Torgersen male  
+ 8 Adelie  Torgersen female
+ 9 Adelie  Torgersen male  
+10 Adelie  Torgersen male  
+# ℹ 323 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb137-2"><a href="#cb137-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">every</span>(is.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<p><code>dplyr::across()</code> es similar a <code>map()</code> pero en lugar de hacer algo con cada elemento de un vector, hace algo con cada columna en un data frame.</p>
+<p><code>reduce()</code> es una forma útil de generalizar una función que funciona con dos entradas (función binaria) para trabajar con cualquier número de entradas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a>penguins_scaled <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span></span>
+<span id="cb139-2"><a href="#cb139-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), scale))</span>
+<span id="cb139-3"><a href="#cb139-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb139-4"><a href="#cb139-4" aria-hidden="true" tabindex="-1"></a>ls <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb139-5"><a href="#cb139-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">age =</span> <span class="fu">tibble</span>(<span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Vero"</span>, <span class="st">"Julen"</span>), <span class="at">age =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">140</span>)),</span>
+<span id="cb139-6"><a href="#cb139-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">sex =</span> <span class="fu">tibble</span>(<span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Vero"</span>, <span class="st">"Julen"</span>), <span class="at">sex =</span> <span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"M"</span>)),</span>
+<span id="cb139-7"><a href="#cb139-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="fu">tibble</span>(<span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Vero"</span>, <span class="st">"Julen"</span>), <span class="at">height =</span> <span class="fu">c</span>(<span class="st">"180"</span>, <span class="st">"150"</span>))</span>
+<span id="cb139-8"><a href="#cb139-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb139-9"><a href="#cb139-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb139-10"><a href="#cb139-10" aria-hidden="true" tabindex="-1"></a>ls <span class="sc">|&gt;</span> </span>
+<span id="cb139-11"><a href="#cb139-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reduce</span>(full_join, <span class="at">by =</span> <span class="st">"name"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 4
+  name    age sex   height
+  &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+1 Vero    100 F     180   
+2 Julen   140 M     150   </code></pre>
+</div>
+</div>
+<section id="operadores-funcionales" class="level3" data-number="11.1">
+<h3 data-number="11.1" class="anchored" data-anchor-id="operadores-funcionales"><span class="header-section-number">11.1</span> Operadores funcionales</h3>
 <p>Cuando utilizamos las funciones <code>map()</code> para repetir muchas operaciones, aumenta la probabilidad de que una de esas operaciones falle y no obtenamos ninguna salida. {purrr} proporciona algunos operadores funcionales (function operators) en forma de adverbios para asegurar que un error no arruine todo el proceso: <code>safely()</code>, <code>possibly()</code>, <code>quietly()</code>. Para más información ver: <a href="https://r4ds.had.co.nz/iteration.html" class="uri">https://r4ds.had.co.nz/iteration.html</a>, 21.6 Dealing with failure.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="dv">10</span>, <span class="st">"b"</span>, <span class="dv">3</span>)</span>
-<span id="cb131-2"><a href="#cb131-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb131-3"><a href="#cb131-3" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> </span>
-<span id="cb131-4"><a href="#cb131-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(log)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="dv">10</span>, <span class="st">"b"</span>, <span class="dv">3</span>)</span>
+<span id="cb141-2"><a href="#cb141-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb141-3"><a href="#cb141-3" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> </span>
+<span id="cb141-4"><a href="#cb141-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(log)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in `map()`:
 ℹ In index: 2.
 Caused by error:
 ! non-numeric argument to mathematical function</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> </span>
-<span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="fu">safely</span>(log))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> </span>
+<span id="cb143-2"><a href="#cb143-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="fu">safely</span>(log))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
 [[1]]$result
@@ -1435,9 +1531,9 @@ NULL
 [[3]]$error
 NULL</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> </span>
-<span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="fu">safely</span>(log)) <span class="sc">|&gt;</span> </span>
-<span id="cb135-3"><a href="#cb135-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transpose</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> </span>
+<span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="fu">safely</span>(log)) <span class="sc">|&gt;</span> </span>
+<span id="cb145-3"><a href="#cb145-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transpose</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$result
 $result[[1]]
@@ -1460,8 +1556,8 @@ $error[[2]]
 $error[[3]]
 NULL</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> </span>
-<span id="cb137-2"><a href="#cb137-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="fu">possibly</span>(log, <span class="cn">NA_real_</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> </span>
+<span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="fu">possibly</span>(log, <span class="cn">NA_real_</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
 [1] 2.302585
@@ -1473,129 +1569,67 @@ NULL</code></pre>
 [1] 1.098612</code></pre>
 </div>
 </div>
+<section id="ejercicio-6" class="level4" data-number="11.1.1">
+<h4 data-number="11.1.1" class="anchored" data-anchor-id="ejercicio-6"><span class="header-section-number">11.1.1</span> Ejercicio</h4>
+<p>Aplicad cualquier variante de <code>map()</code> junto con un operador funcional a la base de datos penguins.</p>
 </section>
-<section id="funcionales-predicate-y-demás" class="level2" data-number="12">
-<h2 data-number="12" class="anchored" data-anchor-id="funcionales-predicate-y-demás"><span class="header-section-number">12</span> Funcionales predicate y demás</h2>
-<p>Los predicados son funciones que devuelven un solo TRUE o FALSE (e.g., <code>is.character()</code>). Así, un predicado funcional aplica un predicado a cada elemento de un vector: <code>keep()</code>, <code>discard()</code>, <code>some()</code>, <code>every()</code>, <code>detect()</code>, <code>detect_index()</code>… Para más información ver: <a href="https://r4ds.had.co.nz/iteration.html" class="uri">https://r4ds.had.co.nz/iteration.html</a>, 21.9.1 Predicate functions.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
-<span id="cb139-2"><a href="#cb139-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">keep</span>(is.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 333 × 5
-   bill_length_mm bill_depth_mm flipper_length_mm body_mass_g  year
-            &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt; &lt;int&gt;
- 1           39.1          18.7               181        3750  2007
- 2           39.5          17.4               186        3800  2007
- 3           40.3          18                 195        3250  2007
- 4           36.7          19.3               193        3450  2007
- 5           39.3          20.6               190        3650  2007
- 6           38.9          17.8               181        3625  2007
- 7           39.2          19.6               195        4675  2007
- 8           41.1          17.6               182        3200  2007
- 9           38.6          21.2               191        3800  2007
-10           34.6          21.1               198        4400  2007
-# ℹ 323 more rows</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
-<span id="cb141-2"><a href="#cb141-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">discard</span>(is.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 333 × 3
-   species island    sex   
-   &lt;fct&gt;   &lt;fct&gt;     &lt;fct&gt; 
- 1 Adelie  Torgersen male  
- 2 Adelie  Torgersen female
- 3 Adelie  Torgersen female
- 4 Adelie  Torgersen female
- 5 Adelie  Torgersen male  
- 6 Adelie  Torgersen female
- 7 Adelie  Torgersen male  
- 8 Adelie  Torgersen female
- 9 Adelie  Torgersen male  
-10 Adelie  Torgersen male  
-# ℹ 323 more rows</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
-<span id="cb143-2"><a href="#cb143-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">every</span>(is.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] FALSE</code></pre>
-</div>
-</div>
-<p><code>dplyr::across()</code> es similar a <code>map()</code> pero en lugar de hacer algo con cada elemento de un vector, hace algo con cada columna en un data frame.</p>
-<p><code>reduce()</code> es una forma útil de generalizar una función que funciona con dos entradas (función binaria) para trabajar con cualquier número de entradas.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a>penguins_scaled <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span></span>
-<span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), scale))</span>
-<span id="cb145-3"><a href="#cb145-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb145-4"><a href="#cb145-4" aria-hidden="true" tabindex="-1"></a>ls <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb145-5"><a href="#cb145-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">age =</span> <span class="fu">tibble</span>(<span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Vero"</span>, <span class="st">"Julen"</span>), <span class="at">age =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">140</span>)),</span>
-<span id="cb145-6"><a href="#cb145-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">sex =</span> <span class="fu">tibble</span>(<span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Vero"</span>, <span class="st">"Julen"</span>), <span class="at">sex =</span> <span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"M"</span>)),</span>
-<span id="cb145-7"><a href="#cb145-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="fu">tibble</span>(<span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Vero"</span>, <span class="st">"Julen"</span>), <span class="at">height =</span> <span class="fu">c</span>(<span class="st">"180"</span>, <span class="st">"150"</span>))</span>
-<span id="cb145-8"><a href="#cb145-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb145-9"><a href="#cb145-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb145-10"><a href="#cb145-10" aria-hidden="true" tabindex="-1"></a>ls <span class="sc">|&gt;</span> </span>
-<span id="cb145-11"><a href="#cb145-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reduce</span>(full_join, <span class="at">by =</span> <span class="st">"name"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 4
-  name    age sex   height
-  &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-1 Vero    100 F     180   
-2 Julen   140 M     150   </code></pre>
-</div>
-</div>
 </section>
-<section id="paralelización" class="level2" data-number="13">
-<h2 data-number="13" class="anchored" data-anchor-id="paralelización"><span class="header-section-number">13</span> Paralelización</h2>
+</section>
+<section id="más-información" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="más-información"><span class="header-section-number">12</span> Más información</h2>
+<section id="paralelización" class="level3" data-number="12.1">
+<h3 data-number="12.1" class="anchored" data-anchor-id="paralelización"><span class="header-section-number">12.1</span> Paralelización</h3>
 <p>Se pueden emplear distintos núcleos de la CPU (Central Processing Unit) para ejecutar el mismo proceso con diferentes conjuntos de datos en paralelo, lo que acelera tareas largas. Algunas tareas son especialmente adecuadas para la paralelización, como aquellas que son repetitivas y tienen poca o ninguna dependencia entre sí, salvo el origen de los datos de entrada, lo que permite dividirlas fácilmente en tareas paralelas. Estas tareas suelen ser aquellas que pueden ser resueltas mediante iteraciones como las que hemos visto anteriormente. En teoría, el proceso se acelera en proporción a 1/número de núcleos disponibles, pero en la práctica, hay que tener en cuenta otros factores como el tiempo consumido en transferir datos a cada proceso y el tiempo dedicado a reunir los resultados de los diferentes procesos.</p>
 <p>R fue diseñado originalmente para ejecutarse en un solo proceso de CPU debido a que cuando se desarrolló, las CPU en general tenían un único núcleo y la computación paralela no era tan común o no estaba tan desarrollada como lo está hoy en día. Por lo tanto, para aprovechar la paralelización en R, necesitamos recurrir a paquetes adicionales. Sin embargo, es importante tener en cuenta que estos paquetes pueden estar limitados en su uso a casos y tipos de datos específicos.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel) <span class="co"># detectar numero de cores</span></span>
-<span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future) <span class="co"># establecer numero de cores</span></span>
-<span id="cb147-3"><a href="#cb147-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(furrr) <span class="co"># paralelizacion con map</span></span>
-<span id="cb147-4"><a href="#cb147-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-5"><a href="#cb147-5" aria-hidden="true" tabindex="-1"></a><span class="fu">detectCores</span>()</span>
-<span id="cb147-6"><a href="#cb147-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-7"><a href="#cb147-7" aria-hidden="true" tabindex="-1"></a><span class="co"># funcion para elevar al cubo un numero</span></span>
-<span id="cb147-8"><a href="#cb147-8" aria-hidden="true" tabindex="-1"></a>cubo <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb147-9"><a href="#cb147-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">Sys.sleep</span>(<span class="dv">1</span>) <span class="co"># simulacion tarea computacionalmente intensiva</span></span>
-<span id="cb147-10"><a href="#cb147-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(x <span class="sc">^</span> <span class="dv">3</span>)</span>
-<span id="cb147-11"><a href="#cb147-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb147-12"><a href="#cb147-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-13"><a href="#cb147-13" aria-hidden="true" tabindex="-1"></a><span class="co"># secuencial</span></span>
-<span id="cb147-14"><a href="#cb147-14" aria-hidden="true" tabindex="-1"></a>tiempo_inicio <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb147-15"><a href="#cb147-15" aria-hidden="true" tabindex="-1"></a>resultado <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, cubo)</span>
-<span id="cb147-16"><a href="#cb147-16" aria-hidden="true" tabindex="-1"></a>tiempo_final <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb147-17"><a href="#cb147-17" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Tiempo de computación:"</span>, <span class="fu">round</span>(tiempo_final <span class="sc">-</span> tiempo_inicio, <span class="dv">1</span>), <span class="st">"seconds</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb147-18"><a href="#cb147-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-19"><a href="#cb147-19" aria-hidden="true" tabindex="-1"></a><span class="co"># establecer como vamos a resolver el proceso</span></span>
-<span id="cb147-20"><a href="#cb147-20" aria-hidden="true" tabindex="-1"></a><span class="co"># aqui utilizaremos 3 nucleos pero en funcion del numero de nucleos disponibles en tu pc modificad este numero</span></span>
-<span id="cb147-21"><a href="#cb147-21" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">3</span>)</span>
-<span id="cb147-22"><a href="#cb147-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-23"><a href="#cb147-23" aria-hidden="true" tabindex="-1"></a><span class="co"># future_map para ejecutarlo paralelamente</span></span>
-<span id="cb147-24"><a href="#cb147-24" aria-hidden="true" tabindex="-1"></a>tiempo_inicio <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb147-25"><a href="#cb147-25" aria-hidden="true" tabindex="-1"></a>resultado <span class="ot">&lt;-</span> <span class="fu">future_map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, cubo)</span>
-<span id="cb147-26"><a href="#cb147-26" aria-hidden="true" tabindex="-1"></a>tiempo_final <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb147-27"><a href="#cb147-27" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Tiempo de computación:"</span>, <span class="fu">round</span>(tiempo_final <span class="sc">-</span> tiempo_inicio, <span class="dv">1</span>), <span class="st">"seconds</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb147-28"><a href="#cb147-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-29"><a href="#cb147-29" aria-hidden="true" tabindex="-1"></a><span class="co"># vemos que el tiempo de computacion se ha reducido casi a un 1/3 (aprox. 1/numero de cores)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb149"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel) <span class="co"># detectar numero de cores</span></span>
+<span id="cb149-2"><a href="#cb149-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future) <span class="co"># establecer numero de cores</span></span>
+<span id="cb149-3"><a href="#cb149-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(furrr) <span class="co"># paralelizacion con map</span></span>
+<span id="cb149-4"><a href="#cb149-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb149-5"><a href="#cb149-5" aria-hidden="true" tabindex="-1"></a><span class="fu">detectCores</span>()</span>
+<span id="cb149-6"><a href="#cb149-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb149-7"><a href="#cb149-7" aria-hidden="true" tabindex="-1"></a><span class="co"># funcion para elevar al cubo un numero</span></span>
+<span id="cb149-8"><a href="#cb149-8" aria-hidden="true" tabindex="-1"></a>cubo <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb149-9"><a href="#cb149-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">Sys.sleep</span>(<span class="dv">1</span>) <span class="co"># simulacion tarea computacionalmente intensiva</span></span>
+<span id="cb149-10"><a href="#cb149-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(x <span class="sc">^</span> <span class="dv">3</span>)</span>
+<span id="cb149-11"><a href="#cb149-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb149-12"><a href="#cb149-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb149-13"><a href="#cb149-13" aria-hidden="true" tabindex="-1"></a><span class="co"># secuencial</span></span>
+<span id="cb149-14"><a href="#cb149-14" aria-hidden="true" tabindex="-1"></a>tiempo_inicio <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb149-15"><a href="#cb149-15" aria-hidden="true" tabindex="-1"></a>resultado <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, cubo)</span>
+<span id="cb149-16"><a href="#cb149-16" aria-hidden="true" tabindex="-1"></a>tiempo_final <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb149-17"><a href="#cb149-17" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Tiempo de computación:"</span>, <span class="fu">round</span>(tiempo_final <span class="sc">-</span> tiempo_inicio, <span class="dv">1</span>), <span class="st">"seconds</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb149-18"><a href="#cb149-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb149-19"><a href="#cb149-19" aria-hidden="true" tabindex="-1"></a><span class="co"># establecer como vamos a resolver el proceso</span></span>
+<span id="cb149-20"><a href="#cb149-20" aria-hidden="true" tabindex="-1"></a><span class="co"># aqui utilizaremos 3 nucleos pero en funcion del numero de nucleos disponibles en tu pc modificad este numero</span></span>
+<span id="cb149-21"><a href="#cb149-21" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">3</span>)</span>
+<span id="cb149-22"><a href="#cb149-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb149-23"><a href="#cb149-23" aria-hidden="true" tabindex="-1"></a><span class="co"># future_map para ejecutarlo paralelamente</span></span>
+<span id="cb149-24"><a href="#cb149-24" aria-hidden="true" tabindex="-1"></a>tiempo_inicio <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb149-25"><a href="#cb149-25" aria-hidden="true" tabindex="-1"></a>resultado <span class="ot">&lt;-</span> <span class="fu">future_map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, cubo)</span>
+<span id="cb149-26"><a href="#cb149-26" aria-hidden="true" tabindex="-1"></a>tiempo_final <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb149-27"><a href="#cb149-27" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Tiempo de computación:"</span>, <span class="fu">round</span>(tiempo_final <span class="sc">-</span> tiempo_inicio, <span class="dv">1</span>), <span class="st">"seconds</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb149-28"><a href="#cb149-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb149-29"><a href="#cb149-29" aria-hidden="true" tabindex="-1"></a><span class="co"># vemos que el tiempo de computacion se ha reducido casi a un 1/3 (aprox. 1/numero de cores)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>La información aquí expuesta sobre programación paralela está obtenida y mucho más ampliamente explicada en: <a href="https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/" class="uri">https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/</a></p>
 </section>
-<section id="sec-POO" class="level2" data-number="14">
-<h2 data-number="14" class="anchored" data-anchor-id="sec-POO"><span class="header-section-number">14</span> Más información sobre programación orientada a objetos (POO)</h2>
+<section id="sec-POO" class="level3" data-number="12.2">
+<h3 data-number="12.2" class="anchored" data-anchor-id="sec-POO"><span class="header-section-number">12.2</span> Programación orientada a objetos (POO)</h3>
 <blockquote class="blockquote">
 <p>- Todo lo que existe es un objeto.</p>
 <p>— John Chambers</p>
 <p>- Sin embargo, no todo es orientado a objetos</p>
 </blockquote>
-<p>En R, la programación funcional suele ser más relevante que la POO, ya que frecuentemente se abordan problemas complejos descomponiéndolos en funciones simples en lugar de objetos simples.</p>
+<p>En R, la programación funcional suele ser más relevante que la programación imperativa o la POO, ya que frecuentemente se abordan problemas complejos descomponiéndolos en funciones simples en lugar de objetos simples.</p>
 <p>La principal razón para utilizar la POO es el polimorfismo (del latín “muchas formas”). El polimorfismo permite a un desarrollador considerar la interfaz de una función por separado de su implementación, lo que facilita el uso de la misma función con diferentes tipos de entrada. Para entender esto probar a correr el siguiente código.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb148"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(penguins<span class="sc">$</span>bill_depth_mm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb150"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(penguins<span class="sc">$</span>bill_depth_mm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
   13.10   15.60   17.30   17.16   18.70   21.50 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb150"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(penguins<span class="sc">$</span>sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb152"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb152-1"><a href="#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(penguins<span class="sc">$</span>sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>female   male 
    165    168 </code></pre>
@@ -1605,45 +1639,45 @@ NULL</code></pre>
 <p>En los sistemas de POO, el tipo de un objeto se denomina su clase, y una implementación específica para una clase se conoce como método. En términos generales, una clase define las características de un objeto y los métodos describen las acciones que ese objeto puede realizar. La clase también especifica los campos de datos que cada instancia de esa clase posee.</p>
 <p>R base proporciona tres sistemas de POO (S3–que es la más utilizada–, S4 y RC), aunque también existen otros sistemas POO proporcionados por diferentes paquetes CRAN.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb152"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb152-1"><a href="#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sloop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb154"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a href="#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sloop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: package 'sloop' was built under R version 4.2.3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb154"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a href="#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.object</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) <span class="co"># objeto base pero no orientada a objetos</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb156"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.object</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) <span class="co"># objeto base pero no orientada a objetos</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb156"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">otype</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) <span class="co"># objeto base </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb158"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">otype</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) <span class="co"># objeto base </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "base"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb158"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">"class"</span>) <span class="co"># no tienen clase</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb160"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb160-1"><a href="#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">"class"</span>) <span class="co"># no tienen clase</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>NULL</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb160"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb160-1"><a href="#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.object</span>(penguins) <span class="co"># orientada a objetos</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb162"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb162-1"><a href="#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.object</span>(penguins) <span class="co"># orientada a objetos</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb162"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb162-1"><a href="#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="fu">otype</span>(penguins) <span class="co"># S3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb164"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a href="#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">otype</span>(penguins) <span class="co"># S3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "S3"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb164"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a href="#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(penguins, <span class="st">"class"</span>) <span class="co"># tienen una clase</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb166"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb166-1"><a href="#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(penguins, <span class="st">"class"</span>) <span class="co"># tienen una clase</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "tbl_df"     "tbl"        "data.frame"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb166"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb166-1"><a href="#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ftype</span>(summary) <span class="co"># funcion generica S3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb168"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb168-1"><a href="#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ftype</span>(summary) <span class="co"># funcion generica S3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "S3"      "generic"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb168"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb168-1"><a href="#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="co"># una funcion generica define la interfaz, que utiliza una implementacion (metodo) diferente dependiendo de la clase del argumento. Acuerdate de la idea del polimorfismo que hemos visto antes ;)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb170"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb170-1"><a href="#cb170-1" aria-hidden="true" tabindex="-1"></a><span class="co"># una funcion generica define la interfaz, que utiliza una implementacion (metodo) diferente dependiendo de la clase del argumento. Acuerdate de la idea del polimorfismo que hemos visto antes ;)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Información más detallada sobre <a href="https://adv-r.hadley.nz/oo.html">POO</a> y <a href="https://adv-r.hadley.nz/oo-tradeoffs.html">compromisos entre algunos sistemas de POO</a></p>
 <p>Este taller está principalmente basado en la primera edición del libro <a href="https://r4ds.had.co.nz/">R for Data Science</a> de Hadley Wickham &amp; Garrett Grolemund y la segunda edición del libro <a href="https://adv-r.hadley.nz/index.html">Advanced R</a> de Hadley Wickham.</p>
 </section>
-<section id="enlaces-de-interés" class="level2" data-number="15">
-<h2 data-number="15" class="anchored" data-anchor-id="enlaces-de-interés"><span class="header-section-number">15</span> Enlaces de interés</h2>
+<section id="enlaces-de-interés" class="level3" data-number="12.3">
+<h3 data-number="12.3" class="anchored" data-anchor-id="enlaces-de-interés"><span class="header-section-number">12.3</span> Enlaces de interés</h3>
 <ul>
 <li><p><a href="https://r4ds.had.co.nz/functions.html">R for data Science (functions)</a></p></li>
 <li><p><a href="https://adv-r.hadley.nz/functions.html">Advanced R (functions)</a></p></li>
@@ -1653,6 +1687,8 @@ NULL</code></pre>
 <li><p><a href="https://www.rebeccabarter.com/blog/2019-08-19_purrr">Learn to purrr (Rebecca Barter)</a></p></li>
 <li><p><a href="http://adv-r.had.co.nz/Style.html">Style guide</a></p></li>
 <li><p><a href="https://www.revistaecosistemas.net/index.php/ecosistemas/article/view/2129">Quince consejos para mejorar nuestro código y flujo de trabajo con R</a></p></li>
+<li><p><a href="https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/">Parallel computation in R</a></p></li>
+<li><p><a href="https://adv-r.hadley.nz/oo.html">Advanced R (Object-oriented programming)</a></p></li>
 </ul>
 <hr>
 <details>
@@ -1660,11 +1696,11 @@ NULL</code></pre>
 Session Info
 </summary>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb169"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb171"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2024-05-06 12:48:46 CEST"</code></pre>
+<pre><code>[1] "2024-05-07 13:10:52 CEST"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb171"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb173"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb173-1"><a href="#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.2.2 (2022-10-31 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
@@ -1713,6 +1749,7 @@ loaded via a namespace (and not attached):
 </div>
 </div>
 </details>
+</section>
 </section>
 
 </main>

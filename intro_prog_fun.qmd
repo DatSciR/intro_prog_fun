@@ -28,14 +28,27 @@ Los **objetivos** de este taller son:
 
 ### Estructura del curso
 
-| Bloques                               | Tiempo estimado |
-|---------------------------------------|-----------------|
-| Introducción                          | 15 min          |
-| Teoría sobre funciones                | 25 min          |
-| Cómo escribir funciones               | 25 min          |
-| Programación imperativa vs. funcional | 25 min          |
-| Descanso                              | 15 min          |
-| Iteraciones con {purrr}               | 75 min          |
++----------------------------------------+----------+
+| Bloques                                | Día      |
++========================================+==========+
+| vero 1                                 | 1        |
++----------------------------------------+----------+
+| vero 2                                 | 2        |
++----------------------------------------+----------+
+| Programación imperativa                | 3        |
+|                                        |          |
+| Programación funcional                 |          |
+|                                        |          |
+| Iteraciones sobre uno y dos argumentos |          |
++----------------------------------------+----------+
+| Iteraciones sobre múltiples argumentos | 4        |
+|                                        |          |
+| Iteraciones sin salida                 |          |
+|                                        |          |
+| Más variantes de `map()`               |          |
+|                                        |          |
+| Funcionales predicate y demás          |          |
++----------------------------------------+----------+
 
 ### Quiénes somos
 
@@ -229,9 +242,6 @@ models <- penguins|>
 
 📝 Mejor reservar el uso de funciones anónimas para funciones cortas y simples. Si la función es larga y ocupa varias líneas mejor darle un nombre.
 
-### ejercicio julen
-aquí se podría añadir unas líneas de código con un estilo feo y que ellos lo corrijan. Quizás la ref de style guide que está en bibliografía se podría traer aquí? luego se hablar más de los nombres de funcionaes y demás pero eso ya lo podrían aplicar en el siguiente ejercicio
-
 ## Cómo escribir funciones
 
 Imaginad que para un set de datos quisieramos hacer un gráfico de distribución de cada variable, en función de otra variable categórica que nos interese especialmente, para ver como se distribuye.
@@ -391,9 +401,9 @@ plot_exp(var = "body_mass_g")
 
 💡Puedes querer convertir estas pruebas en **test** formales. En funciones complejas sirven para que, aunque hagas cambios, se pueda comprobar que la funcionalidad no se ha roto. Si estás interesado mira este enlace: [https://r-pkgs.org/testing-basics.html](#0){.uri}
 
-#### Ejercicio 1
+#### Ejercicio
 
-Genera una función para estandarizar (es decir, restar la media y dividir por la desviación típica) las variables numéricas de penguins.
+Generad una función para estandarizar (es decir, restar la media y dividir por la desviación típica) las variables numéricas de penguins.
 
 📝 Atajo para escribir funciones: escribir la palabra fun + tabulador
 
@@ -463,7 +473,7 @@ La última expresión ejecutada en una función es el valor de retorno. Es el re
 
 📝 La función `return()` se usa para indicar explicitamente qué se quiere obtener en una función. Se recomienda su uso cuando el retorno no se espera al final de la función. P.e. en las ramas de una estructura `if/else()` sobre todo hay alguna rama larga y compleja.
 
-#### Ejercicio 2
+#### Ejercicio
 
 ¿Cómo generalizarías la función `plot_exp()` para que te sirviera para cualquier base de datos y cualquier variable categórica?
 
@@ -533,7 +543,7 @@ De todas formas, nunca os sintáis mal por utilizar un bucle en vez de un funcio
 
 ## Programación funcional
 
-En la programación funcional, las funciones están diseñadas para realizar una única tarea específica, y luego se combinan llamando a estas funciones sucesivamente en el conjunto de datos. Una ventaja significativa de este enfoque es que estas funciones pueden ser reutilizadas en cualquier otro proyecto, lo que facilita la modularidad del código. Además, al estar bien documentadas y ser fácilmente testables, resulta sencillo comprender y mantener el programa. 
+En la programación funcional, las funciones están diseñadas para realizar una única tarea específica, y luego se combinan llamando a estas funciones sucesivamente en el conjunto de datos. Una ventaja significativa de este enfoque es que estas funciones pueden ser reutilizadas en cualquier otro proyecto, lo que facilita la modularidad del código. Además, al estar bien documentadas y ser fácilmente testables, resulta sencillo comprender y mantener el programa.
 
 R es un lenguaje de programación funcional por lo que se basa principalmente en un estilo de resolución de problemas centrado en funciones (<https://adv-r.hadley.nz/fp.html>). Un funcional es una función que toma una función como entrada y devuelve un vector como salida.
 
@@ -602,9 +612,9 @@ map_df(penguins, \(x) length(unique(x)))
 
 ![](images/map.png)
 
-#### Ejercicio 3
+#### Ejercicio
 
-Generad un vector, una función y aplicarle la función a cada uno de los elementos del vector utilizando `map()`.
+Generad un vector, una función y aplicarle la función a cada uno de los elementos del vector utilizando `map()`. Generad otra función (o puede ser la misma) a la base de datos de penguins.
 
 #### Implementación de map()
 
@@ -626,7 +636,7 @@ La función de {purrr} está escrita en C para maximizar el rendimiento, conserv
 
 ### Nuestro segundo funcional: generando vectores, `map_*()`
 
-#### Ejercicio 4
+#### Ejercicio
 
 Dedicadle un par de minutos a entender lo que hacen las siguientes funciones:
 
@@ -638,7 +648,7 @@ map_dbl(penguins_num, median, na.rm = T)
 map_chr(penguins, class)
 map_int(penguins, \(x) length(unique(x)))
 1:4 |> 
-  map_vec(\(x) as.Date(ISOdate(x + 2023, 10, 16)))
+  map_vec(\(x) as.Date(ISOdate(x + 2024, 05, 13)))
 
 ```
 
@@ -656,7 +666,7 @@ vapply(penguins_num, median, na.rm = T, FUN.VALUE = double(1))
 
 ```{r map_ejemplo_avanzado}
 
-map(penguins, \(x) class(x))
+map(penguins, class)
 
 glimpse(penguins)
 
@@ -718,6 +728,20 @@ imple_map2(x, y, potencia)
 
 ```
 
+#### Ejercicio {#sec-ejercicio-map2}
+
+A partir del código que se muestra a continuación calculad la correlación entre `bill_length_mm` y `bill_depth_mm` para cada especie de pingüino. Pista: 1-primero tenéis que eliminar los NA's de la lista; 2-luego hay que utilizar `map2_dbl()` para calcular la correlación.
+
+```{r map_2_ejercicio}
+
+penguins_list <- penguins |>
+  group_split(species) 
+
+# asi se haria para una sola lista
+cor(penguins_list[[2]]$bill_length_mm, penguins_list[[2]]$bill_depth_mm)
+
+```
+
 ```{r map2_ejemplo_avanzado}
 
 penguins_nested <- penguins |>
@@ -738,9 +762,9 @@ penguins_nested |>
 
 ```
 
-#### Ejercicio 5
+#### Ejercicio avanzado
 
-Calculad la correlación entre las predicciones y `bill_length_mm`. Pista: hay que utilizar `map2_dbl()`
+Calculad la correlación entre las predicciones y `bill_length_mm`.
 
 ### Nuestro cuarto funcional: múltiples entradas, `pmap()`
 
@@ -766,13 +790,17 @@ args3 |>
 
 ![](images/pmap.png)
 
+#### Ejercicio
+
+Transformad el `map2()` que habéis generado en el ejercicio @sec-ejercicio-map2 a `pmap()`.
+
 ## Sin salida
 
 ### Nuestro quinto funcional: `walk()`, `walk2()` y `pwalk()`
 
 Cuando queremos utilizar funciones por sus efectos secundarios/side effects (e.g. `ggsave()`) y no por su valor resultante. Lo importante es la acción y no el valor u objeto resultante en R.
 
-#### Ejercicio 6
+#### Ejercicio
 
 En base a lo que dice en la definición sobre la familia `walk()`, corred este código y entended lo que hace.
 
@@ -786,6 +814,10 @@ penguins_nested
 walk2(penguins_nested$data, penguins_nested$path, write_csv)
 
 ```
+
+#### Ejercicio avanzado
+
+Generad un ejemplo donde utiliceis `walk2()` para guardar múltiples ggplots. Pista: la primera entrada será el plot que queréis guardar y la segunda el nombre del archivo que le queréis dar.
 
 ## Más variantes de `map()`
 
@@ -813,33 +845,6 @@ imap(penguins, \(x, y) paste("La columna", y, "tiene", length(unique(x)), "valor
 En este curso no los vemos más al detalle porque con los demás funcionales que hemos visto podemos abordar prácticamente todos los problemas sin necesidad de `modify()` e `imap()`, y creemos que es mejor primero aprender los funcionales más utilizados bien. Sin embargo, si alguien está interesado puede consultarlos en: [https://adv-r.hadley.nz/functionals.html](#0), 9.4 Map variants.
 
 💡Ejemplos de algunas tareas específicas con {purrr}: <https://r4ds.hadley.nz/iteration>
-
-## Operadores funcionales
-
-Cuando utilizamos las funciones `map()` para repetir muchas operaciones, aumenta la probabilidad de que una de esas operaciones falle y no obtenamos ninguna salida. {purrr} proporciona algunos operadores funcionales (function operators) en forma de adverbios para asegurar que un error no arruine todo el proceso: `safely()`, `possibly()`, `quietly()`. Para más información ver: <https://r4ds.had.co.nz/iteration.html>, 21.6 Dealing with failure.
-
-```{r ejemplo_operador_funcional}
-#| error: true
-
-x <- list(10, "b", 3)
-
-x |> 
-  map(log)
-
-x |> 
-  map(safely(log))
-
-x |> 
-  map(safely(log)) |> 
-  transpose()
-
-x |> 
-  map(possibly(log, NA_real_))
-
-```
-
-### ejercicio julen
-aquí se los podría proponer utilizar un operador funcional de alguna forma que resulte util
 
 ## Funcionales predicate y demás
 
@@ -878,7 +883,37 @@ ls |>
 
 ```
 
-## Paralelización
+### Operadores funcionales
+
+Cuando utilizamos las funciones `map()` para repetir muchas operaciones, aumenta la probabilidad de que una de esas operaciones falle y no obtenamos ninguna salida. {purrr} proporciona algunos operadores funcionales (function operators) en forma de adverbios para asegurar que un error no arruine todo el proceso: `safely()`, `possibly()`, `quietly()`. Para más información ver: <https://r4ds.had.co.nz/iteration.html>, 21.6 Dealing with failure.
+
+```{r ejemplo_operador_funcional}
+#| error: true
+
+x <- list(10, "b", 3)
+
+x |> 
+  map(log)
+
+x |> 
+  map(safely(log))
+
+x |> 
+  map(safely(log)) |> 
+  transpose()
+
+x |> 
+  map(possibly(log, NA_real_))
+
+```
+
+#### Ejercicio
+
+Aplicad cualquier variante de `map()` junto con un operador funcional a la base de datos penguins.
+
+## Más información
+
+### Paralelización
 
 Se pueden emplear distintos núcleos de la CPU (Central Processing Unit) para ejecutar el mismo proceso con diferentes conjuntos de datos en paralelo, lo que acelera tareas largas. Algunas tareas son especialmente adecuadas para la paralelización, como aquellas que son repetitivas y tienen poca o ninguna dependencia entre sí, salvo el origen de los datos de entrada, lo que permite dividirlas fácilmente en tareas paralelas. Estas tareas suelen ser aquellas que pueden ser resueltas mediante iteraciones como las que hemos visto anteriormente. En teoría, el proceso se acelera en proporción a 1/número de núcleos disponibles, pero en la práctica, hay que tener en cuenta otros factores como el tiempo consumido en transferir datos a cada proceso y el tiempo dedicado a reunir los resultados de los diferentes procesos.
 
@@ -921,10 +956,7 @@ cat("Tiempo de computación:", round(tiempo_final - tiempo_inicio, 1), "seconds\
 
 La información aquí expuesta sobre programación paralela está obtenida y mucho más ampliamente explicada en: <https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/>
 
-### ejercicio julen
-aquí se los podría proponer que paralelicen algun ejemplo que han hecho anteriormente
-
-## Más información sobre programación orientada a objetos (POO) {#sec-POO}
+### Programación orientada a objetos (POO) {#sec-POO}
 
 > \- Todo lo que existe es un objeto.
 >
@@ -932,7 +964,7 @@ aquí se los podría proponer que paralelicen algun ejemplo que han hecho anteri
 >
 > \- Sin embargo, no todo es orientado a objetos
 
-En R, la programación funcional suele ser más relevante que la POO, ya que frecuentemente se abordan problemas complejos descomponiéndolos en funciones simples en lugar de objetos simples.
+En R, la programación funcional suele ser más relevante que la programación imperativa o la POO, ya que frecuentemente se abordan problemas complejos descomponiéndolos en funciones simples en lugar de objetos simples.
 
 La principal razón para utilizar la POO es el polimorfismo (del latín "muchas formas"). El polimorfismo permite a un desarrollador considerar la interfaz de una función por separado de su implementación, lo que facilita el uso de la misma función con diferentes tipos de entrada. Para entender esto probar a correr el siguiente código.
 
@@ -970,7 +1002,7 @@ Información más detallada sobre [POO](https://adv-r.hadley.nz/oo.html) y [comp
 
 Este taller está principalmente basado en la primera edición del libro [R for Data Science](https://r4ds.had.co.nz/) de Hadley Wickham & Garrett Grolemund y la segunda edición del libro [Advanced R](https://adv-r.hadley.nz/index.html) de Hadley Wickham.
 
-## Enlaces de interés
+### Enlaces de interés
 
 -   [R for data Science (functions)](https://r4ds.had.co.nz/functions.html)
 
@@ -987,6 +1019,10 @@ Este taller está principalmente basado en la primera edición del libro [R for 
 -   [Style guide](http://adv-r.had.co.nz/Style.html)
 
 -   [Quince consejos para mejorar nuestro código y flujo de trabajo con R](https://www.revistaecosistemas.net/index.php/ecosistemas/article/view/2129)
+
+-   [Parallel computation in R](https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/)
+
+-   [Advanced R (Object-oriented programming)](https://adv-r.hadley.nz/oo.html)
 
 ------------------------------------------------------------------------
 

@@ -1,5 +1,5 @@
 ---
-title: "Programación funcional en R y como dejar de pensar en bucle"
+title: "Programación funcional en R"
 author: Julen Astigarraga y Verónica Cruz-Alonso
 date: today
 date-format: "DD/MM/YYYY"
@@ -20,35 +20,47 @@ number-sections: true
 
 Los **objetivos** de este taller son:
 
+-   aprender las bases de la programación en R
+
 -   aprender a escribir funciones
 
 -   aplicar funciones en programación iterativa mediante el paquete {purrr} de {tidyverse}
 
 -   aprender estilos de código que facilitan su comprensión (📝)
 
+Dentro del modelo de ciencia de datos de Hadley Wickham (@fig-datascience), el curso de centra en el marco que envuelve todo el proceso, es decir, la programación.
+
+![Modelo de ciencia de datos de Hadley Wickham. Traducido de https://r4ds.hadley.nz/intro#fig-ds-diagram](images/datascience.png){#datascience}
+
 ### Estructura del curso
 
-+----------------------------------------+-----+
-| Bloques                                | Día |
-+========================================+=====+
-| vero 1                                 | 1   |
-+----------------------------------------+-----+
-| vero 2                                 | 2   |
-+----------------------------------------+-----+
-| Programación imperativa                | 3   |
-|                                        |     |
-| Programación funcional                 |     |
-|                                        |     |
-| Iteraciones sobre uno y dos argumentos |     |
-+----------------------------------------+-----+
-| Iteraciones sobre múltiples argumentos | 4   |
-|                                        |     |
-| Iteraciones sin salida                 |     |
-|                                        |     |
-| Más variantes de `map()`               |     |
-|                                        |     |
-| Funcionales predicate y demás          |     |
-+----------------------------------------+-----+
++------------------------------------------+-------------+
+| Bloques                                  | Día         |
++==========================================+=============+
+| Presentación del curso                   | 1           |
+|                                          |             |
+| Introducción a la programación en R      |             |
+|                                          |             |
+| Introducción a la programación funcional |             |
++------------------------------------------+-------------+
+| Teoría sobre funciones en R              | 2           |
+|                                          |             |
+| Cómo escribir funciones                  |             |
++------------------------------------------+-------------+
+| Programación imperativa                  | 3           |
+|                                          |             |
+| Programación funcional                   |             |
+|                                          |             |
+| Iteraciones sobre uno y dos argumentos   |             |
++------------------------------------------+-------------+
+| Iteraciones sobre múltiples argumentos   | 4           |
+|                                          |             |
+| Iteraciones sin salida                   |             |
+|                                          |             |
+| Más variantes de `map()`                 |             |
+|                                          |             |
+| Funcionales predicate y demás            |             |
++------------------------------------------+-------------+
 
 ### Quiénes somos
 
@@ -56,7 +68,11 @@ Los **objetivos** de este taller son:
 
 Y vosotros ¿quiénes sois?
 
-![QR](images/mentimeter_qr_code.png) <https://www.menti.com/alyyd29vgomt>
+<https://www.menti.com/al2sdohesi5u>
+
+## Introducción a la programación en R
+
+![](images/e684f0da-13b1-4d00-ab25-37814e79ee1e.png){width="362"}
 
 ## Introducción a la programación funcional
 

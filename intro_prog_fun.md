@@ -1,6 +1,6 @@
 # Programación funcional en R y como dejar de pensar en bucle
 Julen Astigarraga y Verónica Cruz-Alonso
-2023-10-16
+07/05/2024
 
 - [<span class="toc-section-number">1</span>
   Presentación](#presentación)
@@ -48,16 +48,18 @@ Julen Astigarraga y Verónica Cruz-Alonso
   `map()`](#más-variantes-de-map)
   - [<span class="toc-section-number">10.1</span> `modify()` e
     `imap()`](#modify-e-imap)
-- [<span class="toc-section-number">11</span> Operadores
-  funcionales](#operadores-funcionales)
-- [<span class="toc-section-number">12</span> Funcionales predicate y
+- [<span class="toc-section-number">11</span> Funcionales predicate y
   demás](#funcionales-predicate-y-demás)
-- [<span class="toc-section-number">13</span>
-  Paralelización](#paralelización)
-- [<span class="toc-section-number">14</span> Más información sobre
-  programación orientada a objetos (POO)](#sec-POO)
-- [<span class="toc-section-number">15</span> Enlaces de
-  interés](#enlaces-de-interés)
+  - [<span class="toc-section-number">11.1</span> Operadores
+    funcionales](#operadores-funcionales)
+- [<span class="toc-section-number">12</span> Más
+  información](#más-información)
+  - [<span class="toc-section-number">12.1</span>
+    Paralelización](#paralelización)
+  - [<span class="toc-section-number">12.2</span> Programación orientada
+    a objetos (POO)](#sec-POO)
+  - [<span class="toc-section-number">12.3</span> Enlaces de
+    interés](#enlaces-de-interés)
 
 ![](images/Logo_ecoinf_10.jpg)
 
@@ -74,14 +76,41 @@ Los **objetivos** de este taller son:
 
 ### Estructura del curso
 
-| Bloques                               | Tiempo estimado |
-|---------------------------------------|-----------------|
-| Introducción                          | 15 min          |
-| Teoría sobre funciones                | 25 min          |
-| Cómo escribir funciones               | 25 min          |
-| Programación imperativa vs. funcional | 25 min          |
-| Descanso                              | 15 min          |
-| Iteraciones con {purrr}               | 75 min          |
+<table style="width:72%;">
+<colgroup>
+<col style="width: 56%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Bloques</th>
+<th>Día</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>vero 1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>vero 2</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td><p>Programación imperativa</p>
+<p>Programación funcional</p>
+<p>Iteraciones sobre uno y dos argumentos</p></td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td><p>Iteraciones sobre múltiples argumentos</p>
+<p>Iteraciones sin salida</p>
+<p>Más variantes de <code>map()</code></p>
+<p>Funcionales predicate y demás</p></td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
 
 ### Quiénes somos
 
@@ -641,10 +670,10 @@ comprobar que la funcionalidad no se ha roto. Si estás interesado mira
 este enlace:
 <a href="#0" class="uri">https://r-pkgs.org/testing-basics.html</a>
 
-#### Ejercicio 1
+#### Ejercicio
 
-Genera una función para escalar (es decir, restar la media y dividir por
-la desviación típica) las variables numéricas de penguins.
+Generad una función para estandarizar (es decir, restar la media y
+dividir por la desviación típica) las variables numéricas de penguins.
 
 📝 Atajo para escribir funciones: escribir la palabra fun + tabulador
 
@@ -740,12 +769,21 @@ quiere obtener en una función. Se recomienda su uso cuando el retorno no
 se espera al final de la función. P.e. en las ramas de una estructura
 `if/else()` sobre todo hay alguna rama larga y compleja.
 
-#### Ejercicio 2
+#### Ejercicio
 
 ¿Cómo generalizarías la función `plot_exp()` para que te sirviera para
 cualquier base de datos y cualquier variable categórica?
 
 ## Programación imperativa
+
+La mayoría de las personas tiende a programar de forma imperativa, en
+gran parte debido a que es la metodología que se enseña con más
+frecuencia en los centros de educación. En la programación imperativa,
+los scripts tienden a ser largos y cambian gradualmente el estado del
+programa. Esto a menudo implica el uso de bases de datos temporales que
+se modifican a lo largo del proceso de análisis. Como resultado, puede
+resultar más difícil comprender qué se está haciendo en cada paso del
+script.
 
 Los bucles for y bucles while (for loops y while loops) son
 recomendables para adentrarse en el mundo de las iteraciones porque
@@ -766,7 +804,7 @@ for (i in seq_along(df_ej)) {           # 2. secuencia
 salida
 ```
 
-    [1] 1.1209708 1.9215022 0.7926311
+    [1] 1.381333 1.516648 1.003660
 
 1.  Salida: aquí determinamos el espacio de la salida. Esto es muy
     importante para la eficiencia puesto que si aumentamos el tamaño del
@@ -783,7 +821,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.75    0.31    1.16 
+       0.38    0.35    0.72 
 
 ``` r
 y <- vector("double", length = 20000)
@@ -795,7 +833,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.02    0.00    0.01 
+          0       0       0 
 
 2.  Secuencia: aquí determinamos sobre lo que queremos iterar. Cada
     ejecución del bucle for asignará i a un valor diferente de
@@ -834,7 +872,7 @@ funcional. Los funcionales necesitan un paso más de abstracción y pueden
 requerir tiempo hasta que los comprendamos. Lo más importante es que
 soluciones el problema y poco a poco ir escribiendo código cada vez más
 sencillo y elegante. Ver
-<a href="#sec-POO" class="quarto-xref">Section 14</a> para obtener más
+<a href="#sec-POO" class="quarto-xref">Section 12.2</a> para obtener más
 información sobre programación imperativa o orientada a objetos.
 
 > Para ser significativamente más fiable, el código debe ser más
@@ -857,7 +895,15 @@ ciencia de datos)”](images/map_frosting.png)
 
 ## Programación funcional
 
-R es un lenguaje de programación funcional. Esto significa que se basa
+En la programación funcional, las funciones están diseñadas para
+realizar una única tarea específica, y luego se combinan llamando a
+estas funciones sucesivamente en el conjunto de datos. Una ventaja
+significativa de este enfoque es que estas funciones pueden ser
+reutilizadas en cualquier otro proyecto, lo que facilita la modularidad
+del código. Además, al estar bien documentadas y ser fácilmente
+testables, resulta sencillo comprender y mantener el programa.
+
+R es un lenguaje de programación funcional por lo que se basa
 principalmente en un estilo de resolución de problemas centrado en
 funciones (<https://adv-r.hadley.nz/fp.html>). Un funcional es una
 función que toma una función como entrada y devuelve un vector como
@@ -870,7 +916,7 @@ aleatorizacion <- function(f) {
 aleatorizacion(median)
 ```
 
-    [1] -0.1584558
+    [1] 0.1612903
 
 Estilo funcional: primero, solucionamos el problema para un elemento.
 Después, generamos una función que nos permita envolver la solución en
@@ -909,16 +955,16 @@ Los sufijos indican el tipo de salida que queremos:
 map_dbl(df_ej, mean)
 ```
 
-            a         b         c 
-    0.2175613 0.4495309 0.1194365 
+             a          b          c 
+     0.5370848  0.4282647 -0.3272653 
 
 ``` r
 df_ej |> 
   map_dbl(mean)
 ```
 
-            a         b         c 
-    0.2175613 0.4495309 0.1194365 
+             a          b          c 
+     0.5370848  0.4282647 -0.3272653 
 
 Comparando con un bucle el foco está en la operación que se está
 ejecutando (`mean()`), y no en el código necesario para iterar sobre
@@ -1030,10 +1076,11 @@ map_df(penguins, \(x) length(unique(x)))
 
 ![](images/map.png)
 
-#### Ejercicio 3
+#### Ejercicio
 
 Generad un vector, una función y aplicarle la función a cada uno de los
-elementos del vector utilizando `map()`.
+elementos del vector utilizando `map()`. Generad otra función (o puede
+ser la misma) a la base de datos de penguins.
 
 #### Implementación de map()
 
@@ -1066,7 +1113,7 @@ conserva los nombres y admite algunos atajos (e.g. `\(x)`).
 
 ### Nuestro segundo funcional: generando vectores, `map_*()`
 
-#### Ejercicio 4
+#### Ejercicio
 
 Dedicadle un par de minutos a entender lo que hacen las siguientes
 funciones:
@@ -1110,10 +1157,10 @@ map_int(penguins, \(x) length(unique(x)))
 
 ``` r
 1:4 |> 
-  map_vec(\(x) as.Date(ISOdate(x + 2023, 10, 16)))
+  map_vec(\(x) as.Date(ISOdate(x + 2024, 05, 13)))
 ```
 
-    [1] "2024-10-16" "2025-10-16" "2026-10-16" "2027-10-16"
+    [1] "2025-05-13" "2026-05-13" "2027-05-13" "2028-05-13"
 
 Los argumentos que varían para cada ejecución vienen antes de la función
 y los argumentos que son los mismos para cada ejecución vienen después
@@ -1139,7 +1186,7 @@ vapply(penguins_num, median, na.rm = T, FUN.VALUE = double(1))
               2008.00 
 
 ``` r
-map(penguins, \(x) class(x))
+map(penguins, class)
 ```
 
     $species
@@ -1280,16 +1327,16 @@ map2(x, y, potencia)
 ```
 
     [[1]]
-    [1] 625   4   1  64 243
+    [1]  16 625   1  32  27
 
     [[2]]
-    [1] 625  16  32   1  27
+    [1]  256    1 3125    2   27
 
     [[3]]
-    [1]  25 243  16   1  64
+    [1]    1 3125    4    8   81
 
     [[4]]
-    [1]   1  81   2  16 125
+    [1]    1  256 3125    4    3
 
 ⚡¡Importante! La primera iteración corresponde al primer valor del
 vector `x` y al primer valor del vector `y`. La segunda iteración
@@ -1312,16 +1359,33 @@ imple_map2(x, y, potencia)
 ```
 
     [[1]]
-    [1] 625   4   1  64 243
+    [1]  16 625   1  32  27
 
     [[2]]
-    [1] 625  16  32   1  27
+    [1]  256    1 3125    2   27
 
     [[3]]
-    [1]  25 243  16   1  64
+    [1]    1 3125    4    8   81
 
     [[4]]
-    [1]   1  81   2  16 125
+    [1]    1  256 3125    4    3
+
+#### Ejercicio
+
+A partir del código que se muestra a continuación calculad la
+correlación entre `bill_length_mm` y `bill_depth_mm` para cada especie
+de pingüino. Pista: 1-primero tenéis que eliminar los NA’s de la lista;
+2-luego hay que utilizar `map2_dbl()` para calcular la correlación.
+
+``` r
+penguins_list <- penguins |>
+  group_split(species) 
+
+# asi se haria para una sola lista
+cor(penguins_list[[2]]$bill_length_mm, penguins_list[[2]]$bill_depth_mm)
+```
+
+    [1] 0.6535362
 
 ``` r
 penguins_nested <- penguins |>
@@ -1357,10 +1421,9 @@ penguins_nested |>
     10 Adelie   41.0
     # ℹ 323 more rows
 
-#### Ejercicio 5
+#### Ejercicio avanzado
 
 Calculad la correlación entre las predicciones y `bill_length_mm`.
-Pista: hay que utilizar `map2_dbl()`
 
 ### Nuestro cuarto funcional: múltiples entradas, `pmap()`
 
@@ -1372,32 +1435,32 @@ map2(x, y, potencia)
 ```
 
     [[1]]
-    [1] 625   4   1  64 243
+    [1]  16 625   1  32  27
 
     [[2]]
-    [1] 625  16  32   1  27
+    [1]  256    1 3125    2   27
 
     [[3]]
-    [1]  25 243  16   1  64
+    [1]    1 3125    4    8   81
 
     [[4]]
-    [1]   1  81   2  16 125
+    [1]    1  256 3125    4    3
 
 ``` r
 pmap(list(x, y), potencia)
 ```
 
     [[1]]
-    [1] 625   4   1  64 243
+    [1]  16 625   1  32  27
 
     [[2]]
-    [1] 625  16  32   1  27
+    [1]  256    1 3125    2   27
 
     [[3]]
-    [1]  25 243  16   1  64
+    [1]    1 3125    4    8   81
 
     [[4]]
-    [1]   1  81   2  16 125
+    [1]    1  256 3125    4    3
 
 ``` r
 z <- map(1:4, \(x) sample(5))
@@ -1406,16 +1469,16 @@ pmap(list(x, y, z), rnorm)
 ```
 
     [[1]]
-    [1] -0.5943925  2.5608412  2.7245560  2.5064939  4.9302873
+    [1]  3.239407 10.811726  1.063666  4.603539 -1.955531
 
     [[2]]
-    [1]  5.417019  2.912762  7.998290 -4.287179  2.141707
+    [1] 4.71687184 1.22618439 5.49025305 0.08405808 2.17967502
 
     [[3]]
-    [1]  3.128735 -2.118074  2.851086  1.747424  2.156159
+    [1]  1.869622  5.246858  2.138569 -3.797384  5.509375
 
     [[4]]
-    [1] -0.613039  3.644730  2.802213 -5.526053  6.259502
+    [1] 2.564717 4.038528 5.240469 5.774363 4.959301
 
 Si no nombramos los elementos de la lista, `pmap()` usará los elementos
 de la lista en su orden para los argumentos consecutivos de la función.
@@ -1429,18 +1492,24 @@ args3 |>
 ```
 
     [[1]]
-    [1]  5.6507061 -0.1986855  0.2368085 -0.5474779 -3.1371822
+    [1]  8.8959247 10.0408968  0.3292441  8.7282512  3.1971556
 
     [[2]]
-    [1] 10.0689941  3.6664264 -0.8286372  1.7459715  1.7882096
+    [1] 1.7919717 0.2687605 0.8319854 1.5582395 4.8381383
 
     [[3]]
-    [1] 3.6455492 6.2454904 3.5279903 0.3789416 2.9878300
+    [1] -3.363911  1.733919  5.938784  2.303464  4.226337
 
     [[4]]
-    [1] -3.9150542  0.5115701  1.5520492  5.9155438  4.2506925
+    [1]  6.3715624 10.3461544  3.6917809  0.4900465  2.9776925
 
 ![](images/pmap.png)
+
+#### Ejercicio
+
+Transformad el `map2()` que habéis generado en el ejercicio
+<a href="#sec-ejercicio-map2" class="quarto-xref">Section 8.1.1</a> a
+`pmap()`.
 
 ## Sin salida
 
@@ -1450,7 +1519,7 @@ Cuando queremos utilizar funciones por sus efectos secundarios/side
 effects (e.g. `ggsave()`) y no por su valor resultante. Lo importante es
 la acción y no el valor u objeto resultante en R.
 
-#### Ejercicio 6
+#### Ejercicio
 
 En base a lo que dice en la definición sobre la familia `walk()`, corred
 este código y entended lo que hace.
@@ -1473,6 +1542,12 @@ penguins_nested
 ``` r
 walk2(penguins_nested$data, penguins_nested$path, write_csv)
 ```
+
+#### Ejercicio avanzado
+
+Generad un ejemplo donde utiliceis `walk2()` para guardar múltiples
+ggplots. Pista: la primera entrada será el plot que queréis guardar y la
+segunda el nombre del archivo que le queréis dar.
 
 ## Más variantes de `map()`
 
@@ -1576,7 +1651,89 @@ alguien está interesado puede consultarlos en:
 💡Ejemplos de algunas tareas específicas con {purrr}:
 <https://r4ds.hadley.nz/iteration>
 
-## Operadores funcionales
+## Funcionales predicate y demás
+
+Los predicados son funciones que devuelven un solo TRUE o FALSE (e.g.,
+`is.character()`). Así, un predicado funcional aplica un predicado a
+cada elemento de un vector: `keep()`, `discard()`, `some()`, `every()`,
+`detect()`, `detect_index()`… Para más información ver:
+<https://r4ds.had.co.nz/iteration.html>, 21.9.1 Predicate functions.
+
+``` r
+penguins |> 
+  keep(is.numeric)
+```
+
+    # A tibble: 333 × 5
+       bill_length_mm bill_depth_mm flipper_length_mm body_mass_g  year
+                <dbl>         <dbl>             <int>       <int> <int>
+     1           39.1          18.7               181        3750  2007
+     2           39.5          17.4               186        3800  2007
+     3           40.3          18                 195        3250  2007
+     4           36.7          19.3               193        3450  2007
+     5           39.3          20.6               190        3650  2007
+     6           38.9          17.8               181        3625  2007
+     7           39.2          19.6               195        4675  2007
+     8           41.1          17.6               182        3200  2007
+     9           38.6          21.2               191        3800  2007
+    10           34.6          21.1               198        4400  2007
+    # ℹ 323 more rows
+
+``` r
+penguins |> 
+  discard(is.numeric)
+```
+
+    # A tibble: 333 × 3
+       species island    sex   
+       <fct>   <fct>     <fct> 
+     1 Adelie  Torgersen male  
+     2 Adelie  Torgersen female
+     3 Adelie  Torgersen female
+     4 Adelie  Torgersen female
+     5 Adelie  Torgersen male  
+     6 Adelie  Torgersen female
+     7 Adelie  Torgersen male  
+     8 Adelie  Torgersen female
+     9 Adelie  Torgersen male  
+    10 Adelie  Torgersen male  
+    # ℹ 323 more rows
+
+``` r
+penguins |> 
+  every(is.numeric)
+```
+
+    [1] FALSE
+
+`dplyr::across()` es similar a `map()` pero en lugar de hacer algo con
+cada elemento de un vector, hace algo con cada columna en un data frame.
+
+`reduce()` es una forma útil de generalizar una función que funciona con
+dos entradas (función binaria) para trabajar con cualquier número de
+entradas.
+
+``` r
+penguins_scaled <- penguins |>
+  mutate(across(where(is.numeric), scale))
+
+ls <- list(
+  age = tibble(name = c("Vero", "Julen"), age = c(100, 140)),
+  sex = tibble(name = c("Vero", "Julen"), sex = c("F", "M")),
+  height = tibble(name = c("Vero", "Julen"), height = c("180", "150"))
+)
+
+ls |> 
+  reduce(full_join, by = "name")
+```
+
+    # A tibble: 2 × 4
+      name    age sex   height
+      <chr> <dbl> <chr> <chr> 
+    1 Vero    100 F     180   
+    2 Julen   140 M     150   
+
+### Operadores funcionales
 
 Cuando utilizamos las funciones `map()` para repetir muchas operaciones,
 aumenta la probabilidad de que una de esas operaciones falle y no
@@ -1667,89 +1824,14 @@ x |>
     [[3]]
     [1] 1.098612
 
-## Funcionales predicate y demás
+#### Ejercicio
 
-Los predicados son funciones que devuelven un solo TRUE o FALSE (e.g.,
-`is.character()`). Así, un predicado funcional aplica un predicado a
-cada elemento de un vector: `keep()`, `discard()`, `some()`, `every()`,
-`detect()`, `detect_index()`… Para más información ver:
-<https://r4ds.had.co.nz/iteration.html>, 21.9.1 Predicate functions.
+Aplicad cualquier variante de `map()` junto con un operador funcional a
+la base de datos penguins.
 
-``` r
-penguins |> 
-  keep(is.numeric)
-```
+## Más información
 
-    # A tibble: 333 × 5
-       bill_length_mm bill_depth_mm flipper_length_mm body_mass_g  year
-                <dbl>         <dbl>             <int>       <int> <int>
-     1           39.1          18.7               181        3750  2007
-     2           39.5          17.4               186        3800  2007
-     3           40.3          18                 195        3250  2007
-     4           36.7          19.3               193        3450  2007
-     5           39.3          20.6               190        3650  2007
-     6           38.9          17.8               181        3625  2007
-     7           39.2          19.6               195        4675  2007
-     8           41.1          17.6               182        3200  2007
-     9           38.6          21.2               191        3800  2007
-    10           34.6          21.1               198        4400  2007
-    # ℹ 323 more rows
-
-``` r
-penguins |> 
-  discard(is.numeric)
-```
-
-    # A tibble: 333 × 3
-       species island    sex   
-       <fct>   <fct>     <fct> 
-     1 Adelie  Torgersen male  
-     2 Adelie  Torgersen female
-     3 Adelie  Torgersen female
-     4 Adelie  Torgersen female
-     5 Adelie  Torgersen male  
-     6 Adelie  Torgersen female
-     7 Adelie  Torgersen male  
-     8 Adelie  Torgersen female
-     9 Adelie  Torgersen male  
-    10 Adelie  Torgersen male  
-    # ℹ 323 more rows
-
-``` r
-penguins |> 
-  every(is.numeric)
-```
-
-    [1] FALSE
-
-`dplyr::across()` es similar a `map()` pero en lugar de hacer algo con
-cada elemento de un vector, hace algo con cada columna en un data frame.
-
-`reduce()` es una forma útil de generalizar una función que funciona con
-dos entradas (función binaria) para trabajar con cualquier número de
-entradas.
-
-``` r
-penguins_scaled <- penguins |>
-  mutate(across(where(is.numeric), scale))
-
-ls <- list(
-  age = tibble(name = c("Vero", "Julen"), age = c(100, 140)),
-  sex = tibble(name = c("Vero", "Julen"), sex = c("F", "M")),
-  height = tibble(name = c("Vero", "Julen"), height = c("180", "150"))
-)
-
-ls |> 
-  reduce(full_join, by = "name")
-```
-
-    # A tibble: 2 × 4
-      name    age sex   height
-      <chr> <dbl> <chr> <chr> 
-    1 Vero    100 F     180   
-    2 Julen   140 M     150   
-
-## Paralelización
+### Paralelización
 
 Se pueden emplear distintos núcleos de la CPU (Central Processing Unit)
 para ejecutar el mismo proceso con diferentes conjuntos de datos en
@@ -1778,11 +1860,7 @@ library(future) # establecer numero de cores
 library(furrr) # paralelizacion con map
 
 detectCores()
-```
 
-    [1] 8
-
-``` r
 # funcion para elevar al cubo un numero
 cubo <- function(x) {
   Sys.sleep(1) # simulacion tarea computacionalmente intensiva
@@ -1794,11 +1872,7 @@ tiempo_inicio <- Sys.time()
 resultado <- map(1:10, cubo)
 tiempo_final <- Sys.time()
 cat("Tiempo de computación:", round(tiempo_final - tiempo_inicio, 1), "seconds\n")
-```
 
-    Tiempo de computación: 10.2 seconds
-
-``` r
 # establecer como vamos a resolver el proceso
 # aqui utilizaremos 3 nucleos pero en funcion del numero de nucleos disponibles en tu pc modificad este numero
 plan(multisession, workers = 3)
@@ -1808,19 +1882,15 @@ tiempo_inicio <- Sys.time()
 resultado <- future_map(1:10, cubo)
 tiempo_final <- Sys.time()
 cat("Tiempo de computación:", round(tiempo_final - tiempo_inicio, 1), "seconds\n")
-```
 
-    Tiempo de computación: 4.8 seconds
-
-``` r
 # vemos que el tiempo de computacion se ha reducido casi a un 1/3 (aprox. 1/numero de cores)
 ```
 
 La información aquí expuesta sobre programación paralela está obtenida y
 mucho más ampliamente explicada en:
-https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/
+<https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/>
 
-## Más información sobre programación orientada a objetos (POO)
+### Programación orientada a objetos (POO)
 
 > \- Todo lo que existe es un objeto.
 >
@@ -1828,9 +1898,10 @@ https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/
 >
 > \- Sin embargo, no todo es orientado a objetos
 
-En R, la programación funcional suele ser más relevante que la POO, ya
-que frecuentemente se abordan problemas complejos descomponiéndolos en
-funciones simples en lugar de objetos simples.
+En R, la programación funcional suele ser más relevante que la
+programación imperativa o la POO, ya que frecuentemente se abordan
+problemas complejos descomponiéndolos en funciones simples en lugar de
+objetos simples.
 
 La principal razón para utilizar la POO es el polimorfismo (del latín
 “muchas formas”). El polimorfismo permite a un desarrollador considerar
@@ -1930,7 +2001,7 @@ Este taller está principalmente basado en la primera edición del libro
 Garrett Grolemund y la segunda edición del libro [Advanced
 R](https://adv-r.hadley.nz/index.html) de Hadley Wickham.
 
-## Enlaces de interés
+### Enlaces de interés
 
 - [R for data Science
   (functions)](https://r4ds.had.co.nz/functions.html)
@@ -1952,6 +2023,12 @@ R](https://adv-r.hadley.nz/index.html) de Hadley Wickham.
 - [Quince consejos para mejorar nuestro código y flujo de trabajo con
   R](https://www.revistaecosistemas.net/index.php/ecosistemas/article/view/2129)
 
+- [Parallel computation in
+  R](https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/)
+
+- [Advanced R (Object-oriented
+  programming)](https://adv-r.hadley.nz/oo.html)
+
 ------------------------------------------------------------------------
 
 <details>
@@ -1963,7 +2040,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2024-05-06 12:16:52 CEST"
+    [1] "2024-05-07 13:12:57 CEST"
 
 ``` r
 sessionInfo()
@@ -1983,37 +2060,35 @@ sessionInfo()
     [5] LC_TIME=English_United Kingdom.utf8    
 
     attached base packages:
-    [1] parallel  stats     graphics  grDevices utils     datasets  methods  
-    [8] base     
+    [1] stats     graphics  grDevices utils     datasets  methods   base     
 
     other attached packages:
-     [1] sloop_1.0.1          furrr_0.3.0          future_1.26.1       
-     [4] palmerpenguins_0.1.1 forcats_0.5.1        stringr_1.5.0       
-     [7] dplyr_1.1.2          purrr_1.0.1          readr_2.1.2         
-    [10] tidyr_1.3.0          tibble_3.2.1         ggplot2_3.4.2       
-    [13] tidyverse_1.3.2     
+     [1] sloop_1.0.1          palmerpenguins_0.1.1 forcats_0.5.1       
+     [4] stringr_1.5.0        dplyr_1.1.2          purrr_1.0.1         
+     [7] readr_2.1.2          tidyr_1.3.0          tibble_3.2.1        
+    [10] ggplot2_3.4.2        tidyverse_1.3.2     
 
     loaded via a namespace (and not attached):
-     [1] lubridate_1.8.0     listenv_0.8.0       assertthat_0.2.1   
-     [4] digest_0.6.29       utf8_1.2.3          parallelly_1.32.0  
-     [7] R6_2.5.1            cellranger_1.1.0    backports_1.4.1    
-    [10] reprex_2.0.1        evaluate_0.18       httr_1.4.3         
-    [13] pillar_1.9.0        rlang_1.1.1         googlesheets4_1.0.0
-    [16] readxl_1.4.0        rstudioapi_0.13     rmarkdown_2.16     
-    [19] labeling_0.4.2      googledrive_2.0.0   bit_4.0.5          
-    [22] munsell_0.5.0       broom_1.0.0         compiler_4.2.2     
-    [25] modelr_0.1.8        xfun_0.39           pkgconfig_2.0.3    
-    [28] globals_0.15.1      htmltools_0.5.3     tidyselect_1.2.0   
-    [31] codetools_0.2-18    fansi_1.0.4         crayon_1.5.2       
-    [34] tzdb_0.3.0          dbplyr_2.2.1        withr_2.5.0        
-    [37] grid_4.2.2          jsonlite_1.8.0      gtable_0.3.3       
-    [40] lifecycle_1.0.3     DBI_1.1.3           magrittr_2.0.3     
-    [43] scales_1.2.1        cli_3.6.1           stringi_1.7.12     
-    [46] vroom_1.5.7         farver_2.1.1        fs_1.5.2           
-    [49] xml2_1.3.3          ellipsis_0.3.2      generics_0.1.3     
-    [52] vctrs_0.6.3         tools_4.2.2         bit64_4.0.5        
-    [55] glue_1.6.2          hms_1.1.1           fastmap_1.1.0      
-    [58] yaml_2.3.5          colorspace_2.1-0    gargle_1.2.0       
-    [61] rvest_1.0.2         knitr_1.40.1        haven_2.5.0        
+     [1] lubridate_1.8.0     assertthat_0.2.1    digest_0.6.29      
+     [4] utf8_1.2.3          R6_2.5.1            cellranger_1.1.0   
+     [7] backports_1.4.1     reprex_2.0.1        evaluate_0.18      
+    [10] httr_1.4.3          pillar_1.9.0        rlang_1.1.1        
+    [13] googlesheets4_1.0.0 readxl_1.4.0        rstudioapi_0.13    
+    [16] rmarkdown_2.16      labeling_0.4.2      googledrive_2.0.0  
+    [19] bit_4.0.5           munsell_0.5.0       broom_1.0.0        
+    [22] compiler_4.2.2      modelr_0.1.8        xfun_0.39          
+    [25] pkgconfig_2.0.3     htmltools_0.5.3     tidyselect_1.2.0   
+    [28] codetools_0.2-18    fansi_1.0.4         crayon_1.5.2       
+    [31] tzdb_0.3.0          dbplyr_2.2.1        withr_2.5.0        
+    [34] grid_4.2.2          jsonlite_1.8.0      gtable_0.3.3       
+    [37] lifecycle_1.0.3     DBI_1.1.3           magrittr_2.0.3     
+    [40] scales_1.2.1        cli_3.6.1           stringi_1.7.12     
+    [43] vroom_1.5.7         farver_2.1.1        fs_1.5.2           
+    [46] xml2_1.3.3          ellipsis_0.3.2      generics_0.1.3     
+    [49] vctrs_0.6.3         tools_4.2.2         bit64_4.0.5        
+    [52] glue_1.6.2          hms_1.1.1           parallel_4.2.2     
+    [55] fastmap_1.1.0       yaml_2.3.5          colorspace_2.1-0   
+    [58] gargle_1.2.0        rvest_1.0.2         knitr_1.40.1       
+    [61] haven_2.5.0        
 
 </details>

@@ -28,27 +28,27 @@ Los **objetivos** de este taller son:
 
 ### Estructura del curso
 
-+----------------------------------------+-----+
-| Bloques                                | Día |
-+========================================+=====+
-| vero 1                                 | 1   |
-+----------------------------------------+-----+
-| vero 2                                 | 2   |
-+----------------------------------------+-----+
-| Programación imperativa                | 3   |
-|                                        |     |
-| Programación funcional                 |     |
-|                                        |     |
-| Iteraciones sobre uno y dos argumentos |     |
-+----------------------------------------+-----+
-| Iteraciones sobre múltiples argumentos | 4   |
-|                                        |     |
-| Iteraciones sin salida                 |     |
-|                                        |     |
-| Más variantes de `map()`               |     |
-|                                        |     |
-| Funcionales predicate y demás          |     |
-+----------------------------------------+-----+
++----------------------------------------+--------------+
+| Bloques                                | Día          |
++========================================+==============+
+| vero 1                                 | 1            |
++----------------------------------------+--------------+
+| vero 2                                 | 2            |
++----------------------------------------+--------------+
+| Programación imperativa                | 3            |
+|                                        |              |
+| Programación funcional                 |              |
+|                                        |              |
+| Iteraciones sobre uno y dos argumentos |              |
++----------------------------------------+--------------+
+| Iteraciones sobre múltiples argumentos | 4            |
+|                                        |              |
+| Iteraciones sin salida                 |              |
+|                                        |              |
+| Más variantes de `map()`               |              |
+|                                        |              |
+| Funcionales predicate y demás          |              |
++----------------------------------------+--------------+
 
 ### Quiénes somos
 
@@ -614,9 +614,7 @@ map_df(penguins, \(x) length(unique(x)))
 
 #### Ejercicio
 
-Generad un vector, una función y aplicarle la función a cada uno de los elementos del vector utilizando `map()`. Generad otra función (o puede ser la misma) a la base de datos de penguins.
-
-#### Implementación de map()
+Generad un vector, una función y aplicarle la función a cada uno de los elementos del vector utilizando `map()`. \#### Implementación de map()
 
 ```{r map_implementacion}
 
@@ -633,6 +631,20 @@ imple_map(1:4, cuadratica)
 ```
 
 La función de {purrr} está escrita en C para maximizar el rendimiento, conserva los nombres y admite algunos atajos (e.g. `\(x)`).
+
+#### Ejercicio
+
+Ahora que habéis entendido la lógica de `map()`, detectar las diferencias entre las tres líneas de código siguientes:
+
+```{r argumentos_adicionales}
+
+map(penguins, \(x) mean(x))
+map(penguins, \(x) mean(x, na.rm = T)) # opcion 1
+map(penguins, mean, na.rm = T) # opcion 2
+
+```
+
+Como lo hemos visto en el ejercicio anterior, si quisiéramos pasar argumentos adicionales a la función que estamos utilizando dentro de `map()`, una opción sería mediante una función anónima (ver opción 1 del ejercicio anterior). Sin embargo, puesto que `map()` utiliza `...`, también podemos incluir los argumentos adicionales después de la función que está dentro de `map()` de una forma mucho más sencilla (ver opción 2 del ejercicio anterior).
 
 ### Nuestro segundo funcional: generando vectores, `map_*()`
 

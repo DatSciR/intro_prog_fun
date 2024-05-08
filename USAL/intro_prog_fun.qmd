@@ -14,8 +14,6 @@ editor_options:
 number-sections: true
 ---
 
-![](images/Logo_ecoinf_10.jpg)
-
 ## Presentación
 
 Los **objetivos** de este taller son:
@@ -34,37 +32,39 @@ Dentro del modelo de ciencia de datos de Hadley Wickham (@fig-datascience), el c
 
 ### Estructura del curso
 
-+------------------------------------------+-------------+
-| Bloques                                  | Día         |
-+==========================================+=============+
-| Presentación del curso                   | 1           |
-|                                          |             |
-| Introducción a la programación en R      |             |
-|                                          |             |
-| Introducción a la programación funcional |             |
-+------------------------------------------+-------------+
-| Teoría sobre funciones en R              | 2           |
-|                                          |             |
-| Cómo escribir funciones                  |             |
-+------------------------------------------+-------------+
-| Programación imperativa                  | 3           |
-|                                          |             |
-| Programación funcional                   |             |
-|                                          |             |
-| Iteraciones sobre uno y dos argumentos   |             |
-+------------------------------------------+-------------+
-| Iteraciones sobre múltiples argumentos   | 4           |
-|                                          |             |
-| Iteraciones sin salida                   |             |
-|                                          |             |
-| Más variantes de `map()`                 |             |
-|                                          |             |
-| Funcionales predicate y demás            |             |
-+------------------------------------------+-------------+
++------------------------------------------+--------------+
+| Bloques                                  | Día          |
++==========================================+==============+
+| Presentación del curso                   | 1            |
+|                                          |              |
+| Introducción a la programación en R      |              |
+|                                          |              |
+| Introducción a la programación funcional |              |
++------------------------------------------+--------------+
+| Teoría sobre funciones en R              | 2            |
+|                                          |              |
+| Cómo escribir funciones                  |              |
++------------------------------------------+--------------+
+| Programación imperativa                  | 3            |
+|                                          |              |
+| Programación funcional                   |              |
+|                                          |              |
+| Iteraciones sobre uno y dos argumentos   |              |
++------------------------------------------+--------------+
+| Iteraciones sobre múltiples argumentos   | 4            |
+|                                          |              |
+| Iteraciones sin salida                   |              |
+|                                          |              |
+| Más variantes de `map()`                 |              |
+|                                          |              |
+| Funcionales predicate y demás            |              |
++------------------------------------------+--------------+
 
 ### Quiénes somos
 
 ![](images/1_N_0YimgDh2_IbBT9jJNtOg.jpg)
+
+Coordinamos el [grupo de trabajo de Ecoinformática](https://ecoinfaeet.github.io/website/index.html) de la Asociación Española de Ecología Terrestre.
 
 Y vosotros ¿quiénes sois?
 
@@ -74,13 +74,17 @@ Y vosotros ¿quiénes sois?
 
 ![](images/e684f0da-13b1-4d00-ab25-37814e79ee1e.png){width="362"}
 
-## Introducción a la programación funcional
+### Conceptos muy básicos
 
-La creciente disponibilidad de datos y de versatilidad de los programas de análisis han provocado el incremento en la cantidad y complejidad de los análisis que realizamos en ecología. Esto hace cada vez más necesaria la eficiencia en el proceso de gestión y análisis de datos. Una de las posibles formas para optimizar estos procesos y acortar los tiempos de trabajo para los usuarios de R es la programación basada en funciones. Las funciones permiten automatizar tareas comunes (por ejemplo, leer diferentes bases de datos) simplificando el código.
+-   R: lenguaje de programación dinámico (se interpreta el código en el momento que se ejecuta).
 
-Las **funciones** son objetos de R que toman un input y consiguen un output haciendo una acción concreta (funcionalidad específica). Son los *bloques de construcción* fundamentales en cualquier script de R que es un lenguaje funcional.
+-   RStudio: es un entorno de desarrollo integrado para programar en R. Tiene cuatro zonas diferenciadas: el editor de código, la consola, donde se ejecuta el código, el navegador del espacio de trabajo (con el environment y el historial de comandos) y el mix de abajo a la derecha (Archivos, Gráficos, Paquetes, Ayuda).
 
-![](images/function.png)
+-   Objetos: cualquier elemento almacenado con un nombre específico. Pueden ser de muchos tipos: numeric, integer, logical, data.frame, etc.
+
+-   Funciones: objetos de R que toman un input y consiguen un output haciendo una acción concreta (funcionalidad específica). Son los *bloques de construcción* fundamentales en cualquier script de R que es un lenguaje funcional.
+
+    ![](images/function.png)
 
 > Para comprender la computación en R, resultan útiles dos lemas:
 >
@@ -89,6 +93,259 @@ Las **funciones** son objetos de R que toman un input y consiguen un output haci
 > \- Todo lo que sucede es una llamada a función.
 >
 > --- John Chambers ([Advanced R](https://adv-r.hadley.nz/index.html))
+
+-   Paquetes o librerias: contienen funciones reutilizables, documentación sobre cómo usarlas y datos de ejemplo. Son las unidades fundamentales de código reproducible en R.
+
+-   CRAN: the Comprehensive R Archive Network.
+
+```{r primeros_pasos_programacion}
+
+3 + 2 #Ejecuto un comando con CTRL+ENTER (CTRL+R)
+15 / 20 * 100
+1:50
+
+sum(1:3) #función y argumentos
+?sum
+
+library(palmerpenguins) #la funcion library carga paquetes de funciones
+
+palmerpenguins::penguins #:: permite explorar que hay dentro de los paquetes
+#loadedNamespaces()
+
+guau <- 2 # flecha de asignacion
+guau # al ejecutar un objeto el nombre se sustituye por su contenido
+
+guau + 4
+miau <- guau + 4 + guau
+miau
+
+str(miau)
+```
+
+#### Ejercicio
+
+1.  Elije un número y multiplicalo por 3
+
+2.  Crea un objeto que contenga 100 valores entre 1900 y 2000
+
+3.  Suma un número a tu objeto y multiplica tu objeto por sí mismo.
+
+📝Los nombre de los objetos deben ser descriptivos y no pueden contener símbolos especiales (`^`, `!`, `$`, `@`, `+`, `-`, `/`, `*` ).
+
+📝R es sensible a las mayúsculas. Mejor no usarlas.
+
+### Tidyverse
+
+<!--# Intro basada en vuestra nota -->
+
+[*Tidyverse*](https://www.tidyverse.org/) es una colección de paquetes (meta-paquete) de R desarrollado por Hadley Wickham. Contiene ocho paquetes principales: readr, tibble, dplyr, tidyr, stringr, forcats, ggplot2 y purrr. *Tidyverse* puede considerarse un dialecto del lenguaje de programación de R y, por ello, puede resultar difícil de aprender para gente con experiencia en el lenguaje tradicional. Sin embargo, en este curso queremos enseñar las bases de programación utilizando *tidyverse* ya que en las secciones de iteración utilizartemos funcamentalmente purrr.
+
+*Tidyverse* está diseñado para respaldar las actividades de un analista de datos humano por lo que sus estructuras de programación resultan más lógicas para la mente humana. Todos los paquetes están diseñados para trabajar con datos ordenados ([*tidy data*](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)), es decir, aquellos donde cada columna es una variable, cada fila una observación y cada celda tiene un valor. Además, las funciones están preparadas para concatenarse a través del operador *pipe* (`%>%` o `|>`), que coge lo que está en su izquierda y lo utiliza como el primer argumento de la función que está en su derecha.
+
+```{r pipe}
+
+mivector <- c(6, 4)
+mean(mivector)
+mivector |> mean()
+```
+
+```{r primeros_tidypasos}
+
+###POR HACER AÚN
+
+###DPLYR ----
+#5 verbs b?sicos. filter for rows, select for columns
+#the first argument is always de data.frame. The output is always a data.frame. Hay que asignar
+#siempre que queramos que guarde los datos
+
+#Filter
+trees
+filter(trees, Dist < 2) #df, criterio. Pero no hemos modificado trees
+filter(trees, Provincia == "25")
+#Tambi?n se pueden combinar criterios
+
+#Exercise 1
+#1.1
+filter(plots, Provincia %in% c("08","17")) #Provincia == "08 | Provincia == "17" 
+foo <- filter(plots, Provincia %in% c("08","17"))
+unique(foo$Provincia)
+#1.2
+filter(plots, months(FechaIni)=="enero"&months(FechaFin)=="enero") #FechaFin < "2001-02-01" & FechaFin > "2000-12-31"
+filter(plots, months(FechaIni)=="enero",months(FechaFin)=="enero") #???Con coma hace lo mismo
+#1.3
+filter(plots, (HoraFin-HoraIni)>7200) #We can do operations among variables
+
+#Select crea un df incluso si solo seleccionas una columna
+#Se pueden concatenar las columnas seleccionadas con comas. No hace falta poner ""
+#Special functions for select: starts_with, ends_with, contains, matches, num_range, one_of (cuando no te sabes el nombre),
+#everything (selecciona todas las variables)
+#Contains tiene que tener "" tal cual
+#Matches trabaja con regular expressions. No literally the string, tambien acepta especial character
+#$abc -  empieza por abc; abc^ - acaba en abc; ""|"" - una cadena o la otra; %d - los dias de la fecha
+#%n - any number
+
+#Exercise2
+select(plots, FechaIni, FechaFin)
+select(plots, starts_with("Fecha"), -FechaPh)
+select(plots, contains("Fecha"), -FechaPh)
+select(plots, FechaIni:FechaFin, -HoraIni)
+select(plots, matches("Fecha"), -FechaPh)
+select(plots, matches("Date|Fecha")) #When you dont know the language
+
+#Select can be used to reorder variables
+select(plots, FechaFin, FechaIni, everything()) #No repite FechaFin, FechaIni
+
+#Arrange
+#reorganise the rows. Desc ordena de mayor a menor
+
+#Exercise3
+#3.1
+arrange(plots, FechaIni, HoraIni) #Primero ordena por fecha y cuando hay empare por hora
+#3.2
+arrange(plots, desc(HoraIni))
+#3.3
+arrange(plots, desc(HoraFin-HoraIni)) #Se pueden hacer operaciones
+
+#Mutate
+#Para transformar variables
+#Se sobreescribe temporalmente la variable, pero solo temporalmente si no creamos una nueva variables
+#O tambien se pueden crear nuevas variables
+#if_else cambia una variable por lo que quieras. Funciona como ifelse pero sin especificar data.frame
+#case_when permite modificar una variable, en la que se basa el criterio, pero dejar una parte como estaba
+
+#Exercise4
+#4.1
+mutate(trees, Growth=DiamIf3-DiamIf2)
+#4.2
+trees <- mutate(trees, BA2=N*(pi/4)*(DiamIf2/100)^2, 
+                BA3=N*(pi/4)*(DiamIf3/100)^2,
+                BA_growth = BA3-BA2)
+trees
+arrange(trees, desc(BA_growth)) #058
+
+#Summarise
+#Se pueden usar las funcines tipicas. n() calcula el numero de elemenos, n_distinct - numero de elementos unicos
+#se pueden especificar hacer el summary para un grupo - sum(x>10)
+#Se puede hacer por grupos con group_by. Para ello se crea un nuevo df con group_by y luego ya se especifican las operaciones
+#para hacer el summary
+
+by_province <- group_by(trees, Provincia)
+by_province #The data is exactly the same then trees
+class(by_province)
+
+trees_new <- group_by(trees, Provincia, Especie) #Se puede agrupar por varias variables
+summarise(
+  trees_new,
+  mean_height_ifn3 = mean(HeiIf3, na.rm = TRUE),
+  max_height_ifn3 = max(HeiIf3, na.rm = TRUE),
+  min_height_ifn3 = min(HeiIf3, na.rm = TRUE)
+)
+#Con poor se pueden hacer funciones m?s complejas
+
+#Exercise 5
+trees
+by_plot <- group_by(trees, Codi)
+summarise(
+  by_plot,
+  mean_d3 = mean(DiamIf3, na.rm=TRUE),
+  mean_h3 = mean(HeiIf3,na.rm=TRUE),
+  n3 = n(),
+  sps = n_distinct(Especie)
+)
+
+
+
+#Se pueden hacer summaries conjuntos de varias variables a la vez sin tener que especificar una en cada fila
+#Con summarise_if, summarise_at
+#Se puede combinar con group_by
+#Mutate also have mutate_if, mutate_at
+
+####PIPES----
+#The result in the left is passed as the first argument in the right
+#Permite concatenar funciones en el orden en el que las pensamos
+
+#Exercise 6
+#6.1
+trees %>% mutate(Growth=DiamIf3-DiamIf2) %>% 
+  group_by(Codi) %>% summarise(mgrowth = mean(Growth),
+                               n=n()) %>% 
+  arrange(desc(mgrowth))
+#6.2
+trees %>% group_by(Codi) %>% 
+  summarise(n_species=n_distinct(Especie)) %>% 
+  arrange(desc(n_species))
+#Maybe there is a relacion between growth and n species
+#6.3
+trees %>% mutate(Growth=DiamIf3-DiamIf2) %>% 
+  group_by(Codi) %>% summarise(mgrowth = mean(Growth),
+                               n_species=n_distinct(Especie)) %>% 
+  ggplot(aes(n_species,mgrowth)) + 
+  geom_point() + geom_smooth(method="lm")
+
+
+#Grouped mutate hace summarise pero manteniendo todas las lineas del df
+
+###TWO DATA FRAMES-----
+
+#Hay mutating joins (left and right joins, full join and inner join)
+#Filtering joins - se filtra una tabla con los registros presentes en la otra (semi_join, anti_join)
+
+#Exercise 8
+plots %>% left_join(coordinates, by="Codi") #by=c("Codi1","Codi2) si son diferentes o si quieres joint por dos columnas
+#Si no se especifica nada, hace joint por todas las columnas comunes
+
+
+###TIDYR----
+#Para ordenar dfs
+#4 funciones: gather, spread, separate - una columna en muchas, unite- muchas columnas en una
+
+#gatter: df, key(factor), name(valor), variables(originales)
+#separate: df, columna para separar, nombres, id que identifica la separacion, remove=FALSE mantiene la columna separada original
+#Si no se especifica el caracter para separar coge el 1er alfanumerico que se encuentra
+
+#Exercise 9
+#Gather and separate
+species
+species_long <- species %>% gather(CD, n, starts_with("CD"))
+species_long <- separate(species_long, col=CD, into=c("Nombre", "CD"))
+
+
+#unite hace lo contrario que separate y spread hace lo contrario que gather
+
+#Exercise 10
+species_unite <- unite(species_long, CD2, Nombre, CD) #Si no se especifica, se combina con barra baja
+spread(species_unite, CD2, n)
+
+#####PURRR----
+
+#El primer argumento va a ser siempre un vector o lista, no un df
+#despues la funcion
+#El output va a ser = que el imput
+
+#Main verbs: map and walk 
+#Flavours: para modificar lo que queremos que devuelva
+#Con pipes, donde quieras que entre lo de la izda del pipe, se pone un punto que significa todos los elementos en la lista inicial
+#OR: primero se especifica la funcion, y luego, fuera, los atributos de la misma
+
+#Split se puede sustituir by group by en las nuevas versiones de tidy
+
+#Walk sirve para salir un momento del pipe. Hace una funci?n con el input anterior (1), pero el pipe
+#despu?s walk vuelve a coger el input 1.
+
+
+```
+
+#### Ejercicio
+
+1.  
+
+#### Ejercicio
+
+1.  
+
+## Introducción a la programación funcional
+
+La creciente disponibilidad de datos y de versatilidad de los programas de análisis han provocado el incremento en la cantidad y complejidad de los análisis que realizamos en ecología. Esto hace cada vez más necesaria la eficiencia en el proceso de gestión y análisis de datos. Una de las posibles formas para optimizar estos procesos y acortar los tiempos de trabajo para los usuarios de R es la programación basada en funciones. Las funciones permiten automatizar tareas comunes (por ejemplo, leer diferentes bases de datos) simplificando el código.
 
 Se puede llamar a una función a través de otra función e iterar el proceso lo que hace que R sea una herramienta muy potente. Las **iteraciones** sirven para realizar la misma acción a múltiples inputs. Existen dos grandes paradigmas de iteración: la programación imperativa y la programación funcional. En este taller, nos centraremos principalmente en la **programación funcional** y aprenderemos a utilizar el paquete {purrr}, que proporciona funciones para eliminar muchos bucles comunes.
 
@@ -1019,6 +1276,8 @@ Información más detallada sobre [POO](https://adv-r.hadley.nz/oo.html) y [comp
 Este taller está principalmente basado en la primera edición del libro [R for Data Science](https://r4ds.had.co.nz/) de Hadley Wickham & Garrett Grolemund y la segunda edición del libro [Advanced R](https://adv-r.hadley.nz/index.html) de Hadley Wickham.
 
 ### Enlaces de interés
+
+-   [Hands-On Programming with R (basics)](https://rstudio-education.github.io/hopr/basics.html)
 
 -   [R for data Science (functions)](https://r4ds.had.co.nz/functions.html)
 

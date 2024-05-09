@@ -32,34 +32,33 @@ Dentro del modelo de ciencia de datos de Hadley Wickham (@fig-datascience), el c
 
 ### Estructura del curso
 
-+------------------------------------------+--------------+
-| Bloques                                  | Día          |
-+==========================================+==============+
-| Presentación del curso                   | 1            |
-|                                          |              |
-| Introducción a la programación en R      |              |
-|                                          |              |
-| Introducción a la programación funcional |              |
-+------------------------------------------+--------------+
-| Teoría sobre funciones en R              | 2            |
-|                                          |              |
-| Cómo escribir funciones                  |              |
-+------------------------------------------+--------------+
-| Programación imperativa                  | 3            |
-|                                          |              |
-| Programación funcional                   |              |
-|                                          |              |
-| Iteraciones sobre uno y dos argumentos   |              |
-+------------------------------------------+--------------+
-| Iteraciones sobre múltiples argumentos   | 4            |
-|                                          |              |
-| Iteraciones sin salida                   |              |
-|                                          |              |
-| Más variantes de `map()`                 |              |
-|                                          |              |
-| Funcionales predicate y demás            |              |
-+------------------------------------------+--------------+
-
++------------------------------------------+---------------+
+| Bloques                                  | Día           |
++==========================================+===============+
+| Presentación del curso                   | 1             |
+|                                          |               |
+| Introducción a la programación en R      |               |
+|                                          |               |
+| Introducción a la programación funcional |               |
++------------------------------------------+---------------+
+| Teoría sobre funciones en R              | 2             |
+|                                          |               |
+| Cómo escribir funciones                  |               |
++------------------------------------------+---------------+
+| Programación imperativa                  | 3             |
+|                                          |               |
+| Programación funcional                   |               |
+|                                          |               |
+| Iteraciones sobre uno y dos argumentos   |               |
++------------------------------------------+---------------+
+| Iteraciones sobre múltiples argumentos   | 4             |
+|                                          |               |
+| Iteraciones sin salida                   |               |
+|                                          |               |
+| Más variantes de `map()`                 |               |
+|                                          |               |
+| Funcionales predicate y demás            |               |
++------------------------------------------+---------------+
 
 ### Quiénes somos
 
@@ -108,7 +107,8 @@ Y vosotros ¿quiénes sois?
 sum(1:3) #función y argumentos
 ?sum
 
-library(palmerpenguins) #la funcion library carga paquetes de funciones
+# install.packages("palmerpenguins")
+library(palmerpenguins) #la funcion library carga paquetes
 
 palmerpenguins::penguins #:: permite explorar que hay dentro de los paquetes
 #loadedNamespaces()
@@ -139,32 +139,94 @@ str(miau)
 
 <!--# Intro basada en vuestra nota -->
 
-[*Tidyverse*](https://www.tidyverse.org/) es una colección de paquetes (meta-paquete) de R desarrollado por Hadley Wickham. Contiene ocho paquetes principales: readr, tibble, dplyr, tidyr, stringr, forcats, ggplot2 y purrr. *Tidyverse* puede considerarse un dialecto del lenguaje de programación de R y, por ello, puede resultar difícil de aprender para gente con experiencia en el lenguaje tradicional. Sin embargo, en este curso queremos enseñar las bases de programación utilizando *tidyverse* ya que en las secciones de iteración utilizartemos funcamentalmente purrr.
+[*Tidyverse*](https://www.tidyverse.org/) es una colección de paquetes (meta-paquete) de R desarrollado por Hadley Wickham. Contiene ocho paquetes principales: readr, tibble, dplyr, tidyr, stringr, forcats, ggplot2 y purrr. *Tidyverse* puede considerarse un dialecto del lenguaje de programación de R y, por ello, puede resultar difícil de aprender para gente con experiencia en el lenguaje tradicional. Sin embargo, en este curso queremos enseñar las bases de programación utilizando *tidyverse* ya que en las secciones de iteración utilizaremos fundamentalmente purrr.
 
 *Tidyverse* está diseñado para respaldar las actividades de un analista de datos humano por lo que sus estructuras de programación resultan más lógicas para la mente humana. Todos los paquetes están diseñados para trabajar con datos ordenados ([*tidy data*](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)), es decir, aquellos donde cada columna es una variable, cada fila una observación y cada celda tiene un valor. Además, las funciones están preparadas para concatenarse a través del operador *pipe* (`%>%` o `|>`), que coge lo que está en su izquierda y lo utiliza como el primer argumento de la función que está en su derecha.
+
+<!--# Jul: tu siempre dices que es mejor usar el pipe de Rbase, por qué? No sería más consistente usar el de tidiverse? -->
 
 ```{r pipe}
 
 mivector <- c(6, 4)
 mean(mivector)
-mivector |> mean()
+mivector |> mean() #CTRL+SHIFT+M
 ```
 
 ```{r primeros_tidypasos}
 
-###POR HACER AÚN
+# install.packages("tidyverse")
+library(tidyverse)
 
-###DPLYR ----
-#5 verbs b?sicos. filter for rows, select for columns
-#the first argument is always de data.frame. The output is always a data.frame. Hay que asignar
-#siempre que queramos que guarde los datos
+penguins <- palmerpenguins::penguins
+penguins
+
+summary(penguins)
 
 #Filter
-trees
-filter(trees, Dist < 2) #df, criterio. Pero no hemos modificado trees
-filter(trees, Provincia == "25")
-#Tambi?n se pueden combinar criterios
+penguins |> filter(island == "Dream") 
+penguins |> filter(island == "Dream", body_mass_g > 4500) #Se pueden combinar criterios
+penguins |> filter(island == "Dream|Chinstrap")
 
+
+#Select
+penguins |> select(sex, body_mass_g)
+penguins |> select(-species)
+penguins |> select(ends_with("mm")) #Seleccionar variables que tienen un patrón
+penguins |> select(ends_with("mm|g")) #Seleccionar variables que tienen un patrón
+
+#Poner enlace a cheatsheet the string
+
+penguins |> select(sex, body_mass_g, everything()) #Se puede usar para reordenar variables
+
+#Arrange
+penguins |> select(sex, body_mass_g) |> arrange(body_mass_g)
+penguins |> select(sex, body_mass_g) |> arrange(desc(body_mass_g))
+
+
+#Mutate
+penguins |> 
+  mutate(bill_volume = (bill_length_mm * bill_depth_mm)/2) |> 
+  select(bill_volume, everything())
+
+penguins |> 
+  mutate(female_penguin = case_when(sex == "female" & body_mass_g < 3600 ~ "small female",
+    sex == "female" & body_mass_g >= 3600 ~ "big female",
+    TRUE ~ NA)) |> 
+  select(female_penguin, sex, body_mass_g)
+
+#Summarise
+#Con funciones que resumen: n, n_distinct, mean, etc.
+penguins |> summarise(body_min = min(body_mass_g, na.rm = TRUE),
+  body_max = max(body_mass_g, na.rm = TRUE))
+
+penguins |> 
+  group_by(sex) |> 
+  summarise(body_min = min(body_mass_g, na.rm = TRUE),
+  body_max = max(body_mass_g, na.rm = TRUE))
+
+#Joins?
+#Pivot_longer, pivot_wider?
+
+#Añadir leer y guardar
+
+```
+
+Otra diferencia fundamental entre Rbase y tidyverse importante para avanzar en este curso es que el *name masking* es diferente. En R, si un argumento no está definido en una función, R buscará ese nombre en el nivel del entorno inmediatamente superior. En general, con Rbase sólo podemos llamar a objetos que forman parte del environment (env-variables); en cambio, con tidyverse se puede llamar también a las variables dentro de las tablas (data-variables). Esta característica simplifica el código en tidyverse, pero la ventaja no tiene coste cero y tiene implicaciones en la gramática de las funciones como vermos más adelante.
+
+<!--# Quiero desarrollarlo mas en la parte de escribir funciones -->
+
+💡El [*lexical scoping* (ámbito léxico)](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) son el conjunto de normas sobre cómo los valores de las variables son extraidos del entorno en cada lenguaje de programación, es decir, como se asocia una variable a un valor. En R tiene cuatro normas básicas, pero la más importante para empezar con programación funcional es el *name masking*.
+
+```{r name_masking}
+
+penguins[penguins$island == "Dream" & penguins$species == "Chinstrap", "flipper_length_mm"]
+
+penguins |> filter(island == "Dream", species == "Chinstrap") |> select(flipper_length_mm)
+```
+
+#### Ejercicio TBD
+
+```{r}
 #Exercise 1
 #1.1
 filter(plots, Provincia %in% c("08","17")) #Provincia == "08 | Provincia == "17" 
@@ -176,15 +238,6 @@ filter(plots, months(FechaIni)=="enero",months(FechaFin)=="enero") #???Con coma 
 #1.3
 filter(plots, (HoraFin-HoraIni)>7200) #We can do operations among variables
 
-#Select crea un df incluso si solo seleccionas una columna
-#Se pueden concatenar las columnas seleccionadas con comas. No hace falta poner ""
-#Special functions for select: starts_with, ends_with, contains, matches, num_range, one_of (cuando no te sabes el nombre),
-#everything (selecciona todas las variables)
-#Contains tiene que tener "" tal cual
-#Matches trabaja con regular expressions. No literally the string, tambien acepta especial character
-#$abc -  empieza por abc; abc^ - acaba en abc; ""|"" - una cadena o la otra; %d - los dias de la fecha
-#%n - any number
-
 #Exercise2
 select(plots, FechaIni, FechaFin)
 select(plots, starts_with("Fecha"), -FechaPh)
@@ -193,12 +246,6 @@ select(plots, FechaIni:FechaFin, -HoraIni)
 select(plots, matches("Fecha"), -FechaPh)
 select(plots, matches("Date|Fecha")) #When you dont know the language
 
-#Select can be used to reorder variables
-select(plots, FechaFin, FechaIni, everything()) #No repite FechaFin, FechaIni
-
-#Arrange
-#reorganise the rows. Desc ordena de mayor a menor
-
 #Exercise3
 #3.1
 arrange(plots, FechaIni, HoraIni) #Primero ordena por fecha y cuando hay empare por hora
@@ -206,13 +253,6 @@ arrange(plots, FechaIni, HoraIni) #Primero ordena por fecha y cuando hay empare 
 arrange(plots, desc(HoraIni))
 #3.3
 arrange(plots, desc(HoraFin-HoraIni)) #Se pueden hacer operaciones
-
-#Mutate
-#Para transformar variables
-#Se sobreescribe temporalmente la variable, pero solo temporalmente si no creamos una nueva variables
-#O tambien se pueden crear nuevas variables
-#if_else cambia una variable por lo que quieras. Funciona como ifelse pero sin especificar data.frame
-#case_when permite modificar una variable, en la que se basa el criterio, pero dejar una parte como estaba
 
 #Exercise4
 #4.1
@@ -223,25 +263,6 @@ trees <- mutate(trees, BA2=N*(pi/4)*(DiamIf2/100)^2,
                 BA_growth = BA3-BA2)
 trees
 arrange(trees, desc(BA_growth)) #058
-
-#Summarise
-#Se pueden usar las funcines tipicas. n() calcula el numero de elemenos, n_distinct - numero de elementos unicos
-#se pueden especificar hacer el summary para un grupo - sum(x>10)
-#Se puede hacer por grupos con group_by. Para ello se crea un nuevo df con group_by y luego ya se especifican las operaciones
-#para hacer el summary
-
-by_province <- group_by(trees, Provincia)
-by_province #The data is exactly the same then trees
-class(by_province)
-
-trees_new <- group_by(trees, Provincia, Especie) #Se puede agrupar por varias variables
-summarise(
-  trees_new,
-  mean_height_ifn3 = mean(HeiIf3, na.rm = TRUE),
-  max_height_ifn3 = max(HeiIf3, na.rm = TRUE),
-  min_height_ifn3 = min(HeiIf3, na.rm = TRUE)
-)
-#Con poor se pueden hacer funciones m?s complejas
 
 #Exercise 5
 trees
@@ -255,94 +276,7 @@ summarise(
 )
 
 
-
-#Se pueden hacer summaries conjuntos de varias variables a la vez sin tener que especificar una en cada fila
-#Con summarise_if, summarise_at
-#Se puede combinar con group_by
-#Mutate also have mutate_if, mutate_at
-
-####PIPES----
-#The result in the left is passed as the first argument in the right
-#Permite concatenar funciones en el orden en el que las pensamos
-
-#Exercise 6
-#6.1
-trees %>% mutate(Growth=DiamIf3-DiamIf2) %>% 
-  group_by(Codi) %>% summarise(mgrowth = mean(Growth),
-                               n=n()) %>% 
-  arrange(desc(mgrowth))
-#6.2
-trees %>% group_by(Codi) %>% 
-  summarise(n_species=n_distinct(Especie)) %>% 
-  arrange(desc(n_species))
-#Maybe there is a relacion between growth and n species
-#6.3
-trees %>% mutate(Growth=DiamIf3-DiamIf2) %>% 
-  group_by(Codi) %>% summarise(mgrowth = mean(Growth),
-                               n_species=n_distinct(Especie)) %>% 
-  ggplot(aes(n_species,mgrowth)) + 
-  geom_point() + geom_smooth(method="lm")
-
-
-#Grouped mutate hace summarise pero manteniendo todas las lineas del df
-
-###TWO DATA FRAMES-----
-
-#Hay mutating joins (left and right joins, full join and inner join)
-#Filtering joins - se filtra una tabla con los registros presentes en la otra (semi_join, anti_join)
-
-#Exercise 8
-plots %>% left_join(coordinates, by="Codi") #by=c("Codi1","Codi2) si son diferentes o si quieres joint por dos columnas
-#Si no se especifica nada, hace joint por todas las columnas comunes
-
-
-###TIDYR----
-#Para ordenar dfs
-#4 funciones: gather, spread, separate - una columna en muchas, unite- muchas columnas en una
-
-#gatter: df, key(factor), name(valor), variables(originales)
-#separate: df, columna para separar, nombres, id que identifica la separacion, remove=FALSE mantiene la columna separada original
-#Si no se especifica el caracter para separar coge el 1er alfanumerico que se encuentra
-
-#Exercise 9
-#Gather and separate
-species
-species_long <- species %>% gather(CD, n, starts_with("CD"))
-species_long <- separate(species_long, col=CD, into=c("Nombre", "CD"))
-
-
-#unite hace lo contrario que separate y spread hace lo contrario que gather
-
-#Exercise 10
-species_unite <- unite(species_long, CD2, Nombre, CD) #Si no se especifica, se combina con barra baja
-spread(species_unite, CD2, n)
-
-#####PURRR----
-
-#El primer argumento va a ser siempre un vector o lista, no un df
-#despues la funcion
-#El output va a ser = que el imput
-
-#Main verbs: map and walk 
-#Flavours: para modificar lo que queremos que devuelva
-#Con pipes, donde quieras que entre lo de la izda del pipe, se pone un punto que significa todos los elementos en la lista inicial
-#OR: primero se especifica la funcion, y luego, fuera, los atributos de la misma
-
-#Split se puede sustituir by group by en las nuevas versiones de tidy
-
-#Walk sirve para salir un momento del pipe. Hace una funci?n con el input anterior (1), pero el pipe
-#despu?s walk vuelve a coger el input 1.
-
-
 ```
-
-#### Ejercicio
-
-1.  
-
-#### Ejercicio
-
-1.  
 
 ## Introducción a la programación funcional
 
@@ -353,14 +287,6 @@ Se puede llamar a una función a través de otra función e iterar el proceso lo
 ```{r ejemplo_importancia_PF}
 #| warning: false
 
-# install.packages("tidyverse")
-# install.packages("palmerpenguins")
-library(tidyverse)
-library(palmerpenguins)
-
-glimpse(penguins)
-
-#
 df <- penguins |> 
   select(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g)
 

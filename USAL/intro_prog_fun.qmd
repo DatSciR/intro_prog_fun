@@ -28,7 +28,7 @@ Los **objetivos** de este taller son:
 
 Dentro del modelo de ciencia de datos de Hadley Wickham (@fig-datascience), el curso de centra en el marco que envuelve todo el proceso, es decir, la programación.
 
-![Modelo de ciencia de datos de Hadley Wickham. Traducido de https://r4ds.hadley.nz/intro#fig-ds-diagram](images/datascience.png){#datascience}
+![Modelo de ciencia de datos de Hadley Wickham. Traducido de https://r4ds.hadley.nz/intro#fig-ds-diagram](images/datascience.png){#fig-datascience}
 
 ### Estructura del curso
 
@@ -74,15 +74,17 @@ Y vosotros ¿quiénes sois?
 
 ![](images/e684f0da-13b1-4d00-ab25-37814e79ee1e.png){width="362"}
 
+<!--#julen: creo que deberiamos añadir la ref/autora de esta figura-->
+
 ### Conceptos muy básicos
 
 -   R: lenguaje de programación dinámico (se interpreta el código en el momento que se ejecuta).
 
 -   RStudio: es un entorno de desarrollo integrado para programar en R. Tiene cuatro zonas diferenciadas: el editor de código, la consola, donde se ejecuta el código, el navegador del espacio de trabajo (con el environment y el historial de comandos) y el mix de abajo a la derecha (Archivos, Gráficos, Paquetes, Ayuda).
 
--   Objetos: cualquier elemento almacenado con un nombre específico. Pueden ser de muchos tipos: numeric, integer, logical, data.frame, etc.
+-   Objetos: cualquier elemento almacenado con un nombre específico. Pueden ser de muchos tipos: `numeric`, `integer`, `logical`, `data.frame`, etc.
 
--   Funciones: objetos de R que toman un input y consiguen un output haciendo una acción concreta (funcionalidad específica). Son los *bloques de construcción* fundamentales en cualquier script de R que es un lenguaje funcional.
+-   Funciones: objetos de R que toman un vector de entrada y dan como resultado otro vector haciendo una acción concreta (funcionalidad específica). Son los *bloques de construcción* fundamentales en cualquier script de R que es un lenguaje funcional.
 
     ![](images/function.png)
 
@@ -100,6 +102,7 @@ Y vosotros ¿quiénes sois?
 
 ```{r primeros_pasos_programacion}
 
+# julen: me da bastante toc la almuadilla sin espacio despues. el ctrl+r añade un espacio. tu a veces lo haces, a veces no... lo podrias añadir para ser consistentes porfa?
 3 + 2 #Ejecuto un comando con CTRL+ENTER (CTRL+R)
 15 / 20 * 100
 1:50
@@ -129,9 +132,11 @@ str(miau)
 
 2.  Crea un objeto que contenga 100 valores entre 1900 y 2000
 
-3.  Suma un número a tu objeto y multiplica tu objeto por sí mismo.
+3.  Suma un número a tu objeto y multiplica tu objeto por sí mismo
 
-📝Los nombre de los objetos deben ser descriptivos y no pueden contener símbolos especiales (`^`, `!`, `$`, `@`, `+`, `-`, `/`, `*` ).
+<!--# julen: en el 3 creo que no esta claro lo que tienen que hacer. podrias aclararlo?-->
+
+📝Los nombre de los objetos deben ser descriptivos y no pueden contener símbolos especiales (`^`, `!`, `$`, `@`, `+`, `-`, `/`, `*`).
 
 📝R es sensible a las mayúsculas. Mejor no usarlas.
 
@@ -139,11 +144,11 @@ str(miau)
 
 <!--# Intro basada en vuestra nota -->
 
-[*Tidyverse*](https://www.tidyverse.org/) es una colección de paquetes (meta-paquete) de R desarrollado por Hadley Wickham. Contiene ocho paquetes principales: readr, tibble, dplyr, tidyr, stringr, forcats, ggplot2 y purrr. *Tidyverse* puede considerarse un dialecto del lenguaje de programación de R y, por ello, puede resultar difícil de aprender para gente con experiencia en el lenguaje tradicional. Sin embargo, en este curso queremos enseñar las bases de programación utilizando *tidyverse* ya que en las secciones de iteración utilizaremos fundamentalmente purrr.
+[*Tidyverse*](https://www.tidyverse.org/) es una colección de paquetes (meta-paquete) de R desarrollado por Hadley Wickham. Contiene ocho paquetes principales: `readr`, `tibble`, `dplyr`, `tidyr`, `stringr`, `forcats`, `ggplot2` y `purrr`. *Tidyverse* puede considerarse un dialecto del lenguaje de programación de R y, por ello, puede resultar difícil de aprender para gente con experiencia en el lenguaje tradicional de R base. Sin embargo, en este curso queremos enseñar las bases de programación utilizando *tidyverse* ya que en las secciones de iteración utilizaremos fundamentalmente `purrr` por razones que explicaremos en la sección de iteraciones.
 
 *Tidyverse* está diseñado para respaldar las actividades de un analista de datos humano por lo que sus estructuras de programación resultan más lógicas para la mente humana. Todos los paquetes están diseñados para trabajar con datos ordenados ([*tidy data*](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)), es decir, aquellos donde cada columna es una variable, cada fila una observación y cada celda tiene un valor. Además, las funciones están preparadas para concatenarse a través del operador *pipe* (`%>%` o `|>`), que coge lo que está en su izquierda y lo utiliza como el primer argumento de la función que está en su derecha.
 
-<!--# Jul: tu siempre dices que es mejor usar el pipe de Rbase, por qué? No sería más consistente usar el de tidiverse? -->
+<!--# Jul: tu siempre dices que es mejor usar el pipe de Rbase, por qué? No sería más consistente usar el de tidiverse? julen: el pipe de antes no era de tidyverse sino de magritt por lo que estariamos añadiendo una dependencia más https://magrittr.tidyverse.org/reference/pipe.html. ademas no permite algunas opciones que daba el de magritt, que creo que mejoran el codigo y son consistentes con los cambios que se han hecho en tidyverse (e.g. en purrr tener que asignar nombres a los argumentos en vez de utilizar .) https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/-->
 
 ```{r pipe}
 
@@ -162,6 +167,7 @@ penguins
 
 summary(penguins)
 
+# julen: despues del pipe añadirira un salto de linea siempre
 #Filter
 penguins |> filter(island == "Dream") 
 penguins |> filter(island == "Dream", body_mass_g > 4500) #Se pueden combinar criterios
@@ -211,7 +217,7 @@ penguins |>
 
 ```
 
-Otra diferencia fundamental entre Rbase y tidyverse importante para avanzar en este curso es que el *name masking* es diferente. En R, si un argumento no está definido en una función, R buscará ese nombre en el nivel del entorno inmediatamente superior. En general, con Rbase sólo podemos llamar a objetos que forman parte del environment (env-variables); en cambio, con tidyverse se puede llamar también a las variables dentro de las tablas (data-variables). Esta característica simplifica el código en tidyverse, pero la ventaja no tiene coste cero y tiene implicaciones en la gramática de las funciones como vermos más adelante.
+Otra diferencia fundamental entre Rbase y tidyverse importante para avanzar en este curso es que el *name masking* es diferente. En R, si un argumento no está definido en una función, R buscará ese nombre en el nivel del entorno inmediatamente superior. En general, con Rbase sólo podemos llamar a objetos que forman parte del environment (env-variables); en cambio, con tidyverse se puede llamar también a las variables dentro de las tablas (data-variables). Esta característica simplifica el código en tidyverse, pero la ventaja no tiene coste cero y tiene implicaciones en la gramática de las funciones como veremos más adelante.
 
 <!--# Quiero desarrollarlo mas en la parte de escribir funciones -->
 
@@ -226,7 +232,10 @@ penguins |> filter(island == "Dream", species == "Chinstrap") |> select(flipper_
 
 #### Ejercicio TBD
 
+<!--# julen: este ejercicio no funciona porque no existe la variable plots. le he puesto eval: false por ahora. Y que significa TBD? tambien le daria nombre al chunk. esta un poco guarrete no? que quieres hacer aqui?-->
+
 ```{r}
+#| eval: false
 #Exercise 1
 #1.1
 filter(plots, Provincia %in% c("08","17")) #Provincia == "08 | Provincia == "17" 
@@ -275,14 +284,13 @@ summarise(
   sps = n_distinct(Especie)
 )
 
-
 ```
 
 ## Introducción a la programación funcional
 
 La creciente disponibilidad de datos y de versatilidad de los programas de análisis han provocado el incremento en la cantidad y complejidad de los análisis que realizamos en ecología. Esto hace cada vez más necesaria la eficiencia en el proceso de gestión y análisis de datos. Una de las posibles formas para optimizar estos procesos y acortar los tiempos de trabajo para los usuarios de R es la programación basada en funciones. Las funciones permiten automatizar tareas comunes (por ejemplo, leer diferentes bases de datos) simplificando el código.
 
-Se puede llamar a una función a través de otra función e iterar el proceso lo que hace que R sea una herramienta muy potente. Las **iteraciones** sirven para realizar la misma acción a múltiples inputs. Existen dos grandes paradigmas de iteración: la programación imperativa y la programación funcional. En este taller, nos centraremos principalmente en la **programación funcional** y aprenderemos a utilizar el paquete {purrr}, que proporciona funciones para eliminar muchos bucles comunes.
+Se puede llamar a una función a través de otra función e iterar el proceso lo que hace que R sea una herramienta muy potente. Las **iteraciones** sirven para realizar la misma acción a múltiples entradas. Existen dos grandes paradigmas de iteración: la programación imperativa y la programación funcional. En este taller, nos centraremos principalmente en la **programación funcional** y aprenderemos a utilizar el paquete {purrr}, que proporciona funciones para eliminar muchos bucles comunes.
 
 ```{r ejemplo_importancia_PF}
 #| warning: false
@@ -407,7 +415,7 @@ for (i in 1:2) print(i)
 En general, sintácticamente, las funciones tienen tres componentes:
 
 -   Función `function()` (primitiva)
--   Argumentos: lista de inputs.
+-   Argumentos: lista de entradas.
 -   Cuerpo: trozo de código que sigue a `function()`, tradicionalmente entre llaves.
 
 ```{r notaciones}
@@ -475,7 +483,7 @@ ggplot(penguins, aes(x = species, y = island, color = sex)) +
 
 Hemos copiado un código más de dos veces para realizar una misma acción (es decir, un gráfico para ver como se distribuye una variable) así que hay que considerar la posibilidad de que estamos necesitando una función. A continuación vamos a seguir unos sencillos pasos para transformar cualquier código repetido en función.
 
-1.  Analizar el código: ¿cuáles son las partes replicadas? ¿cuantos inputs tenemos? ¿cuáles varían y cuáles no?
+1.  Analizar el código: ¿cuáles son las partes replicadas? ¿cuantas entradas tenemos? ¿cuáles varían y cuáles no?
 
 2.  Simplificar y reanalizar duplicaciones
 
@@ -565,7 +573,7 @@ rm(T, c, mean)
 ```{r funcion_escribir}
 
 # Varias opciones
-
+# julen: no ibas a cambiar el nombre de esta funcion??
 plot_exp <- function (var) {
   miformato <-
     list(scale_color_manual(values = c("turquoise", "goldenrod1")),
@@ -589,7 +597,7 @@ plot_exp <- function (var) {
 
 📝 Utiliza comentarios (#) para explicar el razonamiento detrás de tus funciones. Se debe evitar explicar qué se está haciendo o cómo, ya que el propio código ya lo comunica. También se recomienda usar \# para separar apartados (Cmd/Ctrl + Shift + R).
 
-5.  Probar con inputs diferentes
+5.  Probar con entradas diferentes
 
 ```{r funcion_pruebas}
 

@@ -173,13 +173,16 @@ penguins <- palmerpenguins::penguins
 penguins
 
 summary(penguins)
+glimpse(penguins)
 View(penguins)
 
 # filter
 penguins |> 
   filter(island == "Dream") 
+filter(penguins, island == "Dream") 
+
 penguins |> 
-  filter(island == "Dream", body_mass_g > 4500) # se pueden combinar criterios
+  filter(island == "Dream" & body_mass_g > 4500) # se pueden combinar criterios
 penguins |> 
   filter(island == "Dream" | body_mass_g > 4500) 
 penguins |> 
@@ -221,7 +224,7 @@ penguins |>
 
 # mutate
 penguins |> 
-  mutate(bill_volume_mm2 = (bill_length_mm * bill_depth_mm)/2) |> 
+  mutate(bill_volume_mm2 = (bill_length_mm * bill_depth_mm) / 2) |> 
   select(bill_volume_mm2, everything())
 
 penguins |>
@@ -235,8 +238,11 @@ penguins |>
 # se utiliza con funciones que resumen: n, n_distinct, mean, etc.
 # ver ?summarise
 
-penguins |> summarise(body_min = min(body_mass_g, na.rm = TRUE),
-  body_max = max(body_mass_g, na.rm = TRUE))
+penguins |> 
+  summarise(
+    body_min = min(body_mass_g, na.rm = TRUE),
+    body_max = max(body_mass_g, na.rm = TRUE)
+  )
 
 penguins |> 
   group_by(sex) |> 
@@ -251,17 +257,17 @@ penguins |>
 2.  Con el mismo `data.frame` calcula la relación entre el peso en kg y la longitud del ala.
 
 ```{r save_read_tidyverse}
-
+#| eval: false
 mypenguins <- penguins |> 
-  mutate(bill_volume_mm2 = (bill_length_mm * bill_depth_mm)/2,
+  mutate(bill_volume_mm2 = (bill_length_mm * bill_depth_mm) / 2,
     female_penguin = case_when(
       sex == "female" & body_mass_g < 3600 ~ "small female",
       sex == "female" & body_mass_g >= 3600 ~ "big female",
       TRUE ~ NA)) 
 
-write_delim(mypenguins, file = "C:\\Users\\veruk\\Desktop\\mypenguins.csv", delim = ";")
+write_delim(mypenguins, file = "mypenguins.csv", delim = ";")
 
-misdatos <- read_delim(file = "C:\\Users\\veruk\\Desktop\\mypenguins.csv")
+misdatos <- read_delim(file = "mypenguins.csv")
 View(misdatos)
 ```
 
@@ -278,7 +284,8 @@ mean(x = valores)
 misvalores <- data.frame(valores = 1:10)
 mean(x = valores)
 mean(x = misvalores$valores)
-misvalores |> summarise(mean = mean(valores))
+misvalores |> 
+  summarise(mean = mean(valores))
 
 
 penguins |> filter(island == "Dream", species == "Chinstrap") |> select(flipper_length_mm)

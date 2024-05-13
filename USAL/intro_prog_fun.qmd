@@ -132,7 +132,7 @@ miprimeralista <- list(elemento1 = guau,
 str(miprimeralista)
 ```
 
-#### Ejercicio 1
+#### Ejercicio
 
 1.  Elije un número y multiplicalo por 3
 
@@ -164,6 +164,7 @@ mivector |> mean() # CTRL+SHIFT+M
 ```
 
 ```{r primeros_tidypasos}
+#| warning: false
 
 # install.packages("tidyverse")
 library(tidyverse)
@@ -208,7 +209,7 @@ penguins |>
   arrange(desc(body_mass_g))
 ```
 
-#### Ejercicio 2
+#### Ejercicio
 
 1.  Crea un objeto con los pingüinos de la especie Adelie y ordena la tabla según la longitud del ala de los individuos.
 
@@ -241,9 +242,9 @@ penguins |>
   body_max = max(body_mass_g, na.rm = TRUE))
 ```
 
-#### Ejercicio 3
+#### Ejercicio
 
-1.  Con el `data.frame` creado en el ejercicio 2.1, cuenta el número de casos que hay en cada isla y calcula la media de la longitud del ala en cada isla.
+1.  Con el `data.frame` creado en el ejercicio 2.2.1, cuenta el número de casos que hay en cada isla y calcula la media de la longitud del ala en cada isla.
 
 2.  Con el mismo data.frame calcula la relación entre el peso en kg y la longitud del ala.
 
@@ -267,6 +268,8 @@ Una diferencia fundamental entre R base y *tidyverse* importante para avanzar en
 💡El [*lexical scoping* (ámbito léxico)](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) son el conjunto de normas sobre cómo los valores de las variables son extraidos del entorno en cada lenguaje de programación, es decir, como se asocia una variable a un valor. En R tiene cuatro normas básicas, pero la más importante para empezar con programación funcional es el *name masking*.
 
 ```{r name_masking}
+#| warning: false
+#| error: true
 
 mean(x = 1:10)
 mean(x = valores)
@@ -319,7 +322,7 @@ View(df_rescaled2)
 #
 df_rescaled3 <- lapply(df, rescale01)
 
-df_rescaled3$bill_length_mm
+head(df_rescaled3$bill_length_mm)
 
 ```
 

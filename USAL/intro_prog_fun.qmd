@@ -35,23 +35,23 @@ Dentro del modelo de ciencia de datos de Hadley Wickham (@fig-datascience), el c
 +------------------------------------------+---------------+
 | Bloques                                  | Día           |
 +==========================================+===============+
-| Presentación del curso                   | 1             |
+| Presentación del curso                   | 13/05/24      |
 |                                          |               |
 | Introducción a la programación en R      |               |
 |                                          |               |
 | Introducción a la programación funcional |               |
 +------------------------------------------+---------------+
-| Teoría sobre funciones en R              | 2             |
+| Teoría sobre funciones en R              | 15/05/24      |
 |                                          |               |
 | Cómo escribir funciones                  |               |
 +------------------------------------------+---------------+
-| Programación imperativa                  | 3             |
+| Programación imperativa                  | 20/05/24      |
 |                                          |               |
 | Programación funcional                   |               |
 |                                          |               |
 | Iteraciones sobre uno y dos argumentos   |               |
 +------------------------------------------+---------------+
-| Iteraciones sobre múltiples argumentos   | 4             |
+| Iteraciones sobre múltiples argumentos   | 22/05/24      |
 |                                          |               |
 | Iteraciones sin salida                   |               |
 |                                          |               |
@@ -72,17 +72,15 @@ Y vosotros ¿quiénes sois?
 
 ## Introducción a la programación en R
 
-![](images/e684f0da-13b1-4d00-ab25-37814e79ee1e.png){width="362"}
-
-<!--#julen: creo que deberiamos añadir la ref/autora de esta figura-->
+![El proceso de aprendizaje en R, por Allison Horst. https://allisonhorst.com/everything-else](images/e684f0da-13b1-4d00-ab25-37814e79ee1e.png){#fig-Rlearning width="362"}
 
 ### Conceptos muy básicos
 
 -   R: lenguaje de programación dinámico (se interpreta el código en el momento que se ejecuta).
 
--   RStudio: es un entorno de desarrollo integrado para programar en R. Tiene cuatro zonas diferenciadas: el editor de código, la consola, donde se ejecuta el código, el navegador del espacio de trabajo (con el environment y el historial de comandos) y el mix de abajo a la derecha (Archivos, Gráficos, Paquetes, Ayuda).
+-   RStudio: es un entorno de desarrollo integrado para programar en R. Tiene cuatro zonas diferenciadas: el editor de código, la consola (donde se ejecuta el código), el navegador del espacio de trabajo (con el entorno –*environment-* y el historial de comandos) y el mix de abajo a la derecha (Archivos, Gráficos, Paquetes, Ayuda).
 
--   Objetos: cualquier elemento almacenado con un nombre específico. Pueden ser de muchos tipos: `numeric`, `integer`, `logical`, `data.frame`, etc.
+-   Objetos: cualquier elemento almacenado con un nombre específico. Pueden ser de muchos tipos: `numeric`, `integer`, `logical`, `data.frame`, `SpatVector`, etc.
 
 -   Funciones: objetos de R que toman un vector de entrada y dan como resultado otro vector haciendo una acción concreta (funcionalidad específica). Son los *bloques de construcción* fundamentales en cualquier script de R que es un lenguaje funcional.
 
@@ -102,19 +100,18 @@ Y vosotros ¿quiénes sois?
 
 ```{r primeros_pasos_programacion}
 
-# julen: me da bastante toc la almuadilla sin espacio despues. el ctrl+r añade un espacio. tu a veces lo haces, a veces no... lo podrias añadir para ser consistentes porfa?
-3 + 2 #Ejecuto un comando con CTRL+ENTER (CTRL+R)
+3 + 2 # ejecuto un comando con CTRL+ENTER (CTRL+R)
 15 / 20 * 100
 1:50
 
-sum(1:3) #función y argumentos
+sum(1:3) # función y argumentos
 ?sum
 
 # install.packages("palmerpenguins")
-library(palmerpenguins) #la funcion library carga paquetes
+library(palmerpenguins) # la funcion library carga paquetes
 
-palmerpenguins::penguins #:: permite explorar que hay dentro de los paquetes
-#loadedNamespaces()
+palmerpenguins::penguins # :: permite explorar que hay dentro de los paquetes
+# loadedNamespaces()
 
 guau <- 2 # flecha de asignacion
 guau # al ejecutar un objeto el nombre se sustituye por su contenido
@@ -124,17 +121,26 @@ miau <- guau + 4 + guau
 miau
 
 str(miau)
+
+# objetos un poco más complejos
+miprimerdataframe <- data.frame(columna1 = guau,
+  columna2 = miau)
+str(miprimerdataframe)
+
+miprimeralista <- list(elemento1 = guau,
+  elemento2 = miau)
+str(miprimeralista)
 ```
 
-#### Ejercicio
+#### Ejercicio 1
 
 1.  Elije un número y multiplicalo por 3
 
 2.  Crea un objeto que contenga 100 valores entre 1900 y 2000
 
-3.  Suma un número a tu objeto y multiplica tu objeto por sí mismo
+3.  Suma un número a tu objeto
 
-<!--# julen: en el 3 creo que no esta claro lo que tienen que hacer. podrias aclararlo?-->
+4.  Multiplica tu objeto por sí mismo
 
 📝Los nombre de los objetos deben ser descriptivos y no pueden contener símbolos especiales (`^`, `!`, `$`, `@`, `+`, `-`, `/`, `*`).
 
@@ -144,17 +150,17 @@ str(miau)
 
 <!--# Intro basada en vuestra nota -->
 
-[*Tidyverse*](https://www.tidyverse.org/) es una colección de paquetes (meta-paquete) de R desarrollado por Hadley Wickham. Contiene ocho paquetes principales: `readr`, `tibble`, `dplyr`, `tidyr`, `stringr`, `forcats`, `ggplot2` y `purrr`. *Tidyverse* puede considerarse un dialecto del lenguaje de programación de R y, por ello, puede resultar difícil de aprender para gente con experiencia en el lenguaje tradicional de R base. Sin embargo, en este curso queremos enseñar las bases de programación utilizando *tidyverse* ya que en las secciones de iteración utilizaremos fundamentalmente `purrr` por razones que explicaremos en la sección de iteraciones.
+[*Tidyverse*](https://www.tidyverse.org/) es una colección de paquetes (meta-paquete) de R desarrollado por Hadley Wickham. Contiene ocho paquetes principales: `readr`, `tibble`, `dplyr`, `tidyr`, `stringr`, `forcats`, `ggplot2` y `purrr`. *Tidyverse* puede considerarse un dialecto del lenguaje de programación de R y, por ello, puede resultar difícil de aprender para gente con experiencia en el lenguaje tradicional de R base. Sin embargo, en este curso queremos enseñar las bases de programación utilizando *tidyverse* ya que en las secciones de iteración utilizaremos fundamentalmente `purrr` por razones que explicaremos más adelante.
 
-*Tidyverse* está diseñado para respaldar las actividades de un analista de datos humano por lo que sus estructuras de programación resultan más lógicas para la mente humana. Todos los paquetes están diseñados para trabajar con datos ordenados ([*tidy data*](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)), es decir, aquellos donde cada columna es una variable, cada fila una observación y cada celda tiene un valor. Además, las funciones están preparadas para concatenarse a través del operador *pipe* (`%>%` o `|>`), que coge lo que está en su izquierda y lo utiliza como el primer argumento de la función que está en su derecha.
+*Tidyverse* está diseñado para respaldar las actividades de un analista de datos humano por lo que sus estructuras de programación resultan más lógicas para la mente humana. Todos los paquetes están diseñados para trabajar con datos ordenados ([*tidy data*](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)), es decir, aquellos donde cada columna es una variable, cada fila una observación y cada celda tiene un valor. Además, las funciones están preparadas para concatenarse a través del operador *pipe* (`%>%` del paquete `magrittr` o `|>` de R base), que coge lo que está en su izquierda y lo utiliza como el primer argumento de la función que está en su derecha.
 
-<!--# Jul: tu siempre dices que es mejor usar el pipe de Rbase, por qué? No sería más consistente usar el de tidiverse? julen: el pipe de antes no era de tidyverse sino de magritt por lo que estariamos añadiendo una dependencia más https://magrittr.tidyverse.org/reference/pipe.html. ademas no permite algunas opciones que daba el de magritt, que creo que mejoran el codigo y son consistentes con los cambios que se han hecho en tidyverse (e.g. en purrr tener que asignar nombres a los argumentos en vez de utilizar .) https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/-->
+💡Los dos operador *pipe* tienen pequeñas [diferencias](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/) pero en general el comportamiento es el mismo.
 
 ```{r pipe}
 
 mivector <- c(6, 4)
 mean(mivector)
-mivector |> mean() #CTRL+SHIFT+M
+mivector |> mean() # CTRL+SHIFT+M
 ```
 
 ```{r primeros_tidypasos}
@@ -166,42 +172,66 @@ penguins <- palmerpenguins::penguins
 penguins
 
 summary(penguins)
+View(penguins)
 
-# julen: despues del pipe añadirira un salto de linea siempre
-#Filter
-penguins |> filter(island == "Dream") 
-penguins |> filter(island == "Dream", body_mass_g > 4500) #Se pueden combinar criterios
-penguins |> filter(island == "Dream|Chinstrap")
-
-
-#Select
-penguins |> select(sex, body_mass_g)
-penguins |> select(-species)
-penguins |> select(ends_with("mm")) #Seleccionar variables que tienen un patrón
-penguins |> select(ends_with("mm|g")) #Seleccionar variables que tienen un patrón
-
-#Poner enlace a cheatsheet the string
-
-penguins |> select(sex, body_mass_g, everything()) #Se puede usar para reordenar variables
-
-#Arrange
-penguins |> select(sex, body_mass_g) |> arrange(body_mass_g)
-penguins |> select(sex, body_mass_g) |> arrange(desc(body_mass_g))
-
-
-#Mutate
+# filter
 penguins |> 
-  mutate(bill_volume = (bill_length_mm * bill_depth_mm)/2) |> 
-  select(bill_volume, everything())
+  filter(island == "Dream") 
+penguins |> 
+  filter(island == "Dream", body_mass_g > 4500) # se pueden combinar criterios
+penguins |> 
+  filter(island == "Dream" | body_mass_g > 4500) 
+penguins |> 
+  filter(island %in% c("Dream", "Torgersen"))
+
+# select
+penguins |> 
+  select(sex, body_mass_g)
+penguins |> 
+  select(-species)
+penguins |> 
+  select(ends_with("mm")) # seleccionar variables que tienen un patrón
+penguins |> 
+  select(ends_with(c("mm", "g"))) 
+
+# se pueden utilizar todo tipo de patrones de texto: https://rstudio.github.io/cheatsheets/strings.pdf
 
 penguins |> 
-  mutate(female_penguin = case_when(sex == "female" & body_mass_g < 3600 ~ "small female",
+  select(sex, body_mass_g, everything()) # se puede usar para reordenar variables
+
+# arrange
+penguins |> 
+  select(sex, body_mass_g) |> 
+  arrange(body_mass_g)
+penguins |> 
+  select(sex, body_mass_g) |> 
+  arrange(desc(body_mass_g))
+```
+
+#### Ejercicio 2
+
+1.  Crea un objeto con los pingüinos de la especie Adelie y ordena la tabla según la longitud del ala de los individuos.
+
+2.  Crea un objeto a partir del anterior donde selecciones la isla y las variables relacionadas con el pico.
+
+```{r segundos_tidypasos}
+
+# mutate
+penguins |> 
+  mutate(bill_volume_mm2 = (bill_length_mm * bill_depth_mm)/2) |> 
+  select(bill_volume_mm2, everything())
+
+penguins |>
+  mutate(female_penguin = case_when(
+    sex == "female" & body_mass_g < 3600 ~ "small female",
     sex == "female" & body_mass_g >= 3600 ~ "big female",
-    TRUE ~ NA)) |> 
+    TRUE ~ NA)) |>
   select(female_penguin, sex, body_mass_g)
 
-#Summarise
-#Con funciones que resumen: n, n_distinct, mean, etc.
+# summarise
+# se utiliza con funciones que resumen: n, n_distinct, mean, etc.
+# ver ?summarise
+
 penguins |> summarise(body_min = min(body_mass_g, na.rm = TRUE),
   body_max = max(body_mass_g, na.rm = TRUE))
 
@@ -209,80 +239,46 @@ penguins |>
   group_by(sex) |> 
   summarise(body_min = min(body_mass_g, na.rm = TRUE),
   body_max = max(body_mass_g, na.rm = TRUE))
-
-#Joins?
-#Pivot_longer, pivot_wider?
-
-#Añadir leer y guardar
-
 ```
 
-Otra diferencia fundamental entre Rbase y tidyverse importante para avanzar en este curso es que el *name masking* es diferente. En R, si un argumento no está definido en una función, R buscará ese nombre en el nivel del entorno inmediatamente superior. En general, con Rbase sólo podemos llamar a objetos que forman parte del environment (env-variables); en cambio, con tidyverse se puede llamar también a las variables dentro de las tablas (data-variables). Esta característica simplifica el código en tidyverse, pero la ventaja no tiene coste cero y tiene implicaciones en la gramática de las funciones como veremos más adelante.
+#### Ejercicio 3
 
-<!--# Quiero desarrollarlo mas en la parte de escribir funciones -->
+1.  Con el `data.frame` creado en el ejercicio 2.1, cuenta el número de casos que hay en cada isla y calcula la media de la longitud del ala en cada isla.
+
+2.  Con el mismo data.frame calcula la relación entre el peso en kg y la longitud del ala.
+
+```{r save_read_tidyverse}
+
+mypenguins <- penguins |> 
+  mutate(bill_volume_mm2 = (bill_length_mm * bill_depth_mm)/2,
+    female_penguin = case_when(
+      sex == "female" & body_mass_g < 3600 ~ "small female",
+      sex == "female" & body_mass_g >= 3600 ~ "big female",
+      TRUE ~ NA)) 
+
+write_delim(mypenguins, file = "C:\\Users\\veruk\\Desktop\\mypenguins.csv", delim = ";")
+
+misdatos <- read_delim(file = "C:\\Users\\veruk\\Desktop\\mypenguins.csv")
+View(misdatos)
+```
+
+Una diferencia fundamental entre R base y *tidyverse* importante para avanzar en este curso es que el *name masking* es diferente. En R, si un argumento no está definido en una función, R buscará ese nombre en el nivel del entorno inmediatamente superior. En general, con R base sólo podemos llamar a objetos que forman parte del entorno (env-variables); en cambio, con tidyverse se puede llamar también a las variables dentro de las tablas (data-variables). Esta característica simplifica el código en tidyverse, pero la ventaja no tiene coste cero y tiene implicaciones en la gramática de las funciones como veremos más adelante.
 
 💡El [*lexical scoping* (ámbito léxico)](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) son el conjunto de normas sobre cómo los valores de las variables son extraidos del entorno en cada lenguaje de programación, es decir, como se asocia una variable a un valor. En R tiene cuatro normas básicas, pero la más importante para empezar con programación funcional es el *name masking*.
 
 ```{r name_masking}
 
+mean(x = 1:10)
+mean(x = valores)
+misvalores <- data.frame(valores = 1:10)
+mean(x = valores)
+mean(x = misvalores$valores)
+misvalores |> summarise(mean = mean(valores))
+
+
 penguins[penguins$island == "Dream" & penguins$species == "Chinstrap", "flipper_length_mm"]
 
 penguins |> filter(island == "Dream", species == "Chinstrap") |> select(flipper_length_mm)
-```
-
-#### Ejercicio TBD
-
-<!--# julen: este ejercicio no funciona porque no existe la variable plots. le he puesto eval: false por ahora. Y que significa TBD? tambien le daria nombre al chunk. esta un poco guarrete no? que quieres hacer aqui?-->
-
-```{r}
-#| eval: false
-#Exercise 1
-#1.1
-filter(plots, Provincia %in% c("08","17")) #Provincia == "08 | Provincia == "17" 
-foo <- filter(plots, Provincia %in% c("08","17"))
-unique(foo$Provincia)
-#1.2
-filter(plots, months(FechaIni)=="enero"&months(FechaFin)=="enero") #FechaFin < "2001-02-01" & FechaFin > "2000-12-31"
-filter(plots, months(FechaIni)=="enero",months(FechaFin)=="enero") #???Con coma hace lo mismo
-#1.3
-filter(plots, (HoraFin-HoraIni)>7200) #We can do operations among variables
-
-#Exercise2
-select(plots, FechaIni, FechaFin)
-select(plots, starts_with("Fecha"), -FechaPh)
-select(plots, contains("Fecha"), -FechaPh)
-select(plots, FechaIni:FechaFin, -HoraIni)
-select(plots, matches("Fecha"), -FechaPh)
-select(plots, matches("Date|Fecha")) #When you dont know the language
-
-#Exercise3
-#3.1
-arrange(plots, FechaIni, HoraIni) #Primero ordena por fecha y cuando hay empare por hora
-#3.2
-arrange(plots, desc(HoraIni))
-#3.3
-arrange(plots, desc(HoraFin-HoraIni)) #Se pueden hacer operaciones
-
-#Exercise4
-#4.1
-mutate(trees, Growth=DiamIf3-DiamIf2)
-#4.2
-trees <- mutate(trees, BA2=N*(pi/4)*(DiamIf2/100)^2, 
-                BA3=N*(pi/4)*(DiamIf3/100)^2,
-                BA_growth = BA3-BA2)
-trees
-arrange(trees, desc(BA_growth)) #058
-
-#Exercise 5
-trees
-by_plot <- group_by(trees, Codi)
-summarise(
-  by_plot,
-  mean_d3 = mean(DiamIf3, na.rm=TRUE),
-  mean_h3 = mean(HeiIf3,na.rm=TRUE),
-  n3 = n(),
-  sps = n_distinct(Especie)
-)
 
 ```
 
@@ -298,39 +294,32 @@ Se puede llamar a una función a través de otra función e iterar el proceso lo
 df <- penguins |> 
   select(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g)
 
-df$bill_length_mm <-
-  (df$bill_length_mm - min(df$bill_length_mm, na.rm = TRUE)) / (max(df$bill_length_mm, na.rm = TRUE) - min(df$bill_length_mm, na.rm = TRUE))
-df$bill_depth_mm <-
-  (df$bill_depth_mm - min(df$bill_depth_mm, na.rm = TRUE)) / (max(df$bill_depth_mm, na.rm = TRUE) - min(df$bill_length_mm, na.rm = TRUE))
-df$flipper_length_mm <-
-  (df$flipper_length_mm - min(df$flipper_length_mm, na.rm = TRUE)) / (max(df$flipper_length_mm, na.rm = TRUE) - min(df$flipper_length_mm, na.rm = TRUE))
-df$body_mass_g <-
-  (df$body_mass_g - min(df$body_mass_g, na.rm = TRUE)) / (max(df$body_mass_g, na.rm = TRUE) - min(df$body_mass_g, na.rm = TRUE))
+df_rescaled1 <- df |> 
+  mutate(bill_length_mm = (bill_length_mm - min(bill_length_mm, na.rm = TRUE)) / (max(bill_length_mm, na.rm = TRUE) - min(bill_length_mm, na.rm = TRUE)),
+    bill_depth_mm = (bill_depth_mm - min(bill_depth_mm, na.rm = TRUE)) / (max(bill_depth_mm, na.rm = TRUE) - min(bill_length_mm, na.rm = TRUE)),
+    flipper_length_mm = (flipper_length_mm - min(flipper_length_mm, na.rm = TRUE)) / (max(flipper_length_mm, na.rm = TRUE) - min(flipper_length_mm, na.rm = TRUE)),
+    body_mass_g = (body_mass_g - min(body_mass_g, na.rm = TRUE)) / (max(body_mass_g, na.rm = TRUE) - min(body_mass_g, na.rm = TRUE)))
+    
+View(df_rescaled1)
 
 #
-df <- penguins |> 
-  select(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g)
-
 rescale01 <- function(x) {
   rng <- range(x, na.rm = TRUE)   
   (x - rng[1]) / (rng[2] - rng[1]) 
 } 
 
-df$bill_length_mm <- rescale01(df$bill_length_mm) 
-df$bill_depth_mm <- rescale01(df$bill_depth_mm) 
-df$flipper_length_mm <- rescale01(df$flipper_length_mm) 
-df$body_mass_g <- rescale01(df$body_mass_g)  
+df_rescaled2 <- df |> 
+  mutate(bill_length_mm = rescale01(bill_length_mm),
+    bill_depth_mm = rescale01(bill_depth_mm),
+    flipper_length_mm = rescale01(flipper_length_mm), 
+    body_mass_g = rescale01(body_mass_g))  
 
-head(df)
+View(df_rescaled2)
 
 #
-df <- penguins |> 
-  select(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g)
+df_rescaled3 <- lapply(df, rescale01)
 
-rescaled_df <- lapply(df, rescale01)
-
-head(rescaled_df[[1]])
-head(rescaled_df[[4]])
+df_rescaled3$bill_length_mm
 
 ```
 
@@ -339,13 +328,8 @@ Las principales **ventajas de la programación funcional** (uso de funciones e i
 -   Facilidad para ver la intención del código y, por tanto, mejorar la **comprensión** para uno mismo, colaboradores y revisores:
     -   Las funciones tienen un nombre evocativo.
     -   El código queda más ordenado.
-
-💡Los bucles pueden ser más explícitos en cuanto a que se ve claramente la iteración, pero se necesita más tiempo para entender que se está haciendo.
-
 -   **Rapidez** si se necesitan hacer cambios ya que las funciones son piezas independientes que resuelven un problema concreto.
 -   **Disminuye la probabilidad de error**.
-
-<!--# Enseñar error de arriba -->
 
 ### ¿Cuándo hay que usar una función?
 
@@ -368,8 +352,6 @@ formals(rescale01)
 environment(rescale01)
 
 ```
-
-💡El [*lexical scoping* (ámbito léxico)](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) son el conjunto de normas sobre cómo los valores de las variables son extraidos del entorno en cada lenguaje de programación, es decir, como se asocia una variable a un valor. En R tiene cuatro normas básicas, pero la más importante para empezar con programación funcional es el *name masking*: si un argumento no está definido en una función, R buscará ese nombre en el nivel del entorno inmediatamente superior.
 
 ```{r environment}
 
@@ -457,7 +439,7 @@ Imaginad que para un set de datos quisieramos hacer un gráfico de distribución
 ```{r codigo_repetido}
 #| warning: false
 
-glimpse(penguins)
+penguins
 
 # Nos interesan las diferencias entre especie y sexo
 
@@ -573,8 +555,8 @@ rm(T, c, mean)
 ```{r funcion_escribir}
 
 # Varias opciones
-# julen: no ibas a cambiar el nombre de esta funcion??
-plot_exp <- function (var) {
+
+explorar_penguins <- function (var) {
   miformato <-
     list(scale_color_manual(values = c("turquoise", "goldenrod1")),
          theme_light())
@@ -601,9 +583,9 @@ plot_exp <- function (var) {
 
 ```{r funcion_pruebas}
 
-plot_exp(var = "island") 
-plot_exp(var = "year") 
-plot_exp(var = "body_mass_g") 
+explorar_penguins(var = "island") 
+explorar_penguins(var = "year") 
+explorar_penguins(var = "body_mass_g") 
 
 ```
 
@@ -683,7 +665,7 @@ La última expresión ejecutada en una función es el valor de retorno. Es el re
 
 #### Ejercicio
 
-¿Cómo generalizarías la función `plot_exp()` para que te sirviera para cualquier base de datos y cualquier variable categórica?
+¿Cómo generalizarías la función `explorar_penguins()` para que te sirviera para cualquier base de datos y cualquier variable categórica?
 
 ## Programación imperativa
 
@@ -738,6 +720,8 @@ Algunos [errores comunes](https://adv-r.hadley.nz/control-flow.html) cuando se u
 Sin embargo, en R los bucles for no son tan importantes como pueden ser en otros lenguajes porque R es un lenguaje de programación funcional. Esto significa que *es posible envolver los bucles for en una función* y llamar a esa función en vez de utilizar el bucle.
 
 Existe la creencia de que los bucles for son lentos, pero la desventaja real de *los bucles for es que son demasiado flexibles*. Cada funcional está diseñado para una tarea específica, por lo que en cuanto lo ves en el código, inmediatamente sabes por qué se está utilizando. Es decir, la principal ventaja es su claridad al hacer que el código sea más fácil de escribir y de leer (ver este ejemplo avanzado para entenderlo: <https://adv-r.hadley.nz/functionals.html>, 9.3 Purrr style).
+
+💡Los bucles pueden ser más explícitos en cuanto a que se ve claramente la iteración, pero se necesita más tiempo para entender que se está haciendo.
 
 De todas formas, nunca os sintáis mal por utilizar un bucle en vez de un funcional. Los funcionales necesitan un paso más de abstracción y pueden requerir tiempo hasta que los comprendamos. Lo más importante es que soluciones el problema y poco a poco ir escribiendo código cada vez más sencillo y elegante. Ver @sec-POO para obtener más información sobre programación imperativa o orientada a objetos.
 

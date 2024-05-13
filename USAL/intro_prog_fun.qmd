@@ -60,6 +60,8 @@ Dentro del modelo de ciencia de datos de Hadley Wickham (@fig-datascience), el c
 | Funcionales predicate y demás            |               |
 +------------------------------------------+---------------+
 
+<!--# Vero: yo llamaría a más variantes y funcionales predicate como "Operadores y otros funcionales" -->
+
 ### Quiénes somos
 
 ![](images/1_N_0YimgDh2_IbBT9jJNtOg.jpg)
@@ -148,8 +150,6 @@ str(miprimeralista)
 
 ### Tidyverse
 
-<!--# Intro basada en vuestra nota -->
-
 [*Tidyverse*](https://www.tidyverse.org/) es una colección de paquetes (meta-paquete) de R desarrollado por Hadley Wickham. Contiene ocho paquetes principales: `readr`, `tibble`, `dplyr`, `tidyr`, `stringr`, `forcats`, `ggplot2` y `purrr`. *Tidyverse* puede considerarse un dialecto del lenguaje de programación de R y, por ello, puede resultar difícil de aprender para gente con experiencia en el lenguaje tradicional de R base. Sin embargo, en este curso queremos enseñar las bases de programación utilizando *tidyverse* ya que en las secciones de iteración utilizaremos fundamentalmente `purrr` por razones que explicaremos más adelante.
 
 *Tidyverse* está diseñado para respaldar las actividades de un analista de datos humano por lo que sus estructuras de programación resultan más lógicas para la mente humana. Todos los paquetes están diseñados para trabajar con datos ordenados ([*tidy data*](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)), es decir, aquellos donde cada columna es una variable, cada fila una observación y cada celda tiene un valor. Además, las funciones están preparadas para concatenarse a través del operador *pipe* (`%>%` del paquete `magrittr` o `|>` de R base), que coge lo que está en su izquierda y lo utiliza como el primer argumento de la función que está en su derecha.
@@ -209,11 +209,13 @@ penguins |>
   arrange(desc(body_mass_g))
 ```
 
-#### Ejercicio
+#### Ejercicio {#ejfilter}
 
 1.  Crea un objeto con los pingüinos de la especie Adelie y ordena la tabla según la longitud del ala de los individuos.
 
 2.  Crea un objeto a partir del anterior donde selecciones la isla y las variables relacionadas con el pico.
+
+3.  Crea un objeto a partir del anterior donde selecciones todo menos la especie.
 
 ```{r segundos_tidypasos}
 
@@ -244,9 +246,9 @@ penguins |>
 
 #### Ejercicio
 
-1.  Con el `data.frame` creado en el ejercicio 2.2.1, cuenta el número de casos que hay en cada isla y calcula la media de la longitud del ala en cada isla.
+1.  Con el `data.frame` creado en @sec-ejfilter, cuenta el número de casos que hay en cada isla y calcula la media de la longitud del ala en cada isla.
 
-2.  Con el mismo data.frame calcula la relación entre el peso en kg y la longitud del ala.
+2.  Con el mismo `data.frame` calcula la relación entre el peso en kg y la longitud del ala.
 
 ```{r save_read_tidyverse}
 
@@ -279,9 +281,8 @@ mean(x = misvalores$valores)
 misvalores |> summarise(mean = mean(valores))
 
 
-penguins[penguins$island == "Dream" & penguins$species == "Chinstrap", "flipper_length_mm"]
-
 penguins |> filter(island == "Dream", species == "Chinstrap") |> select(flipper_length_mm)
+penguins[penguins$island == "Dream" & penguins$species == "Chinstrap", "flipper_length_mm"]
 
 ```
 
@@ -383,19 +384,7 @@ Según el tipo de output generado hay dos tipos de funciones:
 
 -   Las **funciones de transformación** transforman el objeto que entra en la función (primer argumento) y devuelven otro objeto o el anterior modificado. Los funcionales son tipos especiales de funciones de transformación.
 
--   Las **funciones secundarias** (*side-effect functions*) tienen efectos colaterales y ejecutan una acción, como guardar un archivo o dibujar un plot. Algunos ejemplos que se usan comunmente son: `library()`, `setwd()`, `plot()`, `write.csv()`... Estas funciones retornan *de forma invisible* el primer argumento, que no se guarda, pero puede ser usado en un pipeline.
-
-💡Los operadores infijos (`+`), de flujo (`for`, `if`), de subdivisión (`[ ]`, `$`), de reemplazo (`<-`) o incluso las llaves (`{ }`) también son funciones. La tilde invertida "\`" permite referirse a funciones o variables que de otro modo tienen "nombre ilegales".
-
-```{r nombres_ilegales}
-
-3 + 2
-`+`(3, 2)
-
-for (i in 1:2) print(i)
-`for`(i, 1:2, print(i))
-
-```
+-   Las **funciones secundarias** (*side-effect functions*) tienen efectos colaterales y ejecutan una acción, como guardar un archivo o dibujar un plot. Algunos ejemplos que se usan comunmente son: `library()`, `setwd()`, `plot()`, `write_delim()`... Estas funciones retornan *de forma invisible* el primer argumento, que no se guarda, pero puede ser usado en un *pipeline*.
 
 En general, sintácticamente, las funciones tienen tres componentes:
 
@@ -421,6 +410,16 @@ nombre1_v3("Vero", "Cruz")
 
 📝 Si la función tiene más de dos lineas es mejor usar llaves siempre para que quede bien delimitada. La llave de apertura nunca debe ir sola pero sí la de cierre (excepto con *else*). Las sangrías también ayudan mucho a entender la jerarquía del código dentro de las funciones. En este sentido recomendamos usar *Code \> Reindent lines/Reformat code* en el menú de RStudio.
 
+💡Los operadores infijos (`+`), de flujo (`for`, `if`), de subdivisión (`[ ]`, `$`), de reemplazo (`<-`) o incluso las llaves (`{ }`) también son funciones. La tilde invertida "\`" permite referirse a funciones o variables que de otro modo tienen "nombre ilegales".
+
+```{r nombres_ilegales}
+
+3 + 2 
+`+`(3, 2)  
+for (i in 1:2) print(i) 
+`for`(i, 1:2, print(i)) 
+```
+
 En general las funciones tienen un nombre que se ejecuta cuando se necesita como hemos visto hasta ahora, pero esto no es obligatorio. Algunos paquetes como {purrr} o las funciones de la familia `apply` permiten el uso de **funciones anónimas** para iterar.
 
 ```{r funciones_anonimas}
@@ -437,36 +436,37 @@ models <- penguins|>
 
 ## Cómo escribir funciones
 
-Imaginad que para un set de datos quisieramos hacer un gráfico de distribución de cada variable, en función de otra variable categórica que nos interese especialmente, para ver como se distribuye.
+Imaginad que para un set de datos quisieramos hacer un gráfico de distribución de cada variable numérica, en función de otra variable categórica que nos interese especialmente, para ver cómo se distribuye.
 
-```{r codigo_repetido}
+```{r codigo_repetido_avanzado}
 #| warning: false
 
-penguins
+penguins_num <- penguins |> select(species, sex, where(is.numeric))
 
-# Nos interesan las diferencias entre especie y sexo
+# nos interesan las diferencias entre especie y sexo
 
-ggplot(penguins, aes(x = species, y = bill_length_mm, color = sex)) +
+ggplot(penguins_num, aes(x = species, y = bill_length_mm, color = sex)) +
   geom_point(position = position_jitterdodge(), alpha = 0.3) +
   geom_boxplot(alpha = 0.5) +
   scale_color_manual(values = c("turquoise", "goldenrod1")) +
   theme_light()
 
-ggplot(penguins, aes(x = species, y = bill_depth_mm, color = sex)) +
+ggplot(penguins_num, aes(x = species, y = bill_depth_mm, color = sex)) +
   geom_point(position = position_jitterdodge(), alpha = 0.3) +
   geom_boxplot(alpha = 0.5) +
   scale_color_manual(values = c("turquoise", "goldenrod1")) +
   theme_light()
 
-ggplot(penguins, aes(x = species, y = island, color = sex)) +
-  geom_jitter() +
+ggplot(penguins_num, aes(x = species, y = flipper_length_mm, color = sex)) +
+  geom_point(position = position_jitterdodge(), alpha = 0.3) +
+  geom_boxplot(alpha = 0.5) +
   scale_color_manual(values = c("turquoise", "goldenrod1")) +
   theme_light()
 
-# Etc
+# etc
 ```
 
-Hemos copiado un código más de dos veces para realizar una misma acción (es decir, un gráfico para ver como se distribuye una variable) así que hay que considerar la posibilidad de que estamos necesitando una función. A continuación vamos a seguir unos sencillos pasos para transformar cualquier código repetido en función.
+Hemos copiado un código más de dos veces para realizar una misma acción (es decir, un gráfico para ver como se distribuye una variable en función de otras dos que se mantienen constantes) así que hay que considerar la posibilidad de que estamos necesitando una función. A continuación vamos a seguir unos sencillos pasos para transformar cualquier código repetido en función.
 
 1.  Analizar el código: ¿cuáles son las partes replicadas? ¿cuantas entradas tenemos? ¿cuáles varían y cuáles no?
 
@@ -475,69 +475,39 @@ Hemos copiado un código más de dos veces para realizar una misma acción (es d
 ```{r funcion_simplificar}
 #| warning: false
 
-var_cont <- penguins$bill_length_mm
-var_cat <- penguins$island
+var <- penguins_num$bill_length_mm
 
-ggplot(penguins, aes(x = species, y = var_cont, color = sex)) +
+ggplot(penguins_num, aes(x = species, y = var, color = sex)) +
   geom_point(position = position_jitterdodge(), alpha = 0.3) +
   geom_boxplot(alpha = 0.5) +
   scale_color_manual(values = c("turquoise", "goldenrod1")) +
   theme_light()
-
-ggplot(penguins, aes(x = species, y = var_cat, color = sex)) +
-  geom_jitter() +
-  scale_color_manual(values = c("turquoise", "goldenrod1")) +
-  theme_light()
  
+```
+
+```{}
 ```
 
 ```{r funcion_simplificar_2}
 #| warning: false
+#| error: true
 
-var_cont <- penguins$bill_length_mm
-var_cat <- penguins$island
-miformato <- list(scale_color_manual(values = c("turquoise", "goldenrod1")),
-                  theme_light())
+var <- body_mass_g
+var <- "body_mass_g"
 
-ggplot(penguins, aes(x = species, y = var_cont, color = sex)) +
+p <- ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
   geom_point(position = position_jitterdodge(), alpha = 0.3) +
   geom_boxplot(alpha = 0.5) +
-  miformato
-  
-ggplot(penguins, aes(x = species, y = var_cat, color = sex)) +
-  geom_jitter() +
-  miformato
- 
+  scale_color_manual(values = c("turquoise", "goldenrod1")) +
+  theme_light()
+
 ```
 
-```{r funcion_simplificar_3}
-#| warning: false
+👀 La función ggplot necesita argumentos (data-variable) que estén dentro del `data.frame` que va a representar. Para poder generalizar la función hemos guardado el nombre de la variable en un objeto (tipo *character*), pero ggplot no acepta "characters". Por ello necesitamos utilizar una función intermedia que sí los acepte.
 
-var <- "island"
-miformato <- list(scale_color_manual(values = c("turquoise", "goldenrod1")),
-                  theme_light())
+📝 Crear objetos con cálculos intermedios dentro de una función (en el ejemplo, el caso del objeto "p"), es una buena práctica porque deja más claro lo que el código está haciendo.
 
-p <- ggplot(penguins, aes(x = species, y = pull(penguins, var), color = sex)) +
-  miformato
-
-if (is.numeric(pull(penguins, var))) {
-  
-  p + 
-    geom_point(position = position_jitterdodge(), alpha = 0.3) +
-    geom_boxplot(alpha = 0.5) 
-  
-} else {
-  
-  p + 
-    geom_jitter()
-  
-}
- 
-```
-
-📝 Crear objetos con cálculos intermedios (en el ejemplo, el caso del objeto "p"), es una buena práctica porque deja más claro lo que el código está haciendo.
-
-3.  Elegir un nombre para la función (📝). Idealmente tiene que ser corto y evocar lo que la función hace. En general, debe ser un verbo (p.e. imputar_valores) mientras que los argumentos son nombres (p.e. data, variable, etc.). Usar un nombre para una función está permitido si la función calcula algo muy conocido (p.e. `mean()`) o si sirve para acceder a partes de un objeto (p.e. `residuals()`). También se recomienda evitar verbos muy genéricos (p.e. calcular) y si el nombre tiene varias palabras separarlas con guión bajo o mayúsculas, pero ser consistente. Si programas varias funciones que hacen cosas parecidas se recomienda usar el mismo prefijo para todas (p.e. "str\_" en el paquete {stringr}).
+3.  Elegir un nombre para la función (📝). Idealmente tiene que ser corto y evocar lo que la función hace. En general, debe ser un verbo (p.e. imputar_valores) mientras que los argumentos son sustantivos (p.e. data, variable, etc.). Usar un sustantivo para una función está permitido si la función calcula algo muy conocido (p.e. `mean()`) o si sirve para acceder a partes de un objeto (p.e. `residuals()`). También se recomienda evitar verbos muy genéricos (p.e. calcular) y si el nombre tiene varias palabras separarlas con guión bajo o mayúsculas, pero ser consistente. Si programas varias funciones que hacen cosas parecidas se recomienda usar el mismo prefijo para todas (p.e. "str\_" en el paquete {stringr}).
 
 Cuanto más claramente puedas expresar la intención de tu código a través de los nombres de funciones, más fácilmente otros e incluyendo tu mismo en el futuro podrán leer y comprender el código.
 
@@ -560,22 +530,12 @@ rm(T, c, mean)
 # Varias opciones
 
 explorar_penguins <- function (var) {
-  miformato <-
-    list(scale_color_manual(values = c("turquoise", "goldenrod1")),
-         theme_light())
-  p <- ggplot(penguins, aes(x = species, y = .data[[var]], color = sex)) +
-    ylab(var) +
-    miformato
-  if (is.numeric(penguins[[var]])) {
-    p +
-      geom_point(position = position_jitterdodge(), alpha = 0.3) +
-      geom_boxplot(alpha = 0.5)
-
-  } else {
-    p +
-      geom_jitter()
-
-  }
+  ggplot(penguins, aes(x = species, y = .data[[var]], color = sex)) +
+    geom_point(position = position_jitterdodge(), alpha = 0.3) +
+    geom_boxplot(alpha = 0.5) +
+    scale_color_manual(values = c("turquoise", "goldenrod1")) +
+    theme_light() +
+    ylab(var) 
 }
 
 ```
@@ -586,9 +546,8 @@ explorar_penguins <- function (var) {
 
 ```{r funcion_pruebas}
 
-explorar_penguins(var = "island") 
-explorar_penguins(var = "year") 
 explorar_penguins(var = "body_mass_g") 
+explorar_penguins(var = "flipper_length_mm") 
 
 ```
 
@@ -596,9 +555,9 @@ explorar_penguins(var = "body_mass_g")
 
 #### Ejercicio
 
-Generad una función para estandarizar (es decir, restar la media y dividir por la desviación típica) las variables numéricas de penguins.
+Genera una función para estandarizar (es decir, restar la media y dividir por la desviación típica) las variables numéricas de penguins.
 
-📝 Atajo para escribir funciones: escribir la palabra fun + tabulador
+💡Atajo para escribir funciones: escribir la palabra fun + tabulador
 
 ### Argumentos
 
@@ -668,7 +627,7 @@ La última expresión ejecutada en una función es el valor de retorno. Es el re
 
 #### Ejercicio
 
-¿Cómo generalizarías la función `explorar_penguins()` para que te sirviera para cualquier base de datos y cualquier variable categórica?
+¿Cómo generalizarías la función `explorar_penguins()` para que te sirviera para cualquier base de datos?
 
 ## Programación imperativa
 

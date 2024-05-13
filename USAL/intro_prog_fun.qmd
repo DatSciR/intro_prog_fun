@@ -32,33 +32,33 @@ Dentro del modelo de ciencia de datos de Hadley Wickham (@fig-datascience), el c
 
 ### Estructura del curso
 
-+------------------------------------------+---------------+
-| Bloques                                  | Día           |
-+==========================================+===============+
-| Presentación del curso                   | 13/05/24      |
-|                                          |               |
-| Introducción a la programación en R      |               |
-|                                          |               |
-| Introducción a la programación funcional |               |
-+------------------------------------------+---------------+
-| Teoría sobre funciones en R              | 15/05/24      |
-|                                          |               |
-| Cómo escribir funciones                  |               |
-+------------------------------------------+---------------+
-| Programación imperativa                  | 20/05/24      |
-|                                          |               |
-| Programación funcional                   |               |
-|                                          |               |
-| Iteraciones sobre uno y dos argumentos   |               |
-+------------------------------------------+---------------+
-| Iteraciones sobre múltiples argumentos   | 22/05/24      |
-|                                          |               |
-| Iteraciones sin salida                   |               |
-|                                          |               |
-| Más variantes de `map()`                 |               |
-|                                          |               |
-| Funcionales predicate y demás            |               |
-+------------------------------------------+---------------+
++------------------------------------------+----------+
+| Bloques                                  | Día      |
++==========================================+==========+
+| Presentación del curso                   | 13/05/24 |
+|                                          |          |
+| Introducción a la programación en R      |          |
+|                                          |          |
+| Introducción a la programación funcional |          |
++------------------------------------------+----------+
+| Teoría sobre funciones en R              | 15/05/24 |
+|                                          |          |
+| Cómo escribir funciones                  |          |
++------------------------------------------+----------+
+| Programación imperativa                  | 20/05/24 |
+|                                          |          |
+| Programación funcional                   |          |
+|                                          |          |
+| Iteraciones sobre uno y dos argumentos   |          |
++------------------------------------------+----------+
+| Iteraciones sobre múltiples argumentos   | 22/05/24 |
+|                                          |          |
+| Iteraciones sin salida                   |          |
+|                                          |          |
+| Más variantes de `map()`                 |          |
+|                                          |          |
+| Funcionales predicate y demás            |          |
++------------------------------------------+----------+
 
 <!--# Vero: yo llamaría a más variantes y funcionales predicate como "Operadores y otros funcionales" -->
 
@@ -485,7 +485,7 @@ ggplot(penguins_num, aes(x = species, y = var, color = sex)) +
  
 ```
 
-```{}
+```         
 ```
 
 ```{r funcion_simplificar_2}

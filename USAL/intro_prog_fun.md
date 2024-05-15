@@ -88,10 +88,10 @@ alt="Figure 1: Modelo de ciencia de datos de Hadley Wickham. Traducido de https
 
 ### Estructura del curso
 
-<table style="width:75%;">
+<table style="width:82%;">
 <colgroup>
 <col style="width: 59%" />
-<col style="width: 15%" />
+<col style="width: 22%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -343,12 +343,6 @@ mivector |> mean() # CTRL+SHIFT+M para poner un pipe
 ```
 
     [1] 5
-
-``` r
-length
-```
-
-    function (x)  .Primitive("length")
 
 ``` r
 # install.packages("tidyverse")
@@ -708,9 +702,8 @@ penguins |>
 
 #### Ejercicio
 
-1.  Con el `data.frame` creado en [Section 2.2.1](#sec-ejfilter), cuenta
-    el número de casos que hay en cada isla y calcula la media de la
-    longitud del ala en cada isla.
+1.  Con el `data.frame` penguins, cuenta el número de casos que hay en
+    cada isla y calcula la media de la longitud del ala en cada isla.
 
 2.  Con el mismo `data.frame` calcula la relación entre el peso en kg y
     la longitud del ala.
@@ -1072,6 +1065,8 @@ nombre.
 
 Genera tu primera función que divida un valor siempre entre 100.
 
+💡Atajo para escribir funciones: escribir la palabra fun + tabulador
+
 Imaginad que para un set de datos quisieramos hacer un gráfico de
 distribución de cada variable numérica, en función de otra variable
 categórica que nos interese especialmente, para ver cómo se distribuye.
@@ -1151,7 +1146,8 @@ ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
   geom_point(position = position_jitterdodge(), alpha = 0.3) +
   geom_boxplot(alpha = 0.5) +
   scale_color_manual(values = c("turquoise", "goldenrod1")) +
-  theme_light()
+  theme_light() +
+  ylab(var)
 ```
 
 ![](intro_prog_fun_files/figure-commonmark/funcion_simplificar_2-1.png)
@@ -1198,7 +1194,7 @@ rm(T, c, mean)
 # Varias opciones
 
 explorar_penguins <- function (var) {
-  ggplot(penguins, aes(x = species, y = .data[[var]], color = sex)) +
+  ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
     geom_point(position = position_jitterdodge(), alpha = 0.3) +
     geom_boxplot(alpha = 0.5) +
     scale_color_manual(values = c("turquoise", "goldenrod1")) +
@@ -1237,6 +1233,17 @@ explorar_penguins(var = "flipper_length_mm")
 
 ![](intro_prog_fun_files/figure-commonmark/funcion_pruebas-2.png)
 
+``` r
+explorar_penguins(var = "bill_depth_mm")
+```
+
+    Warning: Removed 2 rows containing non-finite outside the scale range
+    (`stat_boxplot()`).
+    Removed 2 rows containing missing values or values outside the scale range
+    (`geom_point()`).
+
+![](intro_prog_fun_files/figure-commonmark/funcion_pruebas-3.png)
+
 💡Puedes querer convertir estas pruebas en **test** formales. En
 funciones complejas sirven para que, aunque hagas cambios, se pueda
 comprobar que la funcionalidad no se ha roto. Si estás interesado mira
@@ -1247,8 +1254,6 @@ este enlace:
 
 Genera una función para estandarizar (es decir, restar la media y
 dividir por la desviación típica) las variables numéricas de penguins.
-
-💡Atajo para escribir funciones: escribir la palabra fun + tabulador
 
 ### Argumentos
 
@@ -1294,10 +1299,18 @@ fácil identificar los argumentos de la función y, en general, todos los
 componentes.
 
 ``` r
-average <- mean(rnorm(10, mean = 50, sd = 25) / 12, trim = 0.2)
-
-average <- mean(rnorm(10,mean=50,sd=25)/12,trim=0.2)
+set.seed(123)
+mean(rnorm(10, mean = 50, sd = 25) / 12, trim = 0.2)
 ```
+
+    [1] 3.966805
+
+``` r
+set.seed(123)
+mean(rnorm(10,mean=50,sd=25)/12,trim=0.2)
+```
+
+    [1] 3.966805
 
 Hay un argumento especial llamado `…`, que captura cualquier otro
 argumento que no se corresponde con los nombrados en la función. Se
@@ -1382,7 +1395,7 @@ for (i in seq_along(df_ej)) {           # 2. secuencia
 salida
 ```
 
-    [1] 1.5560187 0.4742769 0.9262426
+    [1]  1.2240818  1.7869131 -0.2179749
 
 1.  Salida: aquí determinamos el espacio de la salida. Esto es muy
     importante para la eficiencia puesto que si aumentamos el tamaño del
@@ -1399,7 +1412,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.23    0.22    0.47 
+       0.21    0.13    0.46 
 
 ``` r
 y <- vector("double", length = 20000)
@@ -1507,7 +1520,7 @@ aleatorizacion <- function(f) {
 aleatorizacion(median)
 ```
 
-    [1] -0.4509699
+    [1] 0.1533731
 
 <!--# Para programar un funcional, primero... -->
 
@@ -1549,16 +1562,16 @@ Los sufijos indican el tipo de salida que queremos:
 map_dbl(df_ej, mean)
 ```
 
-               a            b            c 
-    -0.161883901 -0.191528975 -0.001248619 
+             a          b          c 
+     0.3079017  0.1093422 -0.7331467 
 
 ``` r
 df_ej |> 
   map_dbl(mean)
 ```
 
-               a            b            c 
-    -0.161883901 -0.191528975 -0.001248619 
+             a          b          c 
+     0.3079017  0.1093422 -0.7331467 
 
 Comparando con un bucle el foco está en la operación que se está
 ejecutando (`mean()`), y no en el código necesario para iterar sobre
@@ -2039,16 +2052,16 @@ map2(x, y, potencia)
 ```
 
     [[1]]
-    [1]   16 3125    9   64    1
+    [1]  5 16 81  1  8
 
     [[2]]
-    [1]   27    2  256 3125    1
+    [1]   1   5 243  16   8
 
     [[3]]
-    [1]  16   3   1 125  16
+    [1] 125   3   1 256  32
 
     [[4]]
-    [1]    1   64    4    3 3125
+    [1]  4 27 16 25  1
 
 ⚡¡Importante! La primera iteración corresponde al primer valor del
 vector `x` y al primer valor del vector `y`. La segunda iteración
@@ -2071,16 +2084,16 @@ imple_map2(x, y, potencia)
 ```
 
     [[1]]
-    [1]   16 3125    9   64    1
+    [1]  5 16 81  1  8
 
     [[2]]
-    [1]   27    2  256 3125    1
+    [1]   1   5 243  16   8
 
     [[3]]
-    [1]  16   3   1 125  16
+    [1] 125   3   1 256  32
 
     [[4]]
-    [1]    1   64    4    3 3125
+    [1]  4 27 16 25  1
 
 #### Ejercicio
 
@@ -2147,32 +2160,32 @@ map2(x, y, potencia)
 ```
 
     [[1]]
-    [1]   16 3125    9   64    1
+    [1]  5 16 81  1  8
 
     [[2]]
-    [1]   27    2  256 3125    1
+    [1]   1   5 243  16   8
 
     [[3]]
-    [1]  16   3   1 125  16
+    [1] 125   3   1 256  32
 
     [[4]]
-    [1]    1   64    4    3 3125
+    [1]  4 27 16 25  1
 
 ``` r
 pmap(list(x, y), potencia)
 ```
 
     [[1]]
-    [1]   16 3125    9   64    1
+    [1]  5 16 81  1  8
 
     [[2]]
-    [1]   27    2  256 3125    1
+    [1]   1   5 243  16   8
 
     [[3]]
-    [1]  16   3   1 125  16
+    [1] 125   3   1 256  32
 
     [[4]]
-    [1]    1   64    4    3 3125
+    [1]  4 27 16 25  1
 
 ``` r
 z <- map(1:4, \(x) sample(5))
@@ -2181,16 +2194,16 @@ pmap(list(x, y, z), rnorm)
 ```
 
     [[1]]
-    [1]  5.309796  1.995950  5.340964 -3.438522  5.883308
+    [1]  1.212017  4.766802  6.050085  4.017938 -8.545844
 
     [[2]]
-    [1]  1.7934096  0.2864659  9.0841374 10.0353841  3.2831490
+    [1]  7.0172156 -0.4184015  4.3119914  6.1022855  1.5761350
 
     [[3]]
-    [1] -0.2238245  7.9817505  6.0526414  6.3569587  3.1115062
+    [1] -0.6621531  1.9065174  1.7222173  4.0230567  5.3852804
 
     [[4]]
-    [1] 8.810930 2.640332 1.800291 5.969212 6.668553
+    [1] -0.8533002  3.6443765  3.3385403  2.6635639  9.3873561
 
 Si no nombramos los elementos de la lista, `pmap()` usará los elementos
 de la lista en su orden para los argumentos consecutivos de la función.
@@ -2204,16 +2217,16 @@ args3 |>
 ```
 
     [[1]]
-    [1]  0.07083801  6.73980417 -3.61062886  0.95867581  0.25789596
+    [1] 5.435181 3.348137 7.595230 5.967519 3.645191
 
     [[2]]
-    [1]  1.7426036  1.5804795  1.4803170 -0.6616576  3.9428600
+    [1] 1.954927 4.372094 9.803262 2.799481 8.561999
 
     [[3]]
-    [1]  1.9054840  3.6223085 -1.5436971  8.6122601  0.2803588
+    [1]  9.597832  2.764300 -1.052842  1.158374  3.284419
 
     [[4]]
-    [1] -0.7807405  4.5711533  2.8898906  1.8354217  0.9428280
+    [1]  3.753308  1.957372 -1.806474  4.909945 -2.924522
 
 ![](images/pmap.png)
 
@@ -2754,7 +2767,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2024-05-15 17:02:46 CEST"
+    [1] "2024-05-15 18:28:17 CEST"
 
 ``` r
 sessionInfo()

@@ -32,33 +32,33 @@ Dentro del modelo de ciencia de datos de Hadley Wickham (@fig-datascience), el c
 
 ### Estructura del curso
 
-+------------------------------------------+----------+
-| Bloques                                  | Día      |
-+==========================================+==========+
-| Presentación del curso                   | 13/05/24 |
-|                                          |          |
-| Introducción a la programación en R      |          |
-|                                          |          |
-| Introducción a la programación funcional |          |
-+------------------------------------------+----------+
-| Teoría sobre funciones en R              | 15/05/24 |
-|                                          |          |
-| Cómo escribir funciones                  |          |
-+------------------------------------------+----------+
-| Programación imperativa                  | 20/05/24 |
-|                                          |          |
-| Programación funcional                   |          |
-|                                          |          |
-| Iteraciones sobre uno y dos argumentos   |          |
-+------------------------------------------+----------+
-| Iteraciones sobre múltiples argumentos   | 22/05/24 |
-|                                          |          |
-| Iteraciones sin salida                   |          |
-|                                          |          |
-| Más variantes de `map()`                 |          |
-|                                          |          |
-| Funcionales predicate y demás            |          |
-+------------------------------------------+----------+
++------------------------------------------+---------------+
+| Bloques                                  | Día           |
++==========================================+===============+
+| Presentación del curso                   | 13/05/24      |
+|                                          |               |
+| Introducción a la programación en R      |               |
+|                                          |               |
+| Introducción a la programación funcional |               |
++------------------------------------------+---------------+
+| Teoría sobre funciones en R              | 15/05/24      |
+|                                          |               |
+| Cómo escribir funciones                  |               |
++------------------------------------------+---------------+
+| Programación imperativa                  | 20/05/24      |
+|                                          |               |
+| Programación funcional                   |               |
+|                                          |               |
+| Iteraciones sobre uno y dos argumentos   |               |
++------------------------------------------+---------------+
+| Iteraciones sobre múltiples argumentos   | 22/05/24      |
+|                                          |               |
+| Iteraciones sin salida                   |               |
+|                                          |               |
+| Más variantes de `map()`                 |               |
+|                                          |               |
+| Funcionales predicate y demás            |               |
++------------------------------------------+---------------+
 
 <!--# Vero: yo llamaría a más variantes y funcionales predicate como "Operadores y otros funcionales" -->
 
@@ -162,7 +162,6 @@ mivector <- c(6, 4)
 mean(mivector)
 mivector |> mean() # CTRL+SHIFT+M para poner un pipe
 
-length
 ```
 
 ```{r primeros_tidypasos}
@@ -250,7 +249,7 @@ penguins |>
 
 #### Ejercicio
 
-1.  Con el `data.frame` creado en @sec-ejfilter, cuenta el número de casos que hay en cada isla y calcula la media de la longitud del ala en cada isla.
+1.  Con el `data.frame` penguins, cuenta el número de casos que hay en cada isla y calcula la media de la longitud del ala en cada isla.
 
 2.  Con el mismo `data.frame` calcula la relación entre el peso en kg y la longitud del ala.
 
@@ -446,6 +445,8 @@ models <- penguins|>
 
 Genera tu primera función que divida un valor siempre entre 100.
 
+💡Atajo para escribir funciones: escribir la palabra fun + tabulador
+
 Imaginad que para un set de datos quisieramos hacer un gráfico de distribución de cada variable numérica, en función de otra variable categórica que nos interese especialmente, para ver cómo se distribuye.
 
 ```{r codigo_repetido_avanzado}
@@ -509,7 +510,9 @@ ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
   geom_point(position = position_jitterdodge(), alpha = 0.3) +
   geom_boxplot(alpha = 0.5) +
   scale_color_manual(values = c("turquoise", "goldenrod1")) +
-  theme_light()
+  theme_light() +
+  ylab(var)
+
 
 ```
 
@@ -540,7 +543,7 @@ rm(T, c, mean)
 # Varias opciones
 
 explorar_penguins <- function (var) {
-  ggplot(penguins, aes(x = species, y = .data[[var]], color = sex)) +
+  ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
     geom_point(position = position_jitterdodge(), alpha = 0.3) +
     geom_boxplot(alpha = 0.5) +
     scale_color_manual(values = c("turquoise", "goldenrod1")) +
@@ -558,6 +561,7 @@ explorar_penguins <- function (var) {
 
 explorar_penguins(var = "body_mass_g") 
 explorar_penguins(var = "flipper_length_mm") 
+explorar_penguins(var = "bill_depth_mm")
 
 ```
 
@@ -566,8 +570,6 @@ explorar_penguins(var = "flipper_length_mm")
 #### Ejercicio
 
 Genera una función para estandarizar (es decir, restar la media y dividir por la desviación típica) las variables numéricas de penguins.
-
-💡Atajo para escribir funciones: escribir la palabra fun + tabulador
 
 ### Argumentos
 
@@ -599,9 +601,11 @@ A la hora de ejecutar la función los argumentos se pueden **especificar** utili
 
 ```{r espacios}
 
-average <- mean(rnorm(10, mean = 50, sd = 25) / 12, trim = 0.2)
+set.seed(123)
+mean(rnorm(10, mean = 50, sd = 25) / 12, trim = 0.2)
 
-average <- mean(rnorm(10,mean=50,sd=25)/12,trim=0.2)
+set.seed(123)
+mean(rnorm(10,mean=50,sd=25)/12,trim=0.2)
 
 ```
 

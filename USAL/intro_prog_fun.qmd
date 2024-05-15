@@ -32,33 +32,33 @@ Dentro del modelo de ciencia de datos de Hadley Wickham (@fig-datascience), el c
 
 ### Estructura del curso
 
-+------------------------------------------+---------------+
-| Bloques                                  | Día           |
-+==========================================+===============+
-| Presentación del curso                   | 13/05/24      |
-|                                          |               |
-| Introducción a la programación en R      |               |
-|                                          |               |
-| Introducción a la programación funcional |               |
-+------------------------------------------+---------------+
-| Teoría sobre funciones en R              | 15/05/24      |
-|                                          |               |
-| Cómo escribir funciones                  |               |
-+------------------------------------------+---------------+
-| Programación imperativa                  | 20/05/24      |
-|                                          |               |
-| Programación funcional                   |               |
-|                                          |               |
-| Iteraciones sobre uno y dos argumentos   |               |
-+------------------------------------------+---------------+
-| Iteraciones sobre múltiples argumentos   | 22/05/24      |
-|                                          |               |
-| Iteraciones sin salida                   |               |
-|                                          |               |
-| Más variantes de `map()`                 |               |
-|                                          |               |
-| Funcionales predicate y demás            |               |
-+------------------------------------------+---------------+
++------------------------------------------+----------+
+| Bloques                                  | Día      |
++==========================================+==========+
+| Presentación del curso                   | 13/05/24 |
+|                                          |          |
+| Introducción a la programación en R      |          |
+|                                          |          |
+| Introducción a la programación funcional |          |
++------------------------------------------+----------+
+| Teoría sobre funciones en R              | 15/05/24 |
+|                                          |          |
+| Cómo escribir funciones                  |          |
++------------------------------------------+----------+
+| Programación imperativa                  | 20/05/24 |
+|                                          |          |
+| Programación funcional                   |          |
+|                                          |          |
+| Iteraciones sobre uno y dos argumentos   |          |
++------------------------------------------+----------+
+| Iteraciones sobre múltiples argumentos   | 22/05/24 |
+|                                          |          |
+| Iteraciones sin salida                   |          |
+|                                          |          |
+| Más variantes de `map()`                 |          |
+|                                          |          |
+| Funcionales predicate y demás            |          |
++------------------------------------------+----------+
 
 <!--# Vero: yo llamaría a más variantes y funcionales predicate como "Operadores y otros funcionales" -->
 
@@ -210,7 +210,7 @@ penguins |>
   arrange(desc(body_mass_g))
 ```
 
-#### Ejercicio {#ejfilter}
+#### Ejercicio {#sec-ejfilter}
 
 1.  Crea un objeto con los pingüinos de la especie Adelie y ordena la tabla según la longitud del ala de los individuos.
 
@@ -370,7 +370,7 @@ f <- function(x) {
 }
 
 y <- 100
-f(10)
+f(x = 10)
 
 y <- 1000
 f(10)
@@ -401,7 +401,7 @@ En general, sintácticamente, las funciones tienen tres componentes:
 ```{r notaciones}
 
 nombre1_v1 <- function(x, y) {
-  paste(x, y, sep = "_") 
+  paste(x, y, sep = "_")
 }  
 
 nombre1_v2 <- function(x, y) paste(x, y, sep = "_")  
@@ -441,6 +441,10 @@ models <- penguins|>
 📝 Mejor reservar el uso de funciones anónimas para funciones cortas y simples. Si la función es larga y ocupa varias líneas mejor darle un nombre.
 
 ## Cómo escribir funciones
+
+#### Ejercicio
+
+Genera tu primera función que divida un valor siempre entre 100.
 
 Imaginad que para un set de datos quisieramos hacer un gráfico de distribución de cada variable numérica, en función de otra variable categórica que nos interese especialmente, para ver cómo se distribuye.
 

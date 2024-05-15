@@ -88,10 +88,10 @@ alt="Figure 1: Modelo de ciencia de datos de Hadley Wickham. Traducido de https
 
 ### Estructura del curso
 
-<table style="width:82%;">
+<table style="width:75%;">
 <colgroup>
 <col style="width: 59%" />
-<col style="width: 22%" />
+<col style="width: 15%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -708,9 +708,9 @@ penguins |>
 
 #### Ejercicio
 
-1.  Con el `data.frame` creado en **?@sec-ejfilter**, cuenta el número
-    de casos que hay en cada isla y calcula la media de la longitud del
-    ala en cada isla.
+1.  Con el `data.frame` creado en [Section 2.2.1](#sec-ejfilter), cuenta
+    el número de casos que hay en cada isla y calcula la media de la
+    longitud del ala en cada isla.
 
 2.  Con el mismo `data.frame` calcula la relación entre el peso en kg y
     la longitud del ala.
@@ -933,7 +933,7 @@ f <- function(x) {
 }
 
 y <- 100
-f(10)
+f(x = 10)
 ```
 
     [1] 110
@@ -987,7 +987,7 @@ En general, sintácticamente, las funciones tienen tres componentes:
 
 ``` r
 nombre1_v1 <- function(x, y) {
-  paste(x, y, sep = "_") 
+  paste(x, y, sep = "_")
 }  
 
 nombre1_v2 <- function(x, y) paste(x, y, sep = "_")  
@@ -1067,6 +1067,10 @@ simples. Si la función es larga y ocupa varias líneas mejor darle un
 nombre.
 
 ## Cómo escribir funciones
+
+#### Ejercicio
+
+Genera tu primera función que divida un valor siempre entre 100.
 
 Imaginad que para un set de datos quisieramos hacer un gráfico de
 distribución de cada variable numérica, en función de otra variable
@@ -1378,7 +1382,7 @@ for (i in seq_along(df_ej)) {           # 2. secuencia
 salida
 ```
 
-    [1] 0.6800226 0.2035873 0.8730118
+    [1] 1.5560187 0.4742769 0.9262426
 
 1.  Salida: aquí determinamos el espacio de la salida. Esto es muy
     importante para la eficiencia puesto que si aumentamos el tamaño del
@@ -1395,7 +1399,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.17    0.20    0.70 
+       0.23    0.22    0.47 
 
 ``` r
 y <- vector("double", length = 20000)
@@ -1503,7 +1507,7 @@ aleatorizacion <- function(f) {
 aleatorizacion(median)
 ```
 
-    [1] 1.160583
+    [1] -0.4509699
 
 <!--# Para programar un funcional, primero... -->
 
@@ -1545,16 +1549,16 @@ Los sufijos indican el tipo de salida que queremos:
 map_dbl(df_ej, mean)
 ```
 
-             a          b          c 
-    -0.4448579 -0.4039203  0.2577729 
+               a            b            c 
+    -0.161883901 -0.191528975 -0.001248619 
 
 ``` r
 df_ej |> 
   map_dbl(mean)
 ```
 
-             a          b          c 
-    -0.4448579 -0.4039203  0.2577729 
+               a            b            c 
+    -0.161883901 -0.191528975 -0.001248619 
 
 Comparando con un bucle el foco está en la operación que se está
 ejecutando (`mean()`), y no en el código necesario para iterar sobre
@@ -2035,16 +2039,16 @@ map2(x, y, potencia)
 ```
 
     [[1]]
-    [1]  1 64 81 25  2
+    [1]   16 3125    9   64    1
 
     [[2]]
-    [1]  16 125   1 243  16
+    [1]   27    2  256 3125    1
 
     [[3]]
-    [1]    1 3125    2   81   64
+    [1]  16   3   1 125  16
 
     [[4]]
-    [1]  16   1  25   4 243
+    [1]    1   64    4    3 3125
 
 ⚡¡Importante! La primera iteración corresponde al primer valor del
 vector `x` y al primer valor del vector `y`. La segunda iteración
@@ -2067,16 +2071,16 @@ imple_map2(x, y, potencia)
 ```
 
     [[1]]
-    [1]  1 64 81 25  2
+    [1]   16 3125    9   64    1
 
     [[2]]
-    [1]  16 125   1 243  16
+    [1]   27    2  256 3125    1
 
     [[3]]
-    [1]    1 3125    2   81   64
+    [1]  16   3   1 125  16
 
     [[4]]
-    [1]  16   1  25   4 243
+    [1]    1   64    4    3 3125
 
 #### Ejercicio
 
@@ -2143,32 +2147,32 @@ map2(x, y, potencia)
 ```
 
     [[1]]
-    [1]  1 64 81 25  2
+    [1]   16 3125    9   64    1
 
     [[2]]
-    [1]  16 125   1 243  16
+    [1]   27    2  256 3125    1
 
     [[3]]
-    [1]    1 3125    2   81   64
+    [1]  16   3   1 125  16
 
     [[4]]
-    [1]  16   1  25   4 243
+    [1]    1   64    4    3 3125
 
 ``` r
 pmap(list(x, y), potencia)
 ```
 
     [[1]]
-    [1]  1 64 81 25  2
+    [1]   16 3125    9   64    1
 
     [[2]]
-    [1]  16 125   1 243  16
+    [1]   27    2  256 3125    1
 
     [[3]]
-    [1]    1 3125    2   81   64
+    [1]  16   3   1 125  16
 
     [[4]]
-    [1]  16   1  25   4 243
+    [1]    1   64    4    3 3125
 
 ``` r
 z <- map(1:4, \(x) sample(5))
@@ -2177,16 +2181,16 @@ pmap(list(x, y, z), rnorm)
 ```
 
     [[1]]
-    [1] 5.6523080 1.2779872 3.5243063 1.4170201 0.1957453
+    [1]  5.309796  1.995950  5.340964 -3.438522  5.883308
 
     [[2]]
-    [1]  1.678894  4.275058 -6.595058  5.081386 14.513130
+    [1]  1.7934096  0.2864659  9.0841374 10.0353841  3.2831490
 
     [[3]]
-    [1]  7.0895761  7.2210718  1.5422768 -0.7989510  0.8763598
+    [1] -0.2238245  7.9817505  6.0526414  6.3569587  3.1115062
 
     [[4]]
-    [1]  3.5063940  0.5019829  3.4762796 -0.3584538  3.2789783
+    [1] 8.810930 2.640332 1.800291 5.969212 6.668553
 
 Si no nombramos los elementos de la lista, `pmap()` usará los elementos
 de la lista en su orden para los argumentos consecutivos de la función.
@@ -2200,16 +2204,16 @@ args3 |>
 ```
 
     [[1]]
-    [1]  4.8819449  4.7591485 -0.5209026  5.9156628  0.2757091
+    [1]  0.07083801  6.73980417 -3.61062886  0.95867581  0.25789596
 
     [[2]]
-    [1]  5.191512  3.915604  1.633499  7.164958 -4.026476
+    [1]  1.7426036  1.5804795  1.4803170 -0.6616576  3.9428600
 
     [[3]]
-    [1]  1.9447624  0.6395169  3.3178495 11.6615524 -0.4846242
+    [1]  1.9054840  3.6223085 -1.5436971  8.6122601  0.2803588
 
     [[4]]
-    [1]  1.008883  2.428865  6.595130  4.077421 12.681033
+    [1] -0.7807405  4.5711533  2.8898906  1.8354217  0.9428280
 
 ![](images/pmap.png)
 
@@ -2750,7 +2754,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2024-05-15 16:01:27 CEST"
+    [1] "2024-05-15 17:02:46 CEST"
 
 ``` r
 sessionInfo()

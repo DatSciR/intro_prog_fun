@@ -32,33 +32,33 @@ Dentro del modelo de ciencia de datos de Hadley Wickham (@fig-datascience), el c
 
 ### Estructura del curso
 
-+------------------------------------------+--------------+
-| Bloques                                  | Día          |
-+==========================================+==============+
-| Presentación del curso                   | 13/05/24     |
-|                                          |              |
-| Introducción a la programación en R      |              |
-|                                          |              |
-| Introducción a la programación funcional |              |
-+------------------------------------------+--------------+
-| Teoría sobre funciones en R              | 15/05/24     |
-|                                          |              |
-| Cómo escribir funciones                  |              |
-+------------------------------------------+--------------+
-| Programación imperativa                  | 20/05/24     |
-|                                          |              |
-| Programación funcional                   |              |
-|                                          |              |
-| Iteraciones sobre uno y dos argumentos   |              |
-+------------------------------------------+--------------+
-| Iteraciones sobre múltiples argumentos   | 22/05/24     |
-|                                          |              |
-| Iteraciones sin salida                   |              |
-|                                          |              |
-| Más variantes de `map()`                 |              |
-|                                          |              |
-| Funcionales predicate y demás            |              |
-+------------------------------------------+--------------+
++------------------------------------------+---------------+
+| Bloques                                  | Día           |
++==========================================+===============+
+| Presentación del curso                   | 13/05/24      |
+|                                          |               |
+| Introducción a la programación en R      |               |
+|                                          |               |
+| Introducción a la programación funcional |               |
++------------------------------------------+---------------+
+| Teoría sobre funciones en R              | 15/05/24      |
+|                                          |               |
+| Cómo escribir funciones                  |               |
++------------------------------------------+---------------+
+| Programación imperativa                  | 20/05/24      |
+|                                          |               |
+| Programación funcional                   |               |
+|                                          |               |
+| Iteraciones sobre uno y dos argumentos   |               |
++------------------------------------------+---------------+
+| Iteraciones sobre múltiples argumentos   | 22/05/24      |
+|                                          |               |
+| Iteraciones sin salida                   |               |
+|                                          |               |
+| Más variantes de `map()`                 |               |
+|                                          |               |
+| Funcionales predicate y demás            |               |
++------------------------------------------+---------------+
 
 <!--# Vero: yo llamaría a más variantes y funcionales predicate como "Operadores y otros funcionales" -->
 
@@ -501,7 +501,7 @@ ggplot(penguins_num, aes(x = species, y = var, color = sex)) +
 var <- body_mass_g
 var <- "body_mass_g"
 
-p <- ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
+ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
   geom_point(position = position_jitterdodge(), alpha = 0.3) +
   geom_boxplot(alpha = 0.5) +
   scale_color_manual(values = c("turquoise", "goldenrod1")) +
@@ -511,7 +511,7 @@ p <- ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
 
 👀 La función ggplot necesita argumentos (data-variable) que estén dentro del `data.frame` que va a representar. Para poder generalizar la función hemos guardado el nombre de la variable en un objeto (tipo *character*), pero ggplot no acepta "characters". Por ello necesitamos utilizar una función intermedia que sí los acepte.
 
-📝 Crear objetos con cálculos intermedios dentro de una función (en el ejemplo, el caso del objeto "p"), es una buena práctica porque deja más claro lo que el código está haciendo.
+📝 Crear objetos con cálculos intermedios dentro de una función, es una buena práctica porque deja más claro lo que el código está haciendo.
 
 3.  Elegir un nombre para la función (📝). Idealmente tiene que ser corto y evocar lo que la función hace. En general, debe ser un verbo (p.e. imputar_valores) mientras que los argumentos son sustantivos (p.e. data, variable, etc.). Usar un sustantivo para una función está permitido si la función calcula algo muy conocido (p.e. `mean()`) o si sirve para acceder a partes de un objeto (p.e. `residuals()`). También se recomienda evitar verbos muy genéricos (p.e. calcular) y si el nombre tiene varias palabras separarlas con guión bajo o mayúsculas, pero ser consistente. Si programas varias funciones que hacen cosas parecidas se recomienda usar el mismo prefijo para todas (p.e. "str\_" en el paquete {stringr}).
 
@@ -720,7 +720,9 @@ aleatorizacion(median)
 
 ```
 
-<!--# Para programar un funcional, primero... -->Estilo funcional: primero, solucionamos el problema para un elemento. Después, generamos una función que nos permita envolver la solución en una función. Por último, *aplicamos la función a todos los elementos que estamos interesados.* Es decir, dividimos los problemas grandes en problemas más pequeños y resolvemos cada tarea con una o más funciones.
+<!--# Para programar un funcional, primero... -->
+
+Estilo funcional: primero, solucionamos el problema para un elemento. Después, generamos una función que nos permita envolver la solución en una función. Por último, *aplicamos la función a todos los elementos que estamos interesados.* Es decir, dividimos los problemas grandes en problemas más pequeños y resolvemos cada tarea con una o más funciones.
 
 La ventaja de utilizar {purrr} en vez de bucles for es que nos permiten distinguir en funciones los desafíos comunes de manipulación de listas, y por lo tanto cada bucle for tiene su propia función <!--# Vero: no entiendo bien que quieres decir en esta primera frase -->. La familia `apply` de R base soluciona problemas similares, pero {purrr} es más consistente y, por lo tanto, más fácil de aprender. Una vez que dominemos la programación funcional, podremos solventar muchos problemas de iteración con menos código, más facilidad y menos errores. <!--# Esta ultima frase la subiria arriba cuando hablas de diferencias entre loops y funcionales, pero aqui es más de diferencias entre purrr y otros -->
 

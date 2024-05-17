@@ -55,12 +55,8 @@ Dentro del modelo de ciencia de datos de Hadley Wickham (@fig-datascience), el c
 |                                          |               |
 | Iteraciones sin salida                   |               |
 |                                          |               |
-| Más variantes de `map()`                 |               |
-|                                          |               |
-| Funcionales predicate y demás            |               |
+| Operadores y otros funcionales           |               |
 +------------------------------------------+---------------+
-
-<!--# Vero: yo llamaría a más variantes y funcionales predicate como "Operadores y otros funcionales" -->
 
 ### Quiénes somos
 
@@ -74,7 +70,7 @@ Y vosotros ¿quiénes sois?
 
 ## Introducción a la programación en R
 
-![El proceso de aprendizaje en R, por Allison Horst. https://allisonhorst.com/everything-else](images/e684f0da-13b1-4d00-ab25-37814e79ee1e.png){#fig-Rlearning width="362"}
+![El proceso de aprendizaje en R, por Allison Horst. https://allisonhorst.com/everything-else](images/e684f0da-13b1-4d00-ab25-37814e79ee1e.png){width="362"}
 
 ### Conceptos muy básicos
 
@@ -160,7 +156,8 @@ str(miprimeralista)
 
 mivector <- c(6, 4)
 mean(mivector)
-mivector |> mean() # CTRL+SHIFT+M para poner un pipe
+mivector |> 
+  mean() # CTRL+SHIFT+M para poner un pipe
 
 ```
 
@@ -191,7 +188,7 @@ penguins |>
 penguins |> 
   select(sex, body_mass_g)
 penguins |> 
-  select(ends_with("mm")) # seleccionar variables que tienen un patrón
+  select(ends_with("mm")) # seleccionar variables que tienen un patron
 penguins |> 
   select(ends_with(c("mm", "g"))) 
 
@@ -209,7 +206,7 @@ penguins |>
   arrange(desc(body_mass_g))
 ```
 
-#### Ejercicio {#sec-ejfilter}
+#### Ejercicio
 
 1.  Crea un objeto con los pingüinos de la especie Adelie y ordena la tabla según la longitud del ala de los individuos.
 
@@ -645,24 +642,52 @@ La última expresión ejecutada en una función es el valor de retorno. Es el re
 
 ## Programación imperativa
 
-<!--# Vero: quizás pondría algo de qué es iterar primero, a lo mejor con un dibujo?  -->
+![Representación gráfica del funcionamiento de los bucles for donde se ve claramente que se está realizando una iteración. Ilustración de Allison Horst obtenido de la charla de Hadley Wickham The Joy of Functional Programming (para ciencia de datos)](images/forloops.png)
 
-La mayoría de las personas tiende a programar de forma imperativa, en gran parte debido a que es la metodología que se enseña con más frecuencia en los centros de educación. <!--# Vero: la segunda parte de la frase la quitaría... si estás seguro de que es por eso guay, epro me parece raro --> En la programación imperativa, los scripts tienden a ser largos y cambian gradualmente el estado del programa. <!--# Vero: no entiendo que quieres decir -->Esto a menudo implica el uso de bases de datos temporales que se modifican a lo largo del proceso de análisis. Como resultado, puede resultar más difícil comprender qué se está haciendo en cada paso del script.
+La mayoría de las personas tiende a programar de forma imperativa. En la programación imperativa, los scripts tienden a ser largos y cambian gradualmente el estado del programa. Esto a menudo implica el uso de bases de datos temporales que se modifican a lo largo del proceso de análisis. Como resultado, puede resultar más difícil comprender qué se está haciendo en cada paso del script.
+
+```{r cambio_gradual}
+
+mypenguins <- penguins |> 
+  mutate(
+    bill_volume_mm2 = (bill_length_mm * bill_depth_mm) / 2,
+    female_penguin = case_when(
+      sex == "female" & body_mass_g < 3600 ~ "small female",
+      sex == "female" & body_mass_g >= 3600 ~ "big female",
+      TRUE ~ NA)
+  ) 
+
+mypenguins |> 
+  group_by(female_penguin) |> 
+  summarise(body_mass_mean = mean(body_mass_g))
+
+```
 
 Los bucles for y bucles while (*for loops* y *while loops*) son recomendables para adentrarse en el mundo de las iteraciones porque hacen que cada iteración sea muy explícita por lo que está claro lo que está ocurriendo.
 
 ```{r for}
-#Vero: creo que pondría antes un ejemplo mas sencillo. Por ej: sin usar rnorm, ni ncol si no poner un 3 y ya y sin poner seq_along, si no 1:3. Luego ya este ejemplo generalizando me parece bien. En general intentaría ahorrar cualquier función que no sea necesaria para este curso, por ejemplo, rnorm
+
+set.seed(123)
+
 df_ej <- data.frame(
-  a = rnorm(5),
-  b = rnorm(5),
-  c = rnorm(5)
+  a = sample(1:5),
+  b = sample(1:5),
+  c = sample(1:5)
 )
 
+salida <- vector("double", 3)           # 1. salida
+for (i in 1:3) {                        # 2. secuencia
+  salida[[i]] <- first(df_ej[[i]])      # 3. cuerpo
+}
+
+salida
+
+# podriamos generalizar el for
 salida <- vector("double", ncol(df_ej)) # 1. salida
 for (i in seq_along(df_ej)) {           # 2. secuencia
-  salida[[i]] <- max(df_ej[[i]])        # 3. cuerpo
+  salida[[i]] <- first(df_ej[[i]])        # 3. cuerpo
 }
+
 salida
 
 ```
@@ -687,52 +712,47 @@ system.time(
 
 ```
 
-2.  Secuencia: aquí determinamos sobre lo que queremos iterar. Cada ejecución del bucle for asignará <!--# Vero: sería asignará un valor diferente de seq_along(y) a i no? --> *i* a un valor diferente de `seq_along(y)`. Si generamos un vector de longitud cero accidentalmente, si utilizamos `1:length(x)`, podemos obtener un error.
+2.  Secuencia: aquí determinamos sobre lo que queremos iterar. Cada ejecución del bucle for asignará un valor diferente de `seq_along(y)` a *i* . Si generamos un vector de longitud cero accidentalmente, si utilizamos `1:length(x)`, podemos obtener un error.
 
 3.  Cuerpo: aquí determinamos lo que queremos que haga cada iteración. Se ejecuta repetidamente, cada vez con un valor diferente para `i`.
 
-Existen distintas [variaciones de los bucles for](https://r4ds.had.co.nz/iteration.html#for-loop-variations): (i) modificar un objeto existente; (ii) bucles sobre nombres o valores; (iii) bucles cuando desconocemos la longitud de la salida; (iv) bucles cuando desconocemos la longitud de la secuencia de entrada, <!--# es decir, bucles while? -->bucles while.
+Existen distintas [variaciones de los bucles for](https://r4ds.had.co.nz/iteration.html#for-loop-variations): (i) modificar un objeto existente; (ii) bucles sobre nombres o valores; (iii) bucles cuando desconocemos la longitud de la salida; (iv) bucles cuando desconocemos la longitud de la secuencia de entrada, es decir, bucles while.
 
-👀 Algunos [errores comunes](https://adv-r.hadley.nz/control-flow.html) cuando se utilizan bucles for (ver 5.3.1 Common pitfalls). <!--# Poner iconitos para estas cosas :) -->
+👀 Algunos [errores comunes](https://adv-r.hadley.nz/control-flow.html) cuando se utilizan bucles for (ver 5.3.1 Common pitfalls).
 
 A pesar de ser muy utilizados en R, los bucles for no son tan importantes como pueden ser en otros lenguajes porque R es un lenguaje de programación funcional. Esto significa que *es posible envolver los bucles for en una función* y llamar a esa función en vez de utilizar el bucle.
 
-Existe la creencia de que los bucles for son lentos, pero la desventaja real de *los bucles for es que son demasiado flexibles*. Cada funcional <!--# Vero: recordar que es? --> está diseñado para una tarea específica, por lo que en cuanto lo ves en el código, inmediatamente sabes por qué se está utilizando. Es decir, la principal ventaja es su claridad al hacer que el código sea más fácil de escribir y de leer (ver este ejemplo avanzado para entenderlo: <https://adv-r.hadley.nz/functionals.html>, 9.3 Purrr style).
+Existe la creencia de que los bucles for son lentos, pero la desventaja real de *los bucles for es que son demasiado flexibles*. Cada funcional ({purrr}, `apply`) está diseñado para una tarea específica, por lo que en cuanto lo ves en el código, inmediatamente sabes por qué se está utilizando. Es decir, la principal ventaja es su claridad al hacer que el código sea más fácil de escribir y de leer (ver este ejemplo avanzado para entenderlo: <https://adv-r.hadley.nz/functionals.html>, 9.3 Purrr style). Una vez que dominemos la programación funcional, podremos solventar muchos problemas de iteración con menos código, más facilidad y menos errores.
 
 💡Los bucles pueden ser más explícitos en cuanto a que se ve claramente la iteración, pero se necesita más tiempo para entender qué se está haciendo.
 
-De todas formas, nunca os sintáis mal por utilizar un bucle en vez de un funcional. <!--# Vero: yo quitaría la primera frase y añadría ahora un: "por el contrario, los funcionales... -->Los funcionales necesitan un paso más de abstracción y pueden requerir tiempo hasta que los comprendamos. Lo más importante es que soluciones el problema y poco a poco ir escribiendo código cada vez más sencillo y elegante. Ver @sec-POO para obtener más información sobre programación imperativa o orientada a objetos.
+Por el contrario, los funcionales necesitan un paso más de abstracción y pueden requerir tiempo hasta que los comprendamos. Lo más importante es que soluciones el problema y poco a poco ir escribiendo código cada vez más sencillo y elegante. Ver @sec-POO para obtener más información sobre programación imperativa o orientada a objetos.
 
 > Para ser significativamente más fiable, el código debe ser más transparente. En particular, las condiciones anidadas y los bucles deben considerarse con gran recelo. Las esctructuras de control complicados confunden a los programadores. El código desordenado suele ocultar errores.
 >
 > --- Bjarne Stroustrup ([Advanced R](https://adv-r.hadley.nz/index.html))
->
-> <!--# Vero: quizás se pueden poner estas dos figuras de debajo al principio como para introducir iteraciones -->
-
-!["Representación gráfica del funcionamiento de los bucles for donde se ve claramente que se está realizando una iteración. Ilustración de Allison Horst obtenido de la charla de Hadley Wickham The Joy of Functional Programming (para ciencia de datos)"](images/forloops.png)
-
-!["Representación gráfica del funcionamiento de `map()` donde el foco está en la operación realizada. Ilustración de Allison Horst obtenido de la charla de Hadley Wickham The Joy of Functional Programming (para ciencia de datos)"](images/map_frosting.png)
 
 ## Programación funcional
 
-En la programación funcional, las funciones están diseñadas para realizar una única tarea específica, y luego se combinan llamando a estas funciones sucesivamente en el conjunto de datos. Una ventaja significativa de este enfoque es que estas funciones pueden ser reutilizadas en cualquier otro proyecto, lo que facilita la modularidad del código. Además, <!--# Vero: cuando están bien documentadas y son fácilmente testables... -->al estar bien documentadas y ser fácilmente testables, resulta sencillo comprender y mantener el programa.
+![Representación gráfica del funcionamiento de `map()` donde el foco está en la operación realizada. Ilustración de Allison Horst obtenido de la charla de Hadley Wickham The Joy of Functional Programming (para ciencia de datos)](images/map_frosting.png)
 
-R es un lenguaje de programación funcional por lo que se basa principalmente en un estilo de resolución de problemas centrado en funciones (<https://adv-r.hadley.nz/fp.html>). Un funcional es una función que toma una función como entrada y devuelve un vector <!--# Vero: un vector u otro tipo de objeto no? -->como salida.
+En la programación funcional, las funciones están diseñadas para realizar una única tarea específica, y luego se combinan llamando a estas funciones sucesivamente en el conjunto de datos. Una ventaja significativa de este enfoque es que estas funciones pueden ser reutilizadas en cualquier otro proyecto, lo que facilita la modularidad del código. Además, cuando están bien documentadas y son fácilmente testables, resulta sencillo comprender y mantener el programa.
+
+R es un lenguaje de programación funcional por lo que se basa principalmente en un estilo de resolución de problemas centrado en funciones (<https://adv-r.hadley.nz/fp.html>). Un funcional es una función que toma una función como entrada y devuelve un vector u otro tipo de objeto como salida.
 
 ```{r ejemplo_funcional}
 
 aleatorizacion <- function(f) {
   f(rnorm(5))
 }
-aleatorizacion(median)
+
+aleatorizacion(f = median)
 
 ```
 
-<!--# Para programar un funcional, primero... -->
+Para programar un funcional, primero, solucionamos el problema para un elemento. Después, generamos una función que nos permita envolver la solución en una función. Por último, *aplicamos la función a todos los elementos que estamos interesados.* Es decir, dividimos los problemas grandes en problemas más pequeños y resolvemos cada tarea con una o más funciones.
 
-Estilo funcional: primero, solucionamos el problema para un elemento. Después, generamos una función que nos permita envolver la solución en una función. Por último, *aplicamos la función a todos los elementos que estamos interesados.* Es decir, dividimos los problemas grandes en problemas más pequeños y resolvemos cada tarea con una o más funciones.
-
-La ventaja de utilizar {purrr} en vez de bucles for es que nos permiten distinguir en funciones los desafíos comunes de manipulación de listas, y por lo tanto cada bucle for tiene su propia función <!--# Vero: no entiendo bien que quieres decir en esta primera frase -->. La familia `apply` de R base soluciona problemas similares, pero {purrr} es más consistente y, por lo tanto, más fácil de aprender. Una vez que dominemos la programación funcional, podremos solventar muchos problemas de iteración con menos código, más facilidad y menos errores. <!--# Esta ultima frase la subiria arriba cuando hablas de diferencias entre loops y funcionales, pero aqui es más de diferencias entre purrr y otros -->
+La ventaja de utilizar {purrr} en vez de bucles for es que nos permiten distinguir en funciones los desafíos comunes de manipulación de listas, y por lo tanto cada bucle for tiene su propia función. Por ejemplo, para iterar sobre un argumento utilizamos la función `map()` y para iterar sobre dos argumentos la funcion `map2()`. La familia `apply` de R base soluciona problemas similares, pero {purrr} es más consistente y, por lo tanto, más fácil de aprender.
 
 Iteracionar sobre un vector es tan común que el paquete {purrr} proporciona una familia de funciones (la familia `map()`) para ello. Recordad que los data frames son listas de vectores de la misma longitud por lo que cualquier cálculo por filas o columnas supone iteracionar sobre un vector. Existe una función en {purrr} para cada tipo de salida. Los sufijos indican el tipo de salida que queremos:
 
@@ -747,9 +767,16 @@ Iteracionar sobre un vector es tan común que el paquete {purrr} proporciona una
 
 ```{r map_foco}
 
-map_dbl(df_ej, mean)
+map_dbl(df_ej, first)
+
 df_ej |> 
-  map_dbl(mean)
+  map_dbl(first)
+
+salida <- vector("double", 3)
+for (i in 1:3) {
+  salida[[i]] <- first(df_ej[[i]])
+}
+salida
 
 ```
 
@@ -788,7 +815,9 @@ map_df(penguins, \(x) length(unique(x)))
 
 #### Ejercicio
 
-Generad un vector, una función y aplicarle la función a cada uno de los elementos del vector utilizando `map()`. \#### Implementación de map()
+Generad un vector, una función y aplicarle la función a cada uno de los elementos del vector utilizando `map()`. 
+
+#### Implementación de map()
 
 ```{r map_implementacion}
 
@@ -804,11 +833,11 @@ imple_map(1:4, cuadratica)
 
 ```
 
-La función de {purrr} está escrita en C para maximizar el rendimiento, conserva los nombres y admite algunos atajos (e.g. `\(x)`).
+Las funciones de {purrr} están escritas en C para maximizar el rendimiento, conserva los nombres y admite algunos atajos (e.g. `\(x)`).
 
 #### Ejercicio
 
-Ahora que habéis entendido la lógica de `map()`, detectar las diferencias entre las tres líneas de código siguientes:
+Ahora que habéis entendido la lógica de `map()`, detectad las diferencias entre las tres líneas de código siguientes:
 
 ```{r argumentos_adicionales}
 
@@ -838,7 +867,7 @@ map_int(penguins, \(x) length(unique(x)))
 
 ```
 
-Los argumentos que varían para cada ejecución vienen antes de la función y los argumentos que son los mismos para cada ejecución vienen después (`na.rm = T`).
+Los argumentos que varían para cada ejecución vienen antes de la función y los argumentos que son los mismos para cada ejecución vienen después (p. ej. `na.rm = T`).
 
 ![](images/map+fix.png)
 
@@ -980,7 +1009,7 @@ args3 |>
 
 Transformad el `map2()` que habéis generado en el ejercicio @sec-ejercicio-map2 a `pmap()`.
 
-## Sin salida
+## Iteraciones sin salida
 
 ### Nuestro quinto funcional: `walk()`, `walk2()` y `pwalk()`
 
@@ -1005,9 +1034,11 @@ walk2(penguins_nested$data, penguins_nested$path, write_csv)
 
 Generad un ejemplo donde utiliceis `walk2()` para guardar múltiples ggplots. Pista: la primera entrada será el plot que queréis guardar y la segunda el nombre del archivo que le queréis dar.
 
-## Más variantes de `map()`
+## Operadores y otros funcionales 
 
-### `modify()` e `imap()`
+### Más variantes de `map()`
+
+#### `modify()` e `imap()`
 
 `modify()` e `imap()` también son funcionales de la familia map. `modify()` es análogo a `map()` pero devuelve el mismo tipo de resultado que el tipo de entrada.
 
@@ -1032,7 +1063,7 @@ En este curso no los vemos más al detalle porque con los demás funcionales que
 
 💡Ejemplos de algunas tareas específicas con {purrr}: <https://r4ds.hadley.nz/iteration>
 
-## Funcionales predicate y demás
+### Funcionales predicate y demás
 
 Los predicados son funciones que devuelven un solo TRUE o FALSE (e.g., `is.character()`). Así, un predicado funcional aplica un predicado a cada elemento de un vector: `keep()`, `discard()`, `some()`, `every()`, `detect()`, `detect_index()`... Para más información ver: <https://r4ds.had.co.nz/iteration.html>, 21.9.1 Predicate functions.
 
@@ -1069,7 +1100,7 @@ ls |>
 
 ```
 
-### Operadores funcionales
+#### Operadores funcionales
 
 Cuando utilizamos las funciones `map()` para repetir muchas operaciones, aumenta la probabilidad de que una de esas operaciones falle y no obtenamos ninguna salida. {purrr} proporciona algunos operadores funcionales (function operators) en forma de adverbios para asegurar que un error no arruine todo el proceso: `safely()`, `possibly()`, `quietly()`. Para más información ver: <https://r4ds.had.co.nz/iteration.html>, 21.6 Dealing with failure.
 
@@ -1163,9 +1194,9 @@ summary(penguins$sex)
 
 Podrías pensar que `summary()` utilizara una serie de declaraciones `if-else` pero en este caso solo el autor original podría añadir nuevas implementaciones. Sin embargo, un sistema de POO permite que cualquier desarrollador extienda la interfaz mediante la creación de implementaciones para nuevos tipos de entrada.
 
-En los sistemas de POO, el tipo de un objeto se denomina su clase, y una implementación específica para una clase se conoce como método. En términos generales, una clase define las características de un objeto y los métodos describen las acciones que ese objeto puede realizar. La clase también especifica los campos de datos que cada instancia de esa clase posee.
+En los sistemas de POO, el tipo de un objeto se denomina su clase, y una implementación específica para una clase se conoce como método. En términos generales, una clase define las características de un objeto (¿qué es?) y los métodos describen las acciones que ese objeto puede realizar (¿qué hace?).
 
-R base proporciona tres sistemas de POO (S3--que es la más utilizada--, S4 y RC), aunque también existen otros sistemas POO proporcionados por diferentes paquetes CRAN.
+R base proporciona tres sistemas de POO (S3--que es la más utilizada--, S4 y RC), aunque también existen otros sistemas POO proporcionados por diferentes paquetes del CRAN.
 
 ```{r objetos}
 

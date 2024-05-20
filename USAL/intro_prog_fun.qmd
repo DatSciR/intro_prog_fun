@@ -32,33 +32,33 @@ Dentro del modelo de ciencia de datos de Hadley Wickham (@fig-datascience), el c
 
 ### Estructura del curso
 
-+------------------------------------------+---------------+
-| Bloques                                  | Día           |
-+==========================================+===============+
-| Presentación del curso                   | 13/05/24      |
-|                                          |               |
-| Introducción a la programación en R      |               |
-|                                          |               |
-| Introducción a la programación funcional |               |
-+------------------------------------------+---------------+
-| Teoría sobre funciones en R              | 15/05/24      |
-|                                          |               |
-| Cómo escribir funciones                  |               |
-+------------------------------------------+---------------+
-| Programación imperativa                  | 20/05/24      |
-|                                          |               |
-| Programación funcional                   |               |
-|                                          |               |
-| Iteraciones sobre uno y dos argumentos   |               |
-+------------------------------------------+---------------+
-| Iteraciones sobre múltiples argumentos   | 22/05/24      |
-|                                          |               |
-| Iteraciones sin salida                   |               |
-|                                          |               |
-| Más variantes de `map()`                 |               |
-|                                          |               |
-| Funcionales predicate y demás            |               |
-+------------------------------------------+---------------+
++------------------------------------------+-------------+
+| Bloques                                  | Día         |
++==========================================+=============+
+| Presentación del curso                   | 13/05/24    |
+|                                          |             |
+| Introducción a la programación en R      |             |
+|                                          |             |
+| Introducción a la programación funcional |             |
++------------------------------------------+-------------+
+| Teoría sobre funciones en R              | 15/05/24    |
+|                                          |             |
+| Cómo escribir funciones                  |             |
++------------------------------------------+-------------+
+| Programación imperativa                  | 20/05/24    |
+|                                          |             |
+| Programación funcional                   |             |
+|                                          |             |
+| Iteraciones sobre uno y dos argumentos   |             |
++------------------------------------------+-------------+
+| Iteraciones sobre múltiples argumentos   | 22/05/24    |
+|                                          |             |
+| Iteraciones sin salida                   |             |
+|                                          |             |
+| Más variantes de `map()`                 |             |
+|                                          |             |
+| Funcionales predicate y demás            |             |
++------------------------------------------+-------------+
 
 <!--# Vero: yo llamaría a más variantes y funcionales predicate como "Operadores y otros funcionales" -->
 
@@ -133,6 +133,8 @@ miprimeralista <- list(elemento1 = guau,
   elemento2 = miau)
 str(miprimeralista)
 ```
+
+<!--# Vero: diferencias entre list/data.frame/matrix -->
 
 #### Ejercicio
 
@@ -837,6 +839,8 @@ map_int(penguins, \(x) length(unique(x)))
   map_vec(\(x) as.Date(ISOdate(x + 2024, 05, 13)))
 
 ```
+
+<!--# Vero: poner la selección de penguins con select -->
 
 Los argumentos que varían para cada ejecución vienen antes de la función y los argumentos que son los mismos para cada ejecución vienen después (`na.rm = T`).
 

@@ -1437,7 +1437,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.49    0.20    0.68 
+       0.60    0.35    0.95 
 
 ``` r
 y <- vector("double", length = 20000)
@@ -1596,7 +1596,7 @@ salida
     [1] 3 3 2
 
 Comparando con un bucle el foco está en la operación que se está
-ejecutando (`mean()`), y no en el código necesario para iterar sobre
+ejecutando (`first()`), y no en el código necesario para iterar sobre
 cada elemento y guardar la salida.
 
 ## Iteraciones sobre un argumento
@@ -1742,7 +1742,9 @@ rendimiento, conserva los nombres y admite algunos atajos (e.g. `\(x)`).
 #### Ejercicio
 
 Ahora que habéis entendido la lógica de `map()`, detectad las
-diferencias entre las tres líneas de código siguientes:
+diferencias entre las tres líneas de código siguientes. ¿Qué es lo que
+hace el funcional `map()`? ¿Qué diferencias detectáis en el código? ¿Y
+en la salida?
 
 ``` r
 map(penguins, \(x) mean(x))
@@ -2041,6 +2043,8 @@ potencia <- function(base, exponente) {
   base ^ exponente
 }
 
+set.seed(123)
+
 x <- map(1:4, \(x) sample(5))
 y <- map(1:4, \(x) sample(5))
 
@@ -2048,16 +2052,16 @@ map2(x, y, potencia)
 ```
 
     [[1]]
-    [1]   1   8   9   4 625
+    [1] 27 16 25  4  1
 
     [[2]]
-    [1]   1   3  64 625   4
+    [1]    3    1    8  625 1024
 
     [[3]]
-    [1]   2   1  27 256  25
+    [1]    2   27    1 1024   25
 
     [[4]]
-    [1]  32  27   4 625   1
+    [1]   1   4 125  81  32
 
 ⚡¡Importante! La primera iteración corresponde al primer valor del
 vector `x` y al primer valor del vector `y`. La segunda iteración
@@ -2080,16 +2084,16 @@ imple_map2(x, y, potencia)
 ```
 
     [[1]]
-    [1]   1   8   9   4 625
+    [1] 27 16 25  4  1
 
     [[2]]
-    [1]   1   3  64 625   4
+    [1]    3    1    8  625 1024
 
     [[3]]
-    [1]   2   1  27 256  25
+    [1]    2   27    1 1024   25
 
     [[4]]
-    [1]  32  27   4 625   1
+    [1]   1   4 125  81  32
 
 #### Ejercicio
 
@@ -2107,6 +2111,30 @@ cor(penguins_list[[2]]$bill_length_mm, penguins_list[[2]]$bill_depth_mm)
 ```
 
     [1] 0.6535362
+
+``` r
+# dos formas de hacer lo mismo
+# penguins_list_nona <- map(penguins_list, \(y) drop_na(y))
+penguins_list_nona <- map(penguins_list, drop_na)
+
+# como acceder a listas
+# penguins_list_nona |> 
+#   pluck(3)
+# 
+# penguins_list_nona[[3]]
+
+# lo que queremos hacer es esto pero iterando
+# cor(penguins_list_nona[[1]]$bill_length_mm, penguins_list_nona[[1]]$bill_depth_mm)
+# cor(penguins_list_nona[[2]]$bill_length_mm, penguins_list_nona[[2]]$bill_depth_mm)
+# cor(penguins_list_nona[[3]]$bill_length_mm, penguins_list_nona[[3]]$bill_depth_mm)
+
+map2_dbl(penguins_list_nona,
+         penguins_list_nona,
+         \(x, y) cor(x$bill_length_mm,
+                     y$bill_depth_mm))
+```
+
+    [1] 0.3858132 0.6535362 0.6540233
 
 ``` r
 penguins_nested <- penguins |>
@@ -2156,32 +2184,32 @@ map2(x, y, potencia)
 ```
 
     [[1]]
-    [1]   1   8   9   4 625
+    [1] 27 16 25  4  1
 
     [[2]]
-    [1]   1   3  64 625   4
+    [1]    3    1    8  625 1024
 
     [[3]]
-    [1]   2   1  27 256  25
+    [1]    2   27    1 1024   25
 
     [[4]]
-    [1]  32  27   4 625   1
+    [1]   1   4 125  81  32
 
 ``` r
 pmap(list(x, y), potencia)
 ```
 
     [[1]]
-    [1]   1   8   9   4 625
+    [1] 27 16 25  4  1
 
     [[2]]
-    [1]   1   3  64 625   4
+    [1]    3    1    8  625 1024
 
     [[3]]
-    [1]   2   1  27 256  25
+    [1]    2   27    1 1024   25
 
     [[4]]
-    [1]  32  27   4 625   1
+    [1]   1   4 125  81  32
 
 ``` r
 z <- map(1:4, \(x) sample(5))
@@ -2190,16 +2218,16 @@ pmap(list(x, y, z), rnorm)
 ```
 
     [[1]]
-    [1]  9.91357113  3.82807043 -0.09795101 -1.60434672  5.62320252
+    [1]  3.659582 -5.681968 -1.087167  2.432743  3.779488
 
     [[2]]
-    [1]  3.9299318  4.3717745  2.0332409  1.6589976 -0.3189347
+    [1] 3.172752 4.400531 2.672138 5.242919 1.262460
 
     [[3]]
-    [1] 9.599677 3.665646 5.479352 6.467952 3.903086
+    [1]  2.9685433  3.4036315  1.3406899 -0.2757504  2.0576878
 
     [[4]]
-    [1]  6.2360668  3.7935853  0.6951787  3.0844167 -2.5039588
+    [1] 1.567870 9.449363 6.685178 5.104094 2.902049
 
 Si no nombramos los elementos de la lista, `pmap()` usará los elementos
 de la lista en su orden para los argumentos consecutivos de la función.
@@ -2213,16 +2241,16 @@ args3 |>
 ```
 
     [[1]]
-    [1] -2.675131 -2.283057  4.238567  3.993802  2.257173
+    [1]  1.4373920  8.4928101  2.8598635  5.6858872 -0.2084488
 
     [[2]]
-    [1] -0.3966676  2.2172697  1.6630083  3.5007996  1.3612124
+    [1]  2.5317995 -0.5459565  8.4497580 -0.3374145  6.4793524
 
     [[3]]
-    [1]  2.0845438 -2.8423680  1.1222673  0.3965166  6.3274573
+    [1] 3.233976 4.903086 2.648089 7.967927 4.695179
 
     [[4]]
-    [1]  3.5013956  3.2245705  4.2063727  3.0443087 -0.2559033
+    [1]  0.5422084  3.0992082  2.7949215 -2.7107431  5.0964177
 
 ![](images/pmap.png)
 
@@ -2765,7 +2793,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2024-05-20 15:52:18 CEST"
+    [1] "2024-05-20 18:18:20 CEST"
 
 ``` r
 sessionInfo()

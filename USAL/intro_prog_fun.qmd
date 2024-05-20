@@ -780,7 +780,7 @@ salida
 
 ```
 
-Comparando con un bucle el foco está en la operación que se está ejecutando (`mean()`), y no en el código necesario para iterar sobre cada elemento y guardar la salida.
+Comparando con un bucle el foco está en la operación que se está ejecutando (`first()`), y no en el código necesario para iterar sobre cada elemento y guardar la salida.
 
 ## Iteraciones sobre un argumento
 
@@ -837,7 +837,7 @@ Las funciones de {purrr} están escritas en C para maximizar el rendimiento, con
 
 #### Ejercicio
 
-Ahora que habéis entendido la lógica de `map()`, detectad las diferencias entre las tres líneas de código siguientes:
+Ahora que habéis entendido la lógica de `map()`, detectad las diferencias entre las tres líneas de código siguientes. ¿Qué es lo que hace el funcional `map()`? ¿Qué diferencias detectáis en el código? ¿Y en la salida?
 
 ```{r argumentos_adicionales}
 
@@ -916,6 +916,8 @@ potencia <- function(base, exponente) {
   base ^ exponente
 }
 
+set.seed(123)
+
 x <- map(1:4, \(x) sample(5))
 y <- map(1:4, \(x) sample(5))
 
@@ -952,6 +954,26 @@ penguins_list <- penguins |>
 
 # asi se haria para una sola lista
 cor(penguins_list[[2]]$bill_length_mm, penguins_list[[2]]$bill_depth_mm)
+
+# dos formas de hacer lo mismo
+# penguins_list_nona <- map(penguins_list, \(y) drop_na(y))
+penguins_list_nona <- map(penguins_list, drop_na)
+
+# como acceder a listas
+# penguins_list_nona |> 
+#   pluck(3)
+# 
+# penguins_list_nona[[3]]
+
+# lo que queremos hacer es esto pero iterando
+# cor(penguins_list_nona[[1]]$bill_length_mm, penguins_list_nona[[1]]$bill_depth_mm)
+# cor(penguins_list_nona[[2]]$bill_length_mm, penguins_list_nona[[2]]$bill_depth_mm)
+# cor(penguins_list_nona[[3]]$bill_length_mm, penguins_list_nona[[3]]$bill_depth_mm)
+
+map2_dbl(penguins_list_nona,
+         penguins_list_nona,
+         \(x, y) cor(x$bill_length_mm,
+                     y$bill_depth_mm))
 
 ```
 

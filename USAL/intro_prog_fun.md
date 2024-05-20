@@ -1,6 +1,6 @@
 # Programación funcional en R
 Julen Astigarraga y Verónica Cruz-Alonso
-17/05/2024
+20/05/2024
 
 - [<span class="toc-section-number">1</span>
   Presentación](#presentación)
@@ -1352,11 +1352,6 @@ sirviera para cualquier base de datos?
 
 ## Programación imperativa
 
-![Representación gráfica del funcionamiento de los bucles for donde se
-ve claramente que se está realizando una iteración. Ilustración de
-Allison Horst obtenido de la charla de Hadley Wickham The Joy of
-Functional Programming (para ciencia de datos)](images/forloops.png)
-
 La mayoría de las personas tiende a programar de forma imperativa. En la
 programación imperativa, los scripts tienden a ser largos y cambian
 gradualmente el estado del programa. Esto a menudo implica el uso de
@@ -1391,6 +1386,11 @@ recomendables para adentrarse en el mundo de las iteraciones porque
 hacen que cada iteración sea muy explícita por lo que está claro lo que
 está ocurriendo.
 
+![Representación gráfica del funcionamiento de los bucles for donde se
+ve claramente que se está realizando una iteración. Ilustración de
+Allison Horst obtenido de la charla de Hadley Wickham The Joy of
+Functional Programming (para ciencia de datos)](images/forloops.png)
+
 ``` r
 set.seed(123)
 
@@ -1412,8 +1412,8 @@ salida
 
 ``` r
 # podriamos generalizar el for
-salida <- vector("double", ncol(df_ej)) # 1. salida
-for (i in seq_along(df_ej)) {           # 2. secuencia
+salida <- vector("double", ncol(df_ej))   # 1. salida
+for (i in seq_along(df_ej)) {             # 2. secuencia
   salida[[i]] <- first(df_ej[[i]])        # 3. cuerpo
 }
 
@@ -1437,7 +1437,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.56    0.17    0.73 
+       0.49    0.20    0.68 
 
 ``` r
 y <- vector("double", length = 20000)
@@ -1933,34 +1933,6 @@ vapply(penguins_num, median, na.rm = T, FUN.VALUE = double(1))
                 44.45             17.30            197.00           4050.00 
                  year 
               2008.00 
-
-``` r
-map(penguins, class)
-```
-
-    $species
-    [1] "factor"
-
-    $island
-    [1] "factor"
-
-    $bill_length_mm
-    [1] "numeric"
-
-    $bill_depth_mm
-    [1] "numeric"
-
-    $flipper_length_mm
-    [1] "integer"
-
-    $body_mass_g
-    [1] "integer"
-
-    $sex
-    [1] "factor"
-
-    $year
-    [1] "integer"
 
 ``` r
 glimpse(penguins)
@@ -2793,7 +2765,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2024-05-17 11:32:01 CEST"
+    [1] "2024-05-20 15:52:18 CEST"
 
 ``` r
 sessionInfo()

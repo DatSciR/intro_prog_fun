@@ -642,8 +642,6 @@ La última expresión ejecutada en una función es el valor de retorno. Es el re
 
 ## Programación imperativa
 
-![Representación gráfica del funcionamiento de los bucles for donde se ve claramente que se está realizando una iteración. Ilustración de Allison Horst obtenido de la charla de Hadley Wickham The Joy of Functional Programming (para ciencia de datos)](images/forloops.png)
-
 La mayoría de las personas tiende a programar de forma imperativa. En la programación imperativa, los scripts tienden a ser largos y cambian gradualmente el estado del programa. Esto a menudo implica el uso de bases de datos temporales que se modifican a lo largo del proceso de análisis. Como resultado, puede resultar más difícil comprender qué se está haciendo en cada paso del script.
 
 ```{r cambio_gradual}
@@ -665,6 +663,8 @@ mypenguins |>
 
 Los bucles for y bucles while (*for loops* y *while loops*) son recomendables para adentrarse en el mundo de las iteraciones porque hacen que cada iteración sea muy explícita por lo que está claro lo que está ocurriendo.
 
+![Representación gráfica del funcionamiento de los bucles for donde se ve claramente que se está realizando una iteración. Ilustración de Allison Horst obtenido de la charla de Hadley Wickham The Joy of Functional Programming (para ciencia de datos)](images/forloops.png)
+
 ```{r for}
 
 set.seed(123)
@@ -683,8 +683,8 @@ for (i in 1:3) {                        # 2. secuencia
 salida
 
 # podriamos generalizar el for
-salida <- vector("double", ncol(df_ej)) # 1. salida
-for (i in seq_along(df_ej)) {           # 2. secuencia
+salida <- vector("double", ncol(df_ej))   # 1. salida
+for (i in seq_along(df_ej)) {             # 2. secuencia
   salida[[i]] <- first(df_ej[[i]])        # 3. cuerpo
 }
 
@@ -880,8 +880,6 @@ vapply(penguins_num, median, na.rm = T, FUN.VALUE = double(1))
 ```
 
 ```{r map_ejemplo_avanzado}
-
-map(penguins, class)
 
 glimpse(penguins)
 

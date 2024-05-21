@@ -345,7 +345,7 @@ Se recomienda seguir el principio "do not repeat yourself" ([DRY principle](http
 
 Escribir una función ya merece la pena cuando has copiado y pegado más de dos veces lo mismo. Cuantas más veces esté repetido un código en más sitios necesitarás actualizarlo si hay algun cambio y más aumenta la probabilidad de error.
 
-## Teoría sobre funciones en R
+## Teoría sobre funciones en R {#teofun}
 
 Las funciones tienen tres componentes:
 
@@ -493,9 +493,6 @@ ggplot(penguins_num, aes(x = species, y = var, color = sex)) +
   scale_color_manual(values = c("turquoise", "goldenrod1")) +
   theme_light()
  
-```
-
-```         
 ```
 
 ```{r funcion_simplificar_2}
@@ -694,7 +691,7 @@ salida
 
 ```
 
-1.  Salida: aquí determinamos el espacio de la salida. Esto es muy importante para la eficiencia puesto que si aumentamos el tamaño del *for loop* en cada iteración con `c()` u otra función que vaya añadiendo elementos, el bucle for será mucho más lento.
+1.  Salida: aquí determinamos el espacio de la salida. Esto es muy importante para la eficiencia puesto que si aumentamos el tamaño del *for loop* en cada iteración con `c()` u otra función que vaya añadiendo elementos, el bucle for será mucho más lento. <!--# Vero: no sé si quieres decirlo, pero Luis Cayuela en su curso esto lo explicaba diciendo que primero teniamos que crear la libreta donde ibamos a ir apuntando todos los resultados. A mi me parecía ilustrativo el símil -->
 
 ```{r optimizacion}
 
@@ -714,21 +711,19 @@ system.time(
 
 ```
 
-2.  Secuencia: aquí determinamos sobre lo que queremos iterar. Cada ejecución del bucle for asignará un valor diferente de `seq_along(y)` a *i* . Si generamos un vector de longitud cero accidentalmente, si utilizamos `1:length(x)`, podemos obtener un error.
+2.  Secuencia: aquí determinamos sobre lo que queremos iterar. Cada ejecución del bucle for asignará un valor diferente de `seq_along(y)` a *i* . Si generamos un vector de longitud cero accidentalmente, si utilizamos `1:length(x)`, podemos obtener un error. <!--# Vero: explicar un poco más por qué se puede obtener un error. Queda raro -->
 
 3.  Cuerpo: aquí determinamos lo que queremos que haga cada iteración. Se ejecuta repetidamente, cada vez con un valor diferente para `i`.
 
-Existen distintas [variaciones de los bucles for](https://r4ds.had.co.nz/iteration.html#for-loop-variations): (i) modificar un objeto existente; (ii) bucles sobre nombres o valores; (iii) bucles cuando desconocemos la longitud de la salida; (iv) bucles cuando desconocemos la longitud de la secuencia de entrada, es decir, bucles while.
+Existen distintas [variaciones de los bucles for](https://r4ds.had.co.nz/iteration.html#for-loop-variations): (i) modificar un objeto existente en lugar de crear un nuevo; (ii) bucles sobre nombres o valores en lugar de sobre índices; (iii) bucles cuando desconocemos la longitud de la salida; (iv) bucles cuando desconocemos la longitud de la secuencia de entrada, es decir, bucles while.
 
 👀 Algunos [errores comunes](https://adv-r.hadley.nz/control-flow.html) cuando se utilizan bucles for (ver 5.3.1 Common pitfalls).
 
 A pesar de ser muy utilizados en R, los bucles for no son tan importantes como pueden ser en otros lenguajes porque R es un lenguaje de programación funcional. Esto significa que *es posible envolver los bucles for en una función* y llamar a esa función en vez de utilizar el bucle.
 
-Existe la creencia de que los bucles for son lentos, pero la desventaja real de *los bucles for es que son demasiado flexibles*. Cada funcional ({purrr}, `apply`) está diseñado para una tarea específica, por lo que en cuanto lo ves en el código, inmediatamente sabes por qué se está utilizando. Es decir, la principal ventaja es su claridad al hacer que el código sea más fácil de escribir y de leer (ver este ejemplo avanzado para entenderlo: <https://adv-r.hadley.nz/functionals.html>, 9.3 Purrr style). Una vez que dominemos la programación funcional, podremos solventar muchos problemas de iteración con menos código, más facilidad y menos errores.
+Existe la creencia de que los bucles for son lentos, pero la desventaja real de *los bucles for es que son demasiado flexibles*. En cambio, cada funcional ({purrr}, `apply`) está diseñado para una tarea específica, por lo que en cuanto lo ves en el código, inmediatamente sabes por qué se está utilizando. Es decir, la principal ventaja es su claridad al hacer que el código sea más fácil de escribir y de leer (ver este ejemplo avanzado para entenderlo: <https://adv-r.hadley.nz/functionals.html>, 9.3 Purrr style). Una vez que dominemos la programación funcional, podremos solventar muchos problemas de iteración con menos código, más facilidad y menos errores.
 
-💡Los bucles pueden ser más explícitos en cuanto a que se ve claramente la iteración, pero se necesita más tiempo para entender qué se está haciendo.
-
-Por el contrario, los funcionales necesitan un paso más de abstracción y pueden requerir tiempo hasta que los comprendamos. Lo más importante es que soluciones el problema y poco a poco ir escribiendo código cada vez más sencillo y elegante. Ver @sec-POO para obtener más información sobre programación imperativa o orientada a objetos.
+Los bucles pueden ser más explícitos en cuanto a que se ve claramente la iteración, pero se necesita más tiempo para entender qué se está haciendo. Por el contrario, los funcionales necesitan un paso más de abstracción y pueden requerir tiempo hasta que los comprendamos. Lo más importante es que soluciones el problema y poco a poco ir escribiendo código cada vez más sencillo y elegante. Ver @sec-POO para obtener más información sobre programación imperativa o orientada a objetos.
 
 > Para ser significativamente más fiable, el código debe ser más transparente. En particular, las condiciones anidadas y los bucles deben considerarse con gran recelo. Las esctructuras de control complicados confunden a los programadores. El código desordenado suele ocultar errores.
 >
@@ -738,7 +733,7 @@ Por el contrario, los funcionales necesitan un paso más de abstracción y puede
 
 ![Representación gráfica del funcionamiento de `map()` donde el foco está en la operación realizada. Ilustración de Allison Horst obtenido de la charla de Hadley Wickham The Joy of Functional Programming (para ciencia de datos)](images/map_frosting.png)
 
-En la programación funcional, las funciones están diseñadas para realizar una única tarea específica, y luego se combinan llamando a estas funciones sucesivamente en el conjunto de datos. Una ventaja significativa de este enfoque es que estas funciones pueden ser reutilizadas en cualquier otro proyecto, lo que facilita la modularidad del código. Además, cuando están bien documentadas y son fácilmente testables, resulta sencillo comprender y mantener el programa.
+En la programación funcional, las funciones están diseñadas para realizar una única tarea específica y luego se combinan llamando a estas funciones sucesivamente para el conjunto de datos. Una ventaja significativa de este enfoque es que estas funciones pueden ser reutilizadas en cualquier otro proyecto, lo que facilita la modularidad del código. Además, cuando están bien documentadas y son fácilmente testables, resulta sencillo comprender y mantener el programa.
 
 R es un lenguaje de programación funcional por lo que se basa principalmente en un estilo de resolución de problemas centrado en funciones (<https://adv-r.hadley.nz/fp.html>). Un funcional es una función que toma una función como entrada y devuelve un vector u otro tipo de objeto como salida.
 
@@ -754,7 +749,7 @@ aleatorizacion(f = median)
 
 Para programar un funcional, primero, solucionamos el problema para un elemento. Después, generamos una función que nos permita envolver la solución en una función. Por último, *aplicamos la función a todos los elementos que estamos interesados.* Es decir, dividimos los problemas grandes en problemas más pequeños y resolvemos cada tarea con una o más funciones.
 
-La ventaja de utilizar {purrr} en vez de bucles for es que nos permiten distinguir en funciones los desafíos comunes de manipulación de listas, y por lo tanto cada bucle for tiene su propia función. Por ejemplo, para iterar sobre un argumento utilizamos la función `map()` y para iterar sobre dos argumentos la funcion `map2()`. La familia `apply` de R base soluciona problemas similares, pero {purrr} es más consistente y, por lo tanto, más fácil de aprender.
+La ventaja de utilizar {purrr} en vez de bucles for es que <!--# Vero: pondría: ofrece una función (funcional) para cada uno de los problemas comunes de manipulación de datos y, por lo tanto, cada bucle...  -->nos permiten distinguir en funciones los desafíos comunes de manipulación de listas, y por lo tanto cada bucle for tiene su propia función. Por ejemplo, para iterar sobre un argumento utilizamos la función `map()` y para iterar sobre dos argumentos la funcion `map2()`. La familia `apply` de R base soluciona problemas similares, pero {purrr} es más consistente y, por lo tanto, más fácil de aprender.
 
 Iteracionar sobre un vector es tan común que el paquete {purrr} proporciona una familia de funciones (la familia `map()`) para ello. Recordad que los data frames son listas de vectores de la misma longitud por lo que cualquier cálculo por filas o columnas supone iteracionar sobre un vector. Existe una función en {purrr} para cada tipo de salida. Los sufijos indican el tipo de salida que queremos:
 
@@ -769,7 +764,7 @@ Iteracionar sobre un vector es tan común que el paquete {purrr} proporciona una
 
 ```{r map_foco}
 
-map_dbl(df_ej, first)
+map_dbl(df_ej, first) #Vero: quizás menos confuso usar map_int
 
 df_ej |> 
   map_dbl(first)
@@ -782,11 +777,11 @@ salida
 
 ```
 
-Comparando con un bucle el foco está en la operación que se está ejecutando (`mean()`), y no en el código necesario para iterar sobre cada elemento y guardar la salida.
+Comparando con un bucle, el foco está en la operación que se está ejecutando (`first()`), y no en el código necesario para iterar sobre cada elemento y guardar la salida.
 
 ## Iteraciones sobre un argumento
 
-`map_*()` está vectorizado sobre un argumento, e.g. `(x)`, es decir, la función operará en todos los elementos del vector `x`.
+`map_*()` está vectorizado sobre un argumento, e.g. `(x)`, es decir, la función operará en todos los elementos del vector `x`. <!--# Vero: quizás, para entender mejor los ejemplos de abajo, se puede modificar aqui aquí "en todos los elementos de x, es decir, cada valor si x es un vector, cada columna si x es un data.frame, o cada elemento si x es una lista-->
 
 ### Nuestro primer funcional: generando listas, `map()`
 
@@ -802,7 +797,7 @@ map(1:4, cuadratica)
 
 lapply(X = 1:4, FUN = cuadratica)
 
-# algun uso mas interesante
+# algun uso mas interesante 
 glimpse(penguins)
 
 # atajo para generar una funcion anonima
@@ -817,7 +812,7 @@ map_df(penguins, \(x) length(unique(x)))
 
 #### Ejercicio
 
-Generad un vector, una función y aplicarle la función a cada uno de los elementos del vector utilizando `map()`. 
+Generad un vector, una función y aplicadle la función a cada uno de los elementos del vector utilizando `map()`.
 
 #### Implementación de map()
 
@@ -835,11 +830,11 @@ imple_map(1:4, cuadratica)
 
 ```
 
-Las funciones de {purrr} están escritas en C para maximizar el rendimiento, conserva los nombres y admite algunos atajos (e.g. `\(x)`).
+Las funciones de {purrr} están escritas en C para maximizar el rendimiento, conserva los nombres y admite algunos atajos (e.g. `\(x)`). <!--# Vero: esto está escrito raro, pero no se como arreglarlo. Pondría escrito también que son como un loop -->
 
 #### Ejercicio
 
-Ahora que habéis entendido la lógica de `map()`, detectad las diferencias entre las tres líneas de código siguientes:
+Ahora que habéis entendido la lógica de `map()`, detectad las diferencias entre las tres líneas de código siguientes. ¿Qué es lo que hace el funcional `map()`? ¿Qué diferencias detectáis en el código? ¿Y en la salida?
 
 ```{r argumentos_adicionales}
 
@@ -849,7 +844,7 @@ map(penguins, mean, na.rm = T) # opcion 2
 
 ```
 
-Como lo hemos visto en el ejercicio anterior, si quisiéramos pasar argumentos adicionales a la función que estamos utilizando dentro de `map()`, una opción sería mediante una función anónima (ver opción 1 del ejercicio anterior). Sin embargo, puesto que `map()` utiliza `...`, también podemos incluir los argumentos adicionales después de la función que está dentro de `map()` de una forma mucho más sencilla (ver opción 2 del ejercicio anterior).
+Como hemos visto en el ejercicio anterior, si quisiéramos pasar argumentos adicionales a la función que estamos utilizando dentro de `map()`, una opción sería mediante una función anónima <!--# Vero: "una opción sería incluirlos dentro de la función". No tiene por qué ser anónima --> (ver opción 1 del ejercicio anterior). Sin embargo, puesto que `map()` incluye `...` entre sus argumentos, también podemos incluir los argumentos adicionales después de la función que está dentro de `map()` de una forma mucho más sencilla (ver opción 2 del ejercicio anterior).
 
 ### Nuestro segundo funcional: generando vectores, `map_*()`
 
@@ -860,7 +855,7 @@ Dedicadle un par de minutos a entender lo que hacen las siguientes funciones:
 ```{r map_vectores}
 
 map_lgl(penguins, is.numeric)
-penguins_num <- penguins[ , map_lgl(penguins, is.numeric)]
+penguins_num <- penguins[ , map_lgl(penguins, is.numeric)] 
 map_dbl(penguins_num, median, na.rm = T)
 map_chr(penguins, class)
 map_int(penguins, \(x) length(unique(x)))
@@ -869,14 +864,13 @@ map_int(penguins, \(x) length(unique(x)))
 
 ```
 
-<!--# Vero: poner la selección de penguins con select -->
+<!--# Vero: poner la selección de penguins con select. Lo hemos practicado en los ejercicios del primer dia :) -->
 
-Los argumentos que varían para cada ejecución vienen antes de la función y los argumentos que son los mismos para cada ejecución vienen después (p. ej. `na.rm = T`).
-
+Los argumentos que varían para cada ejecución se ponen antes de la función y los argumentos que son los mismos para cada ejecución se ponen después (p. ej. `na.rm = T`).
 
 ![](images/map+fix.png)
 
-R base tiene dos funciones de la familia `apply()` que pueden devolver vectores atómicos: `sapply()` y `vapply()`. Recomendamos evitar `sapply()` porque intenta simplificar el resultado y elige un formato de salida por defecto, pudiendo devolver una lista, un vector o una matriz. `vapply()` es más seguro porque permite indicar el formato de salida con FUN.VALUE. La principal desventaja de `vapply()` es que se necesitan especificar más argumentos que en `map_*()`.
+R base tiene dos funciones de la familia `apply()` que pueden devolver vectores atómicos <!--# Vero: hace falta poner "atómico". es un término que no hemos usado hasta ahora -->: `sapply()` y `vapply()`. Recomendamos evitar `sapply()` porque intenta simplificar el resultado y elige un formato de salida por defecto, pudiendo devolver una lista, un vector o una matriz. `vapply()` es más seguro porque permite indicar el formato de salida con FUN.VALUE. La principal desventaja de `vapply()` es que se necesitan especificar más argumentos que en `map_*()`.
 
 ```{r vapply}
 
@@ -889,7 +883,7 @@ vapply(penguins_num, median, na.rm = T, FUN.VALUE = double(1))
 glimpse(penguins)
 
 # quitamos na's
-penguins <- penguins |> 
+penguins <- penguins |> #Vero: mejor no sobreescribir?
   drop_na()
 
 penguins_nested <- penguins |>
@@ -921,6 +915,8 @@ potencia <- function(base, exponente) {
   base ^ exponente
 }
 
+set.seed(123)
+
 x <- map(1:4, \(x) sample(5))
 y <- map(1:4, \(x) sample(5))
 
@@ -928,7 +924,7 @@ map2(x, y, potencia)
 
 ```
 
-<!--# Vero: me parece un poco confuso aplicar map a un vector 1:4 que no se usa en la función (simplemente es un indice). Se podria hacer más sencillo primero x que sea sample(5) y que sea sample(5) y ya -->
+<!--# Vero: me parece un poco confuso aplicar map a un vector 1:4 que no se usa en la función (simplemente es un indice). Se podria hacer más sencillo primero x que sea sample(5) y que sea sample(5) y ya para este primer ejemplo -->
 
 ⚡¡Importante! La primera iteración corresponde al primer valor del vector `x` y al primer valor del vector `y`. La segunda iteración corresponde al segundo valor del vector `x` y al segundo valor del vector `y`. No se hacen todas las combinaciones posibles entre ambos vectores.
 
@@ -955,13 +951,34 @@ A partir del código que se muestra a continuación calculad la correlación ent
 ```{r map_2_ejercicio}
 
 penguins_list <- penguins |>
-  group_split(species) 
+  group_split(species) #Vero: curiosidad mia saber en que se diferencia group_split de nest que usas arriba
 
-# asi se haria para una sola lista
+# asi se haria para una sola lista #Vero: seria mejor "para un solo elemento de la lista"
 cor(penguins_list[[2]]$bill_length_mm, penguins_list[[2]]$bill_depth_mm)
 
+# dos formas de hacer lo mismo
+# penguins_list_nona <- map(penguins_list, \(y) drop_na(y))
+penguins_list_nona <- map(penguins_list, drop_na)
+
+# como acceder a listas
+# penguins_list_nona |> 
+#   pluck(3)
+# 
+# penguins_list_nona[[3]]
+
+# lo que queremos hacer es esto pero iterando
+# cor(penguins_list_nona[[1]]$bill_length_mm, penguins_list_nona[[1]]$bill_depth_mm)
+# cor(penguins_list_nona[[2]]$bill_length_mm, penguins_list_nona[[2]]$bill_depth_mm)
+# cor(penguins_list_nona[[3]]$bill_length_mm, penguins_list_nona[[3]]$bill_depth_mm)
+
+map2_dbl(penguins_list_nona,
+         penguins_list_nona,
+         \(x, y) cor(x$bill_length_mm,
+                     y$bill_depth_mm))
+
 ```
-<!--# Vero: como se resolveria sin dolares? solo mi curiosidad. Este ha sido un montón jaja-->
+
+<!--# Vero: como se resolveria sin dolares? solo mi curiosidad. Este ha sido un montón jaja. Lo que te dije por teléfono es también que en este ejemplo es dificil pensar que tienes que usar la misma lista como x y como y-->
 
 ```{r map2_ejemplo_avanzado}
 
@@ -985,7 +1002,7 @@ penguins_nested |>
 
 #### Ejercicio avanzado
 
-Calculad la correlación entre las predicciones y `bill_length_mm`.
+Calculad la correlación entre las predicciones y `bill_length_mm`. <!--# Vero: explicar un poco mejor a qué predicciones se refiere-->
 
 ### Nuestro cuarto funcional: múltiples entradas, `pmap()`
 
@@ -1001,10 +1018,12 @@ z <- map(1:4, \(x) sample(5))
 pmap(list(x, y, z), rnorm)
 ```
 
-Si no nombramos los elementos de la lista, `pmap()` usará los elementos de la lista en su orden para los argumentos consecutivos de la función. De todas formas, creemos que es una buena práctica nombrarlos para que quede muy claro lo que hará la función.
+<!--# Vero: lo mismo que antes, creo que se puede empezar con un caso donde x, y y z sean vectores en lugar de listas. Aquí tienes que explicar que hace rnorm antes -->
+
+Si no nombramos los elementos de la lista, `pmap()` usará los elementos de la lista en su orden para los argumentos consecutivos de la función. De todas formas, es una buena práctica nombrarlos para que quede muy claro lo que hará la función.
 
 ```{r pmap_ejemplo_nombre}
-args3 <- list(mean = x, sd = y, n = z)
+args3 <- list(mean = x, sd = y, n = z) 
 args3 |> 
   pmap(rnorm)
 ```
@@ -1013,13 +1032,13 @@ args3 |>
 
 #### Ejercicio
 
-Transformad el `map2()` que habéis generado en el ejercicio @sec-ejercicio-map2 a `pmap()`.
+Transformad el `map2()` que habéis generado en el ejercicio @sec-ejercicio-map2 a `pmap()`. <!--# Vero: Quizás lo basaría en un caso más sencillo, porque ese ejercicio al que te refieres era dificil y si alguien se ha perdido la solución tampoco puede hacer este -->
 
 ## Iteraciones sin salida
 
 ### Nuestro quinto funcional: `walk()`, `walk2()` y `pwalk()`
 
-Cuando queremos utilizar funciones por sus efectos secundarios/side effects (e.g. `ggsave()`) y no por su valor resultante. Lo importante es la acción y no el valor u objeto resultante en R.
+Cuando queremos utilizar funciones por sus efectos secundarios (*side effects*, p.e. `ggsave()`) y no por su valor resultante. Lo importante es la acción y no el valor u objeto resultante en R.
 
 #### Ejercicio
 
@@ -1036,11 +1055,13 @@ walk2(penguins_nested$data, penguins_nested$path, write_csv)
 
 ```
 
+<!--# Vero: a mi no me funciona el walk2. pone Cannot open file for writing -->
+
 #### Ejercicio avanzado
 
-Generad un ejemplo donde utiliceis `walk2()` para guardar múltiples ggplots. Pista: la primera entrada será el plot que queréis guardar y la segunda el nombre del archivo que le queréis dar.
+Generad un ejemplo donde utiliceis `walk2()` para guardar múltiples plot generados con `ggplot()`. Pista: la primera entrada será el plot que queréis guardar y la segunda el nombre del archivo que le queréis dar.
 
-## Operadores y otros funcionales 
+## Operadores y otros funcionales
 
 ### Más variantes de `map()`
 
@@ -1065,13 +1086,15 @@ imap(penguins, \(x, y) paste("La columna", y, "tiene", length(unique(x)), "valor
 
 ```
 
-En este curso no los vemos más al detalle porque con los demás funcionales que hemos visto podemos abordar prácticamente todos los problemas sin necesidad de `modify()` e `imap()`, y creemos que es mejor primero aprender los funcionales más utilizados bien. Sin embargo, si alguien está interesado puede consultarlos en: [https://adv-r.hadley.nz/functionals.html](#0), 9.4 Map variants.
+<!--# Vero: leyendo la explicación, me esperaba que en imap sustituyera la y por números: La columna 1, la columna 2... no entiendo por qué pone nombres -->
+
+En este curso no profundizamos en `modify()` e `imap()` porque con los demás funcionales que hemos visto podemos abordar prácticamente todos los problemas de iteración <!--# Vero: yo quitaria lo siguiente --> y creemos que es mejor primero aprender los funcionales más utilizados bien. Sin embargo, si alguien está interesado puede consultar [https://adv-r.hadley.nz/functionals.html](#0), 9.4 Map variants.
 
 💡Ejemplos de algunas tareas específicas con {purrr}: <https://r4ds.hadley.nz/iteration>
 
 ### Funcionales predicate y demás
 
-Los predicados son funciones que devuelven un solo TRUE o FALSE (e.g., `is.character()`). Así, un predicado funcional aplica un predicado a cada elemento de un vector: `keep()`, `discard()`, `some()`, `every()`, `detect()`, `detect_index()`... Para más información ver: <https://r4ds.had.co.nz/iteration.html>, 21.9.1 Predicate functions.
+Los predicados son funciones que devuelven un solo TRUE o FALSE (p.e., como `is.character()`). Así, un predicado funcional aplica un predicado a cada elemento de un vector: `keep()`, `discard()`, `some()`, `every()`, `detect()`, `detect_index()`... Para más información ver: <https://r4ds.had.co.nz/iteration.html>, 21.9.1 Predicate functions.
 
 ```{r ejemplo_predicado_funcional}
 
@@ -1083,10 +1106,10 @@ penguins |>
 
 penguins |> 
   every(is.numeric)
-
+#Vero: no entiendo muy bien que aportan vs select
 ```
 
-`dplyr::across()` es similar a `map()` pero en lugar de hacer algo con cada elemento de un vector, hace algo con cada columna en un data frame.
+`dplyr::across()` es similar a `map()` pero en lugar de hacer algo con cada elemento de un vector <!--# vector, data frame o lista? -->, hace algo con cada columna en un data frame.
 
 `reduce()` es una forma útil de generalizar una función que funciona con dos entradas (función binaria) para trabajar con cualquier número de entradas.
 
@@ -1108,7 +1131,7 @@ ls |>
 
 #### Operadores funcionales
 
-Cuando utilizamos las funciones `map()` para repetir muchas operaciones, aumenta la probabilidad de que una de esas operaciones falle y no obtenamos ninguna salida. {purrr} proporciona algunos operadores funcionales (function operators) en forma de adverbios para asegurar que un error no arruine todo el proceso: `safely()`, `possibly()`, `quietly()`. Para más información ver: <https://r4ds.had.co.nz/iteration.html>, 21.6 Dealing with failure.
+Cuando utilizamos las funciones `map()` para repetir muchas operaciones, aumenta la probabilidad de que una de esas operaciones falle y no obtengamos ninguna salida. {purrr} proporciona algunos operadores funcionales (f*unction operators*) en forma de adverbios para asegurar que un error no arruine todo el proceso: `safely()`, `possibly()`, `quietly()`. Para más información ver: <https://r4ds.had.co.nz/iteration.html>, 21.6 Dealing with failure.
 
 ```{r ejemplo_operador_funcional}
 #| error: true
@@ -1138,7 +1161,7 @@ Aplicad cualquier variante de `map()` junto con un operador funcional a la base 
 
 ### Paralelización
 
-Se pueden emplear distintos núcleos de la CPU (Central Processing Unit) para ejecutar el mismo proceso con diferentes conjuntos de datos en paralelo, lo que acelera tareas largas. Algunas tareas son especialmente adecuadas para la paralelización, como aquellas que son repetitivas y tienen poca o ninguna dependencia entre sí, salvo el origen de los datos de entrada, lo que permite dividirlas fácilmente en tareas paralelas. Estas tareas suelen ser aquellas que pueden ser resueltas mediante iteraciones como las que hemos visto anteriormente. En teoría, el proceso se acelera en proporción a 1/número de núcleos disponibles, pero en la práctica, hay que tener en cuenta otros factores como el tiempo consumido en transferir datos a cada proceso y el tiempo dedicado a reunir los resultados de los diferentes procesos.
+Se pueden emplear distintos núcleos de la CPU (*Central Processing Unit*) para ejecutar el mismo proceso con diferentes conjuntos de datos en paralelo, lo que acelera tareas largas. Algunas tareas son especialmente adecuadas para la paralelización, como aquellas que son repetitivas y tienen poca o ninguna dependencia entre sí, salvo el origen de los datos de entrada, lo que permite dividirlas fácilmente en tareas paralelas. Estas tareas suelen ser aquellas que pueden ser resueltas mediante iteraciones como las que hemos visto anteriormente. En teoría, el proceso se acelera en proporción a 1/número de núcleos disponibles <!--# Vero: a más núcleos disponibles...menos se acelera¿ será 1/numero de cores para el tiempo que tarda, pero la aceleración será proporcinal al número de cores no?-->, pero en la práctica, hay que tener en cuenta otros factores como el tiempo consumido en transferir datos a cada proceso y el tiempo dedicado a reunir los resultados de los diferentes procesos.
 
 R fue diseñado originalmente para ejecutarse en un solo proceso de CPU debido a que cuando se desarrolló, las CPU en general tenían un único núcleo y la computación paralela no era tan común o no estaba tan desarrollada como lo está hoy en día. Por lo tanto, para aprovechar la paralelización en R, necesitamos recurrir a paquetes adicionales. Sin embargo, es importante tener en cuenta que estos paquetes pueden estar limitados en su uso a casos y tipos de datos específicos.
 
@@ -1161,10 +1184,10 @@ cubo <- function(x) {
 tiempo_inicio <- Sys.time()
 resultado <- map(1:10, cubo)
 tiempo_final <- Sys.time()
-cat("Tiempo de computación:", round(tiempo_final - tiempo_inicio, 1), "seconds\n")
+cat("Tiempo de computación:", round(tiempo_final - tiempo_inicio, 1), "segundos")
 
 # establecer como vamos a resolver el proceso
-# aqui utilizaremos 3 nucleos pero en funcion del numero de nucleos disponibles en tu pc modificad este numero
+# aqui utilizaremos 3 nucleos pero en funcion del numero de nucleos disponibles en tu pc se puede modificar
 plan(multisession, workers = 3)
 
 # future_map para ejecutarlo paralelamente
@@ -1177,7 +1200,7 @@ cat("Tiempo de computación:", round(tiempo_final - tiempo_inicio, 1), "seconds\
 
 ```
 
-La información aquí expuesta sobre programación paralela está obtenida y mucho más ampliamente explicada en: <https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/>
+La información aquí expuesta sobre programación paralela está mucho más ampliamente explicada en: <https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/>
 
 ### Programación orientada a objetos (POO) {#sec-POO}
 
@@ -1187,9 +1210,9 @@ La información aquí expuesta sobre programación paralela está obtenida y muc
 >
 > \- Sin embargo, no todo es orientado a objetos
 
-En R, la programación funcional suele ser más relevante que la programación imperativa o la POO, ya que frecuentemente se abordan problemas complejos descomponiéndolos en funciones simples en lugar de objetos simples.
+<!--# Vero: no entiendo muy bien el punto de meter la POO y como se liga con lo anterior. Ahora mismo me queda como colgado. Quizás es porque no lo he entendido perfectamente leyendolo -->En R, la programación funcional suele ser más relevante que la programación imperativa o la POO, ya que frecuentemente se abordan problemas complejos descomponiéndolos en funciones simples en lugar de objetos simples.
 
-La principal razón para utilizar la POO es el polimorfismo (del latín "muchas formas"). El polimorfismo permite a un desarrollador considerar la interfaz de una función por separado de su implementación, lo que facilita el uso de la misma función con diferentes tipos de entrada. Para entender esto probar a correr el siguiente código.
+La principal razón para utilizar la POO es el polimorfismo (del latín "muchas formas"). El polimorfismo permite a un desarrollador considerar la interfaz de una función por separado de su implementación, lo que facilita el uso de la misma función con diferentes tipos de entrada. Para entender esto, probad a correr el siguiente código.
 
 ```{r polimorfismo}
 
@@ -1198,11 +1221,11 @@ summary(penguins$sex)
 
 ```
 
-Podrías pensar que `summary()` utilizara una serie de declaraciones `if-else` pero en este caso solo el autor original podría añadir nuevas implementaciones. Sin embargo, un sistema de POO permite que cualquier desarrollador extienda la interfaz mediante la creación de implementaciones para nuevos tipos de entrada.
+Podrías pensar que `summary()` utiliza una serie de declaraciones `if-else` según el tipo de los datos de entrada, pero en este caso solo el autor original podría añadir nuevas implementaciones. Sin embargo, un sistema de POO permite que cualquier desarrollador extienda la interfaz mediante la creación de implementaciones para nuevos tipos de entrada.
 
-En los sistemas de POO, el tipo de un objeto se denomina su clase, y una implementación específica para una clase se conoce como método. En términos generales, una clase define las características de un objeto (¿qué es?) y los métodos describen las acciones que ese objeto puede realizar (¿qué hace?).
+En los sistemas de POO, el tipo de un objeto se denomina su clase y una implementación específica para una clase se conoce como método. En términos generales, una clase define las características de un objeto (¿qué es?) y los métodos describen las acciones que ese objeto puede realizar (¿qué hace?).
 
-R base proporciona tres sistemas de POO (S3--que es la más utilizada--, S4 y RC), aunque también existen otros sistemas POO proporcionados por diferentes paquetes del CRAN.
+R base proporciona tres sistemas de POO (S3 –que es la más utilizada-, S4 y RC), aunque también existen otros sistemas POO proporcionados por diferentes paquetes del CRAN.
 
 ```{r objetos}
 
@@ -1214,16 +1237,14 @@ attr(1:5, "class") # no tienen clase
 
 is.object(penguins) # orientada a objetos
 otype(penguins) # S3
-attr(penguins, "class") # tienen una clase
+attr(penguins, "class") # tienen una clase #Vero: varias clases?
 
 ftype(summary) # funcion generica S3
 # una funcion generica define la interfaz, que utiliza una implementacion (metodo) diferente dependiendo de la clase del argumento. Acuerdate de la idea del polimorfismo que hemos visto antes ;)
 
 ```
 
-Información más detallada sobre [POO](https://adv-r.hadley.nz/oo.html) y [compromisos entre algunos sistemas de POO](https://adv-r.hadley.nz/oo-tradeoffs.html)
-
-Este taller está principalmente basado en la primera edición del libro [R for Data Science](https://r4ds.had.co.nz/) de Hadley Wickham & Garrett Grolemund y la segunda edición del libro [Advanced R](https://adv-r.hadley.nz/index.html) de Hadley Wickham.
+💡Información más detallada sobre [POO](https://adv-r.hadley.nz/oo.html) y [compromisos entre algunos sistemas de POO](https://adv-r.hadley.nz/oo-tradeoffs.html)
 
 ### Enlaces de interés
 
@@ -1248,6 +1269,10 @@ Este taller está principalmente basado en la primera edición del libro [R for 
 -   [Parallel computation in R](https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/)
 
 -   [Advanced R (Object-oriented programming)](https://adv-r.hadley.nz/oo.html)
+
+Este taller está principalmente basado en la primera edición del libro [R for Data Science](https://r4ds.had.co.nz/) de Hadley Wickham & Garrett Grolemund y la segunda edición del libro [Advanced R](https://adv-r.hadley.nz/index.html) de Hadley Wickham.
+
+### 
 
 ------------------------------------------------------------------------
 

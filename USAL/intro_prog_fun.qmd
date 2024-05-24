@@ -32,31 +32,31 @@ Dentro del modelo de ciencia de datos de Hadley Wickham (@fig-datascience), el c
 
 ### Estructura del curso
 
-+------------------------------------------+---------------+
-| Bloques                                  | Día           |
-+==========================================+===============+
-| Presentación del curso                   | 13/05/24      |
-|                                          |               |
-| Introducción a la programación en R      |               |
-|                                          |               |
-| Introducción a la programación funcional |               |
-+------------------------------------------+---------------+
-| Teoría sobre funciones en R              | 15/05/24      |
-|                                          |               |
-| Cómo escribir funciones                  |               |
-+------------------------------------------+---------------+
-| Programación orientada a objetos         | 20/05/24      |
-|                                          |               |
-| Programación funcional                   |               |
-|                                          |               |
-| Iteraciones sobre uno y dos argumentos   |               |
-+------------------------------------------+---------------+
-| Iteraciones sobre múltiples argumentos   | 22/05/24      |
-|                                          |               |
-| Iteraciones sin salida                   |               |
-|                                          |               |
-| Operadores y otros funcionales           |               |
-+------------------------------------------+---------------+
++------------------------------------------+----------+
+| Bloques                                  | Día      |
++==========================================+==========+
+| Presentación del curso                   | 13/05/24 |
+|                                          |          |
+| Introducción a la programación en R      |          |
+|                                          |          |
+| Introducción a la programación funcional |          |
++------------------------------------------+----------+
+| Teoría sobre funciones en R              | 15/05/24 |
+|                                          |          |
+| Cómo escribir funciones                  |          |
++------------------------------------------+----------+
+| Programación orientada a objetos         | 20/05/24 |
+|                                          |          |
+| Programación funcional                   |          |
+|                                          |          |
+| Iteraciones sobre uno y dos argumentos   |          |
++------------------------------------------+----------+
+| Iteraciones sobre múltiples argumentos   | 22/05/24 |
+|                                          |          |
+| Iteraciones sin salida                   |          |
+|                                          |          |
+| Operadores y otros funcionales           |          |
++------------------------------------------+----------+
 
 ### Quiénes somos
 
@@ -129,8 +129,6 @@ miprimeralista <- list(elemento1 = guau,
   elemento2 = miau)
 str(miprimeralista)
 ```
-
-<!--# Vero: diferencias entre list/data.frame/matrix -->
 
 #### Ejercicio
 
@@ -250,7 +248,7 @@ penguins |>
 
 1.  Con el `data.frame` penguins, cuenta el número de casos que hay en cada isla y calcula la media de la longitud del ala en cada isla.
 
-2.  Con el mismo `data.frame` calcula la relación entre el peso en kg y la longitud del ala.
+2.  Con el mismo `data.frame` calcula la relación entre el peso en kg y la longitud del ala para cada individuo.
 
 ```{r save_read_tidyverse}
 #| eval: false
@@ -267,6 +265,8 @@ write_delim(mypenguins, file = "mypenguins.csv", delim = ";")
 misdatos <- read_delim(file = "mypenguins.csv")
 View(misdatos)
 ```
+
+<!--# Vero: introducir también join -->
 
 Una diferencia fundamental entre R base y *tidyverse* importante para avanzar en este curso es que el *name masking* es diferente. En R, si un argumento no está definido en una función, R buscará ese nombre en el nivel del entorno inmediatamente superior. En general, con R base sólo podemos llamar a objetos que forman parte del entorno (env-variables); en cambio, con tidyverse se puede llamar también a las variables dentro de las tablas (data-variables). Esta característica simplifica el código en tidyverse, pero la ventaja no tiene coste cero y tiene implicaciones en la gramática de las funciones como veremos más adelante.
 
@@ -879,7 +879,9 @@ vapply(penguins_num, median, na.rm = T, FUN.VALUE = double(1))
 
 ```
 
-Trabajar con listas es muy común en R. De echo el output por defecto de `map()` son listas. Sin embargo, las listas pueden resultar a veces desordenadas, p. ej., cuando perdemos el nombre de cada elemento de la lista. La función [`nest()`](https://tidyr.tidyverse.org/reference/nest.html) de {tidyr} nos permite trabajar con listas-columnas en data frames, generando una fila para cada grupo definido por las columnas no anidadas (i.e. non-nested columns).
+Trabajar con listas es muy común en R. De echo el output por defecto de `map()` son listas. Sin embargo, las listas pueden resultar a veces desordenadas, p. ej., cuando perdemos el nombre de cada elemento de la lista. La función [`nest()`](https://tidyr.tidyverse.org/reference/nest.html) de {tidyr} nos permite trabajar con listas-columnas en data frames, generando una fila para cada grupo definido por las columnas no anidadas (es decir, *non-nested* columns).
+
+<!--# Vero: quizás introduciría esto al principio cuando se habla de tipos de objetos? como lo ves? -->
 
 ```{r map_ejemplo_avanzado}
 
@@ -910,7 +912,7 @@ penguins_nested |>
 
 ### Nuestro tercer funcional: dos entradas, `map2()`
 
-`map2()` está vectorizado sobre dos argumentos, e.g. `(x, y)`
+`map2()` está vectorizado sobre dos argumentos, p. ej. `(x, y)`
 
 ```{r map2_ejemplo}
 
@@ -1029,7 +1031,7 @@ Transformad el `map2()` que habéis generado en el ejercicio @sec-ejercicio-map2
 
 ### Nuestro quinto funcional: `walk()`, `walk2()` y `pwalk()`
 
-Cuando queremos utilizar funciones por sus efectos secundarios (*side effects*, p.ej. `ggsave()`) y no por su valor resultante. Lo importante es la acción y no el valor u objeto resultante en R.
+Cuando queremos utilizar funciones por sus efectos secundarios (*side effects*, p. ej. `ggsave()`) y no por su valor resultante. Lo importante es la acción y no el valor u objeto resultante en R.
 
 #### Ejercicio
 
@@ -1040,6 +1042,9 @@ En base a lo que dice en la definición sobre la familia `walk()`, corred este c
 penguins_nested <- penguins |>
   group_by(species) |>
   nest()
+
+penguins_nested_str <- penguins_nested |> 
+  mutate(path = str_glue("penguins_{species}.csv"))
 
 penguins_nested_str <- penguins_nested |> 
   mutate(path = str_glue("penguins_{species}.csv"))
@@ -1095,7 +1100,7 @@ En este curso no profundizamos en `modify()` e `imap()` porque con los demás fu
 
 ### Funcionales predicate y demás
 
-Los predicados son funciones que devuelven un solo TRUE o FALSE (p.ej., como `is.character()`). Así, un predicado funcional aplica un predicado a cada elemento de un vector: `keep()`, `discard()`, `some()`, `every()`, `detect()`, `detect_index()`... Para más información ver: <https://r4ds.had.co.nz/iteration.html>, 21.9.1 Predicate functions.
+Los predicados son funciones que devuelven un solo TRUE o FALSE (p. ej., como `is.character()`). Así, un predicado funcional aplica un predicado a cada elemento de un vector: `keep()`, `discard()`, `some()`, `every()`, `detect()`, `detect_index()`... Para más información ver: <https://r4ds.had.co.nz/iteration.html>, 21.9.1 Predicate functions.
 
 ```{r ejemplo_predicado_funcional}
 

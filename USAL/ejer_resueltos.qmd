@@ -1,0 +1,252 @@
+---
+title: "Programación funcional en R"
+author: Julen Astigarraga y Verónica Cruz-Alonso
+date: today
+date-format: "DD/MM/YYYY"
+toc: true
+format:
+  html: default
+    # css: styles.css
+  gfm: default
+editor: visual
+editor_options: 
+  chunk_output_type: console
+number-sections: true
+---
+
+#### 2.1.1 Ejercicio
+
+1.  Elije un número y multiplicalo por 3
+
+2.  Crea un objeto que contenga 100 valores entre 1901 y 2000
+
+3.  Suma un número a tu objeto
+
+4.  Multiplica tu objeto por sí mismo
+
+```{r}
+
+# 1
+10 * 3
+
+# 2
+misvalores <- 1901:2000
+
+# 3
+misvalores + 5
+
+# 4
+misvalores * misvalores
+
+```
+
+#### 2.2.1 Ejercicio
+
+1.  Crea un objeto con los pingüinos de la especie Adelie y ordena la tabla según la longitud del ala de los individuos.
+
+2.  Crea un objeto a partir del anterior donde selecciones la isla y las variables relacionadas con el pico.
+
+3.  Crea un objeto a partir del creado en el punto 1 donde selecciones todo menos la especie.
+
+```{r}
+
+library(palmerpenguins)
+library(tidyverse)
+
+# 1
+adelie <- penguins |> 
+  filter(species == "Adelie") |> 
+  arrange(flipper_length_mm)
+
+# 2
+adelie_subset <- adelie |> 
+  select(island, contains("bill"))
+
+# 3
+adelie2 <- adelie |> 
+  select(-species)
+```
+
+#### 2.2.2 Ejercicio
+
+1.  Con el `data.frame` penguins, cuenta el número de casos que hay en cada isla y calcula la media de la longitud del ala en cada isla.
+
+2.  Con el mismo `data.frame` calcula la relación entre el peso en kg y la longitud del ala para cada individuo.
+
+```{r}
+
+# 1
+penguins |> 
+  group_by(island) |> 
+  summarise(n = n(),
+    mean_flipper_length = mean(flipper_length_mm, na.rm = TRUE))
+
+# 2
+penguins |> 
+  mutate(mass_by_length = body_mass_g/flipper_length_mm) |> 
+  select(mass_by_length, everything())
+
+```
+
+#### 5.0.1 Ejercicio
+
+Genera tu primera función que divida un valor siempre entre 100.
+
+```{r}
+
+dividirpor100 <- function(x) {
+  x/100
+}
+
+dividirpor100(30)
+```
+
+#### 5.0.2 Ejercicio
+
+Genera una función para estandarizar (es decir, restar la media y dividir por la desviación típica) las variables numéricas de penguins.
+
+```{r}
+
+# R base
+estandarizar <- function(x) {
+  (x - mean(x, na.rm = TRUE)) / sd(x, na.rm = TRUE)
+}
+
+estandarizar(penguins$bill_length_mm)
+
+# Tidyverse #Vero: dejo esto?
+estandarizar <- function(data, x) {
+  ({{ x }} - mean({{ x }}, na.rm = TRUE)) / sd({{ x }}, na.rm = TRUE)
+} 
+
+penguins |> 
+  mutate(st_bill_length = standardize(x = bill_length_mm)) |> 
+  select(bill_length_mm, st_bill_length)
+```
+
+#### 5.2.1 Ejercicio
+
+¿Cómo generalizarías la función `explorar_penguins()` para que te sirviera para cualquier base de datos?
+
+```{r}
+explorar_penguins <-
+  function (var) {
+    ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) + geom_point(position = position_jitterdodge(), alpha = 0.3) + geom_boxplot(alpha = 0.5) + scale_color_manual(values = c("turquoise", "goldenrod1")) + theme_light() + ylab(var)
+  }
+
+explorar_df <- function (datos, var, categoria, color) {
+      ggplot(data = datos, aes(x = .data[[categoria]], y = .data[[var]], color = .data[[color]])) + geom_point(position = position_jitterdodge(), alpha = 0.3) + geom_boxplot(alpha = 0.5) + theme_light() + ylab(var)
+}
+
+explorar_df(datos = iris, # iris es un dataset cargado en RStudio por defecto
+  var = "Petal.Length",
+  categoria = "Species",
+  color = "Species")
+```
+
+#### Ejercicio
+
+Generad un vector, una función y aplicadle la función a cada uno de los elementos del vector utilizando `map()`.
+
+#### Ejercicio
+
+Ahora que habéis entendido la lógica de `map()`, detectad las diferencias entre las tres líneas de código siguientes. ¿Qué es lo que hace el funcional `map()`? ¿Qué diferencias detectáis en el código? ¿Y en la salida?
+
+```{r argumentos_adicionales}
+
+map(penguins, \(x) mean(x))
+map(penguins, \(x) mean(x, na.rm = T)) # opcion 1
+map(penguins, mean, na.rm = T) # opcion 2
+
+```
+
+#### Ejercicio
+
+Dedicadle un par de minutos a entender lo que hacen las siguientes funciones:
+
+```{r map_vectores}
+
+penguins |> 
+  select(where(is.numeric))
+map_lgl(penguins, is.numeric)
+penguins_num <- penguins[ , map_lgl(penguins, is.numeric)] 
+map_dbl(penguins_num, median, na.rm = T)
+map_chr(penguins, class)
+map_int(penguins, \(x) length(unique(x)))
+1:4 |> 
+  map_vec(\(x) as.Date(ISOdate(x + 2024, 05, 13)))
+
+```
+
+#### Ejercicio {#sec-ejercicio-map2}
+
+A partir del código que se muestra a continuación generad un `data.frame`, agregando una columna al `data.frame` con el nombre que le hemos asignado a cada lista.
+
+```{r map_2_ejercicio}
+
+penguins_list <- penguins |>
+  group_split(species)
+
+# asignamos nombres a las listas
+names(penguins_list) <- c("p1", "p2", "p3")
+
+map2_df(penguins_list, names(penguins_list), \(x, y)
+        mutate(x, nombre = y))
+
+```
+
+#### Ejercicio avanzado
+
+Calculad la correlación entre las predicciones guardadas en la lista-columna `pred` y `bill_length_mm`.
+
+#### Ejercicio
+
+Transformad el `map2()` que habéis generado en el ejercicio @sec-ejercicio-map2 a `pmap()`.
+
+#### Ejercicio
+
+En base a lo que dice en la definición sobre la familia `walk()`, corred este código y entended lo que hace.
+
+```{r walk_ejemplo}
+
+penguins_nested <- penguins |>
+  group_by(species) |>
+  nest()
+
+penguins_nested_str <- penguins_nested |> 
+  mutate(path = str_glue("penguins_{species}.csv"))
+
+penguins_nested_str <- penguins_nested |> 
+  mutate(path = str_glue("penguins_{species}.csv"))
+
+penguins_nested_str
+
+walk2(penguins_nested_str$data, penguins_nested_str$path, write_csv)
+
+```
+
+#### Ejercicio avanzado
+
+Generad un ejemplo donde utiliceis `walk2()` para guardar múltiples plot generados con `ggplot()`. Pista: la primera entrada será el plot que queréis guardar y la segunda el nombre del archivo que le queréis dar.
+
+#### Ejercicio
+
+Aplicad cualquier variante de `map()` junto con un operador funcional a la base de datos penguins.
+
+```{r}
+
+penguins |> 
+  map(safely(log))
+
+```
+
+<details>
+
+<summary>Session Info</summary>
+
+```{r session_info}
+Sys.time()
+sessionInfo()
+```
+
+</details>

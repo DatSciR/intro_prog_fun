@@ -34,3 +34,9 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 info_workshop
+penguins_Adelie.csv
+penguins_Adelie.png
+penguins_Chinstrap.csv
+penguins_Chinstrap.png
+penguins_Gentoo.csv
+penguins_Gentoo.png

@@ -1,5 +1,5 @@
 ---
-title: "Programación funcional en R"
+title: "Programación funcional en R - ejercicios resueltos"
 author: Julen Astigarraga y Verónica Cruz-Alonso
 date: today
 date-format: "DD/MM/YYYY"
@@ -11,10 +11,10 @@ format:
 editor: visual
 editor_options: 
   chunk_output_type: console
-number-sections: true
+number-sections: false
 ---
 
-#### 2.1.1 Ejercicio
+## 2.1.1 Ejercicio
 
 1.  Elije un número y multiplicalo por 3
 
@@ -24,7 +24,7 @@ number-sections: true
 
 4.  Multiplica tu objeto por sí mismo
 
-```{r}
+```{r 2.1.1}
 
 # 1
 10 * 3
@@ -40,7 +40,7 @@ misvalores * misvalores
 
 ```
 
-#### 2.2.1 Ejercicio
+## 2.2.1 Ejercicio
 
 1.  Crea un objeto con los pingüinos de la especie Adelie y ordena la tabla según la longitud del ala de los individuos.
 
@@ -48,7 +48,7 @@ misvalores * misvalores
 
 3.  Crea un objeto a partir del creado en el punto 1 donde selecciones todo menos la especie.
 
-```{r}
+```{r 2.2.1}
 
 library(palmerpenguins)
 library(tidyverse)
@@ -67,13 +67,13 @@ adelie2 <- adelie |>
   select(-species)
 ```
 
-#### 2.2.2 Ejercicio
+## 2.2.2 Ejercicio
 
 1.  Con el `data.frame` penguins, cuenta el número de casos que hay en cada isla y calcula la media de la longitud del ala en cada isla.
 
 2.  Con el mismo `data.frame` calcula la relación entre el peso en kg y la longitud del ala para cada individuo.
 
-```{r}
+```{r 2.2.2}
 
 # 1
 penguins |> 
@@ -83,29 +83,30 @@ penguins |>
 
 # 2
 penguins |> 
-  mutate(mass_by_length = body_mass_g/flipper_length_mm) |> 
+  mutate(mass_by_length = body_mass_g / flipper_length_mm) |> 
   select(mass_by_length, everything())
 
 ```
 
-#### 5.0.1 Ejercicio
+## 5.0.1 Ejercicio
 
 Genera tu primera función que divida un valor siempre entre 100.
 
-```{r}
+```{r 5.0.1}
 
 dividirpor100 <- function(x) {
-  x/100
+  x / 100
 }
 
 dividirpor100(30)
+
 ```
 
-#### 5.0.2 Ejercicio
+## 5.0.2 Ejercicio
 
 Genera una función para estandarizar (es decir, restar la media y dividir por la desviación típica) las variables numéricas de penguins.
 
-```{r}
+```{r 5.0.2}
 
 # R base
 estandarizar <- function(x) {
@@ -114,45 +115,66 @@ estandarizar <- function(x) {
 
 estandarizar(penguins$bill_length_mm)
 
-# Tidyverse #Vero: dejo esto?
-estandarizar <- function(data, x) {
+# Tidyverse
+estandarizar_tidy <- function(data, x) {
   ({{ x }} - mean({{ x }}, na.rm = TRUE)) / sd({{ x }}, na.rm = TRUE)
 } 
 
 penguins |> 
-  mutate(st_bill_length = standardize(x = bill_length_mm)) |> 
+  mutate(st_bill_length = estandarizar(x = bill_length_mm)) |> 
   select(bill_length_mm, st_bill_length)
+
 ```
 
-#### 5.2.1 Ejercicio
+## 5.2.1 Ejercicio
 
 ¿Cómo generalizarías la función `explorar_penguins()` para que te sirviera para cualquier base de datos?
 
-```{r}
+```{r 5.2.1}
+
 explorar_penguins <-
-  function (var) {
-    ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) + geom_point(position = position_jitterdodge(), alpha = 0.3) + geom_boxplot(alpha = 0.5) + scale_color_manual(values = c("turquoise", "goldenrod1")) + theme_light() + ylab(var)
+  function(var) {
+    ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
+      geom_point(position = position_jitterdodge(), alpha = 0.3) +
+      geom_boxplot(alpha = 0.5) +
+      scale_color_manual(values = c("turquoise", "goldenrod1")) +
+      theme_light() +
+      ylab(var)
   }
 
-explorar_df <- function (datos, var, categoria, color) {
-      ggplot(data = datos, aes(x = .data[[categoria]], y = .data[[var]], color = .data[[color]])) + geom_point(position = position_jitterdodge(), alpha = 0.3) + geom_boxplot(alpha = 0.5) + theme_light() + ylab(var)
+explorar_df <- function(datos, var, categoria, color) {
+  ggplot(data = datos, aes(x = .data[[categoria]], y = .data[[var]], color = .data[[color]])) + 
+    geom_point(position = position_jitterdodge(), alpha = 0.3) +
+    geom_boxplot(alpha = 0.5) + 
+    theme_light() + ylab(var)
 }
 
 explorar_df(datos = iris, # iris es un dataset cargado en RStudio por defecto
   var = "Petal.Length",
   categoria = "Species",
   color = "Species")
+
 ```
 
-#### Ejercicio
+## 8.1.1 Ejercicio
 
-Generad un vector, una función y aplicadle la función a cada uno de los elementos del vector utilizando `map()`.
+Generad un vector, una función y aplicadle la función a cada uno de los elementos del vector utilizando map().
 
-#### Ejercicio
+```{r 8.1.1}
+
+sum_10 <- function(x) {
+  x + 10
+}
+
+map(1:4, sum_10)
+
+```
+
+## 8.1.2 Ejercicio
 
 Ahora que habéis entendido la lógica de `map()`, detectad las diferencias entre las tres líneas de código siguientes. ¿Qué es lo que hace el funcional `map()`? ¿Qué diferencias detectáis en el código? ¿Y en la salida?
 
-```{r argumentos_adicionales}
+```{r 8.1.2}
 
 map(penguins, \(x) mean(x))
 map(penguins, \(x) mean(x, na.rm = T)) # opcion 1
@@ -160,14 +182,14 @@ map(penguins, mean, na.rm = T) # opcion 2
 
 ```
 
-#### Ejercicio
+El primer y segundo `map()` utilizan funciones anónimas (`\(x)`) mientras que el tercero no lo hace. El primero nos devuelve muchos `NA` porque hay algunas celdas de variables numéricas en la base de datos de penguins que contienen `NA`, y por defecto, `mean()` devuelve `NA` si detecta algún `NA` en las variables a las que se aplica el `mean()`. El resultado del segundo y tercer `map()` es el mismo. Sin embargo, en el segundo `map()` se pasan argumentos adicionales a `mean()` mediante la función anónima. En el tercer `map()`, dado que `map()` incluye `...` entre sus argumentos, se pueden incluir los argumentos adicionales después de la función dentro de `map()` de una forma mucho más sencilla.
+
+## 8.2.1 Ejercicio
 
 Dedicadle un par de minutos a entender lo que hacen las siguientes funciones:
 
-```{r map_vectores}
+```{r 8.2.1}
 
-penguins |> 
-  select(where(is.numeric))
 map_lgl(penguins, is.numeric)
 penguins_num <- penguins[ , map_lgl(penguins, is.numeric)] 
 map_dbl(penguins_num, median, na.rm = T)
@@ -178,11 +200,23 @@ map_int(penguins, \(x) length(unique(x)))
 
 ```
 
-#### Ejercicio {#sec-ejercicio-map2}
+`map_lgl()` nos devuelve un vector lógico que nos indica si cada una de las columnas de penguins es numérico o no.
+
+En la siguiente linea utilizamos el vector lógico generado con `map_lgl()` para seleccionar las variables númericas de penguins.
+
+`map_dbl()` nos devuelve un vector numérico calculando la mediana de cada variable númerica de penguins.
+
+`map_chr()` nos devuelve un vector de caracteres que nos indica de qué clase es cada una de las columnas de penguins.
+
+`map_int()` nos devuelve un vector de números enteros que nos el número de observaciones únicas que hay en cada variable de penguins contando los `NA`.
+
+`map_vec()` determina automáticamente el tipo de salida que en este caso nos devuelve un vector de tipo fecha.
+
+## 9.1.1 Ejercicio
 
 A partir del código que se muestra a continuación generad un `data.frame`, agregando una columna al `data.frame` con el nombre que le hemos asignado a cada lista.
 
-```{r map_2_ejercicio}
+```{r 9.1.1}
 
 penguins_list <- penguins |>
   group_split(species)
@@ -190,31 +224,75 @@ penguins_list <- penguins |>
 # asignamos nombres a las listas
 names(penguins_list) <- c("p1", "p2", "p3")
 
-map2_df(penguins_list, names(penguins_list), \(x, y)
+# solucion al ejercicio
+map2(penguins_list, names(penguins_list), \(x, y)
         mutate(x, nombre = y))
 
 ```
 
-#### Ejercicio avanzado
+## 9.1.2 Ejercicio avanzado
 
 Calculad la correlación entre las predicciones guardadas en la lista-columna `pred` y `bill_length_mm`.
 
-#### Ejercicio
+```{r 9.1.2}
 
-Transformad el `map2()` que habéis generado en el ejercicio @sec-ejercicio-map2 a `pmap()`.
+# primero eliminamos NA de bill_length_mm
+penguins_nona <- penguins |> 
+  drop_na(bill_length_mm)
 
-#### Ejercicio
+penguins_nested <- penguins_nona |>
+  group_by(species) |>
+  nest() |> 
+  mutate(
+    lm_obj = map(data, \(df) lm(
+      bill_length_mm ~ body_mass_g,
+      data = df)),
+    pred = map2(lm_obj, data,
+                \(x, y) predict(x, y)),
+    # solucion al ejercicio
+    corr = map2_dbl(pred, data,
+                    \(x, y) cor(x, y$bill_length_mm))
+  )
+
+# unnest()
+penguins_nested |> 
+  unnest(pred) |> 
+  select(!c(data, lm_obj))
+
+```
+
+## 9.2.1 Ejercicio
+
+Transformad el `map2()` que habéis generado en el ejercicio 9.1.1 a `pmap()`.
+
+```{r 9.2.1}
+
+# ejercicio 9.1.1
+penguins_list <- penguins |>
+  group_split(species)
+
+# asignamos nombres a las listas
+names(penguins_list) <- c("p1", "p2", "p3")
+
+# solucion al ejercicio
+map2(penguins_list, names(penguins_list), \(x, y)
+        mutate(x, nombre = y))
+
+# ejercicio 9.2.1
+pmap(list(penguins_list, names(penguins_list)), \(x, y)
+     mutate(x, nombre = y))
+
+```
+
+## 10.1.1 Ejercicio
 
 En base a lo que dice en la definición sobre la familia `walk()`, corred este código y entended lo que hace.
 
-```{r walk_ejemplo}
+```{r 10.1.1}
 
 penguins_nested <- penguins |>
   group_by(species) |>
   nest()
-
-penguins_nested_str <- penguins_nested |> 
-  mutate(path = str_glue("penguins_{species}.csv"))
 
 penguins_nested_str <- penguins_nested |> 
   mutate(path = str_glue("penguins_{species}.csv"))
@@ -225,18 +303,47 @@ walk2(penguins_nested_str$data, penguins_nested_str$path, write_csv)
 
 ```
 
-#### Ejercicio avanzado
+Meidante la función [`nest()`](https://tidyr.tidyverse.org/reference/nest.html) de {tidyr} generamos listas-columnas en el data frame de penguins, generando una fila para cada especie de pingüino. Como es un `data.frame` podemos aplicarle la función `mutate()` directamente y generamos la variable `path` que contiene el nombre de salida que le queremos dar a cada base de datos. Por último, mediante la función `walk2()` guardamos los datos relativos a cada pingüino con su respectivo path que hemos generado anteriormente.
 
-Generad un ejemplo donde utiliceis `walk2()` para guardar múltiples plot generados con `ggplot()`. Pista: la primera entrada será el plot que queréis guardar y la segunda el nombre del archivo que le queréis dar.
+## 10.1.2 Ejercicio avanzado
 
-#### Ejercicio
+Generad un ejemplo donde utiliceis `walk2()` o `pwalk()` para guardar múltiples plot generados con `ggplot()`. Pista: la primera entrada será el plot que queréis guardar y la segunda el nombre del archivo que le queréis dar.
+
+```{r 10.1.2}
+
+gg_penguins_bill_body <- function(data_df) {
+  ggplot(aes(bill_length_mm, body_mass_g),
+         data = data_df) +
+    geom_point()
+}
+
+penguins_nested <- penguins |>
+  group_by(species) |>
+  nest() |> 
+  mutate(
+    gg_obj = map(data, \(df) gg_penguins_bill_body(
+      data_df = df
+    ))
+  )
+
+penguins_nested_str <- penguins_nested |> 
+  mutate(path = str_glue("penguins_{species}.png"))
+
+penguins_nested_str
+
+pwalk(list(plot = penguins_nested_str$gg_obj, filename = penguins_nested_str$path), ggsave)
+
+```
+
+## 11.2.1.1 Ejercicio
 
 Aplicad cualquier variante de `map()` junto con un operador funcional a la base de datos penguins.
 
-```{r}
+```{r 11.2.1.1}
 
 penguins |> 
-  map(safely(log))
+  map(safely(log)) |> 
+  transpose()
 
 ```
 

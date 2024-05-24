@@ -1,6 +1,6 @@
 # Programación funcional en R
 Julen Astigarraga y Verónica Cruz-Alonso
-22/05/2024
+24/05/2024
 
 - [<span class="toc-section-number">1</span>
   Presentación](#presentación)
@@ -87,10 +87,10 @@ programación.
 
 ### Estructura del curso
 
-<table style="width:82%;">
+<table style="width:75%;">
 <colgroup>
 <col style="width: 59%" />
-<col style="width: 22%" />
+<col style="width: 15%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -280,8 +280,6 @@ str(miprimeralista)
     List of 2
      $ elemento1: num 2
      $ elemento2: num 8
-
-<!--# Vero: diferencias entre list/data.frame/matrix -->
 
 #### Ejercicio
 
@@ -704,7 +702,7 @@ penguins |>
     cada isla y calcula la media de la longitud del ala en cada isla.
 
 2.  Con el mismo `data.frame` calcula la relación entre el peso en kg y
-    la longitud del ala.
+    la longitud del ala para cada individuo.
 
 ``` r
 mypenguins <- penguins |> 
@@ -720,6 +718,8 @@ write_delim(mypenguins, file = "mypenguins.csv", delim = ";")
 misdatos <- read_delim(file = "mypenguins.csv")
 View(misdatos)
 ```
+
+<!--# Vero: introducir también join -->
 
 Una diferencia fundamental entre R base y *tidyverse* importante para
 avanzar en este curso es que el *name masking* es diferente. En R, si un
@@ -1445,7 +1445,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.58    0.17    0.75 
+       0.53    0.31    0.85 
 
 ``` r
 y <- vector("double", length = 20000)
@@ -1457,7 +1457,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.02    0.00    0.02 
+          0       0       0 
 
 2.  Secuencia: aquí determinamos sobre lo que queremos iterar. Cada
     ejecución del bucle for asignará un valor diferente de
@@ -1716,8 +1716,6 @@ map_df(penguins, \(x) length(unique(x)))
 Generad un vector, una función y aplicadle la función a cada uno de los
 elementos del vector utilizando `map()`.
 
-#### Implementación de map()
-
 ``` r
 imple_map <- function(x, f, ...) {
   out <- vector("list", length(x))
@@ -1876,26 +1874,6 @@ Dedicadle un par de minutos a entender lo que hacen las siguientes
 funciones:
 
 ``` r
-penguins |> 
-  select(where(is.numeric))
-```
-
-    # A tibble: 344 × 5
-       bill_length_mm bill_depth_mm flipper_length_mm body_mass_g  year
-                <dbl>         <dbl>             <int>       <int> <int>
-     1           39.1          18.7               181        3750  2007
-     2           39.5          17.4               186        3800  2007
-     3           40.3          18                 195        3250  2007
-     4           NA            NA                  NA          NA  2007
-     5           36.7          19.3               193        3450  2007
-     6           39.3          20.6               190        3650  2007
-     7           38.9          17.8               181        3625  2007
-     8           39.2          19.6               195        4675  2007
-     9           34.1          18.1               193        3475  2007
-    10           42            20.2               190        4250  2007
-    # ℹ 334 more rows
-
-``` r
 map_lgl(penguins, is.numeric)
 ```
 
@@ -1968,8 +1946,10 @@ desordenadas, p. ej., cuando perdemos el nombre de cada elemento de la
 lista. La función
 [`nest()`](https://tidyr.tidyverse.org/reference/nest.html) de {tidyr}
 nos permite trabajar con listas-columnas en data frames, generando una
-fila para cada grupo definido por las columnas no anidadas
-(i.e. non-nested columns).
+fila para cada grupo definido por las columnas no anidadas (es decir,
+*non-nested* columns).
+
+<!--# Vero: quizás introduciría esto al principio cuando se habla de tipos de objetos? como lo ves? -->
 
 ``` r
 glimpse(penguins)
@@ -2071,7 +2051,7 @@ penguins_nested |>
 
 ### Nuestro tercer funcional: dos entradas, `map2()`
 
-`map2()` está vectorizado sobre dos argumentos, e.g. `(x, y)`
+`map2()` está vectorizado sobre dos argumentos, p. ej. `(x, y)`
 
 ``` r
 potencia <- function(base, exponente) {
@@ -2150,9 +2130,60 @@ penguins_list <- penguins |>
 names(penguins_list) <- c("p1", "p2", "p3")
 
 # solucion al ejercicio
-# map2_df(penguins_list, names(penguins_list), \(x, y)
-#         mutate(x, nombre = y))
+map2(penguins_list, names(penguins_list), \(x, y)
+        mutate(x, nombre = y))
 ```
+
+    $p1
+    # A tibble: 152 × 9
+       species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+       <fct>   <fct>              <dbl>         <dbl>             <int>       <int>
+     1 Adelie  Torgersen           39.1          18.7               181        3750
+     2 Adelie  Torgersen           39.5          17.4               186        3800
+     3 Adelie  Torgersen           40.3          18                 195        3250
+     4 Adelie  Torgersen           NA            NA                  NA          NA
+     5 Adelie  Torgersen           36.7          19.3               193        3450
+     6 Adelie  Torgersen           39.3          20.6               190        3650
+     7 Adelie  Torgersen           38.9          17.8               181        3625
+     8 Adelie  Torgersen           39.2          19.6               195        4675
+     9 Adelie  Torgersen           34.1          18.1               193        3475
+    10 Adelie  Torgersen           42            20.2               190        4250
+    # ℹ 142 more rows
+    # ℹ 3 more variables: sex <fct>, year <int>, nombre <chr>
+
+    $p2
+    # A tibble: 68 × 9
+       species   island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+       <fct>     <fct>           <dbl>         <dbl>             <int>       <int>
+     1 Chinstrap Dream            46.5          17.9               192        3500
+     2 Chinstrap Dream            50            19.5               196        3900
+     3 Chinstrap Dream            51.3          19.2               193        3650
+     4 Chinstrap Dream            45.4          18.7               188        3525
+     5 Chinstrap Dream            52.7          19.8               197        3725
+     6 Chinstrap Dream            45.2          17.8               198        3950
+     7 Chinstrap Dream            46.1          18.2               178        3250
+     8 Chinstrap Dream            51.3          18.2               197        3750
+     9 Chinstrap Dream            46            18.9               195        4150
+    10 Chinstrap Dream            51.3          19.9               198        3700
+    # ℹ 58 more rows
+    # ℹ 3 more variables: sex <fct>, year <int>, nombre <chr>
+
+    $p3
+    # A tibble: 124 × 9
+       species island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+       <fct>   <fct>           <dbl>         <dbl>             <int>       <int>
+     1 Gentoo  Biscoe           46.1          13.2               211        4500
+     2 Gentoo  Biscoe           50            16.3               230        5700
+     3 Gentoo  Biscoe           48.7          14.1               210        4450
+     4 Gentoo  Biscoe           50            15.2               218        5700
+     5 Gentoo  Biscoe           47.6          14.5               215        5400
+     6 Gentoo  Biscoe           46.5          13.5               210        4550
+     7 Gentoo  Biscoe           45.4          14.6               211        4800
+     8 Gentoo  Biscoe           46.7          15.3               219        5200
+     9 Gentoo  Biscoe           43.3          13.4               209        4400
+    10 Gentoo  Biscoe           46.8          15.4               215        5150
+    # ℹ 114 more rows
+    # ℹ 3 more variables: sex <fct>, year <int>, nombre <chr>
 
 ``` r
 penguins_nested <- penguins |>
@@ -2301,7 +2332,7 @@ Transformad el `map2()` que habéis generado en el ejercicio
 ### Nuestro quinto funcional: `walk()`, `walk2()` y `pwalk()`
 
 Cuando queremos utilizar funciones por sus efectos secundarios (*side
-effects*, p.ej. `ggsave()`) y no por su valor resultante. Lo importante
+effects*, p. ej. `ggsave()`) y no por su valor resultante. Lo importante
 es la acción y no el valor u objeto resultante en R.
 
 #### Ejercicio
@@ -2313,6 +2344,13 @@ este código y entended lo que hace.
 penguins_nested <- penguins |>
   group_by(species) |>
   nest()
+
+# penguins_nested |> 
+#   pluck("data") |> 
+#   pluck(1)
+
+penguins_nested_str <- penguins_nested |> 
+  mutate(path = str_glue("penguins_{species}.csv"))
 
 penguins_nested_str <- penguins_nested |> 
   mutate(path = str_glue("penguins_{species}.csv"))
@@ -2334,9 +2372,10 @@ walk2(penguins_nested_str$data, penguins_nested_str$path, write_csv)
 
 #### Ejercicio avanzado
 
-Generad un ejemplo donde utiliceis `walk2()` para guardar múltiples plot
-generados con `ggplot()`. Pista: la primera entrada será el plot que
-queréis guardar y la segunda el nombre del archivo que le queréis dar.
+Generad un ejemplo donde utiliceis `walk2()` o `pwalk()` para guardar
+múltiples plot generados con `ggplot()`. Pista: la primera entrada será
+el plot que queréis guardar y la segunda el nombre del archivo que le
+queréis dar.
 
 ## Operadores y otros funcionales
 
@@ -2464,7 +2503,7 @@ variants.
 
 ### Funcionales predicate y demás
 
-Los predicados son funciones que devuelven un solo TRUE o FALSE (p.ej.,
+Los predicados son funciones que devuelven un solo TRUE o FALSE (p. ej.,
 como `is.character()`). Así, un predicado funcional aplica un predicado
 a cada elemento de un vector: `keep()`, `discard()`, `some()`,
 `every()`, `detect()`, `detect_index()`… Para más información ver:
@@ -2636,7 +2675,7 @@ x |>
     [[3]]
     [1] 1.098612
 
-#### Ejercicio
+##### Ejercicio
 
 Aplicad cualquier variante de `map()` junto con un operador funcional a
 la base de datos penguins.
@@ -2837,9 +2876,9 @@ POO](https://adv-r.hadley.nz/oo-tradeoffs.html)
 - [Advanced R (Object-oriented
   programming)](https://adv-r.hadley.nz/oo.html)
 
-Este taller está principalmente basado en la primera edición del libro
-[R for Data Science](https://r4ds.had.co.nz/) de Hadley Wickham &
-Garrett Grolemund y la segunda edición del libro [Advanced
+Este curso está principalmente basado en la primera edición del libro [R
+for Data Science](https://r4ds.had.co.nz/) de Hadley Wickham & Garrett
+Grolemund y la segunda edición del libro [Advanced
 R](https://adv-r.hadley.nz/index.html) de Hadley Wickham.
 
 ------------------------------------------------------------------------
@@ -2853,7 +2892,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2024-05-22 15:46:55 CEST"
+    [1] "2024-05-24 10:26:06 CEST"
 
 ``` r
 sessionInfo()

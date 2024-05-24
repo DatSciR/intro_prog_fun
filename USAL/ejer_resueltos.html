@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Julen Astigarraga y Verónica Cruz-Alonso">
+
+<title>Programación funcional en R - ejercicios resueltos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="ejer_resueltos_files/libs/clipboard/clipboard.min.js"></script>
+<script src="ejer_resueltos_files/libs/quarto-html/quarto.js"></script>
+<script src="ejer_resueltos_files/libs/quarto-html/popper.min.js"></script>
+<script src="ejer_resueltos_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="ejer_resueltos_files/libs/quarto-html/anchor.min.js"></script>
+<link href="ejer_resueltos_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="ejer_resueltos_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="ejer_resueltos_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="ejer_resueltos_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="ejer_resueltos_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#ejercicio" id="toc-ejercicio" class="nav-link active" data-scroll-target="#ejercicio">2.1.1 Ejercicio</a></li>
+  <li><a href="#ejercicio-1" id="toc-ejercicio-1" class="nav-link" data-scroll-target="#ejercicio-1">2.2.1 Ejercicio</a></li>
+  <li><a href="#ejercicio-2" id="toc-ejercicio-2" class="nav-link" data-scroll-target="#ejercicio-2">2.2.2 Ejercicio</a></li>
+  <li><a href="#ejercicio-3" id="toc-ejercicio-3" class="nav-link" data-scroll-target="#ejercicio-3">5.0.1 Ejercicio</a></li>
+  <li><a href="#ejercicio-4" id="toc-ejercicio-4" class="nav-link" data-scroll-target="#ejercicio-4">5.0.2 Ejercicio</a></li>
+  <li><a href="#ejercicio-5" id="toc-ejercicio-5" class="nav-link" data-scroll-target="#ejercicio-5">5.2.1 Ejercicio</a></li>
+  <li><a href="#ejercicio-6" id="toc-ejercicio-6" class="nav-link" data-scroll-target="#ejercicio-6">8.1.1 Ejercicio</a></li>
+  <li><a href="#ejercicio-7" id="toc-ejercicio-7" class="nav-link" data-scroll-target="#ejercicio-7">8.1.2 Ejercicio</a></li>
+  <li><a href="#ejercicio-8" id="toc-ejercicio-8" class="nav-link" data-scroll-target="#ejercicio-8">8.2.1 Ejercicio</a></li>
+  <li><a href="#ejercicio-9" id="toc-ejercicio-9" class="nav-link" data-scroll-target="#ejercicio-9">9.1.1 Ejercicio</a></li>
+  <li><a href="#ejercicio-avanzado" id="toc-ejercicio-avanzado" class="nav-link" data-scroll-target="#ejercicio-avanzado">9.1.2 Ejercicio avanzado</a></li>
+  <li><a href="#ejercicio-10" id="toc-ejercicio-10" class="nav-link" data-scroll-target="#ejercicio-10">9.2.1 Ejercicio</a></li>
+  <li><a href="#ejercicio-11" id="toc-ejercicio-11" class="nav-link" data-scroll-target="#ejercicio-11">10.1.1 Ejercicio</a></li>
+  <li><a href="#ejercicio-avanzado-1" id="toc-ejercicio-avanzado-1" class="nav-link" data-scroll-target="#ejercicio-avanzado-1">10.1.2 Ejercicio avanzado</a></li>
+  <li><a href="#ejercicio-12" id="toc-ejercicio-12" class="nav-link" data-scroll-target="#ejercicio-12">11.2.1.1 Ejercicio</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="ejer_resueltos.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Programación funcional en R - ejercicios resueltos</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Julen Astigarraga y Verónica Cruz-Alonso </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">24/05/2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="ejercicio" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicio">2.1.1 Ejercicio</h2>
+<ol type="1">
+<li><p>Elije un número y multiplicalo por 3</p></li>
+<li><p>Crea un objeto que contenga 100 valores entre 1901 y 2000</p></li>
+<li><p>Suma un número a tu objeto</p></li>
+<li><p>Multiplica tu objeto por sí mismo</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="sc">*</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 30</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>misvalores <span class="ot">&lt;-</span> <span class="dv">1901</span><span class="sc">:</span><span class="dv">2000</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 3</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>misvalores <span class="sc">+</span> <span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] 1906 1907 1908 1909 1910 1911 1912 1913 1914 1915 1916 1917 1918 1919 1920
+ [16] 1921 1922 1923 1924 1925 1926 1927 1928 1929 1930 1931 1932 1933 1934 1935
+ [31] 1936 1937 1938 1939 1940 1941 1942 1943 1944 1945 1946 1947 1948 1949 1950
+ [46] 1951 1952 1953 1954 1955 1956 1957 1958 1959 1960 1961 1962 1963 1964 1965
+ [61] 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980
+ [76] 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995
+ [91] 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 4</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>misvalores <span class="sc">*</span> misvalores</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] 3613801 3617604 3621409 3625216 3629025 3632836 3636649 3640464 3644281
+ [10] 3648100 3651921 3655744 3659569 3663396 3667225 3671056 3674889 3678724
+ [19] 3682561 3686400 3690241 3694084 3697929 3701776 3705625 3709476 3713329
+ [28] 3717184 3721041 3724900 3728761 3732624 3736489 3740356 3744225 3748096
+ [37] 3751969 3755844 3759721 3763600 3767481 3771364 3775249 3779136 3783025
+ [46] 3786916 3790809 3794704 3798601 3802500 3806401 3810304 3814209 3818116
+ [55] 3822025 3825936 3829849 3833764 3837681 3841600 3845521 3849444 3853369
+ [64] 3857296 3861225 3865156 3869089 3873024 3876961 3880900 3884841 3888784
+ [73] 3892729 3896676 3900625 3904576 3908529 3912484 3916441 3920400 3924361
+ [82] 3928324 3932289 3936256 3940225 3944196 3948169 3952144 3956121 3960100
+ [91] 3964081 3968064 3972049 3976036 3980025 3984016 3988009 3992004 3996001
+[100] 4000000</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicio-1" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicio-1">2.2.1 Ejercicio</h2>
+<ol type="1">
+<li><p>Crea un objeto con los pingüinos de la especie Adelie y ordena la tabla según la longitud del ala de los individuos.</p></li>
+<li><p>Crea un objeto a partir del anterior donde selecciones la isla y las variables relacionadas con el pico.</p></li>
+<li><p>Crea un objeto a partir del creado en el punto 1 donde selecciones todo menos la especie.</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+✔ ggplot2 3.4.2     ✔ purrr   1.0.1
+✔ tibble  3.2.1     ✔ dplyr   1.1.2
+✔ tidyr   1.3.0     ✔ stringr 1.5.0
+✔ readr   2.1.2     ✔ forcats 0.5.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.2.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tibble' was built under R version 4.2.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.2.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'purrr' was built under R version 4.2.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.2.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'stringr' was built under R version 4.2.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>adelie <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">"Adelie"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(flipper_length_mm)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 2</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>adelie_subset <span class="ot">&lt;-</span> adelie <span class="sc">|&gt;</span> </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(island, <span class="fu">contains</span>(<span class="st">"bill"</span>))</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 3</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>adelie2 <span class="ot">&lt;-</span> adelie <span class="sc">|&gt;</span> </span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="ejercicio-2" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicio-2">2.2.2 Ejercicio</h2>
+<ol type="1">
+<li><p>Con el <code>data.frame</code> penguins, cuenta el número de casos que hay en cada isla y calcula la media de la longitud del ala en cada isla.</p></li>
+<li><p>Con el mismo <code>data.frame</code> calcula la relación entre el peso en kg y la longitud del ala para cada individuo.</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(island) <span class="sc">|&gt;</span> </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_flipper_length =</span> <span class="fu">mean</span>(flipper_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  island        n mean_flipper_length
+  &lt;fct&gt;     &lt;int&gt;               &lt;dbl&gt;
+1 Biscoe      168                210.
+2 Dream       124                193.
+3 Torgersen    52                191.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mass_by_length =</span> body_mass_g <span class="sc">/</span> flipper_length_mm) <span class="sc">|&gt;</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(mass_by_length, <span class="fu">everything</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 9
+   mass_by_length species island  bill_length_mm bill_depth_mm flipper_length_mm
+            &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;            &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;
+ 1           20.7 Adelie  Torger…           39.1          18.7               181
+ 2           20.4 Adelie  Torger…           39.5          17.4               186
+ 3           16.7 Adelie  Torger…           40.3          18                 195
+ 4           NA   Adelie  Torger…           NA            NA                  NA
+ 5           17.9 Adelie  Torger…           36.7          19.3               193
+ 6           19.2 Adelie  Torger…           39.3          20.6               190
+ 7           20.0 Adelie  Torger…           38.9          17.8               181
+ 8           24.0 Adelie  Torger…           39.2          19.6               195
+ 9           18.0 Adelie  Torger…           34.1          18.1               193
+10           22.4 Adelie  Torger…           42            20.2               190
+# ℹ 334 more rows
+# ℹ 3 more variables: body_mass_g &lt;int&gt;, sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicio-3" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicio-3">5.0.1 Ejercicio</h2>
+<p>Genera tu primera función que divida un valor siempre entre 100.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>dividirpor100 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">/</span> <span class="dv">100</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dividirpor100</span>(<span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicio-4" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicio-4">5.0.2 Ejercicio</h2>
+<p>Genera una función para estandarizar (es decir, restar la media y dividir por la desviación típica) las variables numéricas de penguins.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># R base</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>estandarizar <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  (x <span class="sc">-</span> <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">/</span> <span class="fu">sd</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">estandarizar</span>(penguins<span class="sc">$</span>bill_length_mm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] -0.88320467 -0.80993901 -0.66340769          NA -1.32279862 -0.84657184
+  [7] -0.91983750 -0.86488825 -1.79902541 -0.35202864 -1.12131806 -1.12131806
+ [13] -0.51687637 -0.97478674 -1.70744334 -1.34111504 -0.95647033 -0.26044656
+ [19] -1.74407616  0.38062795 -1.12131806 -1.13963448 -1.46932994 -1.04805240
+ [25] -0.93815391 -1.57922843 -0.60845845 -0.62677486 -1.10300165 -0.62677486
+ [31] -0.80993901 -1.23121655 -0.80993901 -0.55350920 -1.37774787 -0.86488825
+ [37] -0.93815391 -0.31539581 -1.15795089 -0.75498976 -1.35943145 -0.57182562
+ [43] -1.45101353  0.03261607 -1.26784938 -0.79162259 -0.51687637 -1.17626731
+ [49] -1.45101353 -0.29707939 -0.79162259 -0.70004052 -1.63417768 -0.35202864
+ [55] -1.72575975 -0.46192713 -0.90152108 -0.60845845 -1.35943145 -1.15795089
+ [61] -1.50596277 -0.48024354 -1.15795089 -0.51687637 -1.37774787 -0.42529430
+ [67] -1.54259560 -0.51687637 -1.46932994 -0.38866147 -1.90892390 -0.77330618
+ [73] -0.79162259  0.34399512 -1.54259560 -0.20549732 -0.55350920 -1.23121655
+ [79] -1.41438070 -0.33371222 -1.70744334 -0.18718091 -1.32279862 -1.61586126
+ [85] -1.21290014 -0.48024354 -1.39606428 -1.28616579 -1.02973599 -0.91983750
+ [91] -1.50596277 -0.51687637 -1.81734182 -0.79162259 -1.41438070 -0.57182562
+ [97] -1.06636882 -0.66340769 -1.98218956 -0.13223166 -1.63417768 -0.53519279
+[103] -1.13963448 -1.12131806 -1.10300165 -0.77330618 -0.97478674 -1.04805240
+[109] -1.06636882 -0.13223166 -1.06636882  0.30736229 -0.77330618 -0.31539581
+[115] -0.79162259 -0.22381374 -0.97478674 -1.21290014 -1.50596277 -0.51687637
+[121] -1.41438070 -1.13963448 -0.68172411 -0.46192713 -1.59754485 -0.60845845
+[127] -0.93815391 -0.44361071 -0.90152108  0.03261607 -0.99310316 -0.15054808
+[133] -1.30448221 -1.17626731 -1.06636882 -0.51687637 -1.52427919 -0.68172411
+[139] -1.26784938 -0.77330618 -0.68172411 -0.60845845 -2.16535371 -0.59014203
+[145] -1.21290014 -0.90152108 -0.86488825 -1.34111504 -1.45101353 -1.12131806
+[151] -1.45101353 -0.44361071  0.39894437  1.11328455  0.87517115  1.11328455
+[157]  0.67369059  0.47221003  0.27072946  0.50884286 -0.11391525  0.52715927
+[163] -0.55350920  0.93012040  0.28904588  0.82022191  0.34399512  0.98506964
+[169] -0.35202864  0.96675323  0.41726078  0.87517115  1.14991738  0.21578022
+[175]  0.47221003  0.43557720 -0.18718091  0.39894437  0.10588173  0.71032342
+[181]  0.78358908  1.11328455  0.61874135 -0.20549732  0.21578022  2.87166037
+[187]  0.94843681  0.82022191 -0.24213015  0.08756532  0.01429966  0.87517115
+[193] -0.22381374  1.04001889  0.25241305  1.04001889  1.20486662 -0.05896600
+[199]  0.28904588  1.20486662  0.17914739  0.23409663  0.49052644  0.83853832
+[205]  0.21578022  1.13160096  0.47221003  0.19746381 -0.02233317  0.28904588
+[211] -0.13223166  1.18655021  0.25241305  0.41726078  0.32567871  1.90089038
+[217]  0.34399512  1.07665172  0.41726078  1.02170247 -0.07728242  1.24149945
+[223]  0.69200701  0.45389361  0.78358908  0.47221003  0.45389361  0.85685474
+[229]  0.65537418  1.31476511  0.23409663  0.23409663  0.94843681  1.57119492
+[235]  0.63705776  1.11328455  0.17914739  1.25981586 -0.09559883  1.35139794
+[241]  0.65537418  1.49792926  0.65537418  1.51624567  0.28904588  1.02170247
+[247]  0.10588173  1.25981586  1.00338606  0.54547569  0.82022191  1.31476511
+[253]  0.83853832  2.19395302  0.60042493  0.94843681  0.61874135  0.52715927
+[259] -0.40697788  1.73604265 -0.11391525  0.76527266  1.20486662  1.07665172
+[265] -0.07728242  1.38803077  0.41726078  2.04742170  0.10588173  0.89348757
+[271]  0.60042493          NA  0.52715927  1.18655021  0.23409663  1.09496813
+[277]  0.47221003  1.11328455  1.35139794  0.27072946  1.60782775  0.23409663
+[283]  0.39894437  1.35139794  0.38062795  1.35139794  0.49052644  1.42466360
+[289]  0.56379210  1.47961284  0.36231154  1.20486662  1.16823379  2.57859773
+[295]  0.45389361  0.96675323 -0.27876298  0.83853832 -0.13223166  1.22318303
+[301]  0.50884286  1.47961284  1.20486662  1.02170247  0.45389361  1.62614416
+[307] -0.55350920  1.88257397 -0.26044656  1.29644869  1.05833530  0.65537418
+[313]  0.67369059  1.47961284  0.54547569  1.75435906  0.93012040  0.41726078
+[319]  1.27813228  0.28904588  1.27813228  1.25981586  1.13160096  0.93012040
+[325]  1.38803077  1.07665172  0.76527266  1.36971435  0.32567871  1.24149945
+[331] -0.26044656  1.51624567  0.23409663  0.98506964  1.14991738  0.30736229
+[337]  1.46129643  0.52715927  0.32567871  2.17563660 -0.07728242  1.04001889
+[343]  1.25981586  1.14991738</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tidyverse</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>estandarizar_tidy <span class="ot">&lt;-</span> <span class="cf">function</span>(data, x) {</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  ({{ x }} <span class="sc">-</span> <span class="fu">mean</span>({{ x }}, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">/</span> <span class="fu">sd</span>({{ x }}, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>} </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">st_bill_length =</span> <span class="fu">estandarizar</span>(<span class="at">x =</span> bill_length_mm)) <span class="sc">|&gt;</span> </span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(bill_length_mm, st_bill_length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 2
+   bill_length_mm st_bill_length
+            &lt;dbl&gt;          &lt;dbl&gt;
+ 1           39.1         -0.883
+ 2           39.5         -0.810
+ 3           40.3         -0.663
+ 4           NA           NA    
+ 5           36.7         -1.32 
+ 6           39.3         -0.847
+ 7           38.9         -0.920
+ 8           39.2         -0.865
+ 9           34.1         -1.80 
+10           42           -0.352
+# ℹ 334 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicio-5" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicio-5">5.2.1 Ejercicio</h2>
+<p>¿Cómo generalizarías la función <code>explorar_penguins()</code> para que te sirviera para cualquier base de datos?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>explorar_penguins <span class="ot">&lt;-</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(var) {</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(penguins_num, <span class="fu">aes</span>(<span class="at">x =</span> species, <span class="at">y =</span> .data[[var]], <span class="at">color =</span> sex)) <span class="sc">+</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="at">position =</span> <span class="fu">position_jitterdodge</span>(), <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"turquoise"</span>, <span class="st">"goldenrod1"</span>)) <span class="sc">+</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ylab</span>(var)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>explorar_df <span class="ot">&lt;-</span> <span class="cf">function</span>(datos, var, categoria, color) {</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">data =</span> datos, <span class="fu">aes</span>(<span class="at">x =</span> .data[[categoria]], <span class="at">y =</span> .data[[var]], <span class="at">color =</span> .data[[color]])) <span class="sc">+</span> </span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">position =</span> <span class="fu">position_jitterdodge</span>(), <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span> <span class="fu">ylab</span>(var)</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="fu">explorar_df</span>(<span class="at">datos =</span> iris, <span class="co"># iris es un dataset cargado en RStudio por defecto</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"Petal.Length"</span>,</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">categoria =</span> <span class="st">"Species"</span>,</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">"Species"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ejer_resueltos_files/figure-html/5.2.1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="ejercicio-6" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicio-6">8.1.1 Ejercicio</h2>
+<p>Generad un vector, una función y aplicadle la función a cada uno de los elementos del vector utilizando map().</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>sum_10 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">+</span> <span class="dv">10</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, sum_10)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] 11
+
+[[2]]
+[1] 12
+
+[[3]]
+[1] 13
+
+[[4]]
+[1] 14</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicio-7" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicio-7">8.1.2 Ejercicio</h2>
+<p>Ahora que habéis entendido la lógica de <code>map()</code>, detectad las diferencias entre las tres líneas de código siguientes. ¿Qué es lo que hace el funcional <code>map()</code>? ¿Qué diferencias detectáis en el código? ¿Y en la salida?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(penguins, \(x) <span class="fu">mean</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in mean.default(x): argument is not numeric or logical: returning NA
+
+Warning in mean.default(x): argument is not numeric or logical: returning NA
+
+Warning in mean.default(x): argument is not numeric or logical: returning NA</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$species
+[1] NA
+
+$island
+[1] NA
+
+$bill_length_mm
+[1] NA
+
+$bill_depth_mm
+[1] NA
+
+$flipper_length_mm
+[1] NA
+
+$body_mass_g
+[1] NA
+
+$sex
+[1] NA
+
+$year
+[1] 2008.029</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(penguins, \(x) <span class="fu">mean</span>(x, <span class="at">na.rm =</span> T)) <span class="co"># opcion 1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in mean.default(x, na.rm = T): argument is not numeric or logical:
+returning NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in mean.default(x, na.rm = T): argument is not numeric or logical:
+returning NA
+
+Warning in mean.default(x, na.rm = T): argument is not numeric or logical:
+returning NA</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$species
+[1] NA
+
+$island
+[1] NA
+
+$bill_length_mm
+[1] 43.92193
+
+$bill_depth_mm
+[1] 17.15117
+
+$flipper_length_mm
+[1] 200.9152
+
+$body_mass_g
+[1] 4201.754
+
+$sex
+[1] NA
+
+$year
+[1] 2008.029</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(penguins, mean, <span class="at">na.rm =</span> T) <span class="co"># opcion 2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in mean.default(.x[[i]], ...): argument is not numeric or logical:
+returning NA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in mean.default(.x[[i]], ...): argument is not numeric or logical:
+returning NA
+
+Warning in mean.default(.x[[i]], ...): argument is not numeric or logical:
+returning NA</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$species
+[1] NA
+
+$island
+[1] NA
+
+$bill_length_mm
+[1] 43.92193
+
+$bill_depth_mm
+[1] 17.15117
+
+$flipper_length_mm
+[1] 200.9152
+
+$body_mass_g
+[1] 4201.754
+
+$sex
+[1] NA
+
+$year
+[1] 2008.029</code></pre>
+</div>
+</div>
+<p>El primer y segundo <code>map()</code> utilizan funciones anónimas (<code>\(x)</code>) mientras que el tercero no lo hace. El primero nos devuelve muchos <code>NA</code> porque hay algunas celdas de variables numéricas en la base de datos de penguins que contienen <code>NA</code>, y por defecto, <code>mean()</code> devuelve <code>NA</code> si detecta algún <code>NA</code> en las variables a las que se aplica el <code>mean()</code>. El resultado del segundo y tercer <code>map()</code> es el mismo. Sin embargo, en el segundo <code>map()</code> se pasan argumentos adicionales a <code>mean()</code> mediante la función anónima. En el tercer <code>map()</code>, dado que <code>map()</code> incluye <code>...</code> entre sus argumentos, se pueden incluir los argumentos adicionales después de la función dentro de <code>map()</code> de una forma mucho más sencilla.</p>
+</section>
+<section id="ejercicio-8" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicio-8">8.2.1 Ejercicio</h2>
+<p>Dedicadle un par de minutos a entender lo que hacen las siguientes funciones:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_lgl</span>(penguins, is.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          species            island    bill_length_mm     bill_depth_mm 
+            FALSE             FALSE              TRUE              TRUE 
+flipper_length_mm       body_mass_g               sex              year 
+             TRUE              TRUE             FALSE              TRUE </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>penguins_num <span class="ot">&lt;-</span> penguins[ , <span class="fu">map_lgl</span>(penguins, is.numeric)] </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(penguins_num, median, <span class="at">na.rm =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   bill_length_mm     bill_depth_mm flipper_length_mm       body_mass_g 
+            44.45             17.30            197.00           4050.00 
+             year 
+          2008.00 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_chr</span>(penguins, class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          species            island    bill_length_mm     bill_depth_mm 
+         "factor"          "factor"         "numeric"         "numeric" 
+flipper_length_mm       body_mass_g               sex              year 
+        "integer"         "integer"          "factor"         "integer" </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_int</span>(penguins, \(x) <span class="fu">length</span>(<span class="fu">unique</span>(x)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          species            island    bill_length_mm     bill_depth_mm 
+                3                 3               165                81 
+flipper_length_mm       body_mass_g               sex              year 
+               56                95                 3                 3 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span> <span class="sc">|&gt;</span> </span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_vec</span>(\(x) <span class="fu">as.Date</span>(<span class="fu">ISOdate</span>(x <span class="sc">+</span> <span class="dv">2024</span>, <span class="dv">05</span>, <span class="dv">13</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2025-05-13" "2026-05-13" "2027-05-13" "2028-05-13"</code></pre>
+</div>
+</div>
+<p><code>map_lgl()</code> nos devuelve un vector lógico que nos indica si cada una de las columnas de penguins es numérico o no.</p>
+<p>En la siguiente linea utilizamos el vector lógico generado con <code>map_lgl()</code> para seleccionar las variables númericas de penguins.</p>
+<p><code>map_dbl()</code> nos devuelve un vector numérico calculando la mediana de cada variable númerica de penguins.</p>
+<p><code>map_chr()</code> nos devuelve un vector de caracteres que nos indica de qué clase es cada una de las columnas de penguins.</p>
+<p><code>map_int()</code> nos devuelve un vector de números enteros que nos el número de observaciones únicas que hay en cada variable de penguins contando los <code>NA</code>.</p>
+<p><code>map_vec()</code> determina automáticamente el tipo de salida que en este caso nos devuelve un vector de tipo fecha.</p>
+</section>
+<section id="ejercicio-9" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicio-9">9.1.1 Ejercicio</h2>
+<p>A partir del código que se muestra a continuación generad un <code>data.frame</code>, agregando una columna al <code>data.frame</code> con el nombre que le hemos asignado a cada lista.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>penguins_list <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_split</span>(species)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="co"># asignamos nombres a las listas</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(penguins_list) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"p1"</span>, <span class="st">"p2"</span>, <span class="st">"p3"</span>)</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="co"># solucion al ejercicio</span></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a><span class="fu">map2</span>(penguins_list, <span class="fu">names</span>(penguins_list), \(x, y)</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(x, <span class="at">nombre =</span> y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$p1
+# A tibble: 152 × 9
+   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Adelie  Torgersen           39.1          18.7               181        3750
+ 2 Adelie  Torgersen           39.5          17.4               186        3800
+ 3 Adelie  Torgersen           40.3          18                 195        3250
+ 4 Adelie  Torgersen           NA            NA                  NA          NA
+ 5 Adelie  Torgersen           36.7          19.3               193        3450
+ 6 Adelie  Torgersen           39.3          20.6               190        3650
+ 7 Adelie  Torgersen           38.9          17.8               181        3625
+ 8 Adelie  Torgersen           39.2          19.6               195        4675
+ 9 Adelie  Torgersen           34.1          18.1               193        3475
+10 Adelie  Torgersen           42            20.2               190        4250
+# ℹ 142 more rows
+# ℹ 3 more variables: sex &lt;fct&gt;, year &lt;int&gt;, nombre &lt;chr&gt;
+
+$p2
+# A tibble: 68 × 9
+   species   island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;     &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Chinstrap Dream            46.5          17.9               192        3500
+ 2 Chinstrap Dream            50            19.5               196        3900
+ 3 Chinstrap Dream            51.3          19.2               193        3650
+ 4 Chinstrap Dream            45.4          18.7               188        3525
+ 5 Chinstrap Dream            52.7          19.8               197        3725
+ 6 Chinstrap Dream            45.2          17.8               198        3950
+ 7 Chinstrap Dream            46.1          18.2               178        3250
+ 8 Chinstrap Dream            51.3          18.2               197        3750
+ 9 Chinstrap Dream            46            18.9               195        4150
+10 Chinstrap Dream            51.3          19.9               198        3700
+# ℹ 58 more rows
+# ℹ 3 more variables: sex &lt;fct&gt;, year &lt;int&gt;, nombre &lt;chr&gt;
+
+$p3
+# A tibble: 124 × 9
+   species island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Gentoo  Biscoe           46.1          13.2               211        4500
+ 2 Gentoo  Biscoe           50            16.3               230        5700
+ 3 Gentoo  Biscoe           48.7          14.1               210        4450
+ 4 Gentoo  Biscoe           50            15.2               218        5700
+ 5 Gentoo  Biscoe           47.6          14.5               215        5400
+ 6 Gentoo  Biscoe           46.5          13.5               210        4550
+ 7 Gentoo  Biscoe           45.4          14.6               211        4800
+ 8 Gentoo  Biscoe           46.7          15.3               219        5200
+ 9 Gentoo  Biscoe           43.3          13.4               209        4400
+10 Gentoo  Biscoe           46.8          15.4               215        5150
+# ℹ 114 more rows
+# ℹ 3 more variables: sex &lt;fct&gt;, year &lt;int&gt;, nombre &lt;chr&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicio-avanzado" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicio-avanzado">9.1.2 Ejercicio avanzado</h2>
+<p>Calculad la correlación entre las predicciones guardadas en la lista-columna <code>pred</code> y <code>bill_length_mm</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># primero eliminamos NA de bill_length_mm</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>penguins_nona <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span> </span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(bill_length_mm)</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>penguins_nested <span class="ot">&lt;-</span> penguins_nona <span class="sc">|&gt;</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">lm_obj =</span> <span class="fu">map</span>(data, \(df) <span class="fu">lm</span>(</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>      bill_length_mm <span class="sc">~</span> body_mass_g,</span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> df)),</span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">pred =</span> <span class="fu">map2</span>(lm_obj, data,</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>                \(x, y) <span class="fu">predict</span>(x, y)),</span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># solucion al ejercicio</span></span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">corr =</span> <span class="fu">map2_dbl</span>(pred, data,</span>
+<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a>                    \(x, y) <span class="fu">cor</span>(x, y<span class="sc">$</span>bill_length_mm))</span>
+<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-19"><a href="#cb53-19" aria-hidden="true" tabindex="-1"></a><span class="co"># unnest()</span></span>
+<span id="cb53-20"><a href="#cb53-20" aria-hidden="true" tabindex="-1"></a>penguins_nested <span class="sc">|&gt;</span> </span>
+<span id="cb53-21"><a href="#cb53-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(pred) <span class="sc">|&gt;</span> </span>
+<span id="cb53-22"><a href="#cb53-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">c</span>(data, lm_obj))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 342 × 3
+# Groups:   species [3]
+   species  pred  corr
+   &lt;fct&gt;   &lt;dbl&gt; &lt;dbl&gt;
+ 1 Adelie   38.9 0.549
+ 2 Adelie   39.1 0.549
+ 3 Adelie   37.4 0.549
+ 4 Adelie   38.0 0.549
+ 5 Adelie   38.6 0.549
+ 6 Adelie   38.6 0.549
+ 7 Adelie   41.9 0.549
+ 8 Adelie   38.1 0.549
+ 9 Adelie   40.5 0.549
+10 Adelie   37.5 0.549
+# ℹ 332 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicio-10" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicio-10">9.2.1 Ejercicio</h2>
+<p>Transformad el <code>map2()</code> que habéis generado en el ejercicio 9.1.1 a <code>pmap()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ejercicio 9.1.1</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>penguins_list <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_split</span>(species)</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="co"># asignamos nombres a las listas</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(penguins_list) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"p1"</span>, <span class="st">"p2"</span>, <span class="st">"p3"</span>)</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a><span class="co"># solucion al ejercicio</span></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a><span class="fu">map2</span>(penguins_list, <span class="fu">names</span>(penguins_list), \(x, y)</span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(x, <span class="at">nombre =</span> y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$p1
+# A tibble: 152 × 9
+   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Adelie  Torgersen           39.1          18.7               181        3750
+ 2 Adelie  Torgersen           39.5          17.4               186        3800
+ 3 Adelie  Torgersen           40.3          18                 195        3250
+ 4 Adelie  Torgersen           NA            NA                  NA          NA
+ 5 Adelie  Torgersen           36.7          19.3               193        3450
+ 6 Adelie  Torgersen           39.3          20.6               190        3650
+ 7 Adelie  Torgersen           38.9          17.8               181        3625
+ 8 Adelie  Torgersen           39.2          19.6               195        4675
+ 9 Adelie  Torgersen           34.1          18.1               193        3475
+10 Adelie  Torgersen           42            20.2               190        4250
+# ℹ 142 more rows
+# ℹ 3 more variables: sex &lt;fct&gt;, year &lt;int&gt;, nombre &lt;chr&gt;
+
+$p2
+# A tibble: 68 × 9
+   species   island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;     &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Chinstrap Dream            46.5          17.9               192        3500
+ 2 Chinstrap Dream            50            19.5               196        3900
+ 3 Chinstrap Dream            51.3          19.2               193        3650
+ 4 Chinstrap Dream            45.4          18.7               188        3525
+ 5 Chinstrap Dream            52.7          19.8               197        3725
+ 6 Chinstrap Dream            45.2          17.8               198        3950
+ 7 Chinstrap Dream            46.1          18.2               178        3250
+ 8 Chinstrap Dream            51.3          18.2               197        3750
+ 9 Chinstrap Dream            46            18.9               195        4150
+10 Chinstrap Dream            51.3          19.9               198        3700
+# ℹ 58 more rows
+# ℹ 3 more variables: sex &lt;fct&gt;, year &lt;int&gt;, nombre &lt;chr&gt;
+
+$p3
+# A tibble: 124 × 9
+   species island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Gentoo  Biscoe           46.1          13.2               211        4500
+ 2 Gentoo  Biscoe           50            16.3               230        5700
+ 3 Gentoo  Biscoe           48.7          14.1               210        4450
+ 4 Gentoo  Biscoe           50            15.2               218        5700
+ 5 Gentoo  Biscoe           47.6          14.5               215        5400
+ 6 Gentoo  Biscoe           46.5          13.5               210        4550
+ 7 Gentoo  Biscoe           45.4          14.6               211        4800
+ 8 Gentoo  Biscoe           46.7          15.3               219        5200
+ 9 Gentoo  Biscoe           43.3          13.4               209        4400
+10 Gentoo  Biscoe           46.8          15.4               215        5150
+# ℹ 114 more rows
+# ℹ 3 more variables: sex &lt;fct&gt;, year &lt;int&gt;, nombre &lt;chr&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ejercicio 9.2.1</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pmap</span>(<span class="fu">list</span>(penguins_list, <span class="fu">names</span>(penguins_list)), \(x, y)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>     <span class="fu">mutate</span>(x, <span class="at">nombre =</span> y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$p1
+# A tibble: 152 × 9
+   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Adelie  Torgersen           39.1          18.7               181        3750
+ 2 Adelie  Torgersen           39.5          17.4               186        3800
+ 3 Adelie  Torgersen           40.3          18                 195        3250
+ 4 Adelie  Torgersen           NA            NA                  NA          NA
+ 5 Adelie  Torgersen           36.7          19.3               193        3450
+ 6 Adelie  Torgersen           39.3          20.6               190        3650
+ 7 Adelie  Torgersen           38.9          17.8               181        3625
+ 8 Adelie  Torgersen           39.2          19.6               195        4675
+ 9 Adelie  Torgersen           34.1          18.1               193        3475
+10 Adelie  Torgersen           42            20.2               190        4250
+# ℹ 142 more rows
+# ℹ 3 more variables: sex &lt;fct&gt;, year &lt;int&gt;, nombre &lt;chr&gt;
+
+$p2
+# A tibble: 68 × 9
+   species   island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;     &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Chinstrap Dream            46.5          17.9               192        3500
+ 2 Chinstrap Dream            50            19.5               196        3900
+ 3 Chinstrap Dream            51.3          19.2               193        3650
+ 4 Chinstrap Dream            45.4          18.7               188        3525
+ 5 Chinstrap Dream            52.7          19.8               197        3725
+ 6 Chinstrap Dream            45.2          17.8               198        3950
+ 7 Chinstrap Dream            46.1          18.2               178        3250
+ 8 Chinstrap Dream            51.3          18.2               197        3750
+ 9 Chinstrap Dream            46            18.9               195        4150
+10 Chinstrap Dream            51.3          19.9               198        3700
+# ℹ 58 more rows
+# ℹ 3 more variables: sex &lt;fct&gt;, year &lt;int&gt;, nombre &lt;chr&gt;
+
+$p3
+# A tibble: 124 × 9
+   species island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Gentoo  Biscoe           46.1          13.2               211        4500
+ 2 Gentoo  Biscoe           50            16.3               230        5700
+ 3 Gentoo  Biscoe           48.7          14.1               210        4450
+ 4 Gentoo  Biscoe           50            15.2               218        5700
+ 5 Gentoo  Biscoe           47.6          14.5               215        5400
+ 6 Gentoo  Biscoe           46.5          13.5               210        4550
+ 7 Gentoo  Biscoe           45.4          14.6               211        4800
+ 8 Gentoo  Biscoe           46.7          15.3               219        5200
+ 9 Gentoo  Biscoe           43.3          13.4               209        4400
+10 Gentoo  Biscoe           46.8          15.4               215        5150
+# ℹ 114 more rows
+# ℹ 3 more variables: sex &lt;fct&gt;, year &lt;int&gt;, nombre &lt;chr&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicio-11" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicio-11">10.1.1 Ejercicio</h2>
+<p>En base a lo que dice en la definición sobre la familia <code>walk()</code>, corred este código y entended lo que hace.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>penguins_nested <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>()</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>penguins_nested_str <span class="ot">&lt;-</span> penguins_nested <span class="sc">|&gt;</span> </span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">path =</span> <span class="fu">str_glue</span>(<span class="st">"penguins_{species}.csv"</span>))</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>penguins_nested_str</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+# Groups:   species [3]
+  species   data               path                  
+  &lt;fct&gt;     &lt;list&gt;             &lt;glue&gt;                
+1 Adelie    &lt;tibble [152 × 7]&gt; penguins_Adelie.csv   
+2 Gentoo    &lt;tibble [124 × 7]&gt; penguins_Gentoo.csv   
+3 Chinstrap &lt;tibble [68 × 7]&gt;  penguins_Chinstrap.csv</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">walk2</span>(penguins_nested_str<span class="sc">$</span>data, penguins_nested_str<span class="sc">$</span>path, write_csv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Meidante la función <a href="https://tidyr.tidyverse.org/reference/nest.html"><code>nest()</code></a> de {tidyr} generamos listas-columnas en el data frame de penguins, generando una fila para cada especie de pingüino. Como es un <code>data.frame</code> podemos aplicarle la función <code>mutate()</code> directamente y generamos la variable <code>path</code> que contiene el nombre de salida que le queremos dar a cada base de datos. Por último, mediante la función <code>walk2()</code> guardamos los datos relativos a cada pingüino con su respectivo path que hemos generado anteriormente.</p>
+</section>
+<section id="ejercicio-avanzado-1" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicio-avanzado-1">10.1.2 Ejercicio avanzado</h2>
+<p>Generad un ejemplo donde utiliceis <code>walk2()</code> o <code>pwalk()</code> para guardar múltiples plot generados con <code>ggplot()</code>. Pista: la primera entrada será el plot que queréis guardar y la segunda el nombre del archivo que le queréis dar.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>gg_penguins_bill_body <span class="ot">&lt;-</span> <span class="cf">function</span>(data_df) {</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(bill_length_mm, body_mass_g),</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> data_df) <span class="sc">+</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>penguins_nested <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span></span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">gg_obj =</span> <span class="fu">map</span>(data, \(df) <span class="fu">gg_penguins_bill_body</span>(</span>
+<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">data_df =</span> df</span>
+<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-16"><a href="#cb62-16" aria-hidden="true" tabindex="-1"></a>penguins_nested_str <span class="ot">&lt;-</span> penguins_nested <span class="sc">|&gt;</span> </span>
+<span id="cb62-17"><a href="#cb62-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">path =</span> <span class="fu">str_glue</span>(<span class="st">"penguins_{species}.png"</span>))</span>
+<span id="cb62-18"><a href="#cb62-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-19"><a href="#cb62-19" aria-hidden="true" tabindex="-1"></a>penguins_nested_str</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+# Groups:   species [3]
+  species   data               gg_obj path                  
+  &lt;fct&gt;     &lt;list&gt;             &lt;list&gt; &lt;glue&gt;                
+1 Adelie    &lt;tibble [152 × 7]&gt; &lt;gg&gt;   penguins_Adelie.png   
+2 Gentoo    &lt;tibble [124 × 7]&gt; &lt;gg&gt;   penguins_Gentoo.png   
+3 Chinstrap &lt;tibble [68 × 7]&gt;  &lt;gg&gt;   penguins_Chinstrap.png</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwalk</span>(<span class="fu">list</span>(<span class="at">plot =</span> penguins_nested_str<span class="sc">$</span>gg_obj, <span class="at">filename =</span> penguins_nested_str<span class="sc">$</span>path), ggsave)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Saving 7 x 5 in image</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 rows containing missing values (`geom_point()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Saving 7 x 5 in image</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 rows containing missing values (`geom_point()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Saving 7 x 5 in image</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicio-12" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicio-12">11.2.1.1 Ejercicio</h2>
+<p>Aplicad cualquier variante de <code>map()</code> junto con un operador funcional a la base de datos penguins.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="fu">safely</span>(log)) <span class="sc">|&gt;</span> </span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transpose</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$result
+$result$species
+NULL
+
+$result$island
+NULL
+
+$result$bill_length_mm
+  [1] 3.666122 3.676301 3.696351       NA 3.602777 3.671225 3.660994 3.668677
+  [9] 3.529297 3.737670 3.632309 3.632309 3.716008 3.653252 3.543854 3.600048
+ [17] 3.655840 3.749504 3.538057 3.828641 3.632309 3.629660 3.580737 3.642836
+ [25] 3.658420 3.563883 3.703768 3.701302 3.634951 3.701302 3.676301 3.616309
+ [33] 3.676301 3.711130 3.594569 3.668677 3.658420 3.742420 3.627004 3.683867
+ [41] 3.597312 3.708682 3.583519 3.786460 3.610918 3.678829 3.716008 3.624341
+ [49] 3.583519 3.744787 3.678829 3.691376 3.555348 3.737670 3.540959 3.723281
+ [57] 3.663562 3.703768 3.597312 3.627004 3.575151 3.720862 3.627004 3.716008
+ [65] 3.594569 3.728100 3.569533 3.716008 3.580737 3.732896 3.511545 3.681351
+ [73] 3.678829 3.824284 3.569533 3.756538 3.711130 3.616309 3.589059 3.740048
+ [81] 3.543854 3.758872 3.602777 3.558201 3.618993 3.720862 3.591818 3.608212
+ [89] 3.645450 3.660994 3.575151 3.716008 3.526361 3.678829 3.589059 3.708682
+ [97] 3.640214 3.696351 3.499533 3.765840 3.555348 3.713572 3.629660 3.632309
+[105] 3.634951 3.681351 3.653252 3.642836 3.640214 3.765840 3.640214 3.819908
+[113] 3.681351 3.742420 3.678829 3.754199 3.653252 3.618993 3.575151 3.716008
+[121] 3.589059 3.629660 3.693867 3.723281 3.561046 3.703768 3.658420 3.725693
+[129] 3.663562 3.786460 3.650658 3.763523 3.605498 3.624341 3.640214 3.716008
+[137] 3.572346 3.693867 3.610918 3.681351 3.693867 3.703768 3.468856 3.706228
+[145] 3.618993 3.663562 3.668677 3.600048 3.583519 3.632309 3.583519 3.725693
+[153] 3.830813 3.912023 3.885679 3.912023 3.862833 3.839452 3.815512 3.843744
+[161] 3.768153 3.845883 3.711130 3.891820 3.817712 3.879500 3.824284 3.897924
+[169] 3.737670 3.895894 3.832980 3.885679 3.916015 3.808882 3.839452 3.835142
+[177] 3.758872 3.830813 3.795489 3.867026 3.875359 3.912023 3.856510 3.756538
+[185] 3.808882 4.087656 3.893859 3.879500 3.751854 3.793239 3.784190 3.885679
+[193] 3.754199 3.903991 3.813307 3.903991 3.921973 3.775057 3.817712 3.921973
+[201] 3.804438 3.811097 3.841601 3.881564 3.808882 3.914021 3.839452 3.806662
+[209] 3.779634 3.817712 3.765840 3.919991 3.813307 3.832980 3.822098 3.994524
+[217] 3.824284 3.908015 3.832980 3.901973 3.772761 3.925926 3.864931 3.837299
+[225] 3.875359 3.839452 3.837299 3.883624 3.860730 3.933784 3.811097 3.811097
+[233] 3.893859 3.960813 3.858622 3.912023 3.804438 3.927896 3.770459 3.937691
+[241] 3.860730 3.953165 3.860730 3.955082 3.817712 3.901973 3.795489 3.927896
+[249] 3.899950 3.848018 3.879500 3.933784 3.881564 4.023564 3.854394 3.893859
+[257] 3.856510 3.845883 3.730501 3.977811 3.768153 3.873282 3.921973 3.908015
+[265] 3.772761 3.941582 3.832980 4.009150 3.795489 3.887730 3.854394       NA
+[273] 3.845883 3.919991 3.811097 3.910021 3.839452 3.912023 3.937691 3.815512
+[281] 3.964615 3.811097 3.830813 3.937691 3.828641 3.937691 3.841601 3.945458
+[289] 3.850148 3.951244 3.826465 3.921973 3.918005 4.060443 3.837299 3.895894
+[297] 3.747148 3.881564 3.765840 3.923952 3.843744 3.951244 3.921973 3.901973
+[305] 3.837299 3.966511 3.711130 3.992681 3.749504 3.931826 3.906005 3.860730
+[313] 3.862833 3.951244 3.848018 3.979682 3.891820 3.832980 3.929863 3.817712
+[321] 3.929863 3.927896 3.914021 3.891820 3.941582 3.908015 3.873282 3.939638
+[329] 3.822098 3.925926 3.749504 3.955082 3.811097 3.897924 3.916015 3.819908
+[337] 3.949319 3.845883 3.822098 4.021774 3.772761 3.903991 3.927896 3.916015
+
+$result$bill_depth_mm
+  [1] 2.928524 2.856470 2.890372       NA 2.960105 3.025291 2.879198 2.975530
+  [9] 2.895912 3.005683 2.839078 2.850707 2.867899 3.054001 3.049273 2.879198
+ [17] 2.944439 3.030134 2.912351 3.068053 2.906901 2.928524 2.954910 2.895912
+ [25] 2.844909 2.939162 2.923162 2.884801 2.923162 2.939162 2.815409 2.895912
+ [33] 2.879198 2.939162 2.833213 3.049273 2.995732 2.917771 2.960105 2.949688
+ [41] 2.890372 2.912351 2.917771 2.980619 2.827314 2.933857 2.944439 2.939162
+ [49] 2.884801 3.054001 2.873565 2.939162 2.884801 2.970414 2.895912 2.923162
+ [57] 2.862201 2.933857 2.809403 2.949688 2.827314 3.049273 2.833213 2.901422
+ [65] 2.839078 2.890372 2.785011 2.949688 2.809403 2.965273 2.944439 2.912351
+ [73] 2.844909 2.939162 2.862201 2.917771 2.821379 2.965273 2.778819 2.949688
+ [81] 2.844909 2.867899 2.933857 2.965273 2.879198 3.010621 2.970414 2.923162
+ [89] 2.954910 2.933857 2.890372 2.895912 2.839078 2.895912 2.850707 2.939162
+ [97] 2.923162 2.917771 2.778819 2.917771 2.884801 2.995732 2.772589 2.995732
+[105] 2.923162 2.939162 2.844909 2.995732 2.833213 2.944439 2.803360 3.010621
+[113] 2.873565 2.970414 3.030134 2.906901 2.833213 3.020425 2.833213 2.923162
+[121] 2.844909 2.985682 2.833213 2.917771 2.766319 2.944439 2.867899 2.906901
+[129] 2.839078 2.890372 2.884801 2.954910 2.917771 2.917771 2.867899 2.862201
+[137] 2.862201 3.000720 2.803360 2.884801 2.839078 2.844909 2.740840 2.833213
+[145] 2.821379 2.928524 2.923162 2.912351 2.879198 2.895912 2.839078 2.917771
+[153] 2.580217 2.791165 2.646175 2.721295 2.674149 2.602690 2.681022 2.727853
+[161] 2.595255 2.734368 2.617396 2.778819 2.617396 2.681022 2.681022 2.753661
+[169] 2.602690 2.721295 2.674149 2.714695 2.660260 2.674149 2.674149 2.760010
+[177] 2.572612 2.714695 2.660260 2.708050 2.660260 2.727853 2.727853 2.653242
+[185] 2.674149 2.833213 2.694627 2.791165 2.617396 2.850707 2.610070 2.753661
+[193] 2.617396 2.772589 2.617396 2.708050 2.766319 2.631889 2.631889 2.766319
+[201] 2.587764 2.760010 2.653242 2.646175 2.667228 2.708050 2.667228 2.734368
+[209] 2.631889 2.708050 2.674149 2.727853 2.624669 2.701361 2.631889 2.753661
+[217] 2.653242 2.821379 2.667228 2.785011 2.653242 2.708050 2.708050 2.747271
+[225] 2.747271 2.694627 2.708050 2.772589 2.653242 2.791165 2.624669 2.797281
+[233] 2.674149 2.747271 2.681022 2.766319 2.624669 2.850707 2.667228 2.653242
+[241] 2.639057 2.833213 2.708050 2.839078 2.674149 2.778819 2.687847 2.753661
+[249] 2.760010 2.681022 2.667228 2.803360 2.708050 2.833213 2.740840 2.708050
+[257] 2.624669 2.778819 2.687847 2.760010 2.639057 2.714695 2.721295 2.766319
+[265] 2.721295 2.791165 2.646175 2.772589 2.753661 2.785011 2.617396       NA
+[273] 2.660260 2.753661 2.694627 2.778819 2.884801 2.970414 2.954910 2.928524
+[281] 2.985682 2.879198 2.901422 2.901422 2.939162 2.990720 2.879198 3.010621
+[289] 2.850707 2.895912 2.839078 2.975530 2.995732 2.879198 2.923162 2.901422
+[297] 2.850707 2.862201 2.809403 2.965273 2.884801 2.944439 2.912351 2.944439
+[305] 2.879198 2.995732 2.809403 3.034953 2.815409 2.933857 2.923162 2.821379
+[313] 2.906901 3.030134 2.809403 2.990720 2.970414 2.862201 2.949688 2.833213
+[321] 2.884801 2.917771 2.884801 2.975530 2.928524 2.850707 2.797281 2.944439
+[329] 2.850707 2.980619 2.850707 2.933857 2.809403 2.990720 2.933857 2.965273
+[337] 2.970414 2.803360 2.833213 2.985682 2.895912 2.901422 2.944439 2.928524
+
+$result$flipper_length_mm
+  [1] 5.198497 5.225747 5.273000       NA 5.262690 5.247024 5.198497 5.273000
+  [9] 5.262690 5.247024 5.225747 5.192957 5.204007 5.252273 5.288267 5.220356
+ [17] 5.273000 5.283204 5.214936 5.267858 5.159055 5.192957 5.241747 5.220356
+ [25] 5.192957 5.231109 5.209486 5.231109 5.147494 5.192957 5.181784 5.181784
+ [33] 5.236442 5.214936 5.273000 5.278115 5.247024 5.192957 5.198497 5.214936
+ [41] 5.204007 5.273000 5.225747 5.278115 5.220356 5.247024 5.204007 5.187386
+ [49] 5.247024 5.252273 5.225747 5.236442 5.247024 5.298317 5.231109 5.252273
+ [57] 5.225747 5.262690 5.198497 5.267858 5.220356 5.273000 5.220356 5.257495
+ [65] 5.214936 5.257495 5.273000 5.236442 5.247024 5.288267 5.247024 5.247024
+ [73] 5.278115 5.283204 5.247024 5.273000 5.252273 5.214936 5.231109 5.273000
+ [81] 5.241747 5.278115 5.231109 5.262690 5.252273 5.267858 5.247024 5.241747
+ [89] 5.241747 5.247024 5.308268 5.323010 5.220356 5.225747 5.231109 5.337538
+ [97] 5.247024 5.278115 5.181784 5.257495 5.257495 5.313206 5.209486 5.247024
+[105] 5.262690 5.214936 5.293305 5.247024 5.198497 5.283204 5.288267 5.252273
+[113] 5.262690 5.283204 5.252273 5.278115 5.236442 5.293305 5.241747 5.241747
+[121] 5.231109 5.288267 5.170484 5.308268 5.225747 5.293305 5.252273 5.273000
+[129] 5.252273 5.347108 5.247024 5.283204 5.262690 5.293305 5.231109 5.247024
+[137] 5.252273 5.298317 5.220356 5.262690 5.262690 5.231109 5.236442 5.247024
+[145] 5.257495 5.220356 5.247024 5.214936 5.273000 5.262690 5.231109 5.303305
+[153] 5.351858 5.438079 5.347108 5.384495 5.370638 5.347108 5.351858 5.389072
+[161] 5.342334 5.370638 5.365976 5.375278 5.365976 5.361292 5.347108 5.379897
+[169] 5.347108 5.398163 5.342334 5.402677 5.384495 5.370638 5.361292 5.370638
+[177] 5.370638 5.370638 5.375278 5.370638 5.347108 5.393628 5.402677 5.342334
+[185] 5.332719 5.438079 5.393628 5.393628 5.361292 5.389072 5.337538 5.337538
+[193] 5.337538 5.416100 5.347108 5.375278 5.402677 5.379897 5.347108 5.416100
+[201] 5.361292 5.370638 5.347108 5.393628 5.347108 5.416100 5.379897 5.393628
+[209] 5.337538 5.393628 5.337538 5.411646 5.337538 5.398163 5.365976 5.442418
+[217] 5.389072 5.438079 5.365976 5.433722 5.393628 5.407172 5.375278 5.398163
+[225] 5.398163 5.379897 5.375278 5.438079 5.342334 5.393628 5.370638 5.407172
+[233] 5.356586 5.398163 5.356586 5.411646 5.356586 5.429346 5.384495 5.384495
+[241] 5.356586 5.438079 5.384495 5.429346 5.356586 5.411646 5.365976 5.420535
+[249] 5.375278 5.402677 5.313206 5.416100 5.389072 5.429346 5.370638 5.429346
+[257] 5.375278 5.370638 5.347108 5.389072 5.337538 5.342334 5.375278 5.433722
+[265] 5.361292 5.438079 5.379897 5.438079 5.379897 5.402677 5.365976       NA
+[273] 5.370638 5.402677 5.356586 5.361292 5.257495 5.278115 5.262690 5.236442
+[281] 5.283204 5.288267 5.181784 5.283204 5.273000 5.288267 5.262690 5.267858
+[289] 5.220356 5.303305 5.247024 5.303305 5.283204 5.198497 5.247024 5.273000
+[297] 5.198497 5.252273 5.231109 5.262690 5.273000 5.283204 5.298317 5.298317
+[305] 5.252273 5.323010 5.231109 5.303305 5.231109 5.313206 5.273000 5.293305
+[313] 5.273000 5.347108 5.257495 5.323010 5.347108 5.231109 5.278115 5.278115
+[321] 5.278115 5.303305 5.247024 5.356586 5.231109 5.288267 5.293305 5.303305
+[329] 5.262690 5.313206 5.231109 5.283204 5.252273 5.313206 5.308268 5.267858
+[337] 5.327876 5.241747 5.273000 5.332719 5.308268 5.262690 5.347108 5.288267
+
+$result$body_mass_g
+  [1] 8.229511 8.242756 8.086410       NA 8.146130 8.202482 8.195610 8.449984
+  [9] 8.153350 8.354674 8.101678 8.216088 8.070906 8.242756 8.389360 8.216088
+ [17] 8.146130 8.411833 8.109225 8.342840 8.131531 8.188689 8.242756 8.281471
+ [25] 8.242756 8.242756 8.174703 8.070906 8.055158 8.281471 8.086410 8.268732
+ [33] 8.101678 8.268732 8.109225 8.330864 8.281471 8.174703 8.101678 8.444622
+ [41] 8.055158 8.268732 8.039157 8.389360 8.006368 8.433812 8.138857 7.997999
+ [49] 8.146130 8.330864 8.160518 8.366370 8.146130 8.306472 7.972466 8.216088
+ [57] 8.174703 8.242756 7.955074 8.229511 8.055158 8.389360 8.188689 8.306472
+ [65] 7.955074 8.281471 8.116716 8.318742 8.022897 8.400659 8.188689 8.268732
+ [73] 8.174703 8.330864 8.216088 8.354674 8.216088 8.268732 8.174703 8.294050
+ [81] 8.070906 8.455318 8.242756 8.342840 8.116716 8.174703 8.242756 8.160518
+ [89] 8.281471 8.188689 8.174703 8.366370 8.131531 8.400659 8.101678 8.366370
+ [97] 8.216088 8.377931 7.972466 8.318742 8.222822 8.460623 8.031060 8.354674
+[105] 7.981050 8.174703 8.229511 8.268732 8.063063 8.471149 8.249314 8.433812
+[113] 8.070906 8.360539 8.268732 8.312626 7.972466 8.236156 8.116716 8.109225
+[121] 8.055158 8.160518 8.146130 8.262301 8.022897 8.294050 8.094073 8.366370
+[129] 8.022897 8.294050 8.109225 8.160518 8.160518 8.406262 8.138857 8.268732
+[137] 8.063063 8.287780 8.131531 8.354674 8.131531 8.153350 8.022897 8.222822
+[145] 8.006368 8.202482 8.354674 8.153350 8.146130 8.229511 8.216088 8.294050
+[153] 8.411833 8.648221 8.400659 8.648221 8.594154 8.422883 8.476371 8.556414
+[161] 8.389360 8.546752 8.444622 8.621553 8.444622 8.674197 8.342840 8.674197
+[169] 8.330864 8.748305 8.476371 8.584852 8.648221 8.517193 8.389360 8.527144
+[177] 8.517193 8.536996 8.318742 8.639411 8.433812 8.621553 8.565983 8.455318
+[185] 8.527144 8.707814 8.546752 8.594154 8.507143 8.565983 8.377931 8.584852
+[193] 8.281471 8.648221 8.366370 8.465900 8.621553 8.496990 8.342840 8.594154
+[201] 8.536996 8.575462 8.486734 8.575462 8.389360 8.517193 8.496990 8.527144
+[209] 8.366370 8.517193 8.400659 8.621553 8.342840 8.575462 8.389360 8.639411
+[217] 8.455318 8.648221 8.444622 8.665613 8.455318 8.621553 8.465900 8.517193
+[225] 8.536996 8.556414 8.455318 8.665613 8.433812 8.699515 8.465900 8.691146
+[233] 8.439232 8.603371 8.460623 8.584852 8.465900 8.630522 8.433812 8.575462
+[241] 8.491875 8.621553 8.507143 8.594154 8.465900 8.639411 8.486734 8.556414
+[249] 8.502080 8.491875 8.439232 8.565983 8.486734 8.630522 8.512181 8.612503
+[257] 8.460623 8.612503 8.455318 8.612503 8.428362 8.612503 8.517193 8.691146
+[265] 8.444622 8.612503 8.383662 8.674197 8.491875 8.699515 8.502080       NA
+[273] 8.486734 8.656955 8.556414 8.594154 8.160518 8.268732 8.202482 8.167636
+[281] 8.222822 8.281471 8.086410 8.229511 8.330864 8.216088 8.242756 8.236156
+[289] 8.216088 8.306472 8.181720 8.306472 8.101678 8.216088 8.146130 8.389360
+[297] 8.188689 8.131531 7.972466 8.242756 8.101678 8.330864 8.131531 8.242756
+[305] 8.216088 8.422883 8.070906 8.366370 8.116716 8.318742 8.188689 8.268732
+[313] 8.255828 8.476371 7.901007 8.411833 8.281471 8.202482 8.174703 8.160518
+[321] 8.209308 8.400659 8.131531 8.366370 8.086410 8.209308 8.109225 8.281471
+[329] 8.188689 8.306472 8.116716 8.146130 8.086410 8.306472 8.242756 8.167636
+[337] 8.281471 8.202482 8.202482 8.294050 8.131531 8.236156 8.318742 8.236156
+
+$result$sex
+NULL
+
+$result$year
+  [1] 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396
+  [9] 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396
+ [17] 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396
+ [25] 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396
+ [33] 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396
+ [41] 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396
+ [49] 7.604396 7.604396 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894
+ [57] 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894
+ [65] 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894
+ [73] 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894
+ [81] 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894
+ [89] 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894
+ [97] 7.604894 7.604894 7.604894 7.604894 7.605392 7.605392 7.605392 7.605392
+[105] 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392
+[113] 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392
+[121] 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392
+[129] 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392
+[137] 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392
+[145] 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392
+[153] 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396
+[161] 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396
+[169] 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396
+[177] 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396
+[185] 7.604396 7.604396 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894
+[193] 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894
+[201] 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894
+[209] 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894
+[217] 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894
+[225] 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894
+[233] 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392
+[241] 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392
+[249] 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392
+[257] 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392
+[265] 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392
+[273] 7.605392 7.605392 7.605392 7.605392 7.604396 7.604396 7.604396 7.604396
+[281] 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396
+[289] 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396
+[297] 7.604396 7.604396 7.604396 7.604396 7.604396 7.604396 7.604894 7.604894
+[305] 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894
+[313] 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894 7.604894
+[321] 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392
+[329] 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392
+[337] 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392 7.605392
+
+
+$error
+$error$species
+&lt;simpleError in Math.factor(x, base): 'log' not meaningful for factors&gt;
+
+$error$island
+&lt;simpleError in Math.factor(x, base): 'log' not meaningful for factors&gt;
+
+$error$bill_length_mm
+NULL
+
+$error$bill_depth_mm
+NULL
+
+$error$flipper_length_mm
+NULL
+
+$error$body_mass_g
+NULL
+
+$error$sex
+&lt;simpleError in Math.factor(x, base): 'log' not meaningful for factors&gt;
+
+$error$year
+NULL</code></pre>
+</div>
+</div>
+<details>
+<summary>
+Session Info
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2024-05-24 10:29:24 CEST"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>R version 4.2.2 (2022-10-31 ucrt)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19045)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=English_United Kingdom.utf8 
+[2] LC_CTYPE=English_United Kingdom.utf8   
+[3] LC_MONETARY=English_United Kingdom.utf8
+[4] LC_NUMERIC=C                           
+[5] LC_TIME=English_United Kingdom.utf8    
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] forcats_0.5.1        stringr_1.5.0        dplyr_1.1.2         
+ [4] purrr_1.0.1          readr_2.1.2          tidyr_1.3.0         
+ [7] tibble_3.2.1         ggplot2_3.4.2        tidyverse_1.3.2     
+[10] palmerpenguins_0.1.1
+
+loaded via a namespace (and not attached):
+ [1] lubridate_1.8.0     assertthat_0.2.1    digest_0.6.29      
+ [4] utf8_1.2.3          R6_2.5.1            cellranger_1.1.0   
+ [7] backports_1.4.1     reprex_2.0.1        evaluate_0.18      
+[10] httr_1.4.3          pillar_1.9.0        rlang_1.1.1        
+[13] googlesheets4_1.0.0 readxl_1.4.0        rstudioapi_0.13    
+[16] rmarkdown_2.16      textshaping_0.3.6   labeling_0.4.2     
+[19] googledrive_2.0.0   htmlwidgets_1.5.4   bit_4.0.5          
+[22] munsell_0.5.0       broom_1.0.0         compiler_4.2.2     
+[25] modelr_0.1.8        xfun_0.39           systemfonts_1.0.4  
+[28] pkgconfig_2.0.3     htmltools_0.5.3     tidyselect_1.2.0   
+[31] fansi_1.0.4         crayon_1.5.2        tzdb_0.3.0         
+[34] dbplyr_2.2.1        withr_2.5.0         grid_4.2.2         
+[37] jsonlite_1.8.0      gtable_0.3.3        lifecycle_1.0.3    
+[40] DBI_1.1.3           magrittr_2.0.3      scales_1.2.1       
+[43] cli_3.6.1           stringi_1.7.12      vroom_1.5.7        
+[46] farver_2.1.1        fs_1.5.2            xml2_1.3.3         
+[49] ragg_1.2.5          ellipsis_0.3.2      generics_0.1.3     
+[52] vctrs_0.6.3         tools_4.2.2         bit64_4.0.5        
+[55] glue_1.6.2          hms_1.1.1           parallel_4.2.2     
+[58] fastmap_1.1.0       yaml_2.3.5          colorspace_2.1-0   
+[61] gargle_1.2.0        rvest_1.0.2         knitr_1.40.1       
+[64] haven_2.5.0        </code></pre>
+</div>
+</div>
+</details>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

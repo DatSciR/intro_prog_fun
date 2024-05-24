@@ -79,7 +79,7 @@ adelie2 <- adelie |>
 penguins |> 
   group_by(island) |> 
   summarise(n = n(),
-    mean_flipper_length = mean(flipper_length_mm, na.rm = TRUE))
+            mean_flipper_length = mean(flipper_length_mm, na.rm = TRUE))
 
 # 2
 penguins |> 
@@ -150,9 +150,9 @@ explorar_df <- function(datos, var, categoria, color) {
 }
 
 explorar_df(datos = iris, # iris es un dataset cargado en RStudio por defecto
-  var = "Petal.Length",
-  categoria = "Species",
-  color = "Species")
+            var = "Petal.Length",
+            categoria = "Species",
+            color = "Species")
 
 ```
 
@@ -273,10 +273,6 @@ penguins_list <- penguins |>
 
 # asignamos nombres a las listas
 names(penguins_list) <- c("p1", "p2", "p3")
-
-# solucion al ejercicio
-map2(penguins_list, names(penguins_list), \(x, y)
-        mutate(x, nombre = y))
 
 # ejercicio 9.2.1
 pmap(list(penguins_list, names(penguins_list)), \(x, y)

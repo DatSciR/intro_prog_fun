@@ -242,7 +242,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(island) <span class="sc">|&gt;</span> </span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(),</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_flipper_length =</span> <span class="fu">mean</span>(flipper_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_flipper_length =</span> <span class="fu">mean</span>(flipper_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
   island        n mean_flipper_length
@@ -406,9 +406,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="fu">explorar_df</span>(<span class="at">datos =</span> iris, <span class="co"># iris es un dataset cargado en RStudio por defecto</span></span>
-<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">var =</span> <span class="st">"Petal.Length"</span>,</span>
-<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">categoria =</span> <span class="st">"Species"</span>,</span>
-<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">"Species"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">var =</span> <span class="st">"Petal.Length"</span>,</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>            <span class="at">categoria =</span> <span class="st">"Species"</span>,</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">"Species"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -725,64 +725,9 @@ $p3
 <span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="co"># asignamos nombres a las listas</span></span>
 <span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(penguins_list) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"p1"</span>, <span class="st">"p2"</span>, <span class="st">"p3"</span>)</span>
 <span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a><span class="co"># solucion al ejercicio</span></span>
-<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a><span class="fu">map2</span>(penguins_list, <span class="fu">names</span>(penguins_list), \(x, y)</span>
-<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(x, <span class="at">nombre =</span> y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>$p1
-# A tibble: 152 × 9
-   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
-   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
- 1 Adelie  Torgersen           39.1          18.7               181        3750
- 2 Adelie  Torgersen           39.5          17.4               186        3800
- 3 Adelie  Torgersen           40.3          18                 195        3250
- 4 Adelie  Torgersen           NA            NA                  NA          NA
- 5 Adelie  Torgersen           36.7          19.3               193        3450
- 6 Adelie  Torgersen           39.3          20.6               190        3650
- 7 Adelie  Torgersen           38.9          17.8               181        3625
- 8 Adelie  Torgersen           39.2          19.6               195        4675
- 9 Adelie  Torgersen           34.1          18.1               193        3475
-10 Adelie  Torgersen           42            20.2               190        4250
-# ℹ 142 more rows
-# ℹ 3 more variables: sex &lt;fct&gt;, year &lt;int&gt;, nombre &lt;chr&gt;
-
-$p2
-# A tibble: 68 × 9
-   species   island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
-   &lt;fct&gt;     &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
- 1 Chinstrap Dream            46.5          17.9               192        3500
- 2 Chinstrap Dream            50            19.5               196        3900
- 3 Chinstrap Dream            51.3          19.2               193        3650
- 4 Chinstrap Dream            45.4          18.7               188        3525
- 5 Chinstrap Dream            52.7          19.8               197        3725
- 6 Chinstrap Dream            45.2          17.8               198        3950
- 7 Chinstrap Dream            46.1          18.2               178        3250
- 8 Chinstrap Dream            51.3          18.2               197        3750
- 9 Chinstrap Dream            46            18.9               195        4150
-10 Chinstrap Dream            51.3          19.9               198        3700
-# ℹ 58 more rows
-# ℹ 3 more variables: sex &lt;fct&gt;, year &lt;int&gt;, nombre &lt;chr&gt;
-
-$p3
-# A tibble: 124 × 9
-   species island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
-   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
- 1 Gentoo  Biscoe           46.1          13.2               211        4500
- 2 Gentoo  Biscoe           50            16.3               230        5700
- 3 Gentoo  Biscoe           48.7          14.1               210        4450
- 4 Gentoo  Biscoe           50            15.2               218        5700
- 5 Gentoo  Biscoe           47.6          14.5               215        5400
- 6 Gentoo  Biscoe           46.5          13.5               210        4550
- 7 Gentoo  Biscoe           45.4          14.6               211        4800
- 8 Gentoo  Biscoe           46.7          15.3               219        5200
- 9 Gentoo  Biscoe           43.3          13.4               209        4400
-10 Gentoo  Biscoe           46.8          15.4               215        5150
-# ℹ 114 more rows
-# ℹ 3 more variables: sex &lt;fct&gt;, year &lt;int&gt;, nombre &lt;chr&gt;</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ejercicio 9.2.1</span></span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pmap</span>(<span class="fu">list</span>(penguins_list, <span class="fu">names</span>(penguins_list)), \(x, y)</span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>     <span class="fu">mutate</span>(x, <span class="at">nombre =</span> y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a><span class="co"># ejercicio 9.2.1</span></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a><span class="fu">pmap</span>(<span class="fu">list</span>(penguins_list, <span class="fu">names</span>(penguins_list)), \(x, y)</span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>     <span class="fu">mutate</span>(x, <span class="at">nombre =</span> y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$p1
 # A tibble: 152 × 9
@@ -841,14 +786,14 @@ $p3
 <h2 class="anchored" data-anchor-id="ejercicio-11">10.1.1 Ejercicio</h2>
 <p>En base a lo que dice en la definición sobre la familia <code>walk()</code>, corred este código y entended lo que hace.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>penguins_nested <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span></span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>()</span>
-<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>penguins_nested_str <span class="ot">&lt;-</span> penguins_nested <span class="sc">|&gt;</span> </span>
-<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">path =</span> <span class="fu">str_glue</span>(<span class="st">"penguins_{species}.csv"</span>))</span>
-<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>penguins_nested_str</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>penguins_nested <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>()</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>penguins_nested_str <span class="ot">&lt;-</span> penguins_nested <span class="sc">|&gt;</span> </span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">path =</span> <span class="fu">str_glue</span>(<span class="st">"penguins_{species}.csv"</span>))</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>penguins_nested_str</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
 # Groups:   species [3]
@@ -858,7 +803,7 @@ $p3
 2 Gentoo    &lt;tibble [124 × 7]&gt; penguins_Gentoo.csv   
 3 Chinstrap &lt;tibble [68 × 7]&gt;  penguins_Chinstrap.csv</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">walk2</span>(penguins_nested_str<span class="sc">$</span>data, penguins_nested_str<span class="sc">$</span>path, write_csv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">walk2</span>(penguins_nested_str<span class="sc">$</span>data, penguins_nested_str<span class="sc">$</span>path, write_csv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Meidante la función <a href="https://tidyr.tidyverse.org/reference/nest.html"><code>nest()</code></a> de {tidyr} generamos listas-columnas en el data frame de penguins, generando una fila para cada especie de pingüino. Como es un <code>data.frame</code> podemos aplicarle la función <code>mutate()</code> directamente y generamos la variable <code>path</code> que contiene el nombre de salida que le queremos dar a cada base de datos. Por último, mediante la función <code>walk2()</code> guardamos los datos relativos a cada pingüino con su respectivo path que hemos generado anteriormente.</p>
 </section>
@@ -866,25 +811,25 @@ $p3
 <h2 class="anchored" data-anchor-id="ejercicio-avanzado-1">10.1.2 Ejercicio avanzado</h2>
 <p>Generad un ejemplo donde utiliceis <code>walk2()</code> o <code>pwalk()</code> para guardar múltiples plot generados con <code>ggplot()</code>. Pista: la primera entrada será el plot que queréis guardar y la segunda el nombre del archivo que le queréis dar.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>gg_penguins_bill_body <span class="ot">&lt;-</span> <span class="cf">function</span>(data_df) {</span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(bill_length_mm, body_mass_g),</span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> data_df) <span class="sc">+</span></span>
-<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()</span>
-<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>penguins_nested <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span></span>
-<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
-<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">gg_obj =</span> <span class="fu">map</span>(data, \(df) <span class="fu">gg_penguins_bill_body</span>(</span>
-<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">data_df =</span> df</span>
-<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>    ))</span>
-<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-16"><a href="#cb62-16" aria-hidden="true" tabindex="-1"></a>penguins_nested_str <span class="ot">&lt;-</span> penguins_nested <span class="sc">|&gt;</span> </span>
-<span id="cb62-17"><a href="#cb62-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">path =</span> <span class="fu">str_glue</span>(<span class="st">"penguins_{species}.png"</span>))</span>
-<span id="cb62-18"><a href="#cb62-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-19"><a href="#cb62-19" aria-hidden="true" tabindex="-1"></a>penguins_nested_str</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>gg_penguins_bill_body <span class="ot">&lt;-</span> <span class="cf">function</span>(data_df) {</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(bill_length_mm, body_mass_g),</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> data_df) <span class="sc">+</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>penguins_nested <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span></span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">gg_obj =</span> <span class="fu">map</span>(data, \(df) <span class="fu">gg_penguins_bill_body</span>(</span>
+<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">data_df =</span> df</span>
+<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a>penguins_nested_str <span class="ot">&lt;-</span> penguins_nested <span class="sc">|&gt;</span> </span>
+<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">path =</span> <span class="fu">str_glue</span>(<span class="st">"penguins_{species}.png"</span>))</span>
+<span id="cb60-18"><a href="#cb60-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a>penguins_nested_str</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 4
 # Groups:   species [3]
@@ -894,7 +839,7 @@ $p3
 2 Gentoo    &lt;tibble [124 × 7]&gt; &lt;gg&gt;   penguins_Gentoo.png   
 3 Chinstrap &lt;tibble [68 × 7]&gt;  &lt;gg&gt;   penguins_Chinstrap.png</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwalk</span>(<span class="fu">list</span>(<span class="at">plot =</span> penguins_nested_str<span class="sc">$</span>gg_obj, <span class="at">filename =</span> penguins_nested_str<span class="sc">$</span>path), ggsave)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwalk</span>(<span class="fu">list</span>(<span class="at">plot =</span> penguins_nested_str<span class="sc">$</span>gg_obj, <span class="at">filename =</span> penguins_nested_str<span class="sc">$</span>path), ggsave)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Saving 7 x 5 in image</code></pre>
 </div>
@@ -916,9 +861,9 @@ $p3
 <h2 class="anchored" data-anchor-id="ejercicio-12">11.2.1.1 Ejercicio</h2>
 <p>Aplicad cualquier variante de <code>map()</code> junto con un operador funcional a la base de datos penguins.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="fu">safely</span>(log)) <span class="sc">|&gt;</span> </span>
-<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transpose</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="fu">safely</span>(log)) <span class="sc">|&gt;</span> </span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transpose</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$result
 $result$species
@@ -1187,11 +1132,11 @@ NULL</code></pre>
 Session Info
 </summary>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2024-05-24 10:29:24 CEST"</code></pre>
+<pre><code>[1] "2024-05-24 10:37:45 CEST"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.2.2 (2022-10-31 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)

@@ -1,5 +1,5 @@
 ---
-title: "Functional programming with R"
+title: "Functional Programming with R"
 author: Julen Astigarraga and Verónica Cruz-Alonso
 date: today
 date-format: "DD/MM/YYYY"
@@ -20,9 +20,9 @@ The objectives of this course are:
 
 -   to learn how to write functions
 
--   to use functions in iterative programming using the library {purrr} from {tidyverse}
+-   to apply functions in iterations using the library {purrr} from {tidyverse}
 
--   to learn coding style that facilitates script understanding (📝)
+-   to learn coding styles that facilitate script understanding (📝)
 
 Within the model of the tools needed in a typical data science project of Wickham and Grolemund (@fig-datascience), this course focuses in the envelope wrapping all the other tools, that is, programming.
 
@@ -30,37 +30,37 @@ Within the model of the tools needed in a typical data science project of Wickha
 
 ### Course structure
 
-+-----------------------------------------------------+-------------+
-| Blocks                                              | Day         |
-+=====================================================+=============+
-| Course introduction                                 | 27/05/24    |
-|                                                     |             |
-| Refresh of tidyverse                                |             |
-|                                                     |             |
-| Introduction to functional programming              |             |
-+-----------------------------------------------------+-------------+
-| Theory of functions in R                            | 27/05/24    |
-|                                                     |             |
-| How to write functions. Arguments and return values |             |
-+-----------------------------------------------------+-------------+
-| Object Oriented Programming                         | 31/05/24    |
-|                                                     |             |
-| Functional programming                              |             |
-|                                                     |             |
-| Iterations over one argument                        |             |
-+-----------------------------------------------------+-------------+
-| Iterations over multiple arguments                  | 31/05/24    |
-|                                                     |             |
-| Iterations without output                           |             |
-|                                                     |             |
-| Operators and other functionals                     |             |
-+-----------------------------------------------------+-------------+
++-----------------------------------------------------+--------------+
+| Blocks                                              | Day          |
++=====================================================+==============+
+| Course introduction                                 | 27/05/24     |
+|                                                     |              |
+| Refresh of tidyverse                                |              |
+|                                                     |              |
+| Introduction to Functional Programming              |              |
++-----------------------------------------------------+--------------+
+| Theory of functions in R                            | 27/05/24     |
+|                                                     |              |
+| How to write functions. Arguments and return values |              |
++-----------------------------------------------------+--------------+
+| Object-Oriented Programming                         | 31/05/24     |
+|                                                     |              |
+| Functional Programming                              |              |
+|                                                     |              |
+| Iterations over one argument                        |              |
++-----------------------------------------------------+--------------+
+| Iterations over multiple arguments                  | 31/05/24     |
+|                                                     |              |
+| Iterations without output                           |              |
+|                                                     |              |
+| Functional operators and other functionals          |              |
++-----------------------------------------------------+--------------+
 
 ### Who we are?
 
 ![](images/1_N_0YimgDh2_IbBT9jJNtOg.jpg)
 
-We coordinate the [Ecoinformatics Working Group](https://ecoinfaeet.github.io/website/index.html) of the Spanish Asociation of Terrestrial Ecology (AEET).
+We coordinate the [Ecoinformatics Working Group](https://ecoinfaeet.github.io/website/index.html) of the Spanish Association of Terrestrial Ecology (AEET).
 
 And you... who are you?
 
@@ -93,11 +93,11 @@ mytibble
 mylist <- list(a, b, c, d)
 mylist
 
-mylist_from_tibble <- mytibble |> #list
+mylist_from_tibble <- mytibble |> # list
   group_split(c)
 mylist_from_tibble
 
-mynested_tibble <- mytibble |> #data.frame with a list of data.frames
+mynested_tibble <- mytibble |> # data.frame with list-columns
   group_by(c) |> 
   nest()
 mynested_tibble
@@ -108,13 +108,13 @@ mynested_tibble
 >
 > --- Hadley Wickham ([Advanced R](https://adv-r.hadley.nz/index.html))
 
-In the example above, the length 4 numeric vector `c(1, 2, 3, 4)` (object) have two names: "a" and "b". By doing `mean(x = a)` we link the value of "a" with the name "x" as well. This link is called a *promise* in R: it is a promise to provide the value of a, if x is ever needed within the `sum()` function.
+In the example above, the length 4 numeric vector `c(1, 2, 3, 4)` (object) have two names: "a" and "b". By doing `mean(x = a)` we link the value of "a" with the name "x" as well. This link is called a *promise* in R: it is a promise to provide the value of "a", if "x" is ever needed within the `sum()` function.
 
 📝Object names should be descriptive and can not have some special characters (`^`, `!`, `$`, `@`, `+`, `-`, `/`, `*`).
 
 📝R is sensitive to capital letters. In general, it is better to avoid them.
 
--   Functions: objects in R that take an input and give an output doing a specific action (specific functionality). Functions are the fundamental *building blocks* in R which is a functional programming languaje.
+-   Functions: objects in R that take an input and give an output doing a specific action (specific functionality). Functions are the fundamental *building blocks* in R which is a functional programming language.
 
     ![](images/function.png)
 
@@ -132,9 +132,9 @@ In the example above, the length 4 numeric vector `c(1, 2, 3, 4)` (object) have 
 
 ### Tidyverse
 
-[*Tidyverse*](https://www.tidyverse.org/) is a collection of R packages (meta-package) developed by Hadley Wickham. It contains eight main packages: `readr`, `tibble`, `dplyr`, `tidyr`, `stringr`, `forcats`, `ggplot2` and `purrr`. *Tidyverse* can be considered a dialect of the R programming language, and as such, it may be difficult to learn for people with experience in traditional base R. However, it is important to know the basics of programming using *Tidyverse* for this course because of consistency with the sections on iteration where we will primarily use {purrr}.
+[*Tidyverse*](https://www.tidyverse.org/) is a collection of R packages (meta-package) initially developed by Hadley Wickham. It contains eight main packages: `readr`, `tibble`, `dplyr`, `tidyr`, `stringr`, `forcats`, `ggplot2` and `purrr`. *Tidyverse* can be considered a dialect of the R programming language, and as such, it may be difficult to learn for people with experience in base R. However, it is important to know the basics of programming using *Tidyverse* for this course due to consistency with the sections on iteration where we will primarily use {purrr}.
 
-*Tidyverse* is designed to support the activities of a human data analyst, making its programming structures more logical for the human mind. All the packages are designed to work with [*tidy data*](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html) meaning data where each column is a variable, each row is an observation, and each cell has a value. Additionally, the functions are prepared to be concatenated using the *pipe* operator (`%>%` from {magrittr} library o `|>` from base R), which takes what is on its left and uses it as the first argument of the function on its right. This allows for a left-to-right reading flow, which is more comfortable for most people.
+*Tidyverse* is designed to support the activities of a human data analyst, making its programming structures more logical for the human mind. All the packages are designed to work with [*tidy data*](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html) meaning data where each column is a variable, each row is an observation, and each cell has a value. Additionally, the functions are prepared to be concatenated using the *pipe* operator (`%>%` from {magrittr} package or `|>` from base R), which takes what is on its left and uses it as the first argument of the function on its right. This allows for a left-to-right reading flow, which is more comfortable for most people.
 
 💡The two pipe operators have small [differences](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/) but in general their behaviour is the same.
 
@@ -186,7 +186,7 @@ penguins |>
 
 #### Exercise
 
-1.  With the penguins dataset, create an object with individuals of Adelie species and arrange the data.frame according to flipper length.
+1.  With the penguins dataset, create an object with individuals of the Adelie species and arrange the `data.frame` according to flipper length.
 
 2.  Create an object from the previous one where you select the island and the variables related to the bill.
 
@@ -249,6 +249,7 @@ In relation to name masking, the basic principle of lexical scoping is that na
 
 x <- 10
 y <- 20
+
 myfunction <- function() {
   x <- 1
   y <- 2
@@ -278,13 +279,13 @@ misdatos |>
   summarise(mean = mean(values))
 ```
 
-![Data masking in *tydiverse* allows to use data-variables as if they were env-variables. Art by Cristina Grajera](images/data_masking.png)
+![Data masking in *tidyverse* allows to use data-variables as if they were env-variables. Art by Cristina Grajera](images/data_masking.png)
 
-## Introduction to functional programming
+## Introduction to Functional Programming
 
 The growing availability of data and the versatility of analysis software have led to an increase in the quantity and complexity of the analyses we conduct in biological sciences. This makes efficiency in the process of data management and analysis increasingly necessary. One possible way to optimize these processes and reduce work time for R users is function-based programming. Functions allow the automation of common tasks (for example, reading different databases), simplifying the code.
 
-A function can be called through another function and the process can be iterated, making R a very powerful tool. Iterations are used to perform the same action on multiple inputs. There are two main paradigms of iteration: object-oriented programming and functional programming. In this workshop, we will primarily focus on functional programming and learn to use the {purrr} package, which provides functions to eliminate many common loops.
+A function can be called through another function and the process can be iterated, making R a very powerful tool. Iterations are used to perform the same action on multiple inputs. There are two main paradigms of iteration: object-oriented programming (OOP) and functional programming (FP). In this workshop, we will primarily focus on functional programming and learn to use the {purrr} package, which provides functions to eliminate many common loops.
 
 ```{r ejemplo_importancia_PF}
 #| warning: false
@@ -436,9 +437,9 @@ models <- penguins|>
 
 #### Exercise
 
-Create your first function that fulfils the functionality of dividing any value by 100.
+Create your first function that fulfills the functionality of dividing any value by 100.
 
-💡Shorcut to write functions: write word "fun" + tab.
+💡Shortcut to write functions: write word "fun" + tab.
 
 Imagine that for a dataset we want to visualize the distribution for each numerical variable, based on other categorical variables that particularly interests us.
 
@@ -508,7 +509,7 @@ ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
 
 📝 Creating objects with intermediate calculations within a function is good practice because it makes the code clearer about what the function is doing. It is common when the function contains if/else statements.
 
-3.  Choose a name for the function (📝). Ideally, it should be short and evoke what the function does. In general, it should be a verb (e.g. impute_values) and the argument names are nouns (e.g. "data", "variable", etc.). Using a noun for a function is allowed if the function calculates something well-known (e.g. `mean()`) or if it serves to access parts of an object (e.g. `residuals()`). It is also recommended to avoid very generic verbs (e.g. "calculate"), and if the name has multiple words, to separate them with an underscore, a dot or use camelCase, but be consistent. If you program several function that do similar things, it is recommended to use the same prefix for all of them (e.g. "str\_" in {stringr} library).
+3.  Choose a name for the function (📝). Ideally, it should be short and evoke what the function does. In general, it should be a verb (e.g. impute_values) and the argument names are nouns (e.g. "data", "variable", etc.). Using a noun for a function is allowed if the function calculates something well-known (e.g. `mean()`) or if it serves to access parts of an object (e.g. `residuals()`). It is also recommended to avoid very generic verbs (e.g. "calculate"), and if the name has multiple words, to separate them with an underscore, a dot or use camelCase, but be consistent. If you program several function that do similar things, it is recommended to use the same prefix for all of them (e.g. "str\_" in {stringr} package).
 
     The more clearly you can express the intention of your code through function names, the more easily others, including yourself in the future, will be able to read and understand the code.
 
@@ -571,7 +572,7 @@ In general, there are two groups: those that specify the **data** and those that
 
 -   `df`: data frame
 
--   `i, j`: numerical indices, rows and columns respectively
+-   `i, j`: numerical indices, rows and columns, respectively
 
 -   `n`: length or row numbers
 
@@ -623,7 +624,7 @@ The last expression executed in a function is the return value. It is the result
 
 <!--# Can you thik of any case where using invisible() would be useful? -->
 
-📝 Function `return()` it is used to explicity show what do you want to get from a function. It is recommended to use it when the return is not expected at the end of the function. For example, in the branches of an if/else structure, especially if there is a long and complex branch.
+📝 The function `return()` is used to explicity show what do you want to get from a function. It is recommended to use it when the return is not expected at the end of the function. For example, in the branches of an if/else structure, especially if there is a long and complex branch.
 
 #### Exercise
 

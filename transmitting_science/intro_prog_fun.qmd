@@ -1,0 +1,641 @@
+---
+title: "Functional programming with R"
+author: Julen Astigarraga and Verónica Cruz-Alonso
+date: today
+date-format: "DD/MM/YYYY"
+toc: true
+format:
+  html: default
+    # css: styles.css
+  gfm: default
+editor: visual
+editor_options: 
+  chunk_output_type: console
+number-sections: true
+---
+
+## Introduction
+
+The objectives of this course are:
+
+-   to learn how to write functions
+
+-   to use functions in iterative programming using the library {purrr} from {tidyverse}
+
+-   to learn coding style that facilitates script understanding (📝)
+
+Within the model of the tools needed in a typical data science project of Wickham and Grolemund (@fig-datascience), this course focuses in the envelope wrapping all the other tools, that is, programming.
+
+![Data science model of Wickham and Grolemund. https://r4ds.hadley.nz/intro#fig-ds-diagram](images/data-science.png){#fig-datascience}
+
+### Course structure
+
++-----------------------------------------------------+-------------+
+| Blocks                                              | Day         |
++=====================================================+=============+
+| Course introduction                                 | 27/05/24    |
+|                                                     |             |
+| Refresh of tidyverse                                |             |
+|                                                     |             |
+| Introduction to functional programming              |             |
++-----------------------------------------------------+-------------+
+| Theory of functions in R                            | 27/05/24    |
+|                                                     |             |
+| How to write functions. Arguments and return values |             |
++-----------------------------------------------------+-------------+
+| Object Oriented Programming                         | 31/05/24    |
+|                                                     |             |
+| Functional programming                              |             |
+|                                                     |             |
+| Iterations over one argument                        |             |
++-----------------------------------------------------+-------------+
+| Iterations over multiple arguments                  | 31/05/24    |
+|                                                     |             |
+| Iterations without output                           |             |
+|                                                     |             |
+| Operators and other functionals                     |             |
++-----------------------------------------------------+-------------+
+
+### Who we are?
+
+![](images/1_N_0YimgDh2_IbBT9jJNtOg.jpg)
+
+We coordinate the [Ecoinformatics Working Group](https://ecoinfaeet.github.io/website/index.html) of the Spanish Asociation of Terrestrial Ecology (AEET).
+
+And you... who are you?
+
+<https://www.menti.com/alsrpp5991gr>
+
+## Introduction to programming in tidyverse
+
+### Basic concepts
+
+-   Object: any element associated to a name. There are many different types: `numeric`, `integer`, `logical`, `data.frame`, `SpatVector`, etc.
+
+```{r objects}
+
+library(tidyverse)
+
+a <- c(1, 2, 3, 4)
+b <- c(1, 2, 3, 4)
+c <- c("hi", "hola", "hola", "hi")
+d <- c(TRUE, TRUE, TRUE, FALSE, FALSE)
+
+mymatrix_num <- matrix(c(a, b), nrow = 4, ncol = 2)
+mymatrix_num
+
+mymatrix_cha <- matrix(c(a, b, c), nrow = 4, ncol = 3)
+mymatrix_cha
+
+mytibble <- tibble(a, b, c)
+mytibble
+
+mylist <- list(a, b, c, d)
+mylist
+
+mylist_from_tibble <- mytibble |> #list
+  group_split(c)
+mylist_from_tibble
+
+mynested_tibble <- mytibble |> #data.frame with a list of data.frames
+  group_by(c) |> 
+  nest()
+mynested_tibble
+
+```
+
+> Names have objects; objects don't have names
+>
+> --- Hadley Wickham ([Advanced R](https://adv-r.hadley.nz/index.html))
+
+In the example above, the length 4 numeric vector `c(1, 2, 3, 4)` (object) have two names: "a" and "b". By doing `mean(x = a)` we link the value of "a" with the name "x" as well. This link is called a *promise* in R: it is a promise to provide the value of a, if x is ever needed within the `sum()` function.
+
+📝Object names should be descriptive and can not have some special characters (`^`, `!`, `$`, `@`, `+`, `-`, `/`, `*`).
+
+📝R is sensitive to capital letters. In general, it is better to avoid them.
+
+-   Functions: objects in R that take an input and give an output doing a specific action (specific functionality). Functions are the fundamental *building blocks* in R which is a functional programming languaje.
+
+    ![](images/function.png)
+
+> To understand computation in R, this two truths are very useful:
+>
+> \- Everything that exist in R in an object.
+>
+> \- Everything that happen in R is the result of a function call.
+>
+> --- John Chambers ([Advanced R](https://adv-r.hadley.nz/index.html))
+
+-   Libraries or packages: hold reusable functions, documentation on how to use them and example data. They are the fundamental units of reproducible code in R.
+
+💡More info about Three Deep Truths About R [here](https://www.r-bloggers.com/2018/06/three-deep-truths-about-r/).
+
+### Tidyverse
+
+[*Tidyverse*](https://www.tidyverse.org/) is a collection of R packages (meta-package) developed by Hadley Wickham. It contains eight main packages: `readr`, `tibble`, `dplyr`, `tidyr`, `stringr`, `forcats`, `ggplot2` and `purrr`. *Tidyverse* can be considered a dialect of the R programming language, and as such, it may be difficult to learn for people with experience in traditional base R. However, it is important to know the basics of programming using *Tidyverse* for this course because of consistency with the sections on iteration where we will primarily use {purrr}.
+
+*Tidyverse* is designed to support the activities of a human data analyst, making its programming structures more logical for the human mind. All the packages are designed to work with [*tidy data*](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html) meaning data where each column is a variable, each row is an observation, and each cell has a value. Additionally, the functions are prepared to be concatenated using the *pipe* operator (`%>%` from {magrittr} library o `|>` from base R), which takes what is on its left and uses it as the first argument of the function on its right. This allows for a left-to-right reading flow, which is more comfortable for most people.
+
+💡The two pipe operators have small [differences](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/) but in general their behaviour is the same.
+
+```{r pipe}
+
+myvector <- c(6, 4)
+mean(myvector)
+myvector |> 
+  mean() # CTRL+SHIFT+M - shortcut for the pipe
+
+length(unique(myvector)) # vs
+myvector |> unique() |> length()
+
+```
+
+```{r primeros_tidypasos}
+#| warning: false
+
+penguins <- palmerpenguins::penguins
+penguins
+
+summary(penguins)
+View(penguins)
+
+# filter
+penguins |> 
+  filter(island == "Dream") 
+penguins |> 
+  filter(island == "Dream" & body_mass_g > 4500) # Combining criteria
+penguins |> 
+  filter(island %in% c("Dream", "Torgersen"))
+
+# select
+penguins |> 
+  select(sex, body_mass_g)
+penguins |> 
+  select(ends_with(c("mm", "g"))) # select variables with a text pattern
+penguins |> 
+  select(sex, body_mass_g, everything()) # use select to reorder variables
+
+# arrange
+penguins |> 
+  select(sex, body_mass_g) |> 
+  arrange(body_mass_g)
+penguins |> 
+  select(sex, body_mass_g) |> 
+  arrange(desc(body_mass_g))
+```
+
+#### Exercise
+
+1.  With the penguins dataset, create an object with individuals of Adelie species and arrange the data.frame according to flipper length.
+
+2.  Create an object from the previous one where you select the island and the variables related to the bill.
+
+3.  Create an object from the one created in step 1 where you select everything except the species.
+
+```{r segundos_tidypasos}
+
+# mutate
+penguins |> 
+  mutate(bill_volume_mm2 = (bill_length_mm * bill_depth_mm) / 2) |> 
+  select(bill_volume_mm2, everything())
+
+penguins |>
+  mutate(female_penguin = case_when(
+    sex == "female" & body_mass_g < 3600 ~ "small female",
+    sex == "female" & body_mass_g >= 3600 ~ "big female",
+    TRUE ~ NA)) |>
+  select(female_penguin, sex, body_mass_g)
+
+# summarise
+# it is used with summary functions: n, n_distinct, mean, etc.
+# see ?summarise
+
+penguins |> 
+  summarise(
+    body_min = min(body_mass_g, na.rm = TRUE),
+    body_max = max(body_mass_g, na.rm = TRUE)
+  )
+
+penguins |> 
+  group_by(sex) |> 
+  summarise(body_min = min(body_mass_g, na.rm = TRUE),
+  body_max = max(body_mass_g, na.rm = TRUE))
+
+# join: left, right, full, inner
+
+coordinates <- tibble(island = c("Dream", "Torgersen", "Biscoe"), 
+  latitude = c("64°44′S", "64°46′S", "64°36′S"),
+  longitude = c("64°14′W", "64°05′W", " 63°30′W"))
+
+penguins |> 
+  left_join(coordinates, by = "island") |> 
+  select(island, latitude, longitude, everything())
+
+```
+
+#### Exercise
+
+1.  With the penguins dataset, count the number of cases on each island and calculate the mean flipper length for each island.
+
+2.  Calculate the ratio between the weight in kg and the flipper length for each individual.
+
+### Scoping
+
+[Scoping](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) is the set of rules that govern how to look up the value of a symbol in the environment in each programming language. R uses *lexical scoping* and there are four basic rules: name masking, functions versus variables, a fresh start and dynamic lookup. A deeper understanding of scoping will help us to use more advanced functional programming tools.
+
+In relation to name masking, the basic principle of lexical scoping is that names defined inside a function mask names defined outside a function.
+
+```{r lexical_scoping}
+
+x <- 10
+y <- 20
+myfunction <- function() {
+  x <- 1
+  y <- 2
+  x + y
+}
+
+myfunction()
+```
+
+![If a name isn't defined inside a function, R will look one level up. Art by Cristina Grajera](images/environment.png)
+
+In general, with base R, we can only call objects that are part of the environment (env-variables); however, with *tidyverse*, we can also call variables within tables (data-variables). This feature called *data masking* simplifies the code in *tidyverse*, but the advantage does not come for free and has implications for the grammar of the functions as we will see later.
+
+```{r data_masking}
+#| warning: false
+#| error: true
+
+penguins |> filter(island == "Dream", species == "Chinstrap") 
+penguins[penguins$island == "Dream" & penguins$species == "Chinstrap", ]
+
+mean(x = 1:10)
+mean(x = values)
+mydata <- tibble(values = 1:10)
+mean(x = values)
+mean(x = mydata$values)
+misdatos |> 
+  summarise(mean = mean(values))
+```
+
+![Data masking in *tydiverse* allows to use data-variables as if they were env-variables. Art by Cristina Grajera](images/data_masking.png)
+
+## Introduction to functional programming
+
+The growing availability of data and the versatility of analysis software have led to an increase in the quantity and complexity of the analyses we conduct in biological sciences. This makes efficiency in the process of data management and analysis increasingly necessary. One possible way to optimize these processes and reduce work time for R users is function-based programming. Functions allow the automation of common tasks (for example, reading different databases), simplifying the code.
+
+A function can be called through another function and the process can be iterated, making R a very powerful tool. Iterations are used to perform the same action on multiple inputs. There are two main paradigms of iteration: object-oriented programming and functional programming. In this workshop, we will primarily focus on functional programming and learn to use the {purrr} package, which provides functions to eliminate many common loops.
+
+```{r ejemplo_importancia_PF}
+#| warning: false
+
+df <- penguins |> 
+  select(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g)
+
+df_rescaled1 <- df |> 
+  mutate(bill_length_mm = (bill_length_mm - min(bill_length_mm, na.rm = TRUE)) / (max(bill_length_mm, na.rm = TRUE) - min(bill_length_mm, na.rm = TRUE)),
+    bill_depth_mm = (bill_depth_mm - min(bill_depth_mm, na.rm = TRUE)) / (max(bill_depth_mm, na.rm = TRUE) - min(bill_length_mm, na.rm = TRUE)),
+    flipper_length_mm = (flipper_length_mm - min(flipper_length_mm, na.rm = TRUE)) / (max(flipper_length_mm, na.rm = TRUE) - min(flipper_length_mm, na.rm = TRUE)),
+    body_mass_g = (body_mass_g - min(body_mass_g, na.rm = TRUE)) / (max(body_mass_g, na.rm = TRUE) - min(body_mass_g, na.rm = TRUE)))
+    
+View(df_rescaled1)
+
+#
+rescale01 <- function(x) {
+  rng <- range(x, na.rm = TRUE)   
+  (x - rng[1]) / (rng[2] - rng[1]) 
+} 
+
+df_rescaled2 <- df |> 
+  mutate(bill_length_mm = rescale01(bill_length_mm),
+    bill_depth_mm = rescale01(bill_depth_mm),
+    flipper_length_mm = rescale01(flipper_length_mm), 
+    body_mass_g = rescale01(body_mass_g))  
+
+View(df_rescaled2)
+
+#
+df_rescaled3 <- lapply(df, rescale01)
+
+head(df_rescaled3$bill_length_mm)
+
+```
+
+The main advantages of functional programming (use of functions and iterations) are:
+
+1.  Ease of understanding the code's intent, thereby improving comprehension for oneself, collaborators, and reviewers:
+
+    -   Functions have evocative names.
+
+    -   The code is more organized.
+
+2.  Speed in making changes, as functions are independent pieces that solve a specific problem.
+
+3.  Reduction of error probability.
+
+### When do we have to use a function?
+
+It is recommended to follow the "do not repeat yourself" principle ([DRY principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself#:~:text=%22Don't%20repeat%20yourself%22,redundancy%20in%20the%20first%20place.)): each unit of knowledge or information should have a single, unambiguous, and authoritative representation within a system.
+
+Writing a function is worthwhile when you have copied and pasted the same code more than twice (don't be WET! - Write Everything Twice). The more times a piece of code is repeated in different places, the more you will need to update it if there is a change, and the higher the likelihood of errors.
+
+## Theory on functions in R
+
+Functions have three components:
+
+-   `body()`: the code inside the function.
+-   `formals()`: the list of arguments that control how the function is executed.
+-   `environment()`: the structure that supports the *scoping* of the function, i.e., the environment where the function is located.
+
+```{r componentes}
+
+body(rescale01)
+formals(rescale01)
+environment(rescale01)
+
+```
+
+```{r environment}
+
+f <- function(x) {
+  x + y
+}
+
+y <- 100
+f(x = 10)
+
+y <- 1000
+f(10)
+
+```
+
+**Primitive functions** are the exception as they do not have the aforementioned components. They are written in C instead of R and only appear in the base package. They are more efficient but behave differently from other functions, so the R Core Team tries not to create new primitive functions. The rest of the functions follow the structure outlined above.
+
+```{r funciones_primitivas}
+
+sum
+body(sum)
+
+```
+
+According to the type of output, there are two types of functions:
+
+-   **Transformation functions**: transform the object that enters the function (the first argument) and return another object or the original one with modifications. Functionals are special types of transformation functions.
+
+-   **Side-effect functions**: have side effects and perform an action, such as saving a file or drawing a plot. Some commonly used examples are: `library()`, `setwd()`, `plot()`, `write_delim()`... These functions invisibly return the output, which is not saved but can be used in a pipeline.
+
+In general, syntactically, functions have three components:
+
+-   The function `function()` (primitive)
+-   Arguments: list of inputs.
+-   Body: the piece of code that follows `function()`, traditionally enclosed in curly braces.
+
+```{r notaciones}
+
+name1_v1 <- function(x, y) {
+  paste(x, y, sep = "_")
+}  
+
+name1_v2 <- function(x, y) paste(x, y, sep = "_")  
+
+name1_v3 <- \(x, y) paste(x, y, sep = "_")  
+
+name1_v1("Vero", "Cruz") 
+name1_v2("Vero", "Cruz") 
+name1_v3("Vero", "Cruz") 
+
+```
+
+📝If the function has more than two lines, it is better to always use curly braces to clearly delimit it. The opening brace should never be alone, but the closing one should be (except with `else`). Indentation also greatly helps to understand the hierarchy of the code within functions. In this regard, we recommend using *Code \> Reindent lines/Reformat code* in the RStudio menu.
+
+💡Infix operators (`+`), flow control operators (`for`, `if`), subsetting operators (`[ ]`, `$`), assignment operators (`<-`) or even curly braces (`{ }`) are also functions. The backtick "\`" allows to refer to functions or variables that otherwise have "illegal" names.
+
+```{r nombres_ilegales}
+
+3 + 2 
+`+`(3, 2)  
+for (i in 1:2) print(i) 
+`for`(i, 1:2, print(i)) 
+```
+
+In general, functions have a name that is executed when needed, as we have seen so far, but this is not mandatory. Some packages, such as {purrr}, or functions from the `apply` family, allow the use of anonymous functions for iteration.
+
+```{r funciones_anonimas}
+
+nxcase <- lapply(penguins, function(x) length(unique(x)))
+
+models <- penguins|>
+  group_split(species) |>
+  map(\(df) lm(body_mass_g ~ bill_length_mm, data = df)) 
+
+```
+
+📝It is better to reserve the use of anonymous functions for short and simple functions. If the function is long, spans multiple lines or we need to use it many times it is better to give it a name.
+
+## How to write functions
+
+#### Exercise
+
+Create your first function that fulfils the functionality of dividing any value by 100.
+
+💡Shorcut to write functions: write word "fun" + tab.
+
+Imagine that for a dataset we want to visualize the distribution for each numerical variable, based on other categorical variables that particularly interests us.
+
+```{r codigo_repetido_avanzado}
+#| warning: false
+
+penguins_num <- penguins |> 
+  select(species, sex, where(is.numeric))
+
+# we are interested in differences among species and between sexes 
+
+ggplot(penguins_num, aes(x = species, y = bill_length_mm, color = sex)) +
+  geom_point(position = position_jitterdodge(), alpha = 0.3) +
+  geom_boxplot(alpha = 0.5) +
+  scale_color_manual(values = c("turquoise", "goldenrod1")) +
+  theme_light()
+
+ggplot(penguins_num, aes(x = species, y = bill_depth_mm, color = sex)) +
+  geom_point(position = position_jitterdodge(), alpha = 0.3) +
+  geom_boxplot(alpha = 0.5) +
+  scale_color_manual(values = c("turquoise", "goldenrod1")) +
+  theme_light()
+
+ggplot(penguins_num, aes(x = species, y = flipper_length_mm, color = sex)) +
+  geom_point(position = position_jitterdodge(), alpha = 0.3) +
+  geom_boxplot(alpha = 0.5) +
+  scale_color_manual(values = c("turquoise", "goldenrod1")) +
+  theme_light()
+
+# etc
+```
+
+We have copied a code more than twice to perform the same action (i.e., a plot to see how a variable is distributed based on two others that remain constant), so we should consider the possibility that we need a function. Next, we will follow some simple steps to transform any repeated code into a function.
+
+1.  Analyze the code: what are the replicated parts? How many inputs do we have? Which inputs vary and which do not?
+
+2.  Simplify and reanalyze duplications.
+
+```{r funcion_simplificar}
+#| warning: false
+
+var <- penguins_num$bill_length_mm
+
+ggplot(penguins_num, aes(x = species, y = var, color = sex)) +
+  geom_point(position = position_jitterdodge(), alpha = 0.3) +
+  geom_boxplot(alpha = 0.5) +
+  scale_color_manual(values = c("turquoise", "goldenrod1")) +
+  theme_light()
+```
+
+```{r funcion_simplificar_2}
+#| warning: false
+#| error: true
+
+var <- body_mass_g
+var <- "body_mass_g"
+
+ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
+  geom_point(position = position_jitterdodge(), alpha = 0.3) +
+  geom_boxplot(alpha = 0.5) +
+  scale_color_manual(values = c("turquoise", "goldenrod1")) +
+  theme_light() +
+  ylab(var)
+```
+
+👀 `ggplot()` needs arguments (data-variables) that are within the data frame it will represent. To generalize the function, we have associated the name of the variable (of type character) to the name "var", but `ggplot()` does not accept characters. Therefore, we need to use an intermediate function that does accept them.
+
+📝 Creating objects with intermediate calculations within a function is good practice because it makes the code clearer about what the function is doing. It is common when the function contains if/else statements.
+
+3.  Choose a name for the function (📝). Ideally, it should be short and evoke what the function does. In general, it should be a verb (e.g. impute_values) and the argument names are nouns (e.g. "data", "variable", etc.). Using a noun for a function is allowed if the function calculates something well-known (e.g. `mean()`) or if it serves to access parts of an object (e.g. `residuals()`). It is also recommended to avoid very generic verbs (e.g. "calculate"), and if the name has multiple words, to separate them with an underscore, a dot or use camelCase, but be consistent. If you program several function that do similar things, it is recommended to use the same prefix for all of them (e.g. "str\_" in {stringr} library).
+
+    The more clearly you can express the intention of your code through function names, the more easily others, including yourself in the future, will be able to read and understand the code.
+
+```{r nombres_mal}
+
+# examples of names to avoid
+
+T <- FALSE
+c <- 10
+mean <- function(x) sum(x)
+
+rm(T, c, mean)
+
+```
+
+4.  Enumerate the arguments within `function()` and put the simplified code inside the curly braces.
+
+```{r funcion_escribir}
+
+explore_penguins <- function (var) {
+  ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
+    geom_point(position = position_jitterdodge(), alpha = 0.3) +
+    geom_boxplot(alpha = 0.5) +
+    scale_color_manual(values = c("turquoise", "goldenrod1")) +
+    theme_light() +
+    ylab(var) 
+}
+
+```
+
+📝 Use comments (#) to explain the reasoning behind your functions. Avoid explaining what the function is doing or how, as the code itself already communicates that. It is also recommended to use \# to separate sections (Cmd/Ctrl + Shift + R).
+
+5.  Try with different inputs.
+
+```{r funcion_pruebas}
+
+explore_penguins(var = "body_mass_g") 
+explore_penguins(var = "flipper_length_mm") 
+explore_penguins(var = "bill_depth_mm")
+
+```
+
+💡You may want to convert these tests into formal tests. In complex functions, tests are useful to ensure that even if you make changes, the functionality has not been broken. If you're interested, check out this link: [https://r-pkgs.org/testing-bas](#0){.uri}
+
+#### Exercise
+
+Create a function to standardize (i.e., subtract the mean and divide by the standard deviation) the numerical variables of the penguins dataset.
+
+### Arguments
+
+In general, there are two groups: those that specify the **data** and those that specify **details** of the function's execution. Typically, those specifying data come first, followed by detail arguments. The latter group often has default values (the most common ones), for when nothing is specified.
+
+<!--# See quantile() help -->
+
+📝 The argument names should be short and descriptive. There are some names commonly used but non descriptive that are already known to most users, and it's fine to take advantage of them.
+
+-   `x, y, z`: vectors
+
+-   `w`: vector of weights
+
+-   `df`: data frame
+
+-   `i, j`: numerical indices, rows and columns respectively
+
+-   `n`: length or row numbers
+
+-   `p`: column number
+
+-   `na.rm`: not available values
+
+When executing the function, arguments can be specified using the full name, a unequivocal abbreviation, or the order of their position (*unnamed* arguments), with this sequence (name \> abbreviation \> position) being the priority order when matching arguments with what is written.
+
+📝 Generally, only positional order is used to specify the first arguments, the most common ones that everyone knows. If a default value for a detail argument is changed, it is advisable to always use the full name of the argument.
+
+📝Using spaces before and after `=` and after `,` makes it much easier to identify the arguments of the function and, in general, all components.
+
+```{r espacios}
+
+set.seed(123)
+mean(rnorm(10, mean = 50, sd = 25) / 12, trim = 0.2)
+
+set.seed(123)
+mean(rnorm(10,mean=50,sd=25)/12,trim=0.2)
+
+```
+
+There is a special argument called `…`, which captures any other argument that does not correspond to those named in the function. It is used to pass arguments to other functions in our function.
+
+```{r argumento_dotdotdot}
+#| eval: false
+
+?plot
+
+plot(1:5, 1:5)
+
+plot(1:5, 1:5, main = "I am using an argument of title()")
+
+```
+
+📝 Using `…` make functions being very flexible, but it makes necessary to carefully read the function documentation to use it. In addition, if there is a typo in an argument name, we don't get an error message.
+
+```{r dotdotdot_flexibilidad}
+
+sum(1, 2, 5, na.mr = TRUE)
+sum(1, 2, NA, na.mr = TRUE)
+
+```
+
+### Return values
+
+The last expression executed in a function is the return value. It is the result of executing the function, unless `invisible()` is specified. Functions return only one object. If you want to obtain more, they must be grouped in one list.
+
+<!--# Can you thik of any case where using invisible() would be useful? -->
+
+📝 Function `return()` it is used to explicity show what do you want to get from a function. It is recommended to use it when the return is not expected at the end of the function. For example, in the branches of an if/else structure, especially if there is a long and complex branch.
+
+#### Exercise
+
+How would you generalize the function `explore_penguins()` so you can use any data frame as input?
+
+<details>
+
+<summary>Session Info</summary>
+
+```{r session_info}
+Sys.time()
+sessionInfo()
+```
+
+</details>

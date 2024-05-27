@@ -6,3 +6,5 @@ El directorio AEET contiene los apuntes del taller que impartimos en el XVI cong
 El directorio USAL contiene los apuntes del curso impartido en la Universidad de Salamanca entre el 13/05/2024 y 22/05/2024 
 
 **El de la USAL son los apuntes más actualizados**
+
+The directory transmitting_science contains all notes in English (in development)

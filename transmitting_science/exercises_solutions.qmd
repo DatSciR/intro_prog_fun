@@ -1,0 +1,152 @@
+---
+title: "Functional Programming with R"
+author: Julen Astigarraga y Verónica Cruz-Alonso
+date: today
+date-format: "DD/MM/YYYY"
+toc: true
+format:
+  html: default
+    # css: styles.css
+  gfm: default
+editor: visual
+editor_options: 
+  chunk_output_type: console
+number-sections: false
+---
+
+## 2.2.1 Exercise
+
+1.  With the penguins dataset, create an object with individuals of the Adelie species and arrange the `data.frame` according to flipper length.
+
+2.  Create an object from the previous one where you select the island and the variables related to the bill.
+
+3.  Create an object from the one created in step 1 where you select everything except the species.
+
+```{r 2.2.1}
+
+library(palmerpenguins)
+library(tidyverse)
+
+# 1
+adelie <- penguins |> 
+  filter(species == "Adelie") |> 
+  arrange(flipper_length_mm)
+
+# 2
+adelie_subset <- adelie |> 
+  select(island, contains("bill"))
+
+# 3
+adelie2 <- adelie |> 
+  select(-species)
+
+```
+
+## 2.2.2 Exercise
+
+1.  With the penguins dataset, count the number of cases on each island and calculate the mean flipper length for each island.
+
+2.  Calculate the ratio between the weight in kg and the flipper length for each individual.
+
+```{r 2.2.2}
+
+# 1
+penguins |> 
+  group_by(island) |> 
+  summarise(
+    n = n(),
+    mean_flipper_length = mean(flipper_length_mm, na.rm = TRUE)
+  )
+
+# 2
+penguins |> 
+  mutate(mass_by_length = (body_mass_g / 1000) / flipper_length_mm) |> 
+  select(mass_by_length)
+
+```
+
+## 5.0.1 Exercise
+
+Create your first function that fulfills the functionality of dividing any value by 100.
+
+```{r 5.0.1}
+
+divide_by_100 <- function(x) {
+  x / 100
+}
+
+divide_by_100(30)
+
+```
+
+## 5.0.2 Exercise
+
+Create a function to standardize (i.e., subtract the mean and divide by the standard deviation) the numerical variables of the penguins dataset.
+
+```{r 5.0.2}
+
+# R base
+standardise <- function(x, my.na.rm) {
+  (x - mean(x, na.rm = my.na.rm)) / sd(x, na.rm = my.na.rm)
+}
+
+standardise(penguins$bill_length_mm, my.na.rm = T)
+
+# Tidyverse
+standardise_tidy <- function(x, my.na.rm) {
+  ({{ x }} - mean({{ x }}, na.rm = my.na.rm)) / sd({{ x }}, na.rm = my.na.rm)
+} 
+
+penguins |> 
+  mutate(st_bill_length = standardise_tidy(x = bill_length_mm, my.na.rm = T)) |> 
+  select(bill_length_mm, st_bill_length)
+
+```
+
+## 5.2.1 Exercise
+
+How would you generalize the function `explore_penguins()` so you can use any data frame as input?
+
+```{r 5.2.1}
+
+penguins_num <- penguins |> 
+  select(species, sex, where(is.numeric))
+
+explore_penguins <-
+  function(var) {
+    ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
+      geom_point(position = position_jitterdodge(), alpha = 0.3) +
+      geom_boxplot(alpha = 0.5) +
+      scale_color_manual(values = c("turquoise", "goldenrod1")) +
+      theme_light() +
+      ylab(var)
+  }
+
+explore_penguins("body_mass_g")
+
+explore_df <- function(df, x_var, y_var, color) {
+  ggplot(data = df, aes(x = .data[[x_var]], y = .data[[y_var]], color = .data[[color]])) + 
+    geom_point(position = position_jitterdodge(), alpha = 0.3) +
+    geom_boxplot(alpha = 0.5) + 
+    scale_color_manual(values = rainbow(n = length(unique(df[[color]])))) +
+    theme_light() + 
+    ylab(y_var)
+}
+
+explore_df(df = iris, # iris es un dataset cargado en RStudio por defecto
+           y_var = "Petal.Length",
+           x_var = "Species",
+           color = "Species")
+
+```
+
+<details>
+
+<summary>Session Info</summary>
+
+```{r session_info}
+Sys.time()
+sessionInfo()
+```
+
+</details>

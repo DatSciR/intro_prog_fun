@@ -1,6 +1,6 @@
 # Programación funcional en R - ejercicios resueltos
 Julen Astigarraga y Verónica Cruz-Alonso
-24/05/2024
+27/05/2024
 
 - [2.1.1 Ejercicio](#211-ejercicio)
 - [2.2.1 Ejercicio](#221-ejercicio)
@@ -134,8 +134,10 @@ adelie2 <- adelie |>
 # 1
 penguins |> 
   group_by(island) |> 
-  summarise(n = n(),
-            mean_flipper_length = mean(flipper_length_mm, na.rm = TRUE))
+  summarise(
+    n = n(),
+    mean_flipper_length = mean(flipper_length_mm, na.rm = TRUE)
+  )
 ```
 
     # A tibble: 3 × 3
@@ -148,23 +150,23 @@ penguins |>
 ``` r
 # 2
 penguins |> 
-  mutate(mass_by_length = body_mass_g / flipper_length_mm) |> 
+  mutate(mass_by_length = (body_mass_g / 1000) / flipper_length_mm) |> 
   select(mass_by_length, everything())
 ```
 
     # A tibble: 344 × 9
        mass_by_length species island  bill_length_mm bill_depth_mm flipper_length_mm
                 <dbl> <fct>   <fct>            <dbl>         <dbl>             <int>
-     1           20.7 Adelie  Torger…           39.1          18.7               181
-     2           20.4 Adelie  Torger…           39.5          17.4               186
-     3           16.7 Adelie  Torger…           40.3          18                 195
-     4           NA   Adelie  Torger…           NA            NA                  NA
-     5           17.9 Adelie  Torger…           36.7          19.3               193
-     6           19.2 Adelie  Torger…           39.3          20.6               190
-     7           20.0 Adelie  Torger…           38.9          17.8               181
-     8           24.0 Adelie  Torger…           39.2          19.6               195
-     9           18.0 Adelie  Torger…           34.1          18.1               193
-    10           22.4 Adelie  Torger…           42            20.2               190
+     1         0.0207 Adelie  Torger…           39.1          18.7               181
+     2         0.0204 Adelie  Torger…           39.5          17.4               186
+     3         0.0167 Adelie  Torger…           40.3          18                 195
+     4        NA      Adelie  Torger…           NA            NA                  NA
+     5         0.0179 Adelie  Torger…           36.7          19.3               193
+     6         0.0192 Adelie  Torger…           39.3          20.6               190
+     7         0.0200 Adelie  Torger…           38.9          17.8               181
+     8         0.0240 Adelie  Torger…           39.2          19.6               195
+     9         0.0180 Adelie  Torger…           34.1          18.1               193
+    10         0.0224 Adelie  Torger…           42            20.2               190
     # ℹ 334 more rows
     # ℹ 3 more variables: body_mass_g <int>, sex <fct>, year <int>
 
@@ -189,11 +191,11 @@ dividir por la desviación típica) las variables numéricas de penguins.
 
 ``` r
 # R base
-estandarizar <- function(x) {
-  (x - mean(x, na.rm = TRUE)) / sd(x, na.rm = TRUE)
+estandarizar <- function(x, my.na.rm) {
+  (x - mean(x, na.rm = my.na.rm)) / sd(x, na.rm = my.na.rm)
 }
 
-estandarizar(penguins$bill_length_mm)
+estandarizar(penguins$bill_length_mm, my.na.rm = T)
 ```
 
       [1] -0.88320467 -0.80993901 -0.66340769          NA -1.32279862 -0.84657184
@@ -257,12 +259,12 @@ estandarizar(penguins$bill_length_mm)
 
 ``` r
 # Tidyverse
-estandarizar_tidy <- function(data, x) {
-  ({{ x }} - mean({{ x }}, na.rm = TRUE)) / sd({{ x }}, na.rm = TRUE)
+estandarizar_tidy <- function(x, my.na.rm) {
+  ({{ x }} - mean({{ x }}, na.rm = my.na.rm)) / sd({{ x }}, na.rm = my.na.rm)
 } 
 
 penguins |> 
-  mutate(st_bill_length = estandarizar(x = bill_length_mm)) |> 
+  mutate(st_bill_length = estandarizar_tidy(x = bill_length_mm, my.na.rm = T)) |> 
   select(bill_length_mm, st_bill_length)
 ```
 
@@ -287,6 +289,9 @@ penguins |>
 sirviera para cualquier base de datos?
 
 ``` r
+penguins_num <- penguins |> 
+  select(species, sex, where(is.numeric))
+
 explorar_penguins <-
   function(var) {
     ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
@@ -297,20 +302,32 @@ explorar_penguins <-
       ylab(var)
   }
 
-explorar_df <- function(datos, var, categoria, color) {
-  ggplot(data = datos, aes(x = .data[[categoria]], y = .data[[var]], color = .data[[color]])) + 
+explorar_penguins(var = "body_mass_g") 
+```
+
+    Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).
+
+    Warning: Removed 2 rows containing missing values (`geom_point()`).
+
+![](ejer_resueltos_files/figure-commonmark/5.2.1-1.png)
+
+``` r
+explorar_df <- function(df, x_var, y_var, color) {
+  ggplot(data = df, aes(x = .data[[x_var]], y = .data[[y_var]], color = .data[[color]])) + 
     geom_point(position = position_jitterdodge(), alpha = 0.3) +
     geom_boxplot(alpha = 0.5) + 
-    theme_light() + ylab(var)
+    scale_color_manual(values = rainbow(n = length(unique(df[[color]])))) +
+    theme_light() + 
+    ylab(y_var)
 }
 
-explorar_df(datos = iris, # iris es un dataset cargado en RStudio por defecto
-            var = "Petal.Length",
-            categoria = "Species",
+explorar_df(df = iris, # iris es un dataset cargado en RStudio por defecto
+            y_var = "Petal.Length",
+            x_var = "Species",
             color = "Species")
 ```
 
-![](ejer_resueltos_files/figure-commonmark/5.2.1-1.png)
+![](ejer_resueltos_files/figure-commonmark/5.2.1-2.png)
 
 ## 8.1.1 Ejercicio
 
@@ -1085,7 +1102,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2024-05-24 10:38:03 CEST"
+    [1] "2024-05-27 19:09:31 CEST"
 
 ``` r
 sessionInfo()

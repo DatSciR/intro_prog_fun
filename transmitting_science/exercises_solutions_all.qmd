@@ -1,5 +1,5 @@
 ---
-title: "Programación funcional en R - ejercicios resueltos"
+title: "Functional Programming with R"
 author: Julen Astigarraga y Verónica Cruz-Alonso
 date: today
 date-format: "DD/MM/YYYY"
@@ -14,39 +14,13 @@ editor_options:
 number-sections: false
 ---
 
-## 2.1.1 Ejercicio
+## 2.2.1 Exercise
 
-1.  Elije un número y multiplicalo por 3
+1.  With the penguins dataset, create an object with individuals of the Adelie species and arrange the `data.frame` according to flipper length.
 
-2.  Crea un objeto que contenga 100 valores entre 1901 y 2000
+2.  Create an object from the previous one where you select the island and the variables related to the bill.
 
-3.  Suma un número a tu objeto
-
-4.  Multiplica tu objeto por sí mismo
-
-```{r 2.1.1}
-
-# 1
-10 * 3
-
-# 2
-misvalores <- 1901:2000
-
-# 3
-misvalores + 5
-
-# 4
-misvalores * misvalores
-
-```
-
-## 2.2.1 Ejercicio
-
-1.  Crea un objeto con los pingüinos de la especie Adelie y ordena la tabla según la longitud del ala de los individuos.
-
-2.  Crea un objeto a partir del anterior donde selecciones la isla y las variables relacionadas con el pico.
-
-3.  Crea un objeto a partir del creado en el punto 1 donde selecciones todo menos la especie.
+3.  Create an object from the one created in step 1 where you select everything except the species.
 
 ```{r 2.2.1}
 
@@ -65,13 +39,14 @@ adelie_subset <- adelie |>
 # 3
 adelie2 <- adelie |> 
   select(-species)
+
 ```
 
-## 2.2.2 Ejercicio
+## 2.2.2 Exercise
 
-1.  Con el `data.frame` penguins, cuenta el número de casos que hay en cada isla y calcula la media de la longitud del ala en cada isla.
+1.  With the penguins dataset, count the number of cases on each island and calculate the mean flipper length for each island.
 
-2.  Con el mismo `data.frame` calcula la relación entre el peso en kg y la longitud del ala para cada individuo.
+2.  Calculate the ratio between the weight in kg and the flipper length for each individual.
 
 ```{r 2.2.2}
 
@@ -86,58 +61,58 @@ penguins |>
 # 2
 penguins |> 
   mutate(mass_by_length = (body_mass_g / 1000) / flipper_length_mm) |> 
-  select(mass_by_length, everything())
+  select(mass_by_length)
 
 ```
 
-## 5.0.1 Ejercicio
+## 5.0.1 Exercise
 
-Genera tu primera función que divida un valor siempre entre 100.
+Create your first function that fulfills the functionality of dividing any value by 100.
 
 ```{r 5.0.1}
 
-dividirpor100 <- function(x) {
+divide_by_100 <- function(x) {
   x / 100
 }
 
-dividirpor100(30)
+divide_by_100(30)
 
 ```
 
-## 5.0.2 Ejercicio
+## 5.0.2 Exercise
 
-Genera una función para estandarizar (es decir, restar la media y dividir por la desviación típica) las variables numéricas de penguins.
+Create a function to standardize (i.e., subtract the mean and divide by the standard deviation) the numerical variables of the penguins dataset.
 
 ```{r 5.0.2}
 
 # R base
-estandarizar <- function(x, my.na.rm) {
+standardise <- function(x, my.na.rm) {
   (x - mean(x, na.rm = my.na.rm)) / sd(x, na.rm = my.na.rm)
 }
 
-estandarizar(penguins$bill_length_mm, my.na.rm = T)
+standardise(penguins$bill_length_mm, my.na.rm = T)
 
 # Tidyverse
-estandarizar_tidy <- function(x, my.na.rm) {
+standardise_tidy <- function(x, my.na.rm) {
   ({{ x }} - mean({{ x }}, na.rm = my.na.rm)) / sd({{ x }}, na.rm = my.na.rm)
 } 
 
 penguins |> 
-  mutate(st_bill_length = estandarizar_tidy(x = bill_length_mm, my.na.rm = T)) |> 
+  mutate(st_bill_length = standardise_tidy(x = bill_length_mm, my.na.rm = T)) |> 
   select(bill_length_mm, st_bill_length)
 
 ```
 
 ## 5.2.1 Ejercicio
 
-¿Cómo generalizarías la función `explorar_penguins()` para que te sirviera para cualquier base de datos?
+How would you generalize the function `explore_penguins()` so you can use any data frame as input?
 
 ```{r 5.2.1}
 
 penguins_num <- penguins |> 
   select(species, sex, where(is.numeric))
 
-explorar_penguins <-
+explore_penguins <-
   function(var) {
     ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
       geom_point(position = position_jitterdodge(), alpha = 0.3) +
@@ -147,9 +122,9 @@ explorar_penguins <-
       ylab(var)
   }
 
-explorar_penguins(var = "body_mass_g") 
+explore_penguins("body_mass_g")
 
-explorar_df <- function(df, x_var, y_var, color) {
+explore_df <- function(df, x_var, y_var, color) {
   ggplot(data = df, aes(x = .data[[x_var]], y = .data[[y_var]], color = .data[[color]])) + 
     geom_point(position = position_jitterdodge(), alpha = 0.3) +
     geom_boxplot(alpha = 0.5) + 
@@ -158,10 +133,10 @@ explorar_df <- function(df, x_var, y_var, color) {
     ylab(y_var)
 }
 
-explorar_df(df = iris, # iris es un dataset cargado en RStudio por defecto
-            y_var = "Petal.Length",
-            x_var = "Species",
-            color = "Species")
+explore_df(df = iris, # iris es un dataset cargado en RStudio por defecto
+           y_var = "Petal.Length",
+           x_var = "Species",
+           color = "Species")
 
 ```
 

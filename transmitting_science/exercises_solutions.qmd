@@ -133,7 +133,7 @@ explore_df <- function(df, x_var, y_var, color) {
     ylab(y_var)
 }
 
-explore_df(df = iris, # iris es un dataset cargado en RStudio por defecto
+explore_df(df = iris,
            y_var = "Petal.Length",
            x_var = "Species",
            color = "Species")

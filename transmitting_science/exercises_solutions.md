@@ -261,7 +261,7 @@ explore_df <- function(df, x_var, y_var, color) {
     ylab(y_var)
 }
 
-explore_df(df = iris, # iris es un dataset cargado en RStudio por defecto
+explore_df(df = iris,
            y_var = "Petal.Length",
            x_var = "Species",
            color = "Species")
@@ -278,7 +278,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2024-05-27 19:11:17 CEST"
+    [1] "2024-05-27 19:13:43 CEST"
 
 ``` r
 sessionInfo()

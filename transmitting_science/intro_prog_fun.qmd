@@ -30,31 +30,31 @@ Within the model of the tools needed in a typical data science project of Wickha
 
 ### Course structure
 
-+-----------------------------------------------------+--------------+
-| Blocks                                              | Day          |
-+=====================================================+==============+
-| Course introduction                                 | 27/05/24     |
-|                                                     |              |
-| Refresh of tidyverse                                |              |
-|                                                     |              |
-| Introduction to Functional Programming              |              |
-+-----------------------------------------------------+--------------+
-| Theory of functions in R                            | 27/05/24     |
-|                                                     |              |
-| How to write functions. Arguments and return values |              |
-+-----------------------------------------------------+--------------+
-| Object-Oriented Programming                         | 31/05/24     |
-|                                                     |              |
-| Functional Programming                              |              |
-|                                                     |              |
-| Iterations over one argument                        |              |
-+-----------------------------------------------------+--------------+
-| Iterations over multiple arguments                  | 31/05/24     |
-|                                                     |              |
-| Iterations without output                           |              |
-|                                                     |              |
-| Functional operators and other functionals          |              |
-+-----------------------------------------------------+--------------+
++-----------------------------------------------------+-------------+
+| Blocks                                              | Day         |
++=====================================================+=============+
+| Course introduction                                 | 27/05/24    |
+|                                                     |             |
+| Refresh of tidyverse                                |             |
+|                                                     |             |
+| Introduction to Functional Programming              |             |
++-----------------------------------------------------+-------------+
+| Theory of functions in R                            | 27/05/24    |
+|                                                     |             |
+| How to write functions. Arguments and return values |             |
++-----------------------------------------------------+-------------+
+| Object-Oriented Programming                         | 31/05/24    |
+|                                                     |             |
+| Functional Programming                              |             |
+|                                                     |             |
+| Iterations over one argument                        |             |
++-----------------------------------------------------+-------------+
+| Iterations over multiple arguments                  | 31/05/24    |
+|                                                     |             |
+| Iterations without output                           |             |
+|                                                     |             |
+| Functional operators and other functionals          |             |
++-----------------------------------------------------+-------------+
 
 ### Who we are?
 
@@ -89,6 +89,8 @@ mymatrix_cha
 
 mytibble <- tibble(a, b, c)
 mytibble
+
+mydf <- data.frame(a, b, c)
 
 mylist <- list(a, b, c, d)
 mylist
@@ -152,6 +154,8 @@ myvector |> unique() |> length()
 
 ```{r primeros_tidypasos}
 #| warning: false
+
+library(palmerpenguins)
 
 penguins <- palmerpenguins::penguins
 penguins
@@ -275,7 +279,7 @@ mean(x = values)
 mydata <- tibble(values = 1:10)
 mean(x = values)
 mean(x = mydata$values)
-misdatos |> 
+mydata |> 
   summarise(mean = mean(values))
 ```
 
@@ -537,7 +541,6 @@ explore_penguins <- function (var) {
     theme_light() +
     ylab(var) 
 }
-
 ```
 
 📝 Use comments (#) to explain the reasoning behind your functions. Avoid explaining what the function is doing or how, as the code itself already communicates that. It is also recommended to use \# to separate sections (Cmd/Ctrl + Shift + R).

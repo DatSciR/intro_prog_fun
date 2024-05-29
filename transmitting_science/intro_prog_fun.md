@@ -1,6 +1,6 @@
 # Functional Programming with R
 Julen Astigarraga and Verónica Cruz-Alonso
-27/05/2024
+29/05/2024
 
 - [<span class="toc-section-number">1</span>
   Introduction](#introduction)
@@ -25,6 +25,44 @@ Julen Astigarraga and Verónica Cruz-Alonso
   - [<span class="toc-section-number">5.1</span> Arguments](#arguments)
   - [<span class="toc-section-number">5.2</span> Return
     values](#return-values)
+- [<span class="toc-section-number">6</span> Object-oriented programming
+  (OOP)](#object-oriented-programming-oop)
+- [<span class="toc-section-number">7</span> Functional
+  programming](#functional-programming)
+- [<span class="toc-section-number">8</span> Iterations over one
+  argument](#iterations-over-one-argument)
+  - [<span class="toc-section-number">8.1</span> Our first functional:
+    generating lists,
+    `map()`](#our-first-functional-generating-lists-map)
+  - [<span class="toc-section-number">8.2</span> Our second functional:
+    generating vectors,
+    `map_*()`](#our-second-functional-generating-vectors-map_)
+- [<span class="toc-section-number">9</span> Iterations over multiple
+  arguments](#iterations-over-multiple-arguments)
+  - [<span class="toc-section-number">9.1</span> Our third functional:
+    two inputs, `map2()`](#our-third-functional-two-inputs-map2)
+  - [<span class="toc-section-number">9.2</span> Our fourth functional:
+    multiple inputs,
+    `pmap()`](#our-fourth-functional-multiple-inputs-pmap)
+- [<span class="toc-section-number">10</span> Iterations without
+  output](#iterations-without-output)
+  - [<span class="toc-section-number">10.1</span> Our fifth functional:
+    `walk()`, `walk2()` and
+    `pwalk()`](#our-fifth-functional-walk-walk2-and-pwalk)
+- [<span class="toc-section-number">11</span> Functional operators and
+  other functionals](#functional-operators-and-other-functionals)
+  - [<span class="toc-section-number">11.1</span> More variants of
+    `map()`](#more-variants-of-map)
+  - [<span class="toc-section-number">11.2</span> Predicate functionals
+    and more useful stuff](#predicate-functionals-and-more-useful-stuff)
+- [<span class="toc-section-number">12</span> Further
+  information](#further-information)
+  - [<span class="toc-section-number">12.1</span>
+    Parallelization](#parallelization)
+  - [<span class="toc-section-number">12.2</span> More information about
+    Object-Oriented Programming (OOP)](#sec-OOP)
+  - [<span class="toc-section-number">12.3</span> Links of
+    interest](#links-of-interest)
 
 ## Introduction
 
@@ -47,10 +85,10 @@ programming.
 
 ### Course structure
 
-<table style="width:96%;">
+<table style="width:97%;">
 <colgroup>
 <col style="width: 75%" />
-<col style="width: 20%" />
+<col style="width: 22%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -172,6 +210,8 @@ mytibble
     4     4     4 hi   
 
 ``` r
+mydf <- data.frame(a, b, c)
+
 mylist <- list(a, b, c, d)
 mylist
 ```
@@ -322,6 +362,8 @@ myvector |> unique() |> length()
     [1] 2
 
 ``` r
+library(palmerpenguins)
+
 penguins <- palmerpenguins::penguins
 penguins
 ```
@@ -758,11 +800,14 @@ mean(x = mydata$values)
     [1] 5.5
 
 ``` r
-misdatos |> 
+mydata |> 
   summarise(mean = mean(values))
 ```
 
-    Error in summarise(misdatos, mean = mean(values)): object 'misdatos' not found
+    # A tibble: 1 × 1
+       mean
+      <dbl>
+    1   5.5
 
 ![Data masking in *tidyverse* allows to use data-variables as if they
 were env-variables. Art by Cristina Grajera](images/data_masking.png)
@@ -1199,7 +1244,7 @@ explore_penguins(var = "bill_depth_mm")
 💡You may want to convert these tests into formal tests. In complex
 functions, tests are useful to ensure that even if you make changes, the
 functionality has not been broken. If you’re interested, check out this
-link: <a href="#0" class="uri">https://r-pkgs.org/testing-bas</a>
+link: <https://r-pkgs.org/testing-basics.html>
 
 #### Exercise
 
@@ -1310,6 +1355,1467 @@ if/else structure, especially if there is a long and complex branch.
 How would you generalize the function `explore_penguins()` so you can
 use any data frame as input?
 
+## Object-oriented programming (OOP)
+
+Most people tend to program imperatively. In imperative programming,
+scripts tend to be long and gradually change the state of the program.
+This often involves the use of temporary databases that are modified
+throughout the analysis process. As a result, it can be more difficult
+to understand what is being done in each step of the script.
+Object-oriented programming, used by languages, such as Java or Python,
+has been the most popular programming paradigm in recent decades and
+uses an imperative programming style.
+
+``` r
+mypenguins <- penguins |> 
+  mutate(
+    bill_volume_mm2 = (bill_length_mm * bill_depth_mm) / 2,
+    female_penguin = case_when(
+      sex == "female" & body_mass_g < 3600 ~ "small female",
+      sex == "female" & body_mass_g >= 3600 ~ "big female",
+      TRUE ~ NA)
+  ) 
+
+mypenguins |> 
+  group_by(female_penguin) |> 
+  summarise(body_mass_mean = mean(body_mass_g))
+```
+
+    # A tibble: 3 × 2
+      female_penguin body_mass_mean
+      <chr>                   <dbl>
+    1 big female              4338.
+    2 small female            3277.
+    3 <NA>                      NA 
+
+*for loops* and *while loops* are recommended to delve into the world of
+iterations because they make each iteration very explicit so it is clear
+what is happening.
+
+![Graphic representation of the operation of for loops where it is
+clearly seen that an iteration is being carried out. Illustration by
+Allison Horst taken from Hadley Wickham’s talk The Joy of Functional
+Programming (for data science)](images/forloops.png)
+
+``` r
+set.seed(123)
+
+df_sam <- data.frame(
+  a = sample(1:5),
+  b = sample(1:5),
+  c = sample(1:5)
+)
+
+output <- vector("double", 3)           # 1. output
+for (i in 1:3) {                        # 2. sequence
+  output[[i]] <- first(df_sam[[i]])     # 3. body
+}
+
+output
+```
+
+    [1] 3 3 2
+
+``` r
+# we could generalize the for loop
+output <- vector("double", ncol(df_sam))   # 1. output
+for (i in seq_along(df_sam)) {             # 2. sequence
+  output[[i]] <- first(df_sam[[i]])        # 3. body
+}
+
+output
+```
+
+    [1] 3 3 2
+
+1.  Output: here we determine the output space, i.e., first we have to
+    create the notebook where we are going to write down all the
+    results. This is very important for efficiency since if we increase
+    the size of the *for loop* in each iteration with `c()` or another
+    function that adds elements, the for loop will be much slower.
+
+``` r
+x <- c()
+system.time(
+  for(i in 1:20000) {
+    x <- c(x, i)
+  }
+)
+```
+
+       user  system elapsed 
+       0.45    0.36    0.81 
+
+``` r
+y <- vector("double", length = 20000)
+system.time(
+  for(i in seq_along(y)) {
+    y[i] <- i
+  }
+)
+```
+
+       user  system elapsed 
+          0       0       0 
+
+2.  Sequence: here we determine what we want to iterate on. Each
+    execution of the for loop will assign a different value of
+    `seq_along(y)` to *i* .
+
+3.  Body: Here we determine what we want each iteration to do. It is
+    executed repeatedly, each time with a different value for `i`.
+
+There are different [variations of for
+loops](https://r4ds.had.co.nz/iteration.html#for-loop-variations): (i)
+modifying an existing object instead of creating a new one; (ii) loops
+over names or values instead of indices; (iii) loops when we do not know
+the length of the output; (iv) loops when we do not know the length of
+the input sequence, i.e., while loops.
+
+👀 Some [common pitfalls](https://adv-r.hadley.nz/control-flow.html)
+when using for loops (see 5.3.1 Common pitfalls).
+
+Despite being widely used in R, for loops are not as important as they
+may be in other languages because R is a functional programming
+language. This means that *it is possible to wrap for loops in a
+function* and call that function instead of using the loop.
+
+There is a belief that for loops are slow, but the real disadvantage of
+*for loops is that they are too flexible*. Instead, each functional
+({purrr}, `apply`) is designed for a specific task, so as soon as you
+see it in the code, you immediately know why it’s being used. That is,
+the main advantage is its clarity by making the code easier to write and
+read (see this advanced example to understand it:
+<https://adv-r.hadley.nz/functionals.html>, 9.3 Purrr style). Once we
+master functional programming, we will be able to solve many iteration
+problems with less code, more ease, and fewer errors.
+
+Loops can be more explicit in that you see the iteration clearly, but it
+takes more time to understand what you are doing. On the contrary,
+functionals require one more step of abstraction and may require time
+until we understand them. The most important thing is that you solve the
+problem and little by little write increasingly simpler and more elegant
+code. See <a href="#sec-OOP" class="quarto-xref">Section 12.2</a> for
+more information on object-oriented programming.
+
+> To become significantly more reliable, code must become more
+> transparent. In particular, nested conditions and loops must be viewed
+> with great suspicion. Complicated control flows confuse programmers.
+> Messy code often hides bugs.
+>
+> — Bjarne Stroustrup ([Advanced R](https://adv-r.hadley.nz/index.html))
+
+## Functional programming
+
+![Graphical representation of the operation of `map()` where the focus
+is on the operation performed. Illustration by Allison Horst taken from
+Hadley Wickham’s talk The Joy of Functional Programming (for data
+science)](images/map_frosting.png)
+
+In functional programming, functions are designed to perform a single
+specific task and are then combined by calling these functions
+successively for the data set. A significant advantage of this approach
+is that these functions can be reused in any other project, facilitating
+code modularity. Furthermore, when they are well documented and easily
+testable, it is easy to understand and maintain the program.
+
+R is a functional programming language so it relies primarily on a
+function-centric problem-solving style
+(<https://adv-r.hadley.nz/fp.html>). A functional is a function that
+takes a function as input and returns a vector or other type of object
+as output.
+
+``` r
+randomization <- function(f) {
+  f(rnorm(5))
+}
+
+randomization(f = median)
+```
+
+    [1] 0.3598138
+
+To program a functional, first, we solve the problem for an element.
+Next, we generate a function that allows us to wrap the solution in a
+function. Finally, we *apply the function to all the elements we are
+interested in.* That is, we divide large problems into smaller problems
+and solve each task with one or more functions.
+
+The advantage of using {purrr} instead of for loops is that it provides
+a (functional) function for each of the common data manipulation
+problems, and therefore each for loop has its own function. For example,
+to iterate over one argument we use the `map()` function and to iterate
+over two arguments we use the `map2()` function. The base R `apply`
+family solves similar problems, but {purrr} is more consistent and
+therefore easier to learn.
+
+Iterating over a vector is so common that the {purrr} package provides a
+family of functions (the `map()` family) for it. Remember that data
+frames are lists of vectors of the same length, so any calculation by
+rows or columns involves iterating over a vector. There is a function in
+{purrr} for each type of output. The suffixes indicate the type of
+output we want:
+
+- `map()` generates a list.
+- `map_lgl()` generates a logical vector.
+- `map_int()` generates a vector of integers.
+- `map_dbl()` generates a vector of decimal numbers.
+- `map_chr()` generates a character vector.
+- `map_vec()` generates a vector automatically determining the type.
+
+💡¿[Why is this function called
+*map*](https://adv-r.hadley.nz/functionals.html#map)?
+
+``` r
+map_int(df_sam, first)
+```
+
+    a b c 
+    3 3 2 
+
+``` r
+df_sam |> 
+  map_int(first)
+```
+
+    a b c 
+    3 3 2 
+
+``` r
+output <- vector("double", 3)
+for (i in 1:3) {
+  output[[i]] <- first(df_sam[[i]])
+}
+output
+```
+
+    [1] 3 3 2
+
+Compared to a loop, the focus is on the operation being executed
+(`first()`), and not on the code needed to iterate over each element and
+save the output.
+
+## Iterations over one argument
+
+`map_*()` is vectorized over one argument, e.g. `(x)`. The function will
+operate on all elements of `x`, i.e., each value if `x` is a vector,
+each column if `x` is a `data.frame`, or each element if `x` is a list.
+
+### Our first functional: generating lists, `map()`
+
+It takes a vector and a function, calls the function once for each
+element of the vector, and returns the results in a list. `map(1:3, f)`
+is equivalent to `list(f(1), f(2), f(3))`. It is the equivalent of base
+R’s `lapply()`.
+
+``` r
+quadratic <- function(x) {
+  x ^ 2
+}
+
+map(1:4, quadratic)
+```
+
+    [[1]]
+    [1] 1
+
+    [[2]]
+    [1] 4
+
+    [[3]]
+    [1] 9
+
+    [[4]]
+    [1] 16
+
+``` r
+lapply(X = 1:4, FUN = quadratic)
+```
+
+    [[1]]
+    [1] 1
+
+    [[2]]
+    [1] 4
+
+    [[3]]
+    [1] 9
+
+    [[4]]
+    [1] 16
+
+``` r
+# some more interesting use
+glimpse(penguins)
+```
+
+    Rows: 344
+    Columns: 8
+    $ species           <fct> Adelie, Adelie, Adelie, Adelie, Adelie, Adelie, Adel…
+    $ island            <fct> Torgersen, Torgersen, Torgersen, Torgersen, Torgerse…
+    $ bill_length_mm    <dbl> 39.1, 39.5, 40.3, NA, 36.7, 39.3, 38.9, 39.2, 34.1, …
+    $ bill_depth_mm     <dbl> 18.7, 17.4, 18.0, NA, 19.3, 20.6, 17.8, 19.6, 18.1, …
+    $ flipper_length_mm <int> 181, 186, 195, NA, 193, 190, 181, 195, 193, 190, 186…
+    $ body_mass_g       <int> 3750, 3800, 3250, NA, 3450, 3650, 3625, 4675, 3475, …
+    $ sex               <fct> male, female, female, NA, female, male, female, male…
+    $ year              <int> 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…
+
+``` r
+# shortcut to generate an anonymous function
+map(penguins, \(x) length(unique(x)))
+```
+
+    $species
+    [1] 3
+
+    $island
+    [1] 3
+
+    $bill_length_mm
+    [1] 165
+
+    $bill_depth_mm
+    [1] 81
+
+    $flipper_length_mm
+    [1] 56
+
+    $body_mass_g
+    [1] 95
+
+    $sex
+    [1] 3
+
+    $year
+    [1] 3
+
+``` r
+# output dataframe
+map_df(penguins, \(x) length(unique(x)))
+```
+
+    # A tibble: 1 × 8
+      species island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+        <int>  <int>          <int>         <int>             <int>       <int>
+    1       3      3            165            81                56          95
+    # ℹ 2 more variables: sex <int>, year <int>
+
+![](images/map.png)
+
+#### Exercise
+
+Generate a vector, a function and apply the function to each of the
+elements of the vector using `map()`.
+
+``` r
+imple_map <- function(x, f, ...) {
+  out <- vector("list", length(x))
+  for (i in seq_along(x)) {
+    out[[i]] <- f(x[[i]], ...)
+  }
+  out
+}
+
+imple_map(1:4, quadratic)
+```
+
+    [[1]]
+    [1] 1
+
+    [[2]]
+    [1] 4
+
+    [[3]]
+    [1] 9
+
+    [[4]]
+    [1] 16
+
+💡Comparing {purrr} functions with wrapping a for loop on your own,
+{purrr} functions are written in C to maximize performance, preserve
+names, and support some shortcuts (e.g. `\(x)`).
+
+#### Exercise
+
+Now that you have understood the logic of `map()`, spot the differences
+between the following three lines of code. What does the `map()`
+functional do? What differences do you detect in the code? And at the
+output?
+
+``` r
+map(penguins, \(x) mean(x))
+```
+
+    Warning in mean.default(x): argument is not numeric or logical: returning NA
+
+    Warning in mean.default(x): argument is not numeric or logical: returning NA
+
+    Warning in mean.default(x): argument is not numeric or logical: returning NA
+
+    $species
+    [1] NA
+
+    $island
+    [1] NA
+
+    $bill_length_mm
+    [1] NA
+
+    $bill_depth_mm
+    [1] NA
+
+    $flipper_length_mm
+    [1] NA
+
+    $body_mass_g
+    [1] NA
+
+    $sex
+    [1] NA
+
+    $year
+    [1] 2008.029
+
+``` r
+map(penguins, \(x) mean(x, na.rm = T)) # option 1
+```
+
+    Warning in mean.default(x, na.rm = T): argument is not numeric or logical:
+    returning NA
+
+    Warning in mean.default(x, na.rm = T): argument is not numeric or logical:
+    returning NA
+
+    Warning in mean.default(x, na.rm = T): argument is not numeric or logical:
+    returning NA
+
+    $species
+    [1] NA
+
+    $island
+    [1] NA
+
+    $bill_length_mm
+    [1] 43.92193
+
+    $bill_depth_mm
+    [1] 17.15117
+
+    $flipper_length_mm
+    [1] 200.9152
+
+    $body_mass_g
+    [1] 4201.754
+
+    $sex
+    [1] NA
+
+    $year
+    [1] 2008.029
+
+``` r
+map(penguins, mean, na.rm = T) # option 2
+```
+
+    Warning in mean.default(.x[[i]], ...): argument is not numeric or logical:
+    returning NA
+
+    Warning in mean.default(.x[[i]], ...): argument is not numeric or logical:
+    returning NA
+
+    Warning in mean.default(.x[[i]], ...): argument is not numeric or logical:
+    returning NA
+
+    $species
+    [1] NA
+
+    $island
+    [1] NA
+
+    $bill_length_mm
+    [1] 43.92193
+
+    $bill_depth_mm
+    [1] 17.15117
+
+    $flipper_length_mm
+    [1] 200.9152
+
+    $body_mass_g
+    [1] 4201.754
+
+    $sex
+    [1] NA
+
+    $year
+    [1] 2008.029
+
+As we have seen in the previous exercise, if we wanted to pass
+additional arguments to the function we are using within `map()`, one
+option would be through an anonymous function (see option 1 of the
+previous exercise). However, since `map()` includes `...` among its
+arguments, we can also include the additional arguments after the
+function inside `map()` in a much simpler way (see option 2 of the
+previous exercise).
+
+### Our second functional: generating vectors, `map_*()`
+
+#### Exercise
+
+Take a couple of minutes to understand what the following functions do:
+
+``` r
+map_lgl(penguins, is.numeric)
+```
+
+              species            island    bill_length_mm     bill_depth_mm 
+                FALSE             FALSE              TRUE              TRUE 
+    flipper_length_mm       body_mass_g               sex              year 
+                 TRUE              TRUE             FALSE              TRUE 
+
+``` r
+penguins_num <- penguins[ , map_lgl(penguins, is.numeric)] 
+map_dbl(penguins_num, median, na.rm = T)
+```
+
+       bill_length_mm     bill_depth_mm flipper_length_mm       body_mass_g 
+                44.45             17.30            197.00           4050.00 
+                 year 
+              2008.00 
+
+``` r
+map_chr(penguins, class)
+```
+
+              species            island    bill_length_mm     bill_depth_mm 
+             "factor"          "factor"         "numeric"         "numeric" 
+    flipper_length_mm       body_mass_g               sex              year 
+            "integer"         "integer"          "factor"         "integer" 
+
+``` r
+map_int(penguins, \(x) length(unique(x)))
+```
+
+              species            island    bill_length_mm     bill_depth_mm 
+                    3                 3               165                81 
+    flipper_length_mm       body_mass_g               sex              year 
+                   56                95                 3                 3 
+
+``` r
+1:4 |> 
+  map_vec(\(x) as.Date(ISOdate(x + 2024, 05, 13)))
+```
+
+    [1] "2025-05-13" "2026-05-13" "2027-05-13" "2028-05-13"
+
+Arguments that vary for each run are written before the function, and
+arguments that are the same for each run are written after the function
+(e.g. `na.rm = T`).
+
+![](images/map+fix.png)
+
+Base R has two functions from the `apply()` family that can return
+vectors: `sapply()` and `vapply()`. We recommend avoiding `sapply()`
+because it tries to simplify the result and chooses a default output
+format, potentially returning a list, a vector or a matrix. `vapply()`
+is safer because it allows you to indicate the output format with
+FUN.VALUE. The main disadvantage of `vapply()` is that we need to
+specify more arguments than in `map_*()`.
+
+``` r
+vapply(penguins_num, median, na.rm = T, FUN.VALUE = double(1))
+```
+
+       bill_length_mm     bill_depth_mm flipper_length_mm       body_mass_g 
+                44.45             17.30            197.00           4050.00 
+                 year 
+              2008.00 
+
+``` r
+map_dbl(penguins_num, median, na.rm = T)
+```
+
+       bill_length_mm     bill_depth_mm flipper_length_mm       body_mass_g 
+                44.45             17.30            197.00           4050.00 
+                 year 
+              2008.00 
+
+Working with lists is very common in R. In fact the default output of
+`map()` is lists. However, lists can sometimes be messy, e.g., when we
+lose the name of each element in the list. The function
+[`nest()`](https://tidyr.tidyverse.org/reference/nest.html) of {tidyr}
+allows us to work with list-columns in data frames, generating a row for
+each group defined by the non-nested columns (i.e. *non-nested*
+columns).
+
+``` r
+glimpse(penguins)
+```
+
+    Rows: 344
+    Columns: 8
+    $ species           <fct> Adelie, Adelie, Adelie, Adelie, Adelie, Adelie, Adel…
+    $ island            <fct> Torgersen, Torgersen, Torgersen, Torgersen, Torgerse…
+    $ bill_length_mm    <dbl> 39.1, 39.5, 40.3, NA, 36.7, 39.3, 38.9, 39.2, 34.1, …
+    $ bill_depth_mm     <dbl> 18.7, 17.4, 18.0, NA, 19.3, 20.6, 17.8, 19.6, 18.1, …
+    $ flipper_length_mm <int> 181, 186, 195, NA, 193, 190, 181, 195, 193, 190, 186…
+    $ body_mass_g       <int> 3750, 3800, 3250, NA, 3450, 3650, 3625, 4675, 3475, …
+    $ sex               <fct> male, female, female, NA, female, male, female, male…
+    $ year              <int> 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…
+
+``` r
+# remove na's
+penguins_nona <- penguins |>
+  drop_na()
+
+penguins_nested <- penguins_nona |>
+  group_by(species) |>
+  nest() |> # nest() generates list-columns in the data frames
+  mutate(
+    lm_obj = map(data, \(df) lm(
+      bill_length_mm ~ body_mass_g,
+      data = df))
+  )
+
+# select each item in the list
+penguins_nested[["lm_obj"]]
+```
+
+    [[1]]
+
+    Call:
+    lm(formula = bill_length_mm ~ body_mass_g, data = df)
+
+    Coefficients:
+    (Intercept)  body_mass_g  
+       27.11291      0.00316  
+
+
+    [[2]]
+
+    Call:
+    lm(formula = bill_length_mm ~ body_mass_g, data = df)
+
+    Coefficients:
+    (Intercept)  body_mass_g  
+       26.53788      0.00413  
+
+
+    [[3]]
+
+    Call:
+    lm(formula = bill_length_mm ~ body_mass_g, data = df)
+
+    Coefficients:
+    (Intercept)  body_mass_g  
+      32.174193     0.004463  
+
+``` r
+penguins_nested |>
+  pluck("lm_obj")
+```
+
+    [[1]]
+
+    Call:
+    lm(formula = bill_length_mm ~ body_mass_g, data = df)
+
+    Coefficients:
+    (Intercept)  body_mass_g  
+       27.11291      0.00316  
+
+
+    [[2]]
+
+    Call:
+    lm(formula = bill_length_mm ~ body_mass_g, data = df)
+
+    Coefficients:
+    (Intercept)  body_mass_g  
+       26.53788      0.00413  
+
+
+    [[3]]
+
+    Call:
+    lm(formula = bill_length_mm ~ body_mass_g, data = df)
+
+    Coefficients:
+    (Intercept)  body_mass_g  
+      32.174193     0.004463  
+
+## Iterations over multiple arguments
+
+### Our third functional: two inputs, `map2()`
+
+`map2()` is vectorized over two arguments, e.g. `(x,y)`
+
+``` r
+power <- function(base, exponent) {
+ base ^ exponent
+}
+
+set.seed(123)
+
+x <- sample(5)
+y <- sample(5)
+
+map2(x, y, power)
+```
+
+    [[1]]
+    [1] 27
+
+    [[2]]
+    [1] 2
+
+    [[3]]
+    [1] 25
+
+    [[4]]
+    [1] 1024
+
+    [[5]]
+    [1] 1
+
+⚡¡Important! The first iteration corresponds to the first value of the
+vector `x` and the first value of the vector `y`. The second iteration
+corresponds to the second value of the vector `x` and the second value
+of the vector `y`. Not all possible combinations are made between both
+vectors.
+
+![](images/map2.png)
+
+``` r
+imple_map2 <- function(x, y, f, ...) {
+  out <- vector("list", length(x))
+  for (i in seq_along(x)) {
+    out[[i]] <- f(x[[i]], y[[i]], ...)
+  }
+  out
+}
+
+imple_map2(x, y, power)
+```
+
+    [[1]]
+    [1] 27
+
+    [[2]]
+    [1] 2
+
+    [[3]]
+    [1] 25
+
+    [[4]]
+    [1] 1024
+
+    [[5]]
+    [1] 1
+
+#### Exercise
+
+From the code shown below, generate a `data.frame`, adding a column to
+the `data.frame` with the name that we have assigned to each list.
+
+``` r
+penguins_list <- penguins |>
+  group_split(species)
+
+# we assign names to lists
+names(penguins_list) <- c("p1", "p2", "p3")
+```
+
+``` r
+penguins_nested <- penguins |>
+  group_by(species) |>
+  nest() |> 
+  mutate(
+    lm_obj = map(data, \(df) lm(
+      bill_length_mm ~ body_mass_g,
+      data = df)),
+    pred = map2(lm_obj, data,
+                \(x, y) predict(x, y))
+  )
+
+# unnest()
+penguins_nested |> 
+  unnest(pred) |> 
+  select(!c(data, lm_obj))
+```
+
+    # A tibble: 344 × 2
+    # Groups:   species [3]
+       species  pred
+       <fct>   <dbl>
+     1 Adelie   38.9
+     2 Adelie   39.1
+     3 Adelie   37.4
+     4 Adelie   NA  
+     5 Adelie   38.0
+     6 Adelie   38.6
+     7 Adelie   38.6
+     8 Adelie   41.9
+     9 Adelie   38.1
+    10 Adelie   40.5
+    # ℹ 334 more rows
+
+#### Advanced exercise
+
+Calculate the correlation between the predictions stored in the
+list-column `pred` and `bill_length_mm`.
+
+### Our fourth functional: multiple inputs, `pmap()`
+
+Takes a list with any number of input arguments.
+
+``` r
+# they are equivalent
+map2(x, y, power)
+```
+
+    [[1]]
+    [1] 27
+
+    [[2]]
+    [1] 2
+
+    [[3]]
+    [1] 25
+
+    [[4]]
+    [1] 1024
+
+    [[5]]
+    [1] 1
+
+``` r
+pmap(list(x, y), power)
+```
+
+    [[1]]
+    [1] 27
+
+    [[2]]
+    [1] 2
+
+    [[3]]
+    [1] 25
+
+    [[4]]
+    [1] 1024
+
+    [[5]]
+    [1] 1
+
+``` r
+set.seed(123)
+
+z <- sample(5)
+
+?rnorm
+```
+
+    starting httpd help server ... done
+
+``` r
+pmap(list(n = x, mean = y, sd = z), rnorm)
+```
+
+    [[1]]
+    [1] -2.181812  8.070553  4.511437
+
+    [[2]]
+    [1] 6.056673 2.098193
+
+    [[3]]
+    [1]  3.191065 -3.244466  8.473816  6.127699  1.721570
+
+    [[4]]
+    [1] 1.862471 2.065987 4.136538 3.660349
+
+    [[5]]
+    [1] 2.914301
+
+💡If we do not name the list elements, `pmap()` will use the list
+elements in their order for consecutive arguments to the function. In
+any case, it is a good practice to name them so that it is very clear
+what the function will do.
+
+``` r
+args3 <- list(mean = x, sd = y, n = z) 
+
+args3 |> 
+  pmap(rnorm)
+```
+
+    [[1]]
+    [1] 2.743730 6.211832 2.563819
+
+    [[2]]
+    [1] 0.8344552 1.1814843
+
+    [[3]]
+    [1] 6.369872 4.359887 2.376955 3.800783 4.741179
+
+    [[4]]
+    [1]   8.433681   3.243020   5.648956 -12.136614
+
+    [[5]]
+    [1] -2.087167
+
+![](images/pmap.png)
+
+#### Exercise
+
+Transform the `map2()` that you have generated in the exercise
+<a href="#sec-exercise-map2" class="quarto-xref">Section 9.1.1</a> to
+`pmap()`.
+
+## Iterations without output
+
+### Our fifth functional: `walk()`, `walk2()` and `pwalk()`
+
+When we want to use functions for their side effects (e.g. `ggsave()`)
+and not for their return value. What is important is the action and not
+the return value or object in R.
+
+#### Exercise
+
+Based on what it says in the definition about the `walk()` family, run
+this code and understand what it does.
+
+``` r
+penguins_nested <- penguins |>
+  group_by(species) |>
+  nest()
+
+# penguins_nested |> 
+#   pluck("data") |> 
+#   pluck(1)
+
+penguins_nested_str <- penguins_nested |> 
+  mutate(path = str_glue("penguins_{species}.csv"))
+
+penguins_nested_str
+```
+
+    # A tibble: 3 × 3
+    # Groups:   species [3]
+      species   data               path                  
+      <fct>     <list>             <glue>                
+    1 Adelie    <tibble [152 × 7]> penguins_Adelie.csv   
+    2 Gentoo    <tibble [124 × 7]> penguins_Gentoo.csv   
+    3 Chinstrap <tibble [68 × 7]>  penguins_Chinstrap.csv
+
+``` r
+walk2(penguins_nested_str$data, penguins_nested_str$path, write_csv)
+```
+
+#### Advanced exercise
+
+Generate an example where you use `walk2()` or `pwalk()` to save
+multiple plots generated with `ggplot()`. Hint: the first entry will be
+the plot you want to save and the second the name of the file you want
+to give it.
+
+## Functional operators and other functionals
+
+### More variants of `map()`
+
+#### `modify()` and `imap()`
+
+`modify()` and `imap()` are also map family functions. `modify()` is
+analogous to `map()` but returns the same output type as the input type.
+
+`imap()` is used to iterate over indexes, both numeric indexes and
+names. `imap(x, f)` is analogous to `map2(x, names(x), f)` when `x` has
+names and `map2(x, seq_along(x), f)` when it does not.
+
+``` r
+# modify
+map(1:4, quadratic)
+```
+
+    [[1]]
+    [1] 1
+
+    [[2]]
+    [1] 4
+
+    [[3]]
+    [1] 9
+
+    [[4]]
+    [1] 16
+
+``` r
+modify(1:4, quadratic)
+```
+
+    [1]  1  4  9 16
+
+``` r
+# imap
+map2(penguins, names(penguins), \(x, y) paste("The column", y, "has", length(unique(x)), "unique values counting NA's"))
+```
+
+    $species
+    [1] "The column species has 3 unique values counting NA's"
+
+    $island
+    [1] "The column island has 3 unique values counting NA's"
+
+    $bill_length_mm
+    [1] "The column bill_length_mm has 165 unique values counting NA's"
+
+    $bill_depth_mm
+    [1] "The column bill_depth_mm has 81 unique values counting NA's"
+
+    $flipper_length_mm
+    [1] "The column flipper_length_mm has 56 unique values counting NA's"
+
+    $body_mass_g
+    [1] "The column body_mass_g has 95 unique values counting NA's"
+
+    $sex
+    [1] "The column sex has 3 unique values counting NA's"
+
+    $year
+    [1] "The column year has 3 unique values counting NA's"
+
+``` r
+imap(penguins, \(x, y) paste("The column", y, "has", length(unique(x)), "unique values counting NA's"))
+```
+
+    $species
+    [1] "The column species has 3 unique values counting NA's"
+
+    $island
+    [1] "The column island has 3 unique values counting NA's"
+
+    $bill_length_mm
+    [1] "The column bill_length_mm has 165 unique values counting NA's"
+
+    $bill_depth_mm
+    [1] "The column bill_depth_mm has 81 unique values counting NA's"
+
+    $flipper_length_mm
+    [1] "The column flipper_length_mm has 56 unique values counting NA's"
+
+    $body_mass_g
+    [1] "The column body_mass_g has 95 unique values counting NA's"
+
+    $sex
+    [1] "The column sex has 3 unique values counting NA's"
+
+    $year
+    [1] "The column year has 3 unique values counting NA's"
+
+``` r
+df_sam <- data.frame(
+  a = sample(1:5),
+  b = sample(1:5),
+  c = sample(1:5)
+) 
+
+colnames(df_sam) <- NULL
+
+imap(df_sam, \(x, y) paste("The column", y, "has", length(unique(x)), "unique values counting NA's"))
+```
+
+    [[1]]
+    [1] "The column 1 has 5 unique values counting NA's"
+
+    [[2]]
+    [1] "The column 2 has 5 unique values counting NA's"
+
+    [[3]]
+    [1] "The column 3 has 5 unique values counting NA's"
+
+In this course we do not delve into `modify()` and `imap()` because with
+the other functionals we have seen we can address practically all
+iteration problems. However, if anyone is interested you can check out
+<https://adv-r.hadley.nz/functionals.html>, 9.4 Map variants.
+
+💡Examples of some specific tasks with {purrr}:
+<https://r4ds.hadley.nz/iteration>
+
+### Predicate functionals and more useful stuff
+
+LPredicates are functions that return a single TRUE or FALSE (e.g.,
+`is.character()`). Thus, a functional predicate applies a predicate to
+each element of a vector: `keep()`, `discard()`, `some()`, `every()`,
+`detect()`, `detect_index()` … For more information see:
+<https://r4ds.had.co.nz/iteration.html>, 21.9.1 Predicate functions.
+
+``` r
+penguins |> 
+  keep(is.numeric)
+```
+
+    # A tibble: 344 × 5
+       bill_length_mm bill_depth_mm flipper_length_mm body_mass_g  year
+                <dbl>         <dbl>             <int>       <int> <int>
+     1           39.1          18.7               181        3750  2007
+     2           39.5          17.4               186        3800  2007
+     3           40.3          18                 195        3250  2007
+     4           NA            NA                  NA          NA  2007
+     5           36.7          19.3               193        3450  2007
+     6           39.3          20.6               190        3650  2007
+     7           38.9          17.8               181        3625  2007
+     8           39.2          19.6               195        4675  2007
+     9           34.1          18.1               193        3475  2007
+    10           42            20.2               190        4250  2007
+    # ℹ 334 more rows
+
+``` r
+penguins |> 
+  discard(is.numeric)
+```
+
+    # A tibble: 344 × 3
+       species island    sex   
+       <fct>   <fct>     <fct> 
+     1 Adelie  Torgersen male  
+     2 Adelie  Torgersen female
+     3 Adelie  Torgersen female
+     4 Adelie  Torgersen <NA>  
+     5 Adelie  Torgersen female
+     6 Adelie  Torgersen male  
+     7 Adelie  Torgersen female
+     8 Adelie  Torgersen male  
+     9 Adelie  Torgersen <NA>  
+    10 Adelie  Torgersen <NA>  
+    # ℹ 334 more rows
+
+``` r
+penguins |> 
+  every(is.numeric)
+```
+
+    [1] FALSE
+
+`dplyr::across()` is similar to `map()` but instead of doing something
+with each element of a vector, data frame or list, it does something
+with each column in a data frame.
+
+`reduce()` is a useful way to generalize a function that works with two
+inputs (binary function) to work with any number of inputs.
+
+``` r
+penguins_scaled <- penguins |>
+  mutate(across(where(is.numeric), scale))
+
+ls <- list(
+  age = tibble(name = c("Vero", "Julen"), age = c(100, 140)),
+  sex = tibble(name = c("Vero", "Julen"), sex = c("F", "M")),
+  height = tibble(name = c("Vero", "Julen"), height = c("180", "150"))
+)
+
+ls |> 
+  reduce(full_join, by = "name")
+```
+
+    # A tibble: 2 × 4
+      name    age sex   height
+      <chr> <dbl> <chr> <chr> 
+    1 Vero    100 F     180   
+    2 Julen   140 M     150   
+
+#### Function operators
+
+When we use `map()` functions to repeat many operations, the probability
+increases that one of those operations will fail and we will not get any
+output. {purrr} provides some function operators in the form of adverbs
+to ensure that an error doesn’t ruin the entire process: `safely()`,
+`possibly()`, `quietly()`. For more information see:
+<https://r4ds.had.co.nz/iteration.html>, 21.6 Dealing with failure.
+
+``` r
+x <- list(10, "b", 3)
+
+x |> 
+  map(log)
+```
+
+    Error in `map()`:
+    ℹ In index: 2.
+    Caused by error:
+    ! non-numeric argument to mathematical function
+
+``` r
+x |> 
+  map(safely(log))
+```
+
+    [[1]]
+    [[1]]$result
+    [1] 2.302585
+
+    [[1]]$error
+    NULL
+
+
+    [[2]]
+    [[2]]$result
+    NULL
+
+    [[2]]$error
+    <simpleError in .Primitive("log")(x, base): non-numeric argument to mathematical function>
+
+
+    [[3]]
+    [[3]]$result
+    [1] 1.098612
+
+    [[3]]$error
+    NULL
+
+``` r
+x |> 
+  map(safely(log)) |> 
+  transpose()
+```
+
+    $result
+    $result[[1]]
+    [1] 2.302585
+
+    $result[[2]]
+    NULL
+
+    $result[[3]]
+    [1] 1.098612
+
+
+    $error
+    $error[[1]]
+    NULL
+
+    $error[[2]]
+    <simpleError in .Primitive("log")(x, base): non-numeric argument to mathematical function>
+
+    $error[[3]]
+    NULL
+
+``` r
+x |> 
+  map(possibly(log, NA_real_))
+```
+
+    [[1]]
+    [1] 2.302585
+
+    [[2]]
+    [1] NA
+
+    [[3]]
+    [1] 1.098612
+
+##### Exercise
+
+Use any variant of `map()` along with a function operator to the
+penguins database.
+
+## Further information
+
+### Parallelization
+
+Different CPU cores (*Central Processing Unit*) can be used to run the
+same process with different sets of data in parallel, speeding up long
+tasks. Some tasks are particularly well suited for parallelization, such
+as, those that are repetitive and have little or no dependence on each
+other, other than the source of the input data, allowing them to be
+easily split into parallel tasks. These tasks are usually those that can
+be solved through iterations like those we have seen previously. In
+theory, the process speeds up in proportion to the number of cores, but
+in practice, other factors must be taken into account, such as, the time
+consumed in transferring data to each process and the time spent
+gathering the results of the different processes.
+
+R was originally designed to run on a single CPU process because when it
+was developed, CPUs generally had a single core and parallel computing
+was not as common or developed as it is today. Therefore, to take
+advantage of parallelization in R, we need to resort to additional
+packages. However, it is important to note that these packages may be
+limited in their use to specific cases and data types.
+
+``` r
+library(parallel) # detect number of cores
+library(future) # set number of cores
+library(furrr) # parallelization with map
+
+detectCores()
+
+# function to cube a number
+cube <- function(x) {
+  Sys.sleep(1) # simulation of a computationally intensive task
+  return(x ^ 3)
+}
+
+# sequential
+time_initial <- Sys.time()
+output <- map(1:10, cube)
+time_final <- Sys.time()
+cat("Computing time:", round(time_final - time_initial, 1), "seconds")
+
+# establish how we are going to resolve the process
+# here we will use 3 cores but depending on the number of cores available on your PC it can be modified
+plan(multisession, workers = 3)
+
+# future_map to run in parallel
+time_initial <- Sys.time()
+output <- future_map(1:10, cube)
+time_final <- Sys.time()
+cat("Computing time:", round(time_final - time_initial, 1), "seconds\n")
+
+# we see that the computing time has been reduced by almost 1/3 (approx. 1/number of cores)
+```
+
+The information presented here about parallel programming is explained
+in more detail in:
+<https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/>
+
+### More information about Object-Oriented Programming (OOP)
+
+> \- Everything that exists is an object.
+>
+> — John Chambers
+>
+> \- However, not everything is object-oriented
+
+In R, functional programming is often more relevant than OOP, as complex
+problems are often addressed by decomposing them into simple functions
+rather than simple objects.
+
+The main reason for using OOP is polymorphism (from the Latin “many
+forms”). Polymorphism allows a developer to consider a function’s
+interface separately from its implementation, making it easier to use
+the same function with different input types. To understand this, try
+running the following code.
+
+``` r
+summary(penguins$bill_depth_mm)
+```
+
+       Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+      13.10   15.60   17.30   17.15   18.70   21.50       2 
+
+``` r
+summary(penguins$sex)
+```
+
+    female   male   NA's 
+       165    168     11 
+
+You might think that `summary()` uses a series of `if-else` statements
+depending on the type of the input data, but in this case only the
+original author could add new implementations. However, an OOP system
+allows any developer to extend the interface by creating implementations
+for new input types.
+
+In OOP systems, the type of an object is called its class, and a
+specific implementation for a class is known as a method. Broadly
+speaking, a class defines the characteristics of an object (what is it?)
+and methods describe the actions that object can perform (what does it
+do?).
+
+R base provides three OOP systems (S3 - which is the most used -, S4 and
+RC), although there are also other OOP systems provided by different
+CRAN packages.
+
+``` r
+library(sloop)
+```
+
+    Warning: package 'sloop' was built under R version 4.2.3
+
+``` r
+is.object(1:5) # base object but not object oriented
+```
+
+    [1] FALSE
+
+``` r
+otype(1:5) # base object
+```
+
+    [1] "base"
+
+``` r
+attr(1:5, "class") # without class
+```
+
+    NULL
+
+``` r
+is.object(penguins) # object-oriented
+```
+
+    [1] TRUE
+
+``` r
+otype(penguins) # S3
+```
+
+    [1] "S3"
+
+``` r
+attr(penguins, "class") # with clase
+```
+
+    [1] "tbl_df"     "tbl"        "data.frame"
+
+``` r
+ftype(summary) # generic function S3
+```
+
+    [1] "S3"      "generic"
+
+``` r
+# a generic function defines the interface, which uses a different implementation (method) depending on the class of the argument. Remember the idea of polymorphism that we have seen before ;)
+```
+
+💡More detailed information on [OOP](https://adv-r.hadley.nz/oo.html)
+and [trade-offs between some OOP
+systems](https://adv-r.hadley.nz/oo-tradeoffs.html)
+
+### Links of interest
+
+- [Hands-On Programming with R
+  (basics)](https://rstudio-education.github.io/hopr/basics.html)
+
+- [R for data Science
+  (functions)](https://r4ds.had.co.nz/functions.html)
+
+- [Advanced R (functions)](https://adv-r.hadley.nz/functions.html)
+
+- [R for data Science
+  (iteration)](https://r4ds.had.co.nz/iteration.html)
+
+- [Advanced R (functionals)](https://adv-r.hadley.nz/functionals.html)
+
+- [purrr 1.0.0](https://www.tidyverse.org/blog/2022/12/purrr-1-0-0/)
+
+- [Learn to purrr (Rebecca
+  Barter)](https://www.rebeccabarter.com/blog/2019-08-19_purrr)
+
+- [Style guide](http://adv-r.had.co.nz/Style.html)
+
+- [Parallel computation in
+  R](https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/)
+
+- [Advanced R (Object-oriented
+  programming)](https://adv-r.hadley.nz/oo.html)
+
+This course is primarily based on the first edition of the book [R for
+Data Science](https://r4ds.had.co.nz/) by Hadley Wickham & Garrett
+Grolemund and the second edition of the book [Advanced
+R](https:%20//adv-r.hadley.nz/index.html) by Hadley Wickham.
+
+------------------------------------------------------------------------
+
 <details>
 <summary>
 Session Info
@@ -1319,7 +2825,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2024-05-27 12:22:12 CEST"
+    [1] "2024-05-29 14:22:47 CEST"
 
 ``` r
 sessionInfo()
@@ -1342,29 +2848,32 @@ sessionInfo()
     [1] stats     graphics  grDevices utils     datasets  methods   base     
 
     other attached packages:
-    [1] forcats_0.5.1   stringr_1.5.0   dplyr_1.1.2     purrr_1.0.1    
-    [5] readr_2.1.2     tidyr_1.3.0     tibble_3.2.1    ggplot2_3.4.2  
-    [9] tidyverse_1.3.2
+     [1] sloop_1.0.1          palmerpenguins_0.1.1 forcats_0.5.1       
+     [4] stringr_1.5.0        dplyr_1.1.2          purrr_1.0.1         
+     [7] readr_2.1.2          tidyr_1.3.0          tibble_3.2.1        
+    [10] ggplot2_3.4.2        tidyverse_1.3.2     
 
     loaded via a namespace (and not attached):
-     [1] tidyselect_1.2.0     xfun_0.39            haven_2.5.0         
-     [4] gargle_1.2.0         colorspace_2.1-0     vctrs_0.6.3         
-     [7] generics_0.1.3       htmltools_0.5.3      yaml_2.3.5          
-    [10] utf8_1.2.3           rlang_1.1.1          pillar_1.9.0        
-    [13] withr_2.5.0          glue_1.6.2           DBI_1.1.3           
-    [16] palmerpenguins_0.1.1 dbplyr_2.2.1         modelr_0.1.8        
-    [19] readxl_1.4.0         lifecycle_1.0.3      munsell_0.5.0       
-    [22] gtable_0.3.3         cellranger_1.1.0     rvest_1.0.2         
-    [25] evaluate_0.18        labeling_0.4.2       knitr_1.40.1        
-    [28] tzdb_0.3.0           fastmap_1.1.0        fansi_1.0.4         
-    [31] broom_1.0.0          backports_1.4.1      scales_1.2.1        
-    [34] googlesheets4_1.0.0  jsonlite_1.8.0       farver_2.1.1        
-    [37] fs_1.5.2             hms_1.1.1            digest_0.6.29       
-    [40] stringi_1.7.12       grid_4.2.2           cli_3.6.1           
-    [43] tools_4.2.2          magrittr_2.0.3       crayon_1.5.2        
-    [46] pkgconfig_2.0.3      ellipsis_0.3.2       xml2_1.3.3          
-    [49] reprex_2.0.1         googledrive_2.0.0    lubridate_1.8.0     
-    [52] assertthat_0.2.1     rmarkdown_2.16       httr_1.4.3          
-    [55] rstudioapi_0.13      R6_2.5.1             compiler_4.2.2      
+     [1] lubridate_1.8.0     assertthat_0.2.1    digest_0.6.29      
+     [4] utf8_1.2.3          R6_2.5.1            cellranger_1.1.0   
+     [7] backports_1.4.1     reprex_2.0.1        evaluate_0.18      
+    [10] httr_1.4.3          pillar_1.9.0        rlang_1.1.1        
+    [13] googlesheets4_1.0.0 readxl_1.4.0        rstudioapi_0.13    
+    [16] rmarkdown_2.16      labeling_0.4.2      googledrive_2.0.0  
+    [19] bit_4.0.5           munsell_0.5.0       broom_1.0.0        
+    [22] compiler_4.2.2      modelr_0.1.8        xfun_0.39          
+    [25] pkgconfig_2.0.3     htmltools_0.5.3     tidyselect_1.2.0   
+    [28] codetools_0.2-18    fansi_1.0.4         crayon_1.5.2       
+    [31] tzdb_0.3.0          dbplyr_2.2.1        withr_2.5.0        
+    [34] grid_4.2.2          jsonlite_1.8.0      gtable_0.3.3       
+    [37] lifecycle_1.0.3     DBI_1.1.3           magrittr_2.0.3     
+    [40] scales_1.2.1        cli_3.6.1           stringi_1.7.12     
+    [43] vroom_1.5.7         farver_2.1.1        fs_1.5.2           
+    [46] xml2_1.3.3          ellipsis_0.3.2      generics_0.1.3     
+    [49] vctrs_0.6.3         tools_4.2.2         bit64_4.0.5        
+    [52] glue_1.6.2          hms_1.1.1           parallel_4.2.2     
+    [55] fastmap_1.1.0       yaml_2.3.5          colorspace_2.1-0   
+    [58] gargle_1.2.0        rvest_1.0.2         knitr_1.40.1       
+    [61] haven_2.5.0        
 
 </details>

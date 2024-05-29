@@ -1,6 +1,6 @@
 # Programación funcional en R
 Julen Astigarraga y Verónica Cruz-Alonso
-24/05/2024
+29/05/2024
 
 - [<span class="toc-section-number">1</span>
   Presentación](#presentación)
@@ -1445,7 +1445,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.53    0.31    0.85 
+       0.45    0.33    0.78 
 
 ``` r
 y <- vector("double", length = 20000)
@@ -1949,8 +1949,6 @@ nos permite trabajar con listas-columnas en data frames, generando una
 fila para cada grupo definido por las columnas no anidadas (es decir,
 *non-nested* columns).
 
-<!--# Vero: quizás introduciría esto al principio cuando se habla de tipos de objetos? como lo ves? -->
-
 ``` r
 glimpse(penguins)
 ```
@@ -2128,62 +2126,7 @@ penguins_list <- penguins |>
 
 # asignamos nombres a las listas
 names(penguins_list) <- c("p1", "p2", "p3")
-
-# solucion al ejercicio
-map2(penguins_list, names(penguins_list), \(x, y)
-        mutate(x, nombre = y))
 ```
-
-    $p1
-    # A tibble: 152 × 9
-       species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
-       <fct>   <fct>              <dbl>         <dbl>             <int>       <int>
-     1 Adelie  Torgersen           39.1          18.7               181        3750
-     2 Adelie  Torgersen           39.5          17.4               186        3800
-     3 Adelie  Torgersen           40.3          18                 195        3250
-     4 Adelie  Torgersen           NA            NA                  NA          NA
-     5 Adelie  Torgersen           36.7          19.3               193        3450
-     6 Adelie  Torgersen           39.3          20.6               190        3650
-     7 Adelie  Torgersen           38.9          17.8               181        3625
-     8 Adelie  Torgersen           39.2          19.6               195        4675
-     9 Adelie  Torgersen           34.1          18.1               193        3475
-    10 Adelie  Torgersen           42            20.2               190        4250
-    # ℹ 142 more rows
-    # ℹ 3 more variables: sex <fct>, year <int>, nombre <chr>
-
-    $p2
-    # A tibble: 68 × 9
-       species   island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
-       <fct>     <fct>           <dbl>         <dbl>             <int>       <int>
-     1 Chinstrap Dream            46.5          17.9               192        3500
-     2 Chinstrap Dream            50            19.5               196        3900
-     3 Chinstrap Dream            51.3          19.2               193        3650
-     4 Chinstrap Dream            45.4          18.7               188        3525
-     5 Chinstrap Dream            52.7          19.8               197        3725
-     6 Chinstrap Dream            45.2          17.8               198        3950
-     7 Chinstrap Dream            46.1          18.2               178        3250
-     8 Chinstrap Dream            51.3          18.2               197        3750
-     9 Chinstrap Dream            46            18.9               195        4150
-    10 Chinstrap Dream            51.3          19.9               198        3700
-    # ℹ 58 more rows
-    # ℹ 3 more variables: sex <fct>, year <int>, nombre <chr>
-
-    $p3
-    # A tibble: 124 × 9
-       species island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
-       <fct>   <fct>           <dbl>         <dbl>             <int>       <int>
-     1 Gentoo  Biscoe           46.1          13.2               211        4500
-     2 Gentoo  Biscoe           50            16.3               230        5700
-     3 Gentoo  Biscoe           48.7          14.1               210        4450
-     4 Gentoo  Biscoe           50            15.2               218        5700
-     5 Gentoo  Biscoe           47.6          14.5               215        5400
-     6 Gentoo  Biscoe           46.5          13.5               210        4550
-     7 Gentoo  Biscoe           45.4          14.6               211        4800
-     8 Gentoo  Biscoe           46.7          15.3               219        5200
-     9 Gentoo  Biscoe           43.3          13.4               209        4400
-    10 Gentoo  Biscoe           46.8          15.4               215        5150
-    # ℹ 114 more rows
-    # ℹ 3 more variables: sex <fct>, year <int>, nombre <chr>
 
 ``` r
 penguins_nested <- penguins |>
@@ -2352,9 +2295,6 @@ penguins_nested <- penguins |>
 penguins_nested_str <- penguins_nested |> 
   mutate(path = str_glue("penguins_{species}.csv"))
 
-penguins_nested_str <- penguins_nested |> 
-  mutate(path = str_glue("penguins_{species}.csv"))
-
 penguins_nested_str
 ```
 
@@ -2504,9 +2444,9 @@ variants.
 ### Funcionales predicate y demás
 
 Los predicados son funciones que devuelven un solo TRUE o FALSE (p. ej.,
-como `is.character()`). Así, un predicado funcional aplica un predicado
-a cada elemento de un vector: `keep()`, `discard()`, `some()`,
-`every()`, `detect()`, `detect_index()`… Para más información ver:
+`is.character()`). Así, un predicado funcional aplica un predicado a
+cada elemento de un vector: `keep()`, `discard()`, `some()`, `every()`,
+`detect()`, `detect_index()`… Para más información ver:
 <https://r4ds.had.co.nz/iteration.html>, 21.9.1 Predicate functions.
 
 ``` r
@@ -2732,7 +2672,7 @@ plan(multisession, workers = 3)
 tiempo_inicio <- Sys.time()
 resultado <- future_map(1:10, cubo)
 tiempo_final <- Sys.time()
-cat("Tiempo de computación:", round(tiempo_final - tiempo_inicio, 1), "seconds\n")
+cat("Tiempo de computación:", round(tiempo_final - tiempo_inicio, 1), "segundos")
 
 # vemos que el tiempo de computacion se ha reducido casi a un 1/3 (aprox. 1/numero de cores)
 ```
@@ -2892,7 +2832,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2024-05-24 10:26:06 CEST"
+    [1] "2024-05-29 14:29:14 CEST"
 
 ``` r
 sessionInfo()

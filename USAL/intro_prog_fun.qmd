@@ -877,8 +877,6 @@ vapply(penguins_num, median, na.rm = T, FUN.VALUE = double(1))
 
 Trabajar con listas es muy común en R. De echo el output por defecto de `map()` son listas. Sin embargo, las listas pueden resultar a veces desordenadas, p. ej., cuando perdemos el nombre de cada elemento de la lista. La función [`nest()`](https://tidyr.tidyverse.org/reference/nest.html) de {tidyr} nos permite trabajar con listas-columnas en data frames, generando una fila para cada grupo definido por las columnas no anidadas (es decir, *non-nested* columns).
 
-<!--# Vero: quizás introduciría esto al principio cuando se habla de tipos de objetos? como lo ves? -->
-
 ```{r map_ejemplo_avanzado}
 
 glimpse(penguins)
@@ -955,10 +953,6 @@ penguins_list <- penguins |>
 # asignamos nombres a las listas
 names(penguins_list) <- c("p1", "p2", "p3")
 
-# solucion al ejercicio
-map2(penguins_list, names(penguins_list), \(x, y)
-        mutate(x, nombre = y))
-
 ```
 
 ```{r map2_ejemplo_avanzado}
@@ -1033,7 +1027,7 @@ Cuando queremos utilizar funciones por sus efectos secundarios (*side effects*, 
 
 En base a lo que dice en la definición sobre la familia `walk()`, corred este código y entended lo que hace.
 
-```{r walk_ejemplo}
+```{r walk_ejercicio}
 
 penguins_nested <- penguins |>
   group_by(species) |>
@@ -1042,9 +1036,6 @@ penguins_nested <- penguins |>
 # penguins_nested |> 
 #   pluck("data") |> 
 #   pluck(1)
-
-penguins_nested_str <- penguins_nested |> 
-  mutate(path = str_glue("penguins_{species}.csv"))
 
 penguins_nested_str <- penguins_nested |> 
   mutate(path = str_glue("penguins_{species}.csv"))
@@ -1100,7 +1091,7 @@ En este curso no profundizamos en `modify()` e `imap()` porque con los demás fu
 
 ### Funcionales predicate y demás
 
-Los predicados son funciones que devuelven un solo TRUE o FALSE (p. ej., como `is.character()`). Así, un predicado funcional aplica un predicado a cada elemento de un vector: `keep()`, `discard()`, `some()`, `every()`, `detect()`, `detect_index()`... Para más información ver: <https://r4ds.had.co.nz/iteration.html>, 21.9.1 Predicate functions.
+Los predicados son funciones que devuelven un solo TRUE o FALSE (p. ej., `is.character()`). Así, un predicado funcional aplica un predicado a cada elemento de un vector: `keep()`, `discard()`, `some()`, `every()`, `detect()`, `detect_index()`... Para más información ver: <https://r4ds.had.co.nz/iteration.html>, 21.9.1 Predicate functions.
 
 ```{r ejemplo_predicado_funcional}
 
@@ -1200,7 +1191,7 @@ plan(multisession, workers = 3)
 tiempo_inicio <- Sys.time()
 resultado <- future_map(1:10, cubo)
 tiempo_final <- Sys.time()
-cat("Tiempo de computación:", round(tiempo_final - tiempo_inicio, 1), "seconds\n")
+cat("Tiempo de computación:", round(tiempo_final - tiempo_inicio, 1), "segundos")
 
 # vemos que el tiempo de computacion se ha reducido casi a un 1/3 (aprox. 1/numero de cores)
 

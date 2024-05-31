@@ -30,31 +30,31 @@ Within the model of the tools needed in a typical data science project of Wickha
 
 ### Course structure
 
-+-----------------------------------------------------+--------------+
-| Blocks                                              | Day          |
-+=====================================================+==============+
-| Course introduction                                 | 27/05/24     |
-|                                                     |              |
-| Refresh of tidyverse                                |              |
-|                                                     |              |
-| Introduction to Functional Programming              |              |
-+-----------------------------------------------------+--------------+
-| Theory of functions in R                            | 27/05/24     |
-|                                                     |              |
-| How to write functions. Arguments and return values |              |
-+-----------------------------------------------------+--------------+
-| Object-Oriented Programming                         | 31/05/24     |
-|                                                     |              |
-| Functional Programming                              |              |
-|                                                     |              |
-| Iterations over one argument                        |              |
-+-----------------------------------------------------+--------------+
-| Iterations over multiple arguments                  | 31/05/24     |
-|                                                     |              |
-| Iterations without output                           |              |
-|                                                     |              |
-| Function operators and other functionals            |              |
-+-----------------------------------------------------+--------------+
++-----------------------------------------------------+---------------+
+| Blocks                                              | Day           |
++=====================================================+===============+
+| Course introduction                                 | 27/05/24      |
+|                                                     |               |
+| Refresh of tidyverse                                |               |
+|                                                     |               |
+| Introduction to Functional Programming              |               |
++-----------------------------------------------------+---------------+
+| Theory of functions in R                            | 27/05/24      |
+|                                                     |               |
+| How to write functions. Arguments and return values |               |
++-----------------------------------------------------+---------------+
+| Object-Oriented Programming                         | 31/05/24      |
+|                                                     |               |
+| Functional Programming                              |               |
+|                                                     |               |
+| Iterations over one argument                        |               |
++-----------------------------------------------------+---------------+
+| Iterations over multiple arguments                  | 31/05/24      |
+|                                                     |               |
+| Iterations without output                           |               |
+|                                                     |               |
+| Function operators and other functionals            |               |
++-----------------------------------------------------+---------------+
 
 ### Who we are?
 
@@ -765,7 +765,7 @@ Compared to a loop, the focus is on the operation being executed (`first()`), an
 
 ## Iterations over one argument
 
-`map_*()` is vectorized over one argument, e.g. `(x)`. The function will operate on all elements of `x`, i.e., each value if `x` is a vector, each column if `x` is a `data.frame`, or each element if `x` is a list.
+`map_*()` is vectorized over one argument, e.g. `(x)`. The function will operate on all elements of `x`, i.e., each value if `x` is a vector, each column if `x` is a `data.frame`, each group if `x` is a grouped `data.frame`, or each element if `x` is a list.
 
 ### Our first functional: generating lists, `map()`
 
@@ -942,6 +942,10 @@ names(penguins_list) <- c("p1", "p2", "p3")
 
 ```
 
+#### Advanced exercise
+
+Calculate the correlation between the predictions stored in the list-column `pred` and `bill_length_mm`.
+
 ```{r map2_advanced_example}
 
 penguins_nested <- penguins |>
@@ -961,10 +965,6 @@ penguins_nested |>
   select(!c(data, lm_obj))
 
 ```
-
-#### Advanced exercise
-
-Calculate the correlation between the predictions stored in the list-column `pred` and `bill_length_mm`.
 
 ### Our fourth functional: multiple inputs, `pmap()`
 
@@ -1101,9 +1101,9 @@ penguins_scaled <- penguins |>
   mutate(across(where(is.numeric), scale))
 
 ls <- list(
-  age = tibble(name = c("Vero", "Julen"), age = c(100, 140)),
-  sex = tibble(name = c("Vero", "Julen"), sex = c("F", "M")),
-  height = tibble(name = c("Vero", "Julen"), height = c("180", "150"))
+  age = tibble(name = c("Vero", "Julen", "Monchi"), age = c(100, 140, 200)),
+  sex = tibble(name = c("Vero", "Julen", "Monchi"), sex = c("F", "M", "M")),
+  height = tibble(name = c("Vero", "Julen", "Monchi"), height = c("180", "150", "500"))
 )
 
 ls |> 
@@ -1135,7 +1135,7 @@ x |>
 
 ```
 
-##### Exercise
+#### Exercise
 
 Use any variant of `map()` along with a function operator to the penguins database.
 
@@ -1235,6 +1235,8 @@ ftype(summary) # generic function S3
 -   [R for data Science (functions)](https://r4ds.had.co.nz/functions.html)
 
 -   [Advanced R (functions)](https://adv-r.hadley.nz/functions.html)
+
+-   [Tidy evaluation to program functions with tidyverse](https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html)
 
 -   [R for data Science (iteration)](https://r4ds.had.co.nz/iteration.html)
 

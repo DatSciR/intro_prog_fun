@@ -188,7 +188,7 @@ Figure&nbsp;1: Data science model of Wickham and Grolemund. https://r4ds.hadley.
 <table class="table">
 <colgroup>
 <col style="width: 75%">
-<col style="width: 20%">
+<col style="width: 22%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -241,34 +241,37 @@ Figure&nbsp;1: Data science model of Wickham and Grolemund. https://r4ds.hadley.
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-✔ ggplot2 3.4.2     ✔ purrr   1.0.1
-✔ tibble  3.2.1     ✔ dplyr   1.1.2
-✔ tidyr   1.3.0     ✔ stringr 1.5.0
-✔ readr   2.1.2     ✔ forcats 0.5.1</code></pre>
+<pre><code>Warning: package 'ggplot2' was built under R version 4.3.3</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'ggplot2' was built under R version 4.2.3</code></pre>
+<pre><code>Warning: package 'tidyr' was built under R version 4.3.3</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tibble' was built under R version 4.2.3</code></pre>
+<pre><code>Warning: package 'readr' was built under R version 4.3.2</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tidyr' was built under R version 4.2.3</code></pre>
+<pre><code>Warning: package 'purrr' was built under R version 4.3.2</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'purrr' was built under R version 4.2.3</code></pre>
+<pre><code>Warning: package 'dplyr' was built under R version 4.3.2</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'dplyr' was built under R version 4.2.3</code></pre>
+<pre><code>Warning: package 'stringr' was built under R version 4.3.2</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'stringr' was built under R version 4.2.3</code></pre>
+<pre><code>Warning: package 'lubridate' was built under R version 4.3.2</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.0     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()</code></pre>
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span>
@@ -781,12 +784,12 @@ Figure&nbsp;1: Data science model of Wickham and Grolemund. https://r4ds.hadley.
 </div>
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="at">x =</span> values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>Error in mean(x = values): object 'values' not found</code></pre>
+<pre><code>Error in eval(expr, envir, enclos): object 'values' not found</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">values =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="at">x =</span> values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>Error in mean(x = values): object 'values' not found</code></pre>
+<pre><code>Error in eval(expr, envir, enclos): object 'values' not found</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="at">x =</span> mydata<span class="sc">$</span>values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1092,10 +1095,12 @@ Figure&nbsp;1: Data science model of Wickham and Grolemund. https://r4ds.hadley.
 <div class="cell">
 <div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="fu">explore_penguins</span>(<span class="at">var =</span> <span class="st">"body_mass_g"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2 rows containing missing values (`geom_point()`).</code></pre>
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
@@ -1106,8 +1111,10 @@ Figure&nbsp;1: Data science model of Wickham and Grolemund. https://r4ds.hadley.
 </div>
 <div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">explore_penguins</span>(<span class="at">var =</span> <span class="st">"flipper_length_mm"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).
-Removed 2 rows containing missing values (`geom_point()`).</code></pre>
+<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
@@ -1118,8 +1125,10 @@ Removed 2 rows containing missing values (`geom_point()`).</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">explore_penguins</span>(<span class="at">var =</span> <span class="st">"bill_depth_mm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).
-Removed 2 rows containing missing values (`geom_point()`).</code></pre>
+<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
@@ -1269,7 +1278,7 @@ Removed 2 rows containing missing values (`geom_point()`).</code></pre>
 <span id="cb135-6"><a href="#cb135-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-   0.50    0.25    0.78 </code></pre>
+   0.30    0.07    0.50 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"double"</span>, <span class="at">length =</span> <span class="dv">20000</span>)</span>
 <span id="cb137-2"><a href="#cb137-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(</span>
@@ -1353,7 +1362,7 @@ Removed 2 rows containing missing values (`geom_point()`).</code></pre>
 </section>
 <section id="iterations-over-one-argument" class="level2" data-number="8">
 <h2 data-number="8" class="anchored" data-anchor-id="iterations-over-one-argument"><span class="header-section-number">8</span> Iterations over one argument</h2>
-<p><code>map_*()</code> is vectorized over one argument, e.g.&nbsp;<code>(x)</code>. The function will operate on all elements of <code>x</code>, i.e., each value if <code>x</code> is a vector, each column if <code>x</code> is a <code>data.frame</code>, or each element if <code>x</code> is a list.</p>
+<p><code>map_*()</code> is vectorized over one argument, e.g.&nbsp;<code>(x)</code>. The function will operate on all elements of <code>x</code>, i.e., each value if <code>x</code> is a vector, each column if <code>x</code> is a <code>data.frame</code>, each group if <code>x</code> is a grouped <code>data.frame</code>, or each element if <code>x</code> is a list.</p>
 <section id="our-first-functional-generating-lists-map" class="level3" data-number="8.1">
 <h3 data-number="8.1" class="anchored" data-anchor-id="our-first-functional-generating-lists-map"><span class="header-section-number">8.1</span> Our first functional: generating lists, <code>map()</code></h3>
 <p>It takes a vector and a function, calls the function once for each element of the vector, and returns the results in a list. <code>map(1:3, f)</code> is equivalent to <code>list(f(1), f(2), f(3))</code>. It is the equivalent of base R’s <code>lapply()</code>.</p>
@@ -1815,6 +1824,10 @@ Coefficients:
 <span id="cb194-4"><a href="#cb194-4" aria-hidden="true" tabindex="-1"></a><span class="co"># we assign names to lists</span></span>
 <span id="cb194-5"><a href="#cb194-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(penguins_list) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"p1"</span>, <span class="st">"p2"</span>, <span class="st">"p3"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="advanced-exercise" class="level4" data-number="9.1.2">
+<h4 data-number="9.1.2" class="anchored" data-anchor-id="advanced-exercise"><span class="header-section-number">9.1.2</span> Advanced exercise</h4>
+<p>Calculate the correlation between the predictions stored in the list-column <code>pred</code> and <code>bill_length_mm</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb195"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb195-1"><a href="#cb195-1" aria-hidden="true" tabindex="-1"></a>penguins_nested <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span></span>
 <span id="cb195-2"><a href="#cb195-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
@@ -1849,10 +1862,6 @@ Coefficients:
 # ℹ 334 more rows</code></pre>
 </div>
 </div>
-</section>
-<section id="advanced-exercise" class="level4" data-number="9.1.2">
-<h4 data-number="9.1.2" class="anchored" data-anchor-id="advanced-exercise"><span class="header-section-number">9.1.2</span> Advanced exercise</h4>
-<p>Calculate the correlation between the predictions stored in the list-column <code>pred</code> and <code>bill_length_mm</code>.</p>
 </section>
 </section>
 <section id="our-fourth-functional-multiple-inputs-pmap" class="level3" data-number="9.2">
@@ -2142,19 +2151,20 @@ $year
 <span id="cb224-2"><a href="#cb224-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), scale))</span>
 <span id="cb224-3"><a href="#cb224-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb224-4"><a href="#cb224-4" aria-hidden="true" tabindex="-1"></a>ls <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb224-5"><a href="#cb224-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">age =</span> <span class="fu">tibble</span>(<span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Vero"</span>, <span class="st">"Julen"</span>), <span class="at">age =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">140</span>)),</span>
-<span id="cb224-6"><a href="#cb224-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">sex =</span> <span class="fu">tibble</span>(<span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Vero"</span>, <span class="st">"Julen"</span>), <span class="at">sex =</span> <span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"M"</span>)),</span>
-<span id="cb224-7"><a href="#cb224-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="fu">tibble</span>(<span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Vero"</span>, <span class="st">"Julen"</span>), <span class="at">height =</span> <span class="fu">c</span>(<span class="st">"180"</span>, <span class="st">"150"</span>))</span>
+<span id="cb224-5"><a href="#cb224-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">age =</span> <span class="fu">tibble</span>(<span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Vero"</span>, <span class="st">"Julen"</span>, <span class="st">"Monchi"</span>), <span class="at">age =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">140</span>, <span class="dv">200</span>)),</span>
+<span id="cb224-6"><a href="#cb224-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">sex =</span> <span class="fu">tibble</span>(<span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Vero"</span>, <span class="st">"Julen"</span>, <span class="st">"Monchi"</span>), <span class="at">sex =</span> <span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"M"</span>)),</span>
+<span id="cb224-7"><a href="#cb224-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="fu">tibble</span>(<span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Vero"</span>, <span class="st">"Julen"</span>, <span class="st">"Monchi"</span>), <span class="at">height =</span> <span class="fu">c</span>(<span class="st">"180"</span>, <span class="st">"150"</span>, <span class="st">"500"</span>))</span>
 <span id="cb224-8"><a href="#cb224-8" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb224-9"><a href="#cb224-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb224-10"><a href="#cb224-10" aria-hidden="true" tabindex="-1"></a>ls <span class="sc">|&gt;</span> </span>
 <span id="cb224-11"><a href="#cb224-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reduce</span>(full_join, <span class="at">by =</span> <span class="st">"name"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 4
-  name    age sex   height
-  &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-1 Vero    100 F     180   
-2 Julen   140 M     150   </code></pre>
+<pre><code># A tibble: 3 × 4
+  name     age sex   height
+  &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+1 Vero     100 F     180   
+2 Julen    140 M     150   
+3 Monchi   200 M     500   </code></pre>
 </div>
 </div>
 <section id="function-operators" class="level4" data-number="11.2.1">
@@ -2235,10 +2245,10 @@ NULL</code></pre>
 [1] 1.098612</code></pre>
 </div>
 </div>
-<section id="exercise-10" class="level5" data-number="11.2.1.1">
-<h5 data-number="11.2.1.1" class="anchored" data-anchor-id="exercise-10"><span class="header-section-number">11.2.1.1</span> Exercise</h5>
-<p>Use any variant of <code>map()</code> along with a function operator to the penguins database.</p>
 </section>
+<section id="exercise-10" class="level4" data-number="11.2.2">
+<h4 data-number="11.2.2" class="anchored" data-anchor-id="exercise-10"><span class="header-section-number">11.2.2</span> Exercise</h4>
+<p>Use any variant of <code>map()</code> along with a function operator to the penguins database.</p>
 </section>
 </section>
 </section>
@@ -2308,7 +2318,7 @@ NULL</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb239"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb239-1"><a href="#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sloop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'sloop' was built under R version 4.2.3</code></pre>
+<pre><code>Warning: package 'sloop' was built under R version 4.3.3</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb241"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb241-1"><a href="#cb241-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.object</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) <span class="co"># base object but not object oriented</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2348,6 +2358,7 @@ NULL</code></pre>
 <li><p><a href="https://rstudio-education.github.io/hopr/basics.html">Hands-On Programming with R (basics)</a></p></li>
 <li><p><a href="https://r4ds.had.co.nz/functions.html">R for data Science (functions)</a></p></li>
 <li><p><a href="https://adv-r.hadley.nz/functions.html">Advanced R (functions)</a></p></li>
+<li><p><a href="https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html">Tidy evaluation to program functions with tidyverse</a></p></li>
 <li><p><a href="https://r4ds.had.co.nz/iteration.html">R for data Science (iteration)</a></p></li>
 <li><p><a href="https://adv-r.hadley.nz/functionals.html">Advanced R (functionals)</a></p></li>
 <li><p><a href="https://www.tidyverse.org/blog/2022/12/purrr-1-0-0/">purrr 1.0.0</a></p></li>
@@ -2365,54 +2376,48 @@ Session Info
 <div class="cell">
 <div class="sourceCode cell-code" id="cb256"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb256-1"><a href="#cb256-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2024-05-31 13:47:46 CEST"</code></pre>
+<pre><code>[1] "2024-05-31 19:26:17 CEST"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb258"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb258-1"><a href="#cb258-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.2.2 (2022-10-31 ucrt)
+<pre><code>R version 4.3.1 (2023-06-16 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19045)
+Running under: Windows 11 x64 (build 22631)
 
 Matrix products: default
 
+
 locale:
-[1] LC_COLLATE=English_United Kingdom.utf8 
-[2] LC_CTYPE=English_United Kingdom.utf8   
-[3] LC_MONETARY=English_United Kingdom.utf8
-[4] LC_NUMERIC=C                           
-[5] LC_TIME=English_United Kingdom.utf8    
+[1] LC_COLLATE=English_United States.utf8 
+[2] LC_CTYPE=English_United States.utf8   
+[3] LC_MONETARY=English_United States.utf8
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.utf8    
+
+time zone: Europe/Paris
+tzcode source: internal
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] sloop_1.0.1          palmerpenguins_0.1.1 forcats_0.5.1       
- [4] stringr_1.5.0        dplyr_1.1.2          purrr_1.0.1         
- [7] readr_2.1.2          tidyr_1.3.0          tibble_3.2.1        
-[10] ggplot2_3.4.2        tidyverse_1.3.2     
+ [1] sloop_1.0.1          palmerpenguins_0.1.1 lubridate_1.9.3     
+ [4] forcats_1.0.0        stringr_1.5.1        dplyr_1.1.4         
+ [7] purrr_1.0.2          readr_2.1.5          tidyr_1.3.1         
+[10] tibble_3.2.1         ggplot2_3.5.0        tidyverse_2.0.0     
 
 loaded via a namespace (and not attached):
- [1] lubridate_1.8.0     assertthat_0.2.1    digest_0.6.29      
- [4] utf8_1.2.3          R6_2.5.1            cellranger_1.1.0   
- [7] backports_1.4.1     reprex_2.0.1        evaluate_0.18      
-[10] httr_1.4.3          pillar_1.9.0        rlang_1.1.1        
-[13] googlesheets4_1.0.0 readxl_1.4.0        rstudioapi_0.13    
-[16] rmarkdown_2.16      labeling_0.4.2      googledrive_2.0.0  
-[19] htmlwidgets_1.5.4   bit_4.0.5           munsell_0.5.0      
-[22] broom_1.0.0         compiler_4.2.2      modelr_0.1.8       
-[25] xfun_0.39           pkgconfig_2.0.3     htmltools_0.5.3    
-[28] tidyselect_1.2.0    codetools_0.2-18    fansi_1.0.4        
-[31] crayon_1.5.2        tzdb_0.3.0          dbplyr_2.2.1       
-[34] withr_2.5.0         grid_4.2.2          jsonlite_1.8.0     
-[37] gtable_0.3.3        lifecycle_1.0.3     DBI_1.1.3          
-[40] magrittr_2.0.3      scales_1.2.1        cli_3.6.1          
-[43] stringi_1.7.12      vroom_1.5.7         farver_2.1.1       
-[46] fs_1.5.2            xml2_1.3.3          ellipsis_0.3.2     
-[49] generics_0.1.3      vctrs_0.6.3         tools_4.2.2        
-[52] bit64_4.0.5         glue_1.6.2          hms_1.1.1          
-[55] parallel_4.2.2      fastmap_1.1.0       yaml_2.3.5         
-[58] colorspace_2.1-0    gargle_1.2.0        rvest_1.0.2        
-[61] knitr_1.40.1        haven_2.5.0        </code></pre>
+ [1] utf8_1.2.4        generics_0.1.3    stringi_1.8.3     hms_1.1.3        
+ [5] digest_0.6.35     magrittr_2.0.3    evaluate_0.23     grid_4.3.1       
+ [9] timechange_0.3.0  fastmap_1.1.1     jsonlite_1.8.8    fansi_1.0.6      
+[13] scales_1.3.0      codetools_0.2-19  cli_3.6.1         rlang_1.1.3      
+[17] crayon_1.5.2      bit64_4.0.5       munsell_0.5.0     withr_3.0.0      
+[21] yaml_2.3.8        tools_4.3.1       parallel_4.3.1    tzdb_0.4.0       
+[25] colorspace_2.1-0  vctrs_0.6.5       R6_2.5.1          lifecycle_1.0.4  
+[29] htmlwidgets_1.6.4 bit_4.0.5         vroom_1.6.5       pkgconfig_2.0.3  
+[33] pillar_1.9.0      gtable_0.3.4      glue_1.7.0        xfun_0.42        
+[37] tidyselect_1.2.1  rstudioapi_0.15.0 knitr_1.45        farver_2.1.1     
+[41] htmltools_0.5.7   rmarkdown_2.26    labeling_0.4.3    compiler_4.3.1   </code></pre>
 </div>
 </div>
 </details>

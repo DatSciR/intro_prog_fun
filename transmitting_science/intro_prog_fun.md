@@ -1,6 +1,6 @@
 # Functional Programming with R
 Julen Astigarraga and Verónica Cruz-Alonso
-29/05/2024
+31/05/2024
 
 - [<span class="toc-section-number">1</span>
   Introduction](#introduction)
@@ -21,7 +21,7 @@ Julen Astigarraga and Verónica Cruz-Alonso
 - [<span class="toc-section-number">4</span> Theory on functions in
   R](#theory-on-functions-in-r)
 - [<span class="toc-section-number">5</span> How to write
-  functions](#how-to-write-functions)
+  functions](#sec-writefun)
   - [<span class="toc-section-number">5.1</span> Arguments](#arguments)
   - [<span class="toc-section-number">5.2</span> Return
     values](#return-values)
@@ -49,10 +49,11 @@ Julen Astigarraga and Verónica Cruz-Alonso
   - [<span class="toc-section-number">10.1</span> Our fifth functional:
     `walk()`, `walk2()` and
     `pwalk()`](#our-fifth-functional-walk-walk2-and-pwalk)
-- [<span class="toc-section-number">11</span> Functional operators and
-  other functionals](#functional-operators-and-other-functionals)
+- [<span class="toc-section-number">11</span> Function operators and
+  other functionals](#function-operators-and-other-functionals)
   - [<span class="toc-section-number">11.1</span> More variants of
-    `map()`](#more-variants-of-map)
+    `map()`: `modify()` and
+    `imap()`](#more-variants-of-map-modify-and-imap)
   - [<span class="toc-section-number">11.2</span> Predicate functionals
     and more useful stuff](#predicate-functionals-and-more-useful-stuff)
 - [<span class="toc-section-number">12</span> Further
@@ -85,10 +86,10 @@ programming.
 
 ### Course structure
 
-<table style="width:97%;">
+<table style="width:96%;">
 <colgroup>
 <col style="width: 75%" />
-<col style="width: 22%" />
+<col style="width: 20%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -117,7 +118,7 @@ programming.
 <tr class="even">
 <td><p>Iterations over multiple arguments</p>
 <p>Iterations without output</p>
-<p>Functional operators and other functionals</p></td>
+<p>Function operators and other functionals</p></td>
 <td>31/05/24</td>
 </tr>
 </tbody>
@@ -274,10 +275,11 @@ mynested_tibble
 > — Hadley Wickham ([Advanced R](https://adv-r.hadley.nz/index.html))
 
 In the example above, the length 4 numeric vector `c(1, 2, 3, 4)`
-(object) have two names: “a” and “b”. By doing `mean(x = a)` we link the
-value of “a” with the name “x” as well. This link is called a *promise*
-in R: it is a promise to provide the value of “a”, if “x” is ever needed
-within the `sum()` function.
+(object) has two names: “a” and “b”.
+
+💡By doing `mean(x = a)` we link the value of “a” with the name “x” as
+well. This link is called a *promise* in R: it is a promise to provide
+the value of “a”, if “x” is ever needed within the `sum()` function.
 
 📝Object names should be descriptive and can not have some special
 characters (`^`, `!`, `$`, `@`, `+`, `-`, `/`, `*`).
@@ -809,8 +811,11 @@ mydata |>
       <dbl>
     1   5.5
 
-![Data masking in *tidyverse* allows to use data-variables as if they
-were env-variables. Art by Cristina Grajera](images/data_masking.png)
+![Data masking in *tidyverse* allows to use data-variables (toys within
+the box –the tibble) as if they were env-variables (toys all around the
+carpets). When Monchi uses the *tidyglasses* he could access as well to
+the toys within the box. Art by Cristina
+Grajera](images/data_masking.png)
 
 ## Introduction to Functional Programming
 
@@ -923,24 +928,6 @@ environment(rescale01)
 ```
 
     <environment: R_GlobalEnv>
-
-``` r
-f <- function(x) {
-  x + y
-}
-
-y <- 100
-f(x = 10)
-```
-
-    [1] 110
-
-``` r
-y <- 1000
-f(10)
-```
-
-    [1] 1010
 
 **Primitive functions** are the exception as they do not have the
 aforementioned components. They are written in C instead of R and only
@@ -1088,7 +1075,7 @@ ggplot(penguins_num, aes(x = species, y = bill_length_mm, color = sex)) +
   theme_light()
 ```
 
-![](intro_prog_fun_files/figure-commonmark/codigo_repetido_avanzado-1.png)
+![](intro_prog_fun_files/figure-commonmark/repeated_code_advanced-1.png)
 
 ``` r
 ggplot(penguins_num, aes(x = species, y = bill_depth_mm, color = sex)) +
@@ -1098,7 +1085,7 @@ ggplot(penguins_num, aes(x = species, y = bill_depth_mm, color = sex)) +
   theme_light()
 ```
 
-![](intro_prog_fun_files/figure-commonmark/codigo_repetido_avanzado-2.png)
+![](intro_prog_fun_files/figure-commonmark/repeated_code_advanced-2.png)
 
 ``` r
 ggplot(penguins_num, aes(x = species, y = flipper_length_mm, color = sex)) +
@@ -1108,7 +1095,7 @@ ggplot(penguins_num, aes(x = species, y = flipper_length_mm, color = sex)) +
   theme_light()
 ```
 
-![](intro_prog_fun_files/figure-commonmark/codigo_repetido_avanzado-3.png)
+![](intro_prog_fun_files/figure-commonmark/repeated_code_advanced-3.png)
 
 ``` r
 # etc
@@ -1135,7 +1122,7 @@ ggplot(penguins_num, aes(x = species, y = var, color = sex)) +
   theme_light()
 ```
 
-![](intro_prog_fun_files/figure-commonmark/funcion_simplificar-1.png)
+![](intro_prog_fun_files/figure-commonmark/function_simplify-1.png)
 
 ``` r
 var <- body_mass_g
@@ -1154,7 +1141,7 @@ ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
   ylab(var)
 ```
 
-![](intro_prog_fun_files/figure-commonmark/funcion_simplificar_2-1.png)
+![](intro_prog_fun_files/figure-commonmark/function_simplify_2-1.png)
 
 👀 `ggplot()` needs arguments (data-variables) that are within the data
 frame it will represent. To generalize the function, we have associated
@@ -1221,7 +1208,7 @@ explore_penguins(var = "body_mass_g")
 
     Warning: Removed 2 rows containing missing values (`geom_point()`).
 
-![](intro_prog_fun_files/figure-commonmark/funcion_pruebas-1.png)
+![](intro_prog_fun_files/figure-commonmark/function_trials-1.png)
 
 ``` r
 explore_penguins(var = "flipper_length_mm") 
@@ -1230,7 +1217,7 @@ explore_penguins(var = "flipper_length_mm")
     Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).
     Removed 2 rows containing missing values (`geom_point()`).
 
-![](intro_prog_fun_files/figure-commonmark/funcion_pruebas-2.png)
+![](intro_prog_fun_files/figure-commonmark/function_trials-2.png)
 
 ``` r
 explore_penguins(var = "bill_depth_mm")
@@ -1239,7 +1226,7 @@ explore_penguins(var = "bill_depth_mm")
     Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).
     Removed 2 rows containing missing values (`geom_point()`).
 
-![](intro_prog_fun_files/figure-commonmark/funcion_pruebas-3.png)
+![](intro_prog_fun_files/figure-commonmark/function_trials-3.png)
 
 💡You may want to convert these tests into formal tests. In complex
 functions, tests are useful to ensure that even if you make changes, the
@@ -1388,14 +1375,18 @@ mypenguins |>
     2 small female            3277.
     3 <NA>                      NA 
 
-*for loops* and *while loops* are recommended to delve into the world of
-iterations because they make each iteration very explicit so it is clear
-what is happening.
+In imperative programming the most common tools to reduce duplications
+are *for loops* and *while loops*. *loops* are recommended to delve into
+the world of iterations because they make each iteration very explicit
+so it is clear what is happening.
 
-![Graphic representation of the operation of for loops where it is
+![Graphic representation of the operation of *for* loops where it is
 clearly seen that an iteration is being carried out. Illustration by
 Allison Horst taken from Hadley Wickham’s talk The Joy of Functional
-Programming (for data science)](images/forloops.png)
+Programming (for data science).](images/forloops.png)
+
+Programming a loop needs to define three different parts: the output,
+the sequence and the body.
 
 ``` r
 set.seed(123)
@@ -1429,10 +1420,10 @@ output
     [1] 3 3 2
 
 1.  Output: here we determine the output space, i.e., first we have to
-    create the notebook where we are going to write down all the
+    create the “notebook” where we are going to write down all the
     results. This is very important for efficiency since if we increase
-    the size of the *for loop* in each iteration with `c()` or another
-    function that adds elements, the for loop will be much slower.
+    the size of the output in each iteration with `c()` or another
+    function that adds elements, the *for loop* will be much slower.
 
 ``` r
 x <- c()
@@ -1444,7 +1435,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.45    0.36    0.81 
+       0.61    0.38    0.99 
 
 ``` r
 y <- vector("double", length = 20000)
@@ -1459,44 +1450,47 @@ system.time(
           0       0       0 
 
 2.  Sequence: here we determine what we want to iterate on. Each
-    execution of the for loop will assign a different value of
-    `seq_along(y)` to *i* .
+    execution of the *for loop* will assign a different value of
+    `seq_along(y)` to *i*.
 
-3.  Body: Here we determine what we want each iteration to do. It is
-    executed repeatedly, each time with a different value for `i`.
+3.  Body: Here we determine what we want each iteration to do. The
+    action is executed repeatedly, each time with a different value for
+    *i*.
 
 There are different [variations of for
 loops](https://r4ds.had.co.nz/iteration.html#for-loop-variations): (i)
 modifying an existing object instead of creating a new one; (ii) loops
 over names or values instead of indices; (iii) loops when we do not know
 the length of the output; (iv) loops when we do not know the length of
-the input sequence, i.e., while loops.
+the input sequence, i.e., *while* loops.
 
 👀 Some [common pitfalls](https://adv-r.hadley.nz/control-flow.html)
-when using for loops (see 5.3.1 Common pitfalls).
+when using *for* loops (see 5.3.1 Common pitfalls).
 
-Despite being widely used in R, for loops are not as important as they
+Despite being widely used in R, *for* loops are not as important as they
 may be in other languages because R is a functional programming
 language. This means that *it is possible to wrap for loops in a
 function* and call that function instead of using the loop.
 
-There is a belief that for loops are slow, but the real disadvantage of
-*for loops is that they are too flexible*. Instead, each functional
-({purrr}, `apply`) is designed for a specific task, so as soon as you
-see it in the code, you immediately know why it’s being used. That is,
-the main advantage is its clarity by making the code easier to write and
-read (see this advanced example to understand it:
-<https://adv-r.hadley.nz/functionals.html>, 9.3 Purrr style). Once we
-master functional programming, we will be able to solve many iteration
-problems with less code, more ease, and fewer errors.
+There is a belief that *for loops* are slow, but the real disadvantage
+of *for loops is that they are too flexible* and may execute many
+different tasks. Instead, each functional ({purrr}, `apply`) is designed
+for a specific task, so as soon as you see it in the code, you
+immediately know why it’s being used. That is, the main advantage is its
+clarity by making the code easier to write and read (see this advanced
+example to understand it: <https://adv-r.hadley.nz/functionals.html>,
+9.3 Purrr style). Once we master functional programming, we will be able
+to solve many iteration problems with less code, more ease, and fewer
+errors.
 
-Loops can be more explicit in that you see the iteration clearly, but it
-takes more time to understand what you are doing. On the contrary,
-functionals require one more step of abstraction and may require time
-until we understand them. The most important thing is that you solve the
-problem and little by little write increasingly simpler and more elegant
-code. See <a href="#sec-OOP" class="quarto-xref">Section 12.2</a> for
-more information on object-oriented programming.
+Loops can be more explicit in the sense that you see the iteration
+clearly, but it takes more time to understand what you are doing. On the
+contrary, functionals require one more step of abstraction and may
+require time until we understand them. The most important thing is that
+you solve the problem and little by little write increasingly simpler
+and more elegant code. See
+<a href="#sec-OOP" class="quarto-xref">Section 12.2</a> for more
+information on object-oriented programming.
 
 > To become significantly more reliable, code must become more
 > transparent. In particular, nested conditions and loops must be viewed
@@ -1537,24 +1531,27 @@ randomization(f = median)
 
 To program a functional, first, we solve the problem for an element.
 Next, we generate a function that allows us to wrap the solution in a
-function. Finally, we *apply the function to all the elements we are
-interested in.* That is, we divide large problems into smaller problems
-and solve each task with one or more functions.
+function (as we did in
+<a href="#sec-writefun" class="quarto-xref">Section 5</a>). Finally, we
+*apply the function to all the elements we are interested in.* That is,
+we divide large problems into smaller problems and solve each task with
+one or more functions.
 
-The advantage of using {purrr} instead of for loops is that it provides
-a (functional) function for each of the common data manipulation
-problems, and therefore each for loop has its own function. For example,
-to iterate over one argument we use the `map()` function and to iterate
-over two arguments we use the `map2()` function. The base R `apply`
-family solves similar problems, but {purrr} is more consistent and
-therefore easier to learn.
+The advantage of using {purrr} instead of *for* loops is that it
+provides a function (functional) for each of the common data
+manipulation problems, and therefore each *for* loop has its own
+function. For example, to iterate over one argument we use the `map()`
+function and to iterate over two arguments we use the `map2()` function.
+The base R `apply` family solves similar problems, but {purrr} is more
+consistent and therefore easier to learn.
 
-Iterating over a vector is so common that the {purrr} package provides a
-family of functions (the `map()` family) for it. Remember that data
-frames are lists of vectors of the same length, so any calculation by
-rows or columns involves iterating over a vector. There is a function in
-{purrr} for each type of output. The suffixes indicate the type of
-output we want:
+Iterating over one vector (i.e. vector of values or vector of elements
+in a list) is so common that the {purrr} package provides a family of
+functions (the `map()` family) for it. Remember that data frames are
+lists of vectors of the same length, so any calculation by rows or
+columns involves iterating over a vector. There is a function in {purrr}
+for each type of output. The suffixes indicate the type of output we
+want:
 
 - `map()` generates a list.
 - `map_lgl()` generates a logical vector.
@@ -1661,7 +1658,7 @@ glimpse(penguins)
     $ year              <int> 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…
 
 ``` r
-# shortcut to generate an anonymous function
+# shortcut to generate an anonymous function: \(name_of_the_argument)
 map(penguins, \(x) length(unique(x)))
 ```
 
@@ -1707,6 +1704,9 @@ map_df(penguins, \(x) length(unique(x)))
 Generate a vector, a function and apply the function to each of the
 elements of the vector using `map()`.
 
+As said before, it is possible to wrap *for loops* in a function and
+call that function instead of using the loop.
+
 ``` r
 imple_map <- function(x, f, ...) {
   out <- vector("list", length(x))
@@ -1731,7 +1731,7 @@ imple_map(1:4, quadratic)
     [[4]]
     [1] 16
 
-💡Comparing {purrr} functions with wrapping a for loop on your own,
+💡Comparing {purrr} functions with wrapping a *for* loop on your own,
 {purrr} functions are written in C to maximize performance, preserve
 names, and support some shortcuts (e.g. `\(x)`).
 
@@ -1945,8 +1945,7 @@ Working with lists is very common in R. In fact the default output of
 lose the name of each element in the list. The function
 [`nest()`](https://tidyr.tidyverse.org/reference/nest.html) of {tidyr}
 allows us to work with list-columns in data frames, generating a row for
-each group defined by the non-nested columns (i.e. *non-nested*
-columns).
+each group defined by the non-nested columns.
 
 ``` r
 glimpse(penguins)
@@ -2048,7 +2047,7 @@ penguins_nested |>
 
 ### Our third functional: two inputs, `map2()`
 
-`map2()` is vectorized over two arguments, e.g. `(x,y)`
+`map2()` is vectorized over two arguments, e.g. `(x, y)`
 
 ``` r
 power <- function(base, exponent) {
@@ -2213,29 +2212,25 @@ set.seed(123)
 
 z <- sample(5)
 
-?rnorm
-```
+# ?rnorm
 
-    starting httpd help server ... done
-
-``` r
 pmap(list(n = x, mean = y, sd = z), rnorm)
 ```
 
     [[1]]
-    [1] -2.181812  8.070553  4.511437
+    [1] 6.718488 2.673102 2.648274
 
     [[2]]
-    [1] 6.056673 2.098193
+    [1] 1.366165 3.561110
 
     [[3]]
-    [1]  3.191065 -3.244466  8.473816  6.127699  1.721570
+    [1] -6.636353 10.450922  4.519062 14.641683  4.745484
 
     [[4]]
-    [1] 1.862471 2.065987 4.136538 3.660349
+    [1]  5.9528517  0.8044274 10.1790530  8.3021594
 
     [[5]]
-    [1] 2.914301
+    [1] 3.944314
 
 💡If we do not name the list elements, `pmap()` will use the list
 elements in their order for consecutive arguments to the function. In
@@ -2250,19 +2245,19 @@ args3 |>
 ```
 
     [[1]]
-    [1] 2.743730 6.211832 2.563819
+    [1] 0.6468533 0.7994903 2.3524038
 
     [[2]]
-    [1] 0.8344552 1.1814843
+    [1] 1.6650872 0.9143009
 
     [[3]]
-    [1] 6.369872 4.359887 2.376955 3.800783 4.741179
+    [1] 4.829153 7.141221 4.709213 2.668910 3.362969
 
     [[4]]
-    [1]   8.433681   3.243020   5.648956 -12.136614
+    [1]  7.424680  2.399718 -2.557612  1.001958
 
     [[5]]
-    [1] -2.087167
+    [1] 0.4823572
 
 ![](images/pmap.png)
 
@@ -2276,9 +2271,9 @@ Transform the `map2()` that you have generated in the exercise
 
 ### Our fifth functional: `walk()`, `walk2()` and `pwalk()`
 
-When we want to use functions for their side effects (e.g. `ggsave()`)
-and not for their return value. What is important is the action and not
-the return value or object in R.
+*Walk* family functionals are used when we want to use functions for
+their side effects (e.g. `ggsave()`) and not for their return value.
+What is important is the action and not the return value or object in R.
 
 #### Exercise
 
@@ -2319,11 +2314,9 @@ multiple plots generated with `ggplot()`. Hint: the first entry will be
 the plot you want to save and the second the name of the file you want
 to give it.
 
-## Functional operators and other functionals
+## Function operators and other functionals
 
-### More variants of `map()`
-
-#### `modify()` and `imap()`
+### More variants of `map()`: `modify()` and `imap()`
 
 `modify()` and `imap()` are also map family functions. `modify()` is
 analogous to `map()` but returns the same output type as the input type.
@@ -2443,7 +2436,7 @@ iteration problems. However, if anyone is interested you can check out
 
 ### Predicate functionals and more useful stuff
 
-LPredicates are functions that return a single TRUE or FALSE (e.g.,
+Predicates are functions that return a single TRUE or FALSE (e.g.,
 `is.character()`). Thus, a functional predicate applies a predicate to
 each element of a vector: `keep()`, `discard()`, `some()`, `every()`,
 `detect()`, `detect_index()` … For more information see:
@@ -2498,7 +2491,7 @@ penguins |>
 
 `dplyr::across()` is similar to `map()` but instead of doing something
 with each element of a vector, data frame or list, it does something
-with each column in a data frame.
+only with each column in a data frame.
 
 `reduce()` is a useful way to generalize a function that works with two
 inputs (binary function) to work with any number of inputs.
@@ -2526,7 +2519,7 @@ ls |>
 #### Function operators
 
 When we use `map()` functions to repeat many operations, the probability
-increases that one of those operations will fail and we will not get any
+that one of those operations fails increases and we will not get any
 output. {purrr} provides some function operators in the form of adverbs
 to ensure that an error doesn’t ruin the entire process: `safely()`,
 `possibly()`, `quietly()`. For more information see:
@@ -2661,7 +2654,7 @@ time_final <- Sys.time()
 cat("Computing time:", round(time_final - time_initial, 1), "seconds")
 
 # establish how we are going to resolve the process
-# here we will use 3 cores but depending on the number of cores available on your PC it can be modified
+# here we will use 3 cores but depending on the number of cores available on your computer it can be modified
 plan(multisession, workers = 3)
 
 # future_map to run in parallel
@@ -2689,11 +2682,11 @@ In R, functional programming is often more relevant than OOP, as complex
 problems are often addressed by decomposing them into simple functions
 rather than simple objects.
 
-The main reason for using OOP is polymorphism (from the Latin “many
+The main reason for using OOP is *polymorphism* (from the Latin “many
 forms”). Polymorphism allows a developer to consider a function’s
 interface separately from its implementation, making it easier to use
 the same function with different input types. To understand this, try
-running the following code.
+running the following code:
 
 ``` r
 summary(penguins$bill_depth_mm)
@@ -2715,13 +2708,13 @@ original author could add new implementations. However, an OOP system
 allows any developer to extend the interface by creating implementations
 for new input types.
 
-In OOP systems, the type of an object is called its class, and a
-specific implementation for a class is known as a method. Broadly
+In OOP systems, the type of an object is called its *class*, and a
+specific implementation for a class is known as a *method*. Broadly
 speaking, a class defines the characteristics of an object (what is it?)
 and methods describe the actions that object can perform (what does it
 do?).
 
-R base provides three OOP systems (S3 - which is the most used -, S4 and
+Base R provides three OOP systems (S3 –which is the most used-, S4 and
 RC), although there are also other OOP systems provided by different
 CRAN packages.
 
@@ -2825,7 +2818,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2024-05-29 14:22:47 CEST"
+    [1] "2024-05-31 13:49:24 CEST"
 
 ``` r
 sessionInfo()

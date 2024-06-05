@@ -826,6 +826,7 @@ map(penguins, \(x) mean(x))
 map(penguins, \(x) mean(x, na.rm = T)) # option 1
 map(penguins, mean, na.rm = T) # option 2
 
+# map vs anonymous function
 x <- c(0, 0)
  
 set.seed(123)

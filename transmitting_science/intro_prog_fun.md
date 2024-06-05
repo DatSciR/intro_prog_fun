@@ -1,6 +1,6 @@
 # Functional Programming with R
 Julen Astigarraga and Verónica Cruz-Alonso
-31/05/2024
+05/06/2024
 
 - [<span class="toc-section-number">1</span>
   Introduction](#introduction)
@@ -148,30 +148,27 @@ And you… who are you?
 library(tidyverse)
 ```
 
-    Warning: package 'ggplot2' was built under R version 4.3.3
+    ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+    ✔ ggplot2 3.4.2     ✔ purrr   1.0.1
+    ✔ tibble  3.2.1     ✔ dplyr   1.1.2
+    ✔ tidyr   1.3.0     ✔ stringr 1.5.0
+    ✔ readr   2.1.2     ✔ forcats 0.5.1
 
-    Warning: package 'tidyr' was built under R version 4.3.3
+    Warning: package 'ggplot2' was built under R version 4.2.3
 
-    Warning: package 'readr' was built under R version 4.3.2
+    Warning: package 'tibble' was built under R version 4.2.3
 
-    Warning: package 'purrr' was built under R version 4.3.2
+    Warning: package 'tidyr' was built under R version 4.2.3
 
-    Warning: package 'dplyr' was built under R version 4.3.2
+    Warning: package 'purrr' was built under R version 4.2.3
 
-    Warning: package 'stringr' was built under R version 4.3.2
+    Warning: package 'dplyr' was built under R version 4.2.3
 
-    Warning: package 'lubridate' was built under R version 4.3.2
+    Warning: package 'stringr' was built under R version 4.2.3
 
-    ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-    ✔ dplyr     1.1.4     ✔ readr     2.1.5
-    ✔ forcats   1.0.0     ✔ stringr   1.5.1
-    ✔ ggplot2   3.5.0     ✔ tibble    3.2.1
-    ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-    ✔ purrr     1.0.2     
     ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
     ✖ dplyr::filter() masks stats::filter()
     ✖ dplyr::lag()    masks stats::lag()
-    ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 
 ``` r
 a <- c(1, 2, 3, 4)
@@ -789,14 +786,14 @@ mean(x = 1:10)
 mean(x = values)
 ```
 
-    Error in eval(expr, envir, enclos): object 'values' not found
+    Error in mean(x = values): object 'values' not found
 
 ``` r
 mydata <- tibble(values = 1:10)
 mean(x = values)
 ```
 
-    Error in eval(expr, envir, enclos): object 'values' not found
+    Error in mean(x = values): object 'values' not found
 
 ``` r
 mean(x = mydata$values)
@@ -1207,11 +1204,9 @@ sections (Cmd/Ctrl + Shift + R).
 explore_penguins(var = "body_mass_g") 
 ```
 
-    Warning: Removed 2 rows containing non-finite outside the scale range
-    (`stat_boxplot()`).
+    Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).
 
-    Warning: Removed 2 rows containing missing values or values outside the scale range
-    (`geom_point()`).
+    Warning: Removed 2 rows containing missing values (`geom_point()`).
 
 ![](intro_prog_fun_files/figure-commonmark/function_trials-1.png)
 
@@ -1219,10 +1214,8 @@ explore_penguins(var = "body_mass_g")
 explore_penguins(var = "flipper_length_mm") 
 ```
 
-    Warning: Removed 2 rows containing non-finite outside the scale range
-    (`stat_boxplot()`).
-    Removed 2 rows containing missing values or values outside the scale range
-    (`geom_point()`).
+    Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).
+    Removed 2 rows containing missing values (`geom_point()`).
 
 ![](intro_prog_fun_files/figure-commonmark/function_trials-2.png)
 
@@ -1230,10 +1223,8 @@ explore_penguins(var = "flipper_length_mm")
 explore_penguins(var = "bill_depth_mm")
 ```
 
-    Warning: Removed 2 rows containing non-finite outside the scale range
-    (`stat_boxplot()`).
-    Removed 2 rows containing missing values or values outside the scale range
-    (`geom_point()`).
+    Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).
+    Removed 2 rows containing missing values (`geom_point()`).
 
 ![](intro_prog_fun_files/figure-commonmark/function_trials-3.png)
 
@@ -1444,7 +1435,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.32    0.15    0.49 
+       0.44    0.29    0.72 
 
 ``` r
 y <- vector("double", length = 20000)
@@ -1859,6 +1850,23 @@ map(penguins, mean, na.rm = T) # option 2
 
     $year
     [1] 2008.029
+
+``` r
+# map vs anonymous function
+x <- c(0, 0)
+ 
+set.seed(123)
+map_dbl(x, sum, rnorm(1))
+```
+
+    [1] -0.5604756 -0.5604756
+
+``` r
+set.seed(123)
+map_dbl(x, \(x) sum(x, rnorm(1)))
+```
+
+    [1] -0.5604756 -0.2301775
 
 As we have seen in the previous exercise, if we wanted to pass
 additional arguments to the function we are using within `map()`, one
@@ -2733,7 +2741,7 @@ CRAN packages.
 library(sloop)
 ```
 
-    Warning: package 'sloop' was built under R version 4.3.3
+    Warning: package 'sloop' was built under R version 4.2.3
 
 ``` r
 is.object(1:5) # base object but not object oriented
@@ -2832,49 +2840,55 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2024-05-31 19:26:40 CEST"
+    [1] "2024-06-05 11:49:08 CEST"
 
 ``` r
 sessionInfo()
 ```
 
-    R version 4.3.1 (2023-06-16 ucrt)
+    R version 4.2.2 (2022-10-31 ucrt)
     Platform: x86_64-w64-mingw32/x64 (64-bit)
-    Running under: Windows 11 x64 (build 22631)
+    Running under: Windows 10 x64 (build 19045)
 
     Matrix products: default
 
-
     locale:
-    [1] LC_COLLATE=English_United States.utf8 
-    [2] LC_CTYPE=English_United States.utf8   
-    [3] LC_MONETARY=English_United States.utf8
-    [4] LC_NUMERIC=C                          
-    [5] LC_TIME=English_United States.utf8    
-
-    time zone: Europe/Paris
-    tzcode source: internal
+    [1] LC_COLLATE=English_United Kingdom.utf8 
+    [2] LC_CTYPE=English_United Kingdom.utf8   
+    [3] LC_MONETARY=English_United Kingdom.utf8
+    [4] LC_NUMERIC=C                           
+    [5] LC_TIME=English_United Kingdom.utf8    
 
     attached base packages:
     [1] stats     graphics  grDevices utils     datasets  methods   base     
 
     other attached packages:
-     [1] sloop_1.0.1          palmerpenguins_0.1.1 lubridate_1.9.3     
-     [4] forcats_1.0.0        stringr_1.5.1        dplyr_1.1.4         
-     [7] purrr_1.0.2          readr_2.1.5          tidyr_1.3.1         
-    [10] tibble_3.2.1         ggplot2_3.5.0        tidyverse_2.0.0     
+     [1] sloop_1.0.1          palmerpenguins_0.1.1 forcats_0.5.1       
+     [4] stringr_1.5.0        dplyr_1.1.2          purrr_1.0.1         
+     [7] readr_2.1.2          tidyr_1.3.0          tibble_3.2.1        
+    [10] ggplot2_3.4.2        tidyverse_1.3.2     
 
     loaded via a namespace (and not attached):
-     [1] utf8_1.2.4        generics_0.1.3    stringi_1.8.3     hms_1.1.3        
-     [5] digest_0.6.35     magrittr_2.0.3    evaluate_0.23     grid_4.3.1       
-     [9] timechange_0.3.0  fastmap_1.1.1     jsonlite_1.8.8    fansi_1.0.6      
-    [13] scales_1.3.0      codetools_0.2-19  cli_3.6.1         rlang_1.1.3      
-    [17] crayon_1.5.2      bit64_4.0.5       munsell_0.5.0     withr_3.0.0      
-    [21] yaml_2.3.8        tools_4.3.1       parallel_4.3.1    tzdb_0.4.0       
-    [25] colorspace_2.1-0  vctrs_0.6.5       R6_2.5.1          lifecycle_1.0.4  
-    [29] bit_4.0.5         vroom_1.6.5       pkgconfig_2.0.3   pillar_1.9.0     
-    [33] gtable_0.3.4      glue_1.7.0        xfun_0.42         tidyselect_1.2.1 
-    [37] rstudioapi_0.15.0 knitr_1.45        farver_2.1.1      htmltools_0.5.7  
-    [41] rmarkdown_2.26    labeling_0.4.3    compiler_4.3.1   
+     [1] lubridate_1.8.0     assertthat_0.2.1    digest_0.6.29      
+     [4] utf8_1.2.3          R6_2.5.1            cellranger_1.1.0   
+     [7] backports_1.4.1     reprex_2.0.1        evaluate_0.18      
+    [10] httr_1.4.3          pillar_1.9.0        rlang_1.1.1        
+    [13] googlesheets4_1.0.0 readxl_1.4.0        rstudioapi_0.13    
+    [16] rmarkdown_2.16      labeling_0.4.2      googledrive_2.0.0  
+    [19] bit_4.0.5           munsell_0.5.0       broom_1.0.0        
+    [22] compiler_4.2.2      modelr_0.1.8        xfun_0.39          
+    [25] pkgconfig_2.0.3     htmltools_0.5.3     tidyselect_1.2.0   
+    [28] codetools_0.2-18    fansi_1.0.4         crayon_1.5.2       
+    [31] tzdb_0.3.0          dbplyr_2.2.1        withr_2.5.0        
+    [34] grid_4.2.2          jsonlite_1.8.0      gtable_0.3.3       
+    [37] lifecycle_1.0.3     DBI_1.1.3           magrittr_2.0.3     
+    [40] scales_1.2.1        cli_3.6.1           stringi_1.7.12     
+    [43] vroom_1.5.7         farver_2.1.1        fs_1.5.2           
+    [46] xml2_1.3.3          ellipsis_0.3.2      generics_0.1.3     
+    [49] vctrs_0.6.3         tools_4.2.2         bit64_4.0.5        
+    [52] glue_1.6.2          hms_1.1.1           parallel_4.2.2     
+    [55] fastmap_1.1.0       yaml_2.3.5          colorspace_2.1-0   
+    [58] gargle_1.2.0        rvest_1.0.2         knitr_1.40.1       
+    [61] haven_2.5.0        
 
 </details>

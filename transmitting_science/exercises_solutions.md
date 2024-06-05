@@ -1,6 +1,6 @@
-# Functional Programming with R
+# Functional Programming with R (exercises solutions)
 Julen Astigarraga y Verónica Cruz-Alonso
-31/05/2024
+05/06/2024
 
 - [2.2.1 Exercise](#221-exercise)
 - [2.2.2 Exercise](#222-exercise)
@@ -15,7 +15,7 @@ Julen Astigarraga y Verónica Cruz-Alonso
 - [9.2.1 Exercise](#921-exercise)
 - [10.1.1 Exercise](#1011-exercise)
 - [10.1.2 Advanced exercise](#1012-advanced-exercise)
-- [11.3.1 Ejercicio](#1131-ejercicio)
+- [11.3.1 Exercise](#1131-exercise)
 
 ## 2.2.1 Exercise
 
@@ -34,30 +34,27 @@ library(palmerpenguins)
 library(tidyverse)
 ```
 
-    Warning: package 'ggplot2' was built under R version 4.3.3
+    ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+    ✔ ggplot2 3.4.2     ✔ purrr   1.0.1
+    ✔ tibble  3.2.1     ✔ dplyr   1.1.2
+    ✔ tidyr   1.3.0     ✔ stringr 1.5.0
+    ✔ readr   2.1.2     ✔ forcats 0.5.1
 
-    Warning: package 'tidyr' was built under R version 4.3.3
+    Warning: package 'ggplot2' was built under R version 4.2.3
 
-    Warning: package 'readr' was built under R version 4.3.2
+    Warning: package 'tibble' was built under R version 4.2.3
 
-    Warning: package 'purrr' was built under R version 4.3.2
+    Warning: package 'tidyr' was built under R version 4.2.3
 
-    Warning: package 'dplyr' was built under R version 4.3.2
+    Warning: package 'purrr' was built under R version 4.2.3
 
-    Warning: package 'stringr' was built under R version 4.3.2
+    Warning: package 'dplyr' was built under R version 4.2.3
 
-    Warning: package 'lubridate' was built under R version 4.3.2
+    Warning: package 'stringr' was built under R version 4.2.3
 
-    ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-    ✔ dplyr     1.1.4     ✔ readr     2.1.5
-    ✔ forcats   1.0.0     ✔ stringr   1.5.1
-    ✔ ggplot2   3.5.0     ✔ tibble    3.2.1
-    ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-    ✔ purrr     1.0.2     
     ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
     ✖ dplyr::filter() masks stats::filter()
     ✖ dplyr::lag()    masks stats::lag()
-    ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 
 ``` r
 # 1
@@ -257,11 +254,9 @@ explore_penguins <-
 explore_penguins("body_mass_g")
 ```
 
-    Warning: Removed 2 rows containing non-finite outside the scale range
-    (`stat_boxplot()`).
+    Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).
 
-    Warning: Removed 2 rows containing missing values or values outside the scale range
-    (`geom_point()`).
+    Warning: Removed 2 rows containing missing values (`geom_point()`).
 
 ![](exercises_solutions_files/figure-commonmark/5.2.1-1.png)
 
@@ -479,7 +474,7 @@ map_int(penguins, \(x) length(unique(x)))
 
 ``` r
 1:4 |>   
-  map_vec(\(x) as.Date(ISOdate(x + 2024, 05, 13))) 
+  map_vec(\(x) as.Date(ISOdate(x + 2024, 05, 13)))
 ```
 
     [1] "2025-05-13" "2026-05-13" "2027-05-13" "2028-05-13"
@@ -760,17 +755,15 @@ pwalk(list(plot = penguins_nested_str$gg_obj, filename = penguins_nested_str$pat
 
     Saving 7 x 5 in image
 
-    Warning: Removed 1 row containing missing values or values outside the scale range
-    (`geom_point()`).
+    Warning: Removed 1 rows containing missing values (`geom_point()`).
 
     Saving 7 x 5 in image
 
-    Warning: Removed 1 row containing missing values or values outside the scale range
-    (`geom_point()`).
+    Warning: Removed 1 rows containing missing values (`geom_point()`).
 
     Saving 7 x 5 in image
 
-## 11.3.1 Ejercicio
+## 11.3.1 Exercise
 
 Use any variant of `map()` along with a function operator to the
 penguins database.
@@ -1051,50 +1044,55 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2024-05-31 19:02:12 CEST"
+    [1] "2024-06-05 11:54:49 CEST"
 
 ``` r
 sessionInfo()
 ```
 
-    R version 4.3.1 (2023-06-16 ucrt)
+    R version 4.2.2 (2022-10-31 ucrt)
     Platform: x86_64-w64-mingw32/x64 (64-bit)
-    Running under: Windows 11 x64 (build 22631)
+    Running under: Windows 10 x64 (build 19045)
 
     Matrix products: default
 
-
     locale:
-    [1] LC_COLLATE=English_United States.utf8 
-    [2] LC_CTYPE=English_United States.utf8   
-    [3] LC_MONETARY=English_United States.utf8
-    [4] LC_NUMERIC=C                          
-    [5] LC_TIME=English_United States.utf8    
-
-    time zone: Europe/Paris
-    tzcode source: internal
+    [1] LC_COLLATE=English_United Kingdom.utf8 
+    [2] LC_CTYPE=English_United Kingdom.utf8   
+    [3] LC_MONETARY=English_United Kingdom.utf8
+    [4] LC_NUMERIC=C                           
+    [5] LC_TIME=English_United Kingdom.utf8    
 
     attached base packages:
     [1] stats     graphics  grDevices utils     datasets  methods   base     
 
     other attached packages:
-     [1] lubridate_1.9.3      forcats_1.0.0        stringr_1.5.1       
-     [4] dplyr_1.1.4          purrr_1.0.2          readr_2.1.5         
-     [7] tidyr_1.3.1          tibble_3.2.1         ggplot2_3.5.0       
-    [10] tidyverse_2.0.0      palmerpenguins_0.1.1
+     [1] forcats_0.5.1        stringr_1.5.0        dplyr_1.1.2         
+     [4] purrr_1.0.1          readr_2.1.2          tidyr_1.3.0         
+     [7] tibble_3.2.1         ggplot2_3.4.2        tidyverse_1.3.2     
+    [10] palmerpenguins_0.1.1
 
     loaded via a namespace (and not attached):
-     [1] utf8_1.2.4        generics_0.1.3    stringi_1.8.3     hms_1.1.3        
-     [5] digest_0.6.35     magrittr_2.0.3    evaluate_0.23     grid_4.3.1       
-     [9] timechange_0.3.0  fastmap_1.1.1     jsonlite_1.8.8    fansi_1.0.6      
-    [13] scales_1.3.0      textshaping_0.3.7 cli_3.6.1         rlang_1.1.3      
-    [17] crayon_1.5.2      bit64_4.0.5       munsell_0.5.0     withr_3.0.0      
-    [21] yaml_2.3.8        tools_4.3.1       parallel_4.3.1    tzdb_0.4.0       
-    [25] colorspace_2.1-0  vctrs_0.6.5       R6_2.5.1          lifecycle_1.0.4  
-    [29] bit_4.0.5         vroom_1.6.5       ragg_1.3.0        pkgconfig_2.0.3  
-    [33] pillar_1.9.0      gtable_0.3.4      glue_1.7.0        systemfonts_1.0.6
-    [37] xfun_0.42         tidyselect_1.2.1  rstudioapi_0.15.0 knitr_1.45       
-    [41] farver_2.1.1      htmltools_0.5.7   rmarkdown_2.26    labeling_0.4.3   
-    [45] compiler_4.3.1   
+     [1] lubridate_1.8.0     assertthat_0.2.1    digest_0.6.29      
+     [4] utf8_1.2.3          R6_2.5.1            cellranger_1.1.0   
+     [7] backports_1.4.1     reprex_2.0.1        evaluate_0.18      
+    [10] httr_1.4.3          pillar_1.9.0        rlang_1.1.1        
+    [13] googlesheets4_1.0.0 readxl_1.4.0        rstudioapi_0.13    
+    [16] rmarkdown_2.16      textshaping_0.3.6   labeling_0.4.2     
+    [19] googledrive_2.0.0   bit_4.0.5           munsell_0.5.0      
+    [22] broom_1.0.0         compiler_4.2.2      modelr_0.1.8       
+    [25] xfun_0.39           systemfonts_1.0.4   pkgconfig_2.0.3    
+    [28] htmltools_0.5.3     tidyselect_1.2.0    fansi_1.0.4        
+    [31] crayon_1.5.2        tzdb_0.3.0          dbplyr_2.2.1       
+    [34] withr_2.5.0         grid_4.2.2          jsonlite_1.8.0     
+    [37] gtable_0.3.3        lifecycle_1.0.3     DBI_1.1.3          
+    [40] magrittr_2.0.3      scales_1.2.1        cli_3.6.1          
+    [43] stringi_1.7.12      vroom_1.5.7         farver_2.1.1       
+    [46] fs_1.5.2            xml2_1.3.3          ellipsis_0.3.2     
+    [49] ragg_1.2.5          generics_0.1.3      vctrs_0.6.3        
+    [52] tools_4.2.2         bit64_4.0.5         glue_1.6.2         
+    [55] hms_1.1.1           parallel_4.2.2      fastmap_1.1.0      
+    [58] yaml_2.3.5          colorspace_2.1-0    gargle_1.2.0       
+    [61] rvest_1.0.2         knitr_1.40.1        haven_2.5.0        
 
 </details>

@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Julen Astigarraga y Verónica Cruz-Alonso">
+<meta name="dcterms.date" content="2024-05-06">
 
-<title>Functional Programming with R</title>
+<title>Functional Programming with R (exercises solutions)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -93,7 +94,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#exercise-9" id="toc-exercise-9" class="nav-link" data-scroll-target="#exercise-9">9.2.1 Exercise</a></li>
   <li><a href="#exercise-10" id="toc-exercise-10" class="nav-link" data-scroll-target="#exercise-10">10.1.1 Exercise</a></li>
   <li><a href="#advanced-exercise-1" id="toc-advanced-exercise-1" class="nav-link" data-scroll-target="#advanced-exercise-1">10.1.2 Advanced exercise</a></li>
-  <li><a href="#ejercicio" id="toc-ejercicio" class="nav-link" data-scroll-target="#ejercicio">11.3.1 Ejercicio</a></li>
+  <li><a href="#exercise-11" id="toc-exercise-11" class="nav-link" data-scroll-target="#exercise-11">11.3.1 Exercise</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="exercises_solutions.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
 </div>
@@ -101,7 +102,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Functional Programming with R</h1>
+<h1 class="title">Functional Programming with R (exercises solutions)</h1>
 </div>
 
 
@@ -118,7 +119,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">31/05/2024</p>
+      <p class="date">05/06/2024</p>
     </div>
   </div>
   
@@ -141,37 +142,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'ggplot2' was built under R version 4.3.3</code></pre>
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+✔ ggplot2 3.4.2     ✔ purrr   1.0.1
+✔ tibble  3.2.1     ✔ dplyr   1.1.2
+✔ tidyr   1.3.0     ✔ stringr 1.5.0
+✔ readr   2.1.2     ✔ forcats 0.5.1</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tidyr' was built under R version 4.3.3</code></pre>
+<pre><code>Warning: package 'ggplot2' was built under R version 4.2.3</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'readr' was built under R version 4.3.2</code></pre>
+<pre><code>Warning: package 'tibble' was built under R version 4.2.3</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'purrr' was built under R version 4.3.2</code></pre>
+<pre><code>Warning: package 'tidyr' was built under R version 4.2.3</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'dplyr' was built under R version 4.3.2</code></pre>
+<pre><code>Warning: package 'purrr' was built under R version 4.2.3</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'stringr' was built under R version 4.3.2</code></pre>
+<pre><code>Warning: package 'dplyr' was built under R version 4.2.3</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'lubridate' was built under R version 4.3.2</code></pre>
+<pre><code>Warning: package 'stringr' was built under R version 4.2.3</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.0     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+✖ dplyr::lag()    masks stats::lag()</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>adelie <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span> </span>
@@ -360,12 +358,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="fu">explore_penguins</span>(<span class="st">"body_mass_g"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
+<pre><code>Warning: Removed 2 rows containing missing values (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
@@ -569,7 +565,7 @@ flipper_length_mm       body_mass_g               sex              year
                56                95                 3                 3 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span> <span class="sc">|&gt;</span>   </span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_vec</span>(\(x) <span class="fu">as.Date</span>(<span class="fu">ISOdate</span>(x <span class="sc">+</span> <span class="dv">2024</span>, <span class="dv">05</span>, <span class="dv">13</span>))) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_vec</span>(\(x) <span class="fu">as.Date</span>(<span class="fu">ISOdate</span>(x <span class="sc">+</span> <span class="dv">2024</span>, <span class="dv">05</span>, <span class="dv">13</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2025-05-13" "2026-05-13" "2027-05-13" "2028-05-13"</code></pre>
 </div>
@@ -817,23 +813,21 @@ $p3
 <pre><code>Saving 7 x 5 in image</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 1 row containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
+<pre><code>Warning: Removed 1 rows containing missing values (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Saving 7 x 5 in image</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 1 row containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
+<pre><code>Warning: Removed 1 rows containing missing values (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Saving 7 x 5 in image</code></pre>
 </div>
 </div>
 </section>
-<section id="ejercicio" class="level2">
-<h2 class="anchored" data-anchor-id="ejercicio">11.3.1 Ejercicio</h2>
+<section id="exercise-11" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-11">11.3.1 Exercise</h2>
 <p>Use any variant of <code>map()</code> along with a function operator to the penguins database.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span>    </span>
@@ -1109,49 +1103,55 @@ Session Info
 <div class="cell">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2024-05-31 19:29:46 CEST"</code></pre>
+<pre><code>[1] "2024-06-05 11:53:32 CEST"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.3.1 (2023-06-16 ucrt)
+<pre><code>R version 4.2.2 (2022-10-31 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 11 x64 (build 22631)
+Running under: Windows 10 x64 (build 19045)
 
 Matrix products: default
 
-
 locale:
-[1] LC_COLLATE=English_United States.utf8 
-[2] LC_CTYPE=English_United States.utf8   
-[3] LC_MONETARY=English_United States.utf8
-[4] LC_NUMERIC=C                          
-[5] LC_TIME=English_United States.utf8    
-
-time zone: Europe/Paris
-tzcode source: internal
+[1] LC_COLLATE=English_United Kingdom.utf8 
+[2] LC_CTYPE=English_United Kingdom.utf8   
+[3] LC_MONETARY=English_United Kingdom.utf8
+[4] LC_NUMERIC=C                           
+[5] LC_TIME=English_United Kingdom.utf8    
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] lubridate_1.9.3      forcats_1.0.0        stringr_1.5.1       
- [4] dplyr_1.1.4          purrr_1.0.2          readr_2.1.5         
- [7] tidyr_1.3.1          tibble_3.2.1         ggplot2_3.5.0       
-[10] tidyverse_2.0.0      palmerpenguins_0.1.1
+ [1] forcats_0.5.1        stringr_1.5.0        dplyr_1.1.2         
+ [4] purrr_1.0.1          readr_2.1.2          tidyr_1.3.0         
+ [7] tibble_3.2.1         ggplot2_3.4.2        tidyverse_1.3.2     
+[10] palmerpenguins_0.1.1
 
 loaded via a namespace (and not attached):
- [1] utf8_1.2.4        generics_0.1.3    stringi_1.8.3     hms_1.1.3        
- [5] digest_0.6.35     magrittr_2.0.3    evaluate_0.23     grid_4.3.1       
- [9] timechange_0.3.0  fastmap_1.1.1     jsonlite_1.8.8    fansi_1.0.6      
-[13] scales_1.3.0      textshaping_0.3.7 cli_3.6.1         rlang_1.1.3      
-[17] crayon_1.5.2      bit64_4.0.5       munsell_0.5.0     withr_3.0.0      
-[21] yaml_2.3.8        tools_4.3.1       parallel_4.3.1    tzdb_0.4.0       
-[25] colorspace_2.1-0  vctrs_0.6.5       R6_2.5.1          lifecycle_1.0.4  
-[29] htmlwidgets_1.6.4 bit_4.0.5         vroom_1.6.5       ragg_1.3.0       
-[33] pkgconfig_2.0.3   pillar_1.9.0      gtable_0.3.4      glue_1.7.0       
-[37] systemfonts_1.0.6 xfun_0.42         tidyselect_1.2.1  rstudioapi_0.15.0
-[41] knitr_1.45        farver_2.1.1      htmltools_0.5.7   rmarkdown_2.26   
-[45] labeling_0.4.3    compiler_4.3.1   </code></pre>
+ [1] lubridate_1.8.0     assertthat_0.2.1    digest_0.6.29      
+ [4] utf8_1.2.3          R6_2.5.1            cellranger_1.1.0   
+ [7] backports_1.4.1     reprex_2.0.1        evaluate_0.18      
+[10] httr_1.4.3          pillar_1.9.0        rlang_1.1.1        
+[13] googlesheets4_1.0.0 readxl_1.4.0        rstudioapi_0.13    
+[16] rmarkdown_2.16      textshaping_0.3.6   labeling_0.4.2     
+[19] googledrive_2.0.0   htmlwidgets_1.5.4   bit_4.0.5          
+[22] munsell_0.5.0       broom_1.0.0         compiler_4.2.2     
+[25] modelr_0.1.8        xfun_0.39           systemfonts_1.0.4  
+[28] pkgconfig_2.0.3     htmltools_0.5.3     tidyselect_1.2.0   
+[31] fansi_1.0.4         crayon_1.5.2        tzdb_0.3.0         
+[34] dbplyr_2.2.1        withr_2.5.0         grid_4.2.2         
+[37] jsonlite_1.8.0      gtable_0.3.3        lifecycle_1.0.3    
+[40] DBI_1.1.3           magrittr_2.0.3      scales_1.2.1       
+[43] cli_3.6.1           stringi_1.7.12      vroom_1.5.7        
+[46] farver_2.1.1        fs_1.5.2            xml2_1.3.3         
+[49] ragg_1.2.5          ellipsis_0.3.2      generics_0.1.3     
+[52] vctrs_0.6.3         tools_4.2.2         bit64_4.0.5        
+[55] glue_1.6.2          hms_1.1.1           parallel_4.2.2     
+[58] fastmap_1.1.0       yaml_2.3.5          colorspace_2.1-0   
+[61] gargle_1.2.0        rvest_1.0.2         knitr_1.40.1       
+[64] haven_2.5.0        </code></pre>
 </div>
 </div>
 </details>

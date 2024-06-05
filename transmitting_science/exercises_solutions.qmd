@@ -1,5 +1,5 @@
 ---
-title: "Functional Programming with R"
+title: "Functional Programming with R (exercises solutions)"
 author: Julen Astigarraga y Verónica Cruz-Alonso
 date: today
 date-format: "DD/MM/YYYY"
@@ -151,6 +151,7 @@ sum_10 <- function(x) {
 }
 
 map(1:4, sum_10) 
+
 ```
 
 ## 8.1.2 Exercise
@@ -162,6 +163,7 @@ Now that you have understood the logic of `map()`, spot the differences between 
 map(penguins, \(x) mean(x)) 
 map(penguins, \(x) mean(x, na.rm = T)) # option 1 
 map(penguins, mean, na.rm = T) # option 2 
+
 ```
 
 The first and second `map()` use anonymous functions (`\(x)`) while the third does not. The first returns many `NA` because some cells of numeric variables in the penguins dataset contain `NA`, and by default, `mean()` returns `NA` if it detects any `NA` in the variables to which `mean()` is applied. The result of the second and third `map()` is the same. However, in the second `map()`, additional arguments are passed to `mean()` through the anonymous function. In the third `map()`, since `map()` includes `...` among its arguments, additional arguments can be included after the function within `map()` in a much simpler way. The additional arguments can be used for any function included in the iteration.
@@ -179,7 +181,8 @@ map_dbl(penguins_num, median, na.rm = T)
 map_chr(penguins, class) 
 map_int(penguins, \(x) length(unique(x))) 
 1:4 |>   
-  map_vec(\(x) as.Date(ISOdate(x + 2024, 05, 13))) 
+  map_vec(\(x) as.Date(ISOdate(x + 2024, 05, 13)))
+
 ```
 
 `map_lgl()` returns a logical vector indicating whether each column in the penguins dataset is numeric or not.
@@ -237,6 +240,7 @@ penguins_nested <- penguins_nona |>
 penguins_nested |>    
   unnest(pred) |>    
   select(!c(data, lm_obj)) 
+
 ```
 
 ## 9.2.1 Exercise
@@ -303,9 +307,10 @@ penguins_nested_str
 
 pwalk(list(plot = penguins_nested_str$gg_obj, filename = penguins_nested_str$path),
   ggsave) 
+
 ```
 
-## 11.3.1 Ejercicio
+## 11.3.1 Exercise
 
 Use any variant of `map()` along with a function operator to the penguins database.
 
@@ -314,6 +319,7 @@ Use any variant of `map()` along with a function operator to the penguins databa
 penguins |>    
   map(safely(log)) |>    
   transpose() 
+
 ```
 
 <details>

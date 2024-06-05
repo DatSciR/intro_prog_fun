@@ -34,3 +34,5 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 info_workshop
+*.csv
+*.png

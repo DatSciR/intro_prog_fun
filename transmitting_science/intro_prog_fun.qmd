@@ -826,6 +826,14 @@ map(penguins, \(x) mean(x))
 map(penguins, \(x) mean(x, na.rm = T)) # option 1
 map(penguins, mean, na.rm = T) # option 2
 
+x <- c(0, 0)
+ 
+set.seed(123)
+map_dbl(x, sum, rnorm(1))
+ 
+set.seed(123)
+map_dbl(x, \(x) sum(x, rnorm(1)))
+
 ```
 
 As we have seen in the previous exercise, if we wanted to pass additional arguments to the function we are using within `map()`, one option would be through an anonymous function (see option 1 of the previous exercise). However, since `map()` includes `...` among its arguments, we can also include the additional arguments after the function inside `map()` in a much simpler way (see option 2 of the previous exercise).

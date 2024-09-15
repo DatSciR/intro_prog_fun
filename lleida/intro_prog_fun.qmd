@@ -116,9 +116,13 @@ mynested_tibble
 
 ```
 
+💡Trabajar con listas es muy común en R. De echo el output por defecto de `map()` son listas. Sin embargo, las listas pueden resultar a veces desordenadas, p. ej., cuando perdemos el nombre de cada elemento de la lista. La función [`nest()`](https://tidyr.tidyverse.org/reference/nest.html) de {tidyr} nos permite trabajar con listas-columnas en data frames, generando una fila para cada grupo definido por las columnas no anidadas (es decir, *non-nested* columns).
+
 > Los nombres tienen objetos; los objetos no tienen nombres
 >
 > --- Hadley Wickham ([Advanced R](https://adv-r.hadley.nz/index.html))
+
+💡Explora los diferentes tipos de objetos [aquí](https://rstudio-education.github.io/hopr/r-objects.html).
 
 -   Funciones: objetos de R que toman un vector de entrada y dan como resultado otro vector haciendo una acción concreta (funcionalidad específica). Son los *bloques de construcción* fundamentales en cualquier script de R que es un lenguaje funcional.
 
@@ -154,7 +158,7 @@ mynested_tibble
 
 ### Tidyverse
 
-[*Tidyverse*](https://www.tidyverse.org/) es una colección de paquetes (meta-paquete) de R desarrollado por Hadley Wickham. Contiene ocho paquetes principales: `readr`, `tibble`, `dplyr`, `tidyr`, `stringr`, `forcats`, `ggplot2` y `purrr`. *Tidyverse* puede considerarse un dialecto del lenguaje de programación de R y, por ello, puede resultar difícil de aprender para gente con experiencia en el lenguaje tradicional de R base. Sin embargo, en este curso queremos enseñar las bases de programación utilizando *tidyverse* ya que en las secciones de iteración utilizaremos fundamentalmente `purrr` por razones que explicaremos más adelante.
+[*Tidyverse*](https://www.tidyverse.org/) es una colección de paquetes (meta-paquete) de R desarrollado por Hadley Wickham. Contiene ocho paquetes principales: {readr}, {tibble}, {dplyr}, {tidyr}, {stringr}, {forcats}, {ggplot2} y {purrr}. *Tidyverse* puede considerarse un dialecto del lenguaje de programación de R y, por ello, puede resultar difícil de aprender para gente con experiencia en el lenguaje tradicional de R base. Sin embargo, en este curso queremos enseñar las bases de programación utilizando *tidyverse* ya que en las secciones de iteración utilizaremos fundamentalmente `purrr` por razones que explicaremos más adelante.
 
 *Tidyverse* está diseñado para respaldar las actividades de un analista de datos humano por lo que sus estructuras de programación resultan más lógicas para la mente humana. Todos los paquetes están diseñados para trabajar con datos ordenados ([*tidy data*](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)), es decir, aquellos donde cada columna es una variable, cada fila una observación y cada celda tiene un valor. Además, las funciones están preparadas para concatenarse a través del operador *pipe* (`%>%` del paquete `magrittr` o `|>` de R base), que coge lo que está en su izquierda y lo utiliza como el primer argumento de la función que está en su derecha. Esto permite seguir un flujo de lectura de izquierda a derecha, más cómodo para la mayoría de la gente.
 
@@ -552,14 +556,14 @@ ggplot(penguins_num, aes(x = species, y = var, color = sex)) +
   geom_boxplot(alpha = 0.5) +
   scale_color_manual(values = c("turquoise", "goldenrod1")) +
   theme_light() +
-  ylab(var) #Gráfico erroneo
+  ylab(var) # grafico erroneo
 
 ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
   geom_point(position = position_jitterdodge(), alpha = 0.3) +
   geom_boxplot(alpha = 0.5) +
   scale_color_manual(values = c("turquoise", "goldenrod1")) +
   theme_light() +
-  ylab(var) #Gráfico correcto
+  ylab(var) # grafico correcto
 
 
 ```
@@ -574,7 +578,7 @@ Cuanto más claramente puedas expresar la intención de tu código a través de 
 
 ```{r nombres_mal}
 
-# Ejemplos de nombres que no hay que usar
+# ejemplos de nombres que no hay que usar
 
 T <- FALSE
 c <- 10
@@ -748,8 +752,6 @@ for(i in 1:nrow(df_ej)) {
 }
 
 salida
-
-# ja: mira lo que he puesto en el issue de por qué iteracionar sobre filas es raro en purrr
 
 ```
 
@@ -953,10 +955,6 @@ R base tiene dos funciones de la familia `apply()` que pueden devolver vectores:
 vapply(penguins_num, median, na.rm = T, FUN.VALUE = double(1))
 
 ```
-
-<!--# ja: creo que en el issue te referias a mover esto de nest() arriba -->
-
-Trabajar con listas es muy común en R. De echo el output por defecto de `map()` son listas. Sin embargo, las listas pueden resultar a veces desordenadas, p. ej., cuando perdemos el nombre de cada elemento de la lista. La función [`nest()`](https://tidyr.tidyverse.org/reference/nest.html) de {tidyr} nos permite trabajar con listas-columnas en data frames, generando una fila para cada grupo definido por las columnas no anidadas (es decir, *non-nested* columns).
 
 ```{r map_ejemplo_avanzado}
 

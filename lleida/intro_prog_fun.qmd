@@ -26,7 +26,7 @@ Los **objetivos** de este curso son:
 
 Dentro del modelo de ciencia de datos de Hadley Wickham, Mine Çetinkaya-Rundel y Garrett Grolemund (@fig-datascience), el curso de centra en el marco que envuelve todo el proceso, es decir, la programación.
 
-![Modelo de ciencia de datos de Hadley Wickham, Mine Çetinkaya-Rundel y Garrett Grolemund. Traducido de https://r4ds.hadley.nz/intro#fig-ds-diagram](images/datascience.png){#fig-datascience}
+![Modelo de ciencia de datos de Hadley Wickham, Mine Çetinkaya-Rundel y Garrett Grolemund. Traducido de https://r4ds.hadley.nz/intro#fig-ds-diagram](images/data-science.png){#fig-datascience}
 
 ### Estructura del curso
 
@@ -66,11 +66,9 @@ Coordinamos el [grupo de trabajo de Ecoinformática](https://ecoinfaeet.github.i
 
 Y vosotros ¿quiénes sois?
 
-<https://www.menti.com/al2sdohesi5u>
+<https://www.menti.com/al8tcqnqp8jx>
 
 ## Introducción a la programación en R
-
-<!--# ja: esta primera parte modificaste bastante entre la de trasnmitting y la de la usal. decidir con quien nos quedamos -->
 
 ![El proceso de aprendizaje en R, por Allison Horst. https://allisonhorst.com/everything-else](images/e684f0da-13b1-4d00-ab25-37814e79ee1e.png){width="362"}
 
@@ -81,6 +79,46 @@ Y vosotros ¿quiénes sois?
 -   RStudio: es un entorno de desarrollo integrado para programar en R. Tiene cuatro zonas diferenciadas: el editor de código, la consola (donde se ejecuta el código), el navegador del espacio de trabajo (con el entorno –*environment-* y el historial de comandos) y el mix de abajo a la derecha (Archivos, Gráficos, Paquetes, Ayuda).
 
 -   Objetos: cualquier elemento almacenado con un nombre específico. Pueden ser de muchos tipos: `numeric`, `integer`, `logical`, `data.frame`, `SpatVector`, etc.
+
+```{r objects}
+
+library(tidyverse)
+
+a <- c(1, 2, 3, 4)
+b <- c(1, 2, 3, 4)
+c <- c("hi", "hola", "hola", "hi")
+d <- c(TRUE, TRUE, TRUE, FALSE, FALSE)
+
+# el objeto numérico de longitud 4 c(1, 2, 3, 4) tiene dos nombres: "a" y "b"
+
+mymatrix_num <- matrix(c(a, b), nrow = 4, ncol = 2)
+mymatrix_num
+
+mymatrix_cha <- matrix(c(a, b, c), nrow = 4, ncol = 3)
+mymatrix_cha
+
+mytibble <- tibble(a, b, c)
+mytibble
+
+mydf <- data.frame(a, b, c)
+
+mylist <- list(a, b, c, d)
+mylist
+
+mylist_from_tibble <- mytibble |> # list
+  group_split(c)
+mylist_from_tibble
+
+mynested_tibble <- mytibble |> # data.frame with list-columns
+  group_by(c) |> 
+  nest()
+mynested_tibble
+
+```
+
+> Los nombres tienen objetos; los objetos no tienen nombres
+>
+> --- Hadley Wickham ([Advanced R](https://adv-r.hadley.nz/index.html))
 
 -   Funciones: objetos de R que toman un vector de entrada y dan como resultado otro vector haciendo una acción concreta (funcionalidad específica). Son los *bloques de construcción* fundamentales en cualquier script de R que es un lenguaje funcional.
 
@@ -94,43 +132,11 @@ Y vosotros ¿quiénes sois?
 >
 > --- John Chambers ([Advanced R](https://adv-r.hadley.nz/index.html))
 
+💡Más información sobre las tres verdades en R [aquí](https://www.r-bloggers.com/2018/06/three-deep-truths-about-r/).
+
 -   Paquetes o librerias: contienen funciones reutilizables, documentación sobre cómo usarlas y datos de ejemplo. Son las unidades fundamentales de código reproducible en R.
 
 -   CRAN: the Comprehensive R Archive Network.
-
-```{r primeros_pasos_programacion}
-
-3 + 2 # ejecuto un comando con CTRL+ENTER (CTRL+R)
-15 / 20 * 100
-1:50
-
-sum(1:3) # función y argumentos
-?sum
-
-# install.packages("palmerpenguins")
-library(palmerpenguins) # la funcion library carga paquetes
-
-palmerpenguins::penguins # :: permite explorar que hay dentro de los paquetes
-# loadedNamespaces()
-
-guau <- 2 # flecha de asignacion
-guau # al ejecutar un objeto el nombre se sustituye por su contenido
-
-guau + 4
-miau <- guau + 4 + guau
-miau
-
-str(miau)
-
-# objetos un poco más complejos
-miprimerdataframe <- data.frame(columna1 = guau,
-  columna2 = miau)
-str(miprimerdataframe)
-
-miprimeralista <- list(elemento1 = guau,
-  elemento2 = miau)
-str(miprimeralista)
-```
 
 #### Ejercicio
 
@@ -156,6 +162,9 @@ str(miprimeralista)
 
 ```{r pipe}
 
+# install.packages("tidyverse")
+library(tidyverse)
+
 mivector <- c(6, 4)
 mean(mivector)
 mivector |> 
@@ -166,8 +175,8 @@ mivector |>
 ```{r primeros_tidypasos}
 #| warning: false
 
-# install.packages("tidyverse")
-library(tidyverse)
+# install.packages("palmerpenguins")
+library(palmerpenguins)
 
 penguins <- palmerpenguins::penguins
 penguins
@@ -244,6 +253,16 @@ penguins |>
   group_by(sex) |> 
   summarise(body_min = min(body_mass_g, na.rm = TRUE),
   body_max = max(body_mass_g, na.rm = TRUE))
+
+# join: left, right, full, inner
+
+coordinates <- tibble(island = c("Dream", "Torgersen", "Biscoe"), 
+  latitude = c("64°44′S", "64°46′S", "64°36′S"),
+  longitude = c("64°14′W", "64°05′W", " 63°30′W"))
+
+penguins |> 
+  left_join(coordinates, by = "island") |> 
+  select(island, latitude, longitude, everything())
 ```
 
 #### Ejercicio
@@ -268,35 +287,58 @@ misdatos <- read_delim(file = "mypenguins.csv")
 View(misdatos)
 ```
 
-<!--# Vero: introducir también join -->
+### Scoping
 
-Una diferencia fundamental entre R base y *tidyverse* importante para avanzar en este curso es que el *name masking* es diferente. En R, si un argumento no está definido en una función, R buscará ese nombre en el nivel del entorno inmediatamente superior. En general, con R base sólo podemos llamar a objetos que forman parte del entorno (env-variables); en cambio, con tidyverse se puede llamar también a las variables dentro de las tablas (data-variables). Esta característica simplifica el código en tidyverse, pero la ventaja no tiene coste cero y tiene implicaciones en la gramática de las funciones como veremos más adelante.
+El [*lexical scoping* (ámbito léxico)](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) son el conjunto de normas sobre cómo los valores de las variables son extraidos del entorno en cada lenguaje de programación, es decir, como se asocia una variable (nombre) a un valor. En R tiene cuatro normas básicas (*name masking, functions versus variables, a fresh start and dynamic lookup*), pero la más importante para empezar con programación funcional es el *name masking*. Un entendimiento más profundo del ámbito léxico nos permite el uso más avanzado de la programación funcional.
 
-💡El [*lexical scoping* (ámbito léxico)](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) son el conjunto de normas sobre cómo los valores de las variables son extraidos del entorno en cada lenguaje de programación, es decir, como se asocia una variable a un valor. En R tiene cuatro normas básicas, pero la más importante para empezar con programación funcional es el *name masking*.
+En relación al *name masking*, el principio básico es que los nombres definidos dentro de una función *enmascaran* los nombres definidos fuera de la función. Pero si un nombre no está definido dentro de una función, R buscará en un *environment* superior.
+
+```{r lexical_scoping}
+
+x <- 10
+y <- 20
+
+myfunction <- function() {
+  x <- 1
+  y <- 2
+  x + y
+}
+
+myfunction()
+```
+
+![Si un nombre no está definido dentro de una función, R buscará en un nivel superior. Ilustración de Cristina Grajera](images/environment.png)
+
+En general, con R base sólo podemos llamar a objetos que forman parte del entorno (*env-variables*) aunque hay excepciones; en cambio, con *tidyverse* es muy común llamar a las variables dentro de las tablas (*data-variables*). Esta característica llamada [*non-standard evaluation*](http://adv-r.had.co.nz/Computing-on-the-language.html) simplifica el código en *tidyverse*, pero la ventaja no tiene coste cero y tiene implicaciones en la gramática de las funciones como veremos más adelante.
 
 ```{r name_masking}
 #| warning: false
 #| error: true
 
+penguins |> 
+  filter(island == "Dream", species == "Chinstrap") |> 
+  select(flipper_length_mm)
+penguins[penguins$island == "Dream" & penguins$species == "Chinstrap", "flipper_length_mm"]
+
+misdatos <- data.frame(valores = 1:10)
 mean(x = 1:10)
 mean(x = valores)
-misdatos <- data.frame(valores = 1:10)
-mean(x = valores)
 mean(x = misdatos$valores)
+mean(x = misdatos[,"valores"])
+
 misdatos |> 
   summarise(mean = mean(valores))
 
-
-penguins |> filter(island == "Dream", species == "Chinstrap") |> select(flipper_length_mm)
-penguins[penguins$island == "Dream" & penguins$species == "Chinstrap", "flipper_length_mm"]
-
+subset(misdatos, select = valores) #R base
 ```
+
+![*tidyverse* permite usar data-variables (juguetes dentro de la caja –el data.frame) como si fueran env-variables (juguetes sobre las alfombras). Cuando Monchi usa las *tidygafas* puede acceder también fácilmente a los juguetes de la caja. Las *tidygafas* hacen que Monchi *evalúe* la función en un entorno diferente al que sería habitual. Ilustración de Cristina Grajera](images/data_masking.png)
 
 ## Introducción a la programación funcional
 
 La creciente disponibilidad de datos y de versatilidad de los programas de análisis han provocado el incremento en la cantidad y complejidad de los análisis que realizamos en ecología. Esto hace cada vez más necesaria la eficiencia en el proceso de gestión y análisis de datos. Una de las posibles formas para optimizar estos procesos y acortar los tiempos de trabajo para los usuarios de R es la programación basada en funciones. Las funciones permiten automatizar tareas comunes (por ejemplo, leer diferentes bases de datos) simplificando el código.
 
-Se puede llamar a una función a través de otra función e iterar el proceso lo que hace que R sea una herramienta muy potente. Las **iteraciones** sirven para realizar la misma acción a múltiples entradas. Existen dos grandes paradigmas de iteración: la programación orientada a objetos y la programación funcional. En este taller, nos centraremos principalmente en la **programación funcional** y aprenderemos a utilizar el paquete {purrr}, que proporciona funciones para eliminar muchos bucles comunes.
+Se puede llamar a una función a través de otra función e iterar el proceso lo que hace que R sea una herramienta muy potente. Las **iteraciones** sirven para realizar la misma acción a múltiples entradas. Existen dos grandes paradigmas de iteración: la programación orientada a objetos y la programación funcional. En este curso, nos centraremos principalmente en la **programación funcional** y aprenderemos a utilizar el paquete {purrr}, que proporciona funciones para eliminar muchos bucles comunes.
 
 ```{r ejemplo_importancia_PF}
 #| warning: false
@@ -345,7 +387,7 @@ Las principales **ventajas de la programación funcional** (uso de funciones e i
 
 Se recomienda seguir el principio "do not repeat yourself" ([DRY principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself#:~:text=%22Don't%20repeat%20yourself%22,redundancy%20in%20the%20first%20place.)): cada unidad de conocimiento o información debe tener una representación única, inequívoca y autoritativa en un sistema.
 
-Escribir una función ya merece la pena cuando has copiado y pegado más de dos veces lo mismo. Cuantas más veces esté repetido un código en más sitios necesitarás actualizarlo si hay algun cambio y más aumenta la probabilidad de error.
+Escribir una función ya merece la pena cuando has copiado y pegado más de dos veces lo mismo (don't be WET! - Write Everything Twice). Cuantas más veces esté repetido un código, en más sitios necesitarás actualizarlo si hay algun cambio y más aumenta la probabilidad de error.
 
 ## Teoría sobre funciones en R
 
@@ -390,7 +432,7 @@ Según el tipo de output generado hay dos tipos de funciones:
 
 -   Las **funciones de transformación** transforman el objeto que entra en la función (primer argumento) y devuelven otro objeto o el anterior modificado. Los funcionales son tipos especiales de funciones de transformación.
 
--   Las **funciones secundarias** (*side-effect functions*) tienen efectos colaterales y ejecutan una acción, como guardar un archivo o dibujar un plot. Algunos ejemplos que se usan comunmente son: `library()`, `setwd()`, `plot()`, `write_delim()`... Estas funciones retornan *de forma invisible* el primer argumento, que no se guarda, pero puede ser usado en un *pipeline*.
+-   Las **funciones secundarias** (*side-effect functions*) tienen efectos colaterales y ejecutan una acción, como guardar un archivo o dibujar un plot. Algunos ejemplos de funciones secundarias que se usan comunmente son: `library()`, `setwd()`, `plot()`, `write_delim()`... Estas funciones retornan *de forma invisible* el primer argumento, que no se guarda, pero puede ser usado en un *pipeline*.
 
 En general, sintácticamente, las funciones tienen tres componentes:
 
@@ -438,7 +480,7 @@ models <- penguins|>
 
 ```
 
-📝 Mejor reservar el uso de funciones anónimas para funciones cortas y simples. Si la función es larga y ocupa varias líneas mejor darle un nombre.
+📝 Mejor reservar el uso de funciones anónimas para funciones cortas y simples. Si la función es larga, ocupa varias líneas o tenemos que usarla con frecuencia mejor darle un nombre.
 
 ## Cómo escribir funciones {#sec-writefun}
 
@@ -479,7 +521,7 @@ ggplot(penguins_num, aes(x = species, y = flipper_length_mm, color = sex)) +
 # etc
 ```
 
-Hemos copiado un código más de dos veces para realizar una misma acción (es decir, un gráfico para ver como se distribuye una variable en función de otras dos que se mantienen constantes) así que hay que considerar la posibilidad de que estamos necesitando una función. A continuación vamos a seguir unos sencillos pasos para transformar cualquier código repetido en función.
+Hemos copiado un código más de dos veces para realizar una misma acción (es decir, un gráfico para ver como se distribuye una variable en función de otras dos que se mantienen constantes) así que hay que considerar la posibilidad de que estemos necesitando una función. A continuación vamos a seguir unos sencillos pasos para transformar cualquier código repetido en función.
 
 1.  Analizar el código: ¿cuáles son las partes replicadas? ¿cuantas entradas tenemos? ¿cuáles varían y cuáles no?
 
@@ -505,12 +547,19 @@ ggplot(penguins_num, aes(x = species, y = var, color = sex)) +
 var <- body_mass_g
 var <- "body_mass_g"
 
+ggplot(penguins_num, aes(x = species, y = var, color = sex)) +
+  geom_point(position = position_jitterdodge(), alpha = 0.3) +
+  geom_boxplot(alpha = 0.5) +
+  scale_color_manual(values = c("turquoise", "goldenrod1")) +
+  theme_light() +
+  ylab(var) #Gráfico erroneo
+
 ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
   geom_point(position = position_jitterdodge(), alpha = 0.3) +
   geom_boxplot(alpha = 0.5) +
   scale_color_manual(values = c("turquoise", "goldenrod1")) +
   theme_light() +
-  ylab(var)
+  ylab(var) #Gráfico correcto
 
 
 ```
@@ -538,8 +587,6 @@ rm(T, c, mean)
 4.  Enumerar los argumentos dentro de `function()` y poner el código simplificado dentro de las llaves.
 
 ```{r funcion_escribir}
-
-# Varias opciones
 
 explorar_penguins <- function (var) {
   ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
@@ -632,11 +679,11 @@ sum(1, 2, NA, na.mr = TRUE)
 
 ### Valores de retorno
 
-La última expresión ejecutada en una función es el valor de retorno. Es el resultado de ejecutar la función, a no ser que se especifique `invisible()`. Las funciones arrojan un sólo objeto. Si se quieren obtener más, tendrá que ser en formato de lista.
+La última expresión ejecutada en una función es el valor de retorno. Es el resultado de ejecutar la función, a no ser que se especifique `invisible()`. Las funciones arrojan un sólo objeto. Si se quieren obtener más, tendrán que agruparse en formato de lista.
 
 <!--# Se os ocurre algún caso donde usar invisible? -->
 
-📝 La función `return()` se usa para indicar explicitamente qué se quiere obtener en una función. Se recomienda su uso cuando el retorno no se espera al final de la función. P.e. en las ramas de una estructura `if/else()` sobre todo hay alguna rama larga y compleja.
+📝 La función `return()` se usa para indicar explicitamente qué se quiere obtener en una función. Se recomienda su uso cuando el retorno no se espera al final de la función. P.e. en las ramas de una estructura if/else, sobre todo hay alguna rama larga y compleja.
 
 #### Ejercicio
 
@@ -908,6 +955,7 @@ vapply(penguins_num, median, na.rm = T, FUN.VALUE = double(1))
 ```
 
 <!--# ja: creo que en el issue te referias a mover esto de nest() arriba -->
+
 Trabajar con listas es muy común en R. De echo el output por defecto de `map()` son listas. Sin embargo, las listas pueden resultar a veces desordenadas, p. ej., cuando perdemos el nombre de cada elemento de la lista. La función [`nest()`](https://tidyr.tidyverse.org/reference/nest.html) de {tidyr} nos permite trabajar con listas-columnas en data frames, generando una fila para cada grupo definido por las columnas no anidadas (es decir, *non-nested* columns).
 
 ```{r map_ejemplo_avanzado}

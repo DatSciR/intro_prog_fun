@@ -62,7 +62,7 @@ Dentro del modelo de ciencia de datos de Hadley Wickham, Mine Çetinkaya-Rundel 
 
 ![](images/1_N_0YimgDh2_IbBT9jJNtOg.jpg)
 
-Coordinamos el [grupo de trabajo de Ecoinformática](https://ecoinfaeet.github.io/website/index.html) de la Asociación Española de Ecología Terrestre.
+Verónica Cruz-Alonso (veronica.cral\@gmail.com) y [Julen Astigarraga](https://github.com/Julenasti) (julenastigarraga\@gmail.com). Coordinamos el [grupo de trabajo de Ecoinformática](https://ecoinfaeet.github.io/website/index.html) de la Asociación Española de Ecología Terrestre.
 
 Y vosotros ¿quiénes sois?
 

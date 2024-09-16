@@ -30,8 +30,6 @@ Dentro del modelo de ciencia de datos de Hadley Wickham, Mine Çetinkaya-Rundel 
 
 ### Estructura del curso
 
-<!--# ja: actualizar la estructura una vez que tengamos todo ready -->
-
 +------------------------------------------+---------------+
 | Bloques                                  | Día           |
 +==========================================+===============+

@@ -74,7 +74,7 @@ Y vosotros ¿quiénes sois?
 
 -   R: lenguaje de programación dinámico (se interpreta el código en el momento que se ejecuta).
 
--   RStudio: es un entorno de desarrollo integrado para programar en R. Tiene cuatro zonas diferenciadas: el editor de código, la consola (donde se ejecuta el código), el navegador del espacio de trabajo (con el entorno –*environment-* y el historial de comandos) y el mix de abajo a la derecha (Archivos, Gráficos, Paquetes, Ayuda).
+-   RStudio: es un entorno de desarrollo integrado para programar en R. Tiene cuatro zonas diferenciadas: el editor de código, la consola (donde se ejecuta el código), el navegador del espacio de trabajo (con el entorno –*environment*– y el historial de comandos) y el mix de abajo a la derecha (Archivos, Gráficos, Paquetes, Ayuda).
 
 -   Objetos: cualquier elemento almacenado con un nombre específico. Pueden ser de muchos tipos: `numeric`, `integer`, `logical`, `data.frame`, `SpatVector`, etc.
 
@@ -162,6 +162,8 @@ mynested_tibble
 
 💡Los dos operador *pipe* tienen pequeñas [diferencias](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/) pero en general el comportamiento es el mismo.
 
+💡Para más información sobre las diferencias entre R base y *Tidyverse* podéis leer la nota [Tidyverse: colección de paquetes de R para la ciencia de datos](https://www.revistaecosistemas.net/index.php/ecosistemas/article/view/2745)
+
 ```{r pipe}
 
 # install.packages("tidyverse")
@@ -170,7 +172,7 @@ library(tidyverse)
 mivector <- c(6, 4)
 mean(mivector)
 mivector |> 
-  mean() # CTRL+SHIFT+M para poner un pipe
+  mean() # CTRL + SHIFT + M para poner un pipe
 
 ```
 
@@ -244,7 +246,6 @@ penguins |>
 # summarise
 # se utiliza con funciones que resumen: n, n_distinct, mean, etc.
 # ver ?summarise
-
 penguins |> 
   summarise(
     body_min = min(body_mass_g, na.rm = TRUE),
@@ -331,16 +332,16 @@ mean(x = misdatos[,"valores"])
 misdatos |> 
   summarise(mean = mean(valores))
 
-subset(misdatos, select = valores) #R base
+subset(misdatos, select = valores) # R base
 ```
 
 ![*tidyverse* permite usar data-variables (juguetes dentro de la caja –el data.frame) como si fueran env-variables (juguetes sobre las alfombras). Cuando Monchi usa las *tidygafas* puede acceder también fácilmente a los juguetes de la caja. Las *tidygafas* hacen que Monchi *evalúe* la función en un entorno diferente al que sería habitual. Ilustración de Cristina Grajera](images/data_masking.png)
 
 ## Introducción a la programación funcional
 
-La creciente disponibilidad de datos y de versatilidad de los programas de análisis han provocado el incremento en la cantidad y complejidad de los análisis que realizamos en ecología. Esto hace cada vez más necesaria la eficiencia en el proceso de gestión y análisis de datos. Una de las posibles formas para optimizar estos procesos y acortar los tiempos de trabajo para los usuarios de R es la programación basada en funciones. Las funciones permiten automatizar tareas comunes (por ejemplo, leer diferentes bases de datos) simplificando el código.
+La creciente disponibilidad de datos y de versatilidad de los programas de análisis han provocado el incremento en la cantidad y complejidad de los análisis que realizamos. Esto hace cada vez más necesaria la eficiencia en el proceso de gestión y análisis de datos. Una de las posibles formas para optimizar estos procesos y acortar los tiempos de trabajo para los usuarios de R es la programación basada en funciones. Las funciones permiten automatizar tareas comunes (por ejemplo, leer diferentes bases de datos) simplificando el código.
 
-Se puede llamar a una función a través de otra función e iterar el proceso lo que hace que R sea una herramienta muy potente. Las **iteraciones** sirven para realizar la misma acción a múltiples entradas. Existen dos grandes paradigmas de iteración: la programación orientada a objetos y la programación funcional. En este curso, nos centraremos principalmente en la **programación funcional** y aprenderemos a utilizar el paquete {purrr}, que proporciona funciones para eliminar muchos bucles comunes.
+Como las funciones en R son objetos, es posible llamarlas a través de otras funciones e iterar este proceso, lo que constituye la base de la programación funcional y convierte a R en una herramienta muy poderosa. Las **iteraciones** sirven para realizar la misma acción a múltiples entradas. Existen dos grandes paradigmas de iteración: la programación orientada a objetos y la programación funcional. En este curso, nos centraremos principalmente en la **programación funcional** y aprenderemos a utilizar el paquete {purrr}, que proporciona funciones para eliminar muchos bucles comunes.
 
 ```{r ejemplo_importancia_PF}
 #| warning: false
@@ -566,13 +567,13 @@ ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
 
 ```
 
-👀 La función ggplot necesita argumentos (data-variable) que estén dentro del `data.frame` que va a representar. Para poder generalizar la función hemos guardado el nombre de la variable en un objeto (tipo *character*), pero ggplot no acepta "characters". Por ello necesitamos utilizar una función intermedia que sí los acepte.
+👀 La función `ggplot` necesita argumentos (data-variable) que estén dentro del `data.frame` que va a representar. Para poder generalizar la función hemos guardado el nombre de la variable en un objeto (tipo `character`), pero `ggplot` no acepta `characters`. Por ello necesitamos utilizar una función intermedia que sí los acepte.
 
 📝 Crear objetos con cálculos intermedios dentro de una función, es una buena práctica porque deja más claro lo que el código está haciendo.
 
-3.  Elegir un nombre para la función (📝). Idealmente tiene que ser corto y evocar lo que la función hace. En general, debe ser un verbo (p.e. imputar_valores) mientras que los argumentos son sustantivos (p.e. data, variable, etc.). Usar un sustantivo para una función está permitido si la función calcula algo muy conocido (p.e. `mean()`) o si sirve para acceder a partes de un objeto (p.e. `residuals()`). También se recomienda evitar verbos muy genéricos (p.e. calcular) y si el nombre tiene varias palabras separarlas con guión bajo o mayúsculas, pero ser consistente. Si programas varias funciones que hacen cosas parecidas se recomienda usar el mismo prefijo para todas (p.e. "str\_" en el paquete {stringr}).
+3.  Elegir un nombre para la función (📝). Idealmente tiene que ser corto y evocar lo que la función hace. En general, debe ser un verbo (p.ej. imputar_valores) mientras que los argumentos son sustantivos (p.ej. data, variable, etc.). Usar un sustantivo para una función está permitido si la función calcula algo muy conocido (p.ej. `mean()`) o si sirve para acceder a partes de un objeto (p.ej. `residuals()`). También se recomienda evitar verbos muy genéricos (p.ej. calcular) y si el nombre tiene varias palabras separarlas con guión bajo o mayúsculas, pero ser consistente. Si programas varias funciones que hacen cosas parecidas se recomienda usar el mismo prefijo para todas (p.ej. "str\_" en el paquete {stringr}).
 
-Cuanto más claramente puedas expresar la intención de tu código a través de los nombres de funciones, más fácilmente otros e incluyendo tu mismo en el futuro podrán leer y comprender el código.
+Cuanto más claramente puedas expresar la intención de tu código a través de los nombres de funciones, más fácilmente otros e incluyendo tú mismo en el futuro podrán leer y comprender el código.
 
 ```{r nombres_mal}
 
@@ -613,7 +614,7 @@ explorar_penguins(var = "bill_depth_mm")
 
 ```
 
-💡Puedes querer convertir estas pruebas en **test** formales. En funciones complejas sirven para que, aunque hagas cambios, se pueda comprobar que la funcionalidad no se ha roto. Si estás interesado mira este enlace: [https://r-pkgs.org/testing-basics.html](#0){.uri}
+💡Puedes querer convertir estas pruebas en **test** formales. En funciones complejas sirven para que, aunque hagas cambios, se pueda comprobar que la funcionalidad no se ha roto. Si estás interesado mira [este enlace](https://r-pkgs.org/testing-basics.html).
 
 #### Ejercicio
 
@@ -643,7 +644,7 @@ En general hay dos grupos: los que especifican los **datos** y los que especific
 
 A la hora de ejecutar la función los argumentos se pueden **especificar** utilizando el nombre completo, una abreviatura unequívoca o el órden de su posición (*unnamed arguments*), siendo esta secuencia (nombre \> abreviatura \> posición) el órden de prioridad a la hora de hacer corresponder los argumentos con lo que se escribe.
 
-📝 Generalmente sólo se usa el orden de posición para especificar los primeros argumentos, los más comunes que todo el mundo conoce. Si se cambia un argumento de detalle con valor por defecto conviene poner siempre el combre completo.
+📝 Generalmente sólo se usa el orden de posición para especificar los primeros argumentos, los más comunes que todo el mundo conoce. Si se cambia un argumento de detalle con valor por defecto conviene poner siempre el nombre completo.
 
 📝 Usar espacios antes y después de `=` y después de `,` hace mucho más fácil identificar los argumentos de la función y, en general, todos los componentes.
 
@@ -685,7 +686,7 @@ La última expresión ejecutada en una función es el valor de retorno. Es el re
 
 <!--# Se os ocurre algún caso donde usar invisible? -->
 
-📝 La función `return()` se usa para indicar explicitamente qué se quiere obtener en una función. Se recomienda su uso cuando el retorno no se espera al final de la función. P.e. en las ramas de una estructura if/else, sobre todo hay alguna rama larga y compleja.
+📝 La función `return()` se usa para indicar explicitamente qué se quiere obtener en una función. Se recomienda su uso cuando el retorno no se espera al final de la función. P.ej. en las ramas de una estructura `if-else`, sobre todo cuando hay alguna rama larga y compleja.
 
 #### Ejercicio
 
@@ -693,24 +694,28 @@ La última expresión ejecutada en una función es el valor de retorno. Es el re
 
 ## Programación orientada a objetos (POO)
 
-La mayoría de la gente tiende a programar de forma imperativa. En la programación imperativa, los scripts tienden a ser largos y cambian gradualmente el estado del programa. Esto a menudo implica el uso de bases de datos temporales que se modifican a lo largo del proceso de análisis. Como resultado, puede resultar más difícil comprender qué se está haciendo en cada paso del script. La programación orientada a objetos, utilizada por lenguajes como Java o Python, ha sido el paradigma de programación más popular en las últimas décadas y utiliza un estilo de programación imperativo.
+> \- Todo lo que existe es un objeto.
+>
+> --- John Chambers
+>
+> \- Sin embargo, no todo es orientado a objetos
 
-```{r cambio_gradual}
+En R, la programación funcional suele ser más relevante que la POO, ya que frecuentemente se abordan problemas complejos descomponiéndolos en funciones simples en lugar de objetos simples.
 
-mypenguins <- penguins |> 
-  mutate(
-    bill_volume_mm2 = (bill_length_mm * bill_depth_mm) / 2,
-    female_penguin = case_when(
-      sex == "female" & body_mass_g < 3600 ~ "small female",
-      sex == "female" & body_mass_g >= 3600 ~ "big female",
-      TRUE ~ NA)
-  ) 
+La principal razón para utilizar la POO es el polimorfismo (del latín "muchas formas"). El polimorfismo permite a un desarrollador considerar la interfaz de una función por separado de su implementación, lo que facilita el uso de la misma función con diferentes tipos de entrada. Para entender esto, probad a correr el siguiente código.
 
-mypenguins |> 
-  group_by(female_penguin) |> 
-  summarise(body_mass_mean = mean(body_mass_g))
-
+```{r polimorfismo}
+summary(penguins$bill_depth_mm)
+summary(penguins$sex) 
 ```
+
+Podrías pensar que `summary()` utiliza una serie de declaraciones `if-else` según el tipo de los datos de entrada, pero en este caso solo el autor original podría añadir nuevas implementaciones. Sin embargo, un sistema de POO permite que cualquier desarrollador extienda la interfaz mediante la creación de implementaciones para nuevos tipos de entrada.
+
+En los sistemas de POO, el tipo de un objeto se denomina su clase y una implementación específica para una clase se conoce como método. En términos generales, una clase define las características de un objeto (¿qué es?) y los métodos describen las acciones que ese objeto puede realizar (¿qué hace?).
+
+La programación orientada a objetos, utilizada por lenguajes como Java o Python, ha sido el paradigma de programación más popular en las últimas décadas y utiliza un estilo de programación imperativo. R base proporciona tres sistemas de POO (S3 –que es la más utilizada-, S4 y RC), aunque también existen otros sistemas POO proporcionados por diferentes paquetes del CRAN.
+
+💡Información más detallada sobre [POO](https://adv-r.hadley.nz/oo.html) y [compromisos entre algunos sistemas de POO](https://adv-r.hadley.nz/oo-tradeoffs.html)
 
 En la programación imperativa las herramientas más comunes para reducir duplicidades son los bucles *for* y los bucles *while* *for loops* y *while loops*. Los bucles son recomendables para adentrarse en el mundo de las iteraciones porque hacen cada iteración muy explícita para que quede claro lo que está pasando.
 
@@ -785,7 +790,7 @@ A pesar de ser muy utilizados en R, los bucles *for* no son tan importantes como
 
 Existe la creencia de que los bucles *for* son lentos, pero la desventaja real de *los bucles for es que son demasiado flexibles* y pueden realizar muchas tareas diferentes. En cambio, cada funcional ({purrr}, `apply`) está diseñado para una tarea específica, por lo que en cuanto lo ves en el código, inmediatamente sabes por qué se está utilizando. Es decir, la principal ventaja es su claridad al hacer que el código sea más fácil de escribir y de leer (ver este ejemplo avanzado para entenderlo: <https://adv-r.hadley.nz/functionals.html>, 9.3 Purrr style). Una vez que dominemos la programación funcional, podremos solventar muchos problemas de iteración con menos código, más facilidad y menos errores.
 
-Los bucles pueden ser más explícitos en cuanto a que se ve claramente la iteración, pero se necesita más tiempo para entender qué se está haciendo. Por el contrario, los funcionales necesitan un paso más de abstracción y pueden requerir tiempo hasta que los comprendamos. Lo más importante es que soluciones el problema y poco a poco ir escribiendo código cada vez más sencillo y elegante. Ver @sec-POO para obtener más información sobre programación orientada a objetos.
+Los bucles pueden ser más explícitos en cuanto a que se ve claramente la iteración, pero se necesita más tiempo para entender qué se está haciendo. Por el contrario, los funcionales necesitan un paso más de abstracción y pueden requerir tiempo hasta que los comprendamos. Lo más importante es que soluciones el problema y poco a poco ir escribiendo código cada vez más sencillo y elegante.
 
 > Para ser significativamente más fiable, el código debe ser más transparente. En particular, las condiciones anidadas y los bucles deben considerarse con gran recelo. Las esctructuras de control complicados confunden a los programadores. El código desordenado suele ocultar errores.
 >
@@ -1277,50 +1282,6 @@ cat("Tiempo de computación:", round(tiempo_final - tiempo_inicio, 1), "segundos
 ```
 
 La información aquí expuesta sobre programación paralela está mucho más ampliamente explicada en: <https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/>
-
-### Más información sobre programación orientada a objetos (POO) {#sec-POO}
-
-> \- Todo lo que existe es un objeto.
->
-> --- John Chambers
->
-> \- Sin embargo, no todo es orientado a objetos
-
-En R, la programación funcional suele ser más relevante que la POO, ya que frecuentemente se abordan problemas complejos descomponiéndolos en funciones simples en lugar de objetos simples.
-
-La principal razón para utilizar la POO es el polimorfismo (del latín "muchas formas"). El polimorfismo permite a un desarrollador considerar la interfaz de una función por separado de su implementación, lo que facilita el uso de la misma función con diferentes tipos de entrada. Para entender esto, probad a correr el siguiente código.
-
-```{r polimorfismo}
-
-summary(penguins$bill_depth_mm)
-summary(penguins$sex)
-
-```
-
-Podrías pensar que `summary()` utiliza una serie de declaraciones `if-else` según el tipo de los datos de entrada, pero en este caso solo el autor original podría añadir nuevas implementaciones. Sin embargo, un sistema de POO permite que cualquier desarrollador extienda la interfaz mediante la creación de implementaciones para nuevos tipos de entrada.
-
-En los sistemas de POO, el tipo de un objeto se denomina su clase y una implementación específica para una clase se conoce como método. En términos generales, una clase define las características de un objeto (¿qué es?) y los métodos describen las acciones que ese objeto puede realizar (¿qué hace?).
-
-R base proporciona tres sistemas de POO (S3 –que es la más utilizada-, S4 y RC), aunque también existen otros sistemas POO proporcionados por diferentes paquetes del CRAN.
-
-```{r objetos}
-
-library(sloop)
-
-is.object(1:5) # objeto base pero no orientada a objetos
-otype(1:5) # objeto base 
-attr(1:5, "class") # no tienen clase
-
-is.object(penguins) # orientada a objetos
-otype(penguins) # S3
-attr(penguins, "class") # tienen clase
-
-ftype(summary) # funcion generica S3
-# una funcion generica define la interfaz, que utiliza una implementacion (metodo) diferente dependiendo de la clase del argumento. Acuerdate de la idea del polimorfismo que hemos visto antes ;)
-
-```
-
-💡Información más detallada sobre [POO](https://adv-r.hadley.nz/oo.html) y [compromisos entre algunos sistemas de POO](https://adv-r.hadley.nz/oo-tradeoffs.html)
 
 ### Enlaces de interés
 

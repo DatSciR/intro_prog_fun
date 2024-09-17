@@ -225,9 +225,9 @@ Figure&nbsp;1: Modelo de ciencia de datos de Hadley Wickham, Mine Çetinkaya-Run
 <section id="quiénes-somos" class="level3" data-number="1.2">
 <h3 data-number="1.2" class="anchored" data-anchor-id="quiénes-somos"><span class="header-section-number">1.2</span> Quiénes somos</h3>
 <p><img src="images/repeated_code.jpg" class="img-fluid"></p>
-<p>Verónica Cruz-Alonso (veronica.cral@gmail.com) y <a href="https://github.com/Julenasti">Julen Astigarraga</a> (julenastigarraga@gmail.com). Coordinamos el <a href="https://ecoinfaeet.github.io/website/index.html">grupo de trabajo de Ecoinformática</a> de la Asociación Española de Ecología Terrestre.</p>
+<p>Verónica Cruz-Alonso (veronica.cral@gmail.com) y Julen Astigarraga (julenastigarraga@gmail.com). Coordinamos el <a href="https://ecoinfaeet.github.io/website/index.html">grupo de trabajo de Ecoinformática</a> de la Asociación Española de Ecología Terrestre.</p>
 <p>Y vosotros ¿quiénes sois?</p>
-<p><a href="https://www.menti.com/al8tcqnqp8jx" class="uri">https://www.menti.com/al8tcqnqp8jx</a></p>
+<p><a href="https://www.menti.com/almvj4rjaogv" class="uri">https://www.menti.com/almvj4rjaogv</a></p>
 </section>
 </section>
 <section id="introducción-a-la-programación-en-r" class="level2" data-number="2">
@@ -1387,7 +1387,7 @@ Removed 2 rows containing missing values or values outside the scale range
 <span id="cb142-6"><a href="#cb142-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-   0.51    0.36    0.87 </code></pre>
+   0.50    0.27    0.77 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb144"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"double"</span>, <span class="at">length =</span> <span class="dv">20000</span>)</span>
 <span id="cb144-2"><a href="#cb144-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(</span>
@@ -2483,7 +2483,7 @@ Session Info
 <div class="cell">
 <div class="sourceCode cell-code" id="cb245"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb245-1"><a href="#cb245-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2024-09-17 10:15:52 CEST"</code></pre>
+<pre><code>[1] "2024-09-17 10:29:50 CEST"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb247"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb247-1"><a href="#cb247-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2628,6 +2628,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         if (link.dataset.originalHref !== undefined) {
           link.href = link.dataset.originalHref;
         }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
       }
     }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {

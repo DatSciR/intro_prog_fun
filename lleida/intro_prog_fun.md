@@ -127,15 +127,14 @@ programación.
 
 ![](images/repeated_code.jpg)
 
-Verónica Cruz-Alonso (veronica.cral@gmail.com) y [Julen
-Astigarraga](https://github.com/Julenasti) (julenastigarraga@gmail.com).
-Coordinamos el [grupo de trabajo de
+Verónica Cruz-Alonso (veronica.cral@gmail.com) y Julen Astigarraga
+(julenastigarraga@gmail.com). Coordinamos el [grupo de trabajo de
 Ecoinformática](https://ecoinfaeet.github.io/website/index.html) de la
 Asociación Española de Ecología Terrestre.
 
 Y vosotros ¿quiénes sois?
 
-<https://www.menti.com/al8tcqnqp8jx>
+<https://www.menti.com/almvj4rjaogv>
 
 ## Introducción a la programación en R
 
@@ -1615,7 +1614,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.74    0.38    1.12 
+       0.51    0.27    0.80 
 
 ``` r
 y <- vector("double", length = 20000)
@@ -1627,7 +1626,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.02    0.00    0.02 
+          0       0       0 
 
 2.  Secuencia: aquí determinamos sobre lo que queremos iterar. Cada
     ejecución del bucle *for* asignará un valor diferente de
@@ -2969,7 +2968,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2024-09-17 10:22:53 CEST"
+    [1] "2024-09-17 10:30:14 CEST"
 
 ``` r
 sessionInfo()

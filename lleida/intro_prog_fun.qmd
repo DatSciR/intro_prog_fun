@@ -5,7 +5,8 @@ date: today
 date-format: "DD/MM/YYYY"
 toc: true
 format:
-  html: default
+  html:
+    link-external-newwindow: true
     # css: styles.css
   gfm: default
 editor: visual
@@ -60,7 +61,7 @@ Dentro del modelo de ciencia de datos de Hadley Wickham, Mine Çetinkaya-Rundel 
 
 ![](images/repeated_code.jpg)
 
-Verónica Cruz-Alonso (veronica.cral\@gmail.com) y [Julen Astigarraga](https://github.com/Julenasti) (julenastigarraga\@gmail.com). Coordinamos el [grupo de trabajo de Ecoinformática](https://ecoinfaeet.github.io/website/index.html) de la Asociación Española de Ecología Terrestre.
+Verónica Cruz-Alonso (veronica.cral\@gmail.com) y Julen Astigarraga (julenastigarraga\@gmail.com). Coordinamos el [grupo de trabajo de Ecoinformática](https://ecoinfaeet.github.io/website/index.html) de la Asociación Española de Ecología Terrestre.
 
 Y vosotros ¿quiénes sois?
 

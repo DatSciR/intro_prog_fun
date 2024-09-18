@@ -1,6 +1,6 @@
 # Programación funcional en R
 Julen Astigarraga y Verónica Cruz-Alonso
-17/09/2024
+18/09/2024
 
 - [<span class="toc-section-number">1</span>
   Presentación](#presentación)
@@ -1614,7 +1614,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.51    0.27    0.80 
+       0.46    0.42    0.89 
 
 ``` r
 y <- vector("double", length = 20000)
@@ -2968,7 +2968,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2024-09-17 10:30:14 CEST"
+    [1] "2024-09-18 09:33:47 CEST"
 
 ``` r
 sessionInfo()
@@ -3007,10 +3007,10 @@ sessionInfo()
     [13] generics_0.1.3    knitr_1.48        munsell_0.5.1     pillar_1.9.0     
     [17] tzdb_0.4.0        rlang_1.1.4       utf8_1.2.4        stringi_1.8.4    
     [21] xfun_0.45         bit64_4.0.5       timechange_0.3.0  cli_3.6.3        
-    [25] withr_3.0.0       magrittr_2.0.3    digest_0.6.36     grid_4.4.1       
+    [25] withr_3.0.1       magrittr_2.0.3    digest_0.6.36     grid_4.4.1       
     [29] vroom_1.6.5       rstudioapi_0.16.0 hms_1.1.3         lifecycle_1.0.4  
     [33] vctrs_0.6.5       evaluate_0.24.0   glue_1.7.0        farver_2.1.2     
-    [37] fansi_1.0.6       colorspace_2.1-0  rmarkdown_2.27    tools_4.4.1      
+    [37] fansi_1.0.6       colorspace_2.1-1  rmarkdown_2.27    tools_4.4.1      
     [41] pkgconfig_2.0.3   htmltools_0.5.8.1
 
 </details>

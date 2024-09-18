@@ -167,7 +167,7 @@ explorar_df(df = iris, # iris es un dataset cargado en RStudio por defecto
 
 ## 8.1.1 Ejercicio
 
-Generad un vector, una función y aplicadle la función a cada uno de los elementos del vector utilizando map().
+Generad un vector, una función y aplicadle la función a cada uno de los elementos del vector utilizando `map()`.
 
 ```{r 8.1.1}
 
@@ -191,7 +191,7 @@ map(penguins, mean, na.rm = T) # opcion 2
 
 ```
 
-El primer y segundo `map()` utilizan funciones anónimas (`\(x)`) mientras que el tercero no lo hace. El primero nos devuelve muchos `NA` porque hay algunas celdas de variables numéricas en la base de datos de penguins que contienen `NA`, y por defecto, `mean()` devuelve `NA` si detecta algún `NA` en las variables a las que se aplica el `mean()`. El resultado del segundo y tercer `map()` es el mismo. Sin embargo, en el segundo `map()` se pasan argumentos adicionales a `mean()` mediante la función anónima. En el tercer `map()`, dado que `map()` incluye `...` entre sus argumentos, se pueden incluir los argumentos adicionales después de la función dentro de `map()` de una forma mucho más sencilla.
+El primer y segundo `map()` utilizan funciones anónimas (`\(x)`) mientras que el tercero no lo hace. El primero nos devuelve muchos `NA` porque hay algunas celdas de variables numéricas en la base de datos de penguins que contienen `NA`, y por defecto, `mean()` devuelve `NA` si detecta algún `NA` en las variables a las que se aplica el `mean()`. El resultado del segundo y tercer `map()` es el mismo. Sin embargo, en el segundo `map()` se añaden argumentos adicionales en `mean()` mediante la función anónima. En el tercer `map()`, dado que `map()` incluye `...` entre sus argumentos, se pueden incluir los argumentos adicionales después de la función dentro de `map()` de una forma mucho más sencilla.
 
 ## 8.2.1 Ejercicio
 
@@ -215,9 +215,9 @@ En la siguiente linea utilizamos el vector lógico generado con `map_lgl()` para
 
 `map_dbl()` nos devuelve un vector numérico calculando la mediana de cada variable númerica de penguins.
 
-`map_chr()` nos devuelve un vector de caracteres que nos indica de qué clase es cada una de las columnas de penguins.
+`map_chr()` nos devuelve un vector de caracteres que nos indica la clase de cada una de las columnas de penguins.
 
-`map_int()` nos devuelve un vector de números enteros que nos el número de observaciones únicas que hay en cada variable de penguins contando los `NA`.
+`map_int()` nos devuelve un vector de números enteros que nos muestra el número de observaciones únicas que hay en cada variable de penguins contando los `NA`.
 
 `map_vec()` determina automáticamente el tipo de salida que en este caso nos devuelve un vector de tipo fecha.
 

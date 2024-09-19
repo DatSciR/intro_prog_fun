@@ -116,11 +116,11 @@ Trabajar con listas es muy común en R. De echo el output por defecto de `map()`
 ```{r more_objects}
 
 mylist_from_tibble <- mytibble |> # list
-  group_split(c)
+  group_split(v3)
 mylist_from_tibble
 
 mynested_tibble <- mytibble |> # data.frame with list-columns
-  group_by(c) |> 
+  group_by(v3) |> 
   nest()
 mynested_tibble
 

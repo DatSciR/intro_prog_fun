@@ -61,7 +61,7 @@ Dentro del modelo de ciencia de datos de Hadley Wickham, Mine Çetinkaya-Rundel 
 
 ![](images/repeated_code.jpg)
 
-Verónica Cruz-Alonso (veronica.cral\@gmail.com) y Julen Astigarraga (julenastigarraga\@gmail.com). Coordinamos el [grupo de trabajo de Ecoinformática](https://ecoinfaeet.github.io/website/index.html) de la Asociación Española de Ecología Terrestre.
+Verónica Cruz-Alonso (veronica.cral\@gmail.com) y Julen Astigarraga (julenastigarraga\@gmail.com). Coordinamos el [grupo de trabajo de Ecoinformática](https://ecoinfaeet.github.io/website/index.html) de la Asociación Española de Ecología Terrestre. En [DatSciR](https://github.com/DatSciR) publicamos los materiales de los cursos que impartimos.
 
 Y vosotros ¿quiénes sois?
 
@@ -81,28 +81,39 @@ Y vosotros ¿quiénes sois?
 
 ```{r objects}
 
+# install.packages("tidyverse")
 library(tidyverse)
 
-a <- c(1, 2, 3, 4)
-b <- c(1, 2, 3, 4)
-c <- c("hi", "hola", "hola", "hi")
-d <- c(TRUE, TRUE, TRUE, FALSE, FALSE)
+v1 <- c(1, 2, 3, 4)
+v2 <- c(1, 2, 3, 4)
+v3 <- c("hi", "hola", "hola", "hi")
+v4 <- c(TRUE, TRUE, TRUE, FALSE, FALSE)
 
-# el objeto numérico de longitud 4 c(1, 2, 3, 4) tiene dos nombres: "a" y "b"
+# el objeto numérico de longitud 4 c(1, 2, 3, 4) tiene dos nombres: "v1" y "v2"
 
-mymatrix_num <- matrix(c(a, b), nrow = 4, ncol = 2)
+mymatrix_num <- matrix(c(v1, v2), nrow = 4, ncol = 2)
 mymatrix_num
 
-mymatrix_cha <- matrix(c(a, b, c), nrow = 4, ncol = 3)
+mymatrix_cha <- matrix(c(v1, v2, v3), nrow = 4, ncol = 3)
 mymatrix_cha
 
-mytibble <- tibble(a, b, c)
+mytibble <- tibble(v1, v2, v3)
 mytibble
 
-mydf <- data.frame(a, b, c)
+mydf <- data.frame(v1, v2, v3)
 
-mylist <- list(a, b, c, d)
+mylist <- list(v1, v2, v3, v4)
 mylist
+
+```
+
+> Los nombres tienen objetos; los objetos no tienen nombres
+>
+> --- Hadley Wickham ([Advanced R](https://adv-r.hadley.nz/index.html))
+
+Trabajar con listas es muy común en R. De echo el output por defecto de `map()` son listas. Sin embargo, las listas pueden resultar a veces desordenadas, p. ej., cuando perdemos el nombre de cada elemento de la lista. La función [`nest()`](https://tidyr.tidyverse.org/reference/nest.html) de {tidyr} nos permite trabajar con listas-columnas en data frames, generando una fila para cada grupo definido por las columnas no anidadas (es decir, *non-nested* columns).
+
+```{r more_objects}
 
 mylist_from_tibble <- mytibble |> # list
   group_split(c)
@@ -114,12 +125,6 @@ mynested_tibble <- mytibble |> # data.frame with list-columns
 mynested_tibble
 
 ```
-
-💡Trabajar con listas es muy común en R. De echo el output por defecto de `map()` son listas. Sin embargo, las listas pueden resultar a veces desordenadas, p. ej., cuando perdemos el nombre de cada elemento de la lista. La función [`nest()`](https://tidyr.tidyverse.org/reference/nest.html) de {tidyr} nos permite trabajar con listas-columnas en data frames, generando una fila para cada grupo definido por las columnas no anidadas (es decir, *non-nested* columns).
-
-> Los nombres tienen objetos; los objetos no tienen nombres
->
-> --- Hadley Wickham ([Advanced R](https://adv-r.hadley.nz/index.html))
 
 💡Explora los diferentes tipos de objetos [aquí](https://rstudio-education.github.io/hopr/r-objects.html).
 
@@ -163,17 +168,16 @@ mynested_tibble
 
 💡Los dos operador *pipe* tienen pequeñas [diferencias](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/) pero en general el comportamiento es el mismo.
 
-💡Para más información sobre las diferencias entre R base y *Tidyverse* podéis leer la nota [Tidyverse: colección de paquetes de R para la ciencia de datos](https://www.revistaecosistemas.net/index.php/ecosistemas/article/view/2745)
+💡Para más información sobre las diferencias entre R base y *Tidyverse* podéis leer la nota [Tidyverse: colección de paquetes de R para la ciencia de datos](https://www.revistaecosistemas.net/index.php/ecosistemas/article/view/2745).
 
 ```{r pipe}
 
-# install.packages("tidyverse")
-library(tidyverse)
+v3
 
-mivector <- c(6, 4)
-mean(mivector)
-mivector |> 
-  mean() # CTRL + SHIFT + M para poner un pipe
+length(unique(v3))
+
+v3 |> unique() |> length()
+# CTRL + SHIFT + M para poner un pipe
 
 ```
 
@@ -277,6 +281,7 @@ penguins |>
 
 ```{r save_read_tidyverse}
 #| eval: false
+
 mypenguins <- penguins |> 
   mutate(bill_volume_mm2 = (bill_length_mm * bill_depth_mm) / 2,
     female_penguin = case_when(
@@ -289,11 +294,12 @@ write_delim(mypenguins, file = "mypenguins.csv", delim = ";")
 
 misdatos <- read_delim(file = "mypenguins.csv")
 View(misdatos)
+
 ```
 
 ### Scoping
 
-El [*lexical scoping* (ámbito léxico)](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) son el conjunto de normas sobre cómo los valores de las variables son extraidos del entorno en cada lenguaje de programación, es decir, como se asocia una variable (nombre) a un valor. En R tiene cuatro normas básicas (*name masking, functions versus variables, a fresh start and dynamic lookup*), pero la más importante para empezar con programación funcional es el *name masking*. Un entendimiento más profundo del ámbito léxico nos permite el uso más avanzado de la programación funcional.
+El [*lexical scoping* (ámbito léxico)](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) son el conjunto de normas sobre cómo los valores de las variables son extraidos del entorno en cada lenguaje de programación, es decir, como se asocia una variable (nombre) a un valor. Un entendimiento más profundo del ámbito léxico nos permite el uso más avanzado de la programación funcional. En R tiene cuatro normas básicas (*name masking, functions versus variables, a fresh start and dynamic lookup*), pero la más importante para empezar con programación funcional es el *name masking*.
 
 En relación al *name masking*, el principio básico es que los nombres definidos dentro de una función *enmascaran* los nombres definidos fuera de la función. Pero si un nombre no está definido dentro de una función, R buscará en un *environment* superior.
 
@@ -322,6 +328,7 @@ En general, con R base sólo podemos llamar a objetos que forman parte del entor
 penguins |> 
   filter(island == "Dream", species == "Chinstrap") |> 
   select(flipper_length_mm)
+
 penguins[penguins$island == "Dream" & penguins$species == "Chinstrap", "flipper_length_mm"]
 
 misdatos <- data.frame(valores = 1:10)
@@ -375,7 +382,7 @@ View(df_rescaled2)
 #
 df_rescaled3 <- lapply(df, rescale01)
 
-head(df_rescaled3$bill_length_mm)
+View(df_rescaled3)
 
 ```
 
@@ -452,7 +459,7 @@ nombre1_v1 <- function(x, y) {
 
 nombre1_v2 <- function(x, y) paste(x, y, sep = "_")  
 
-nombre1_v3 <- \(x, y) paste(x, y, sep = "_")  
+nombre1_v3 <- \(x, y) paste(x, y, sep = "_")
 
 nombre1_v1("Vero", "Cruz") 
 nombre1_v2("Vero", "Cruz") 
@@ -460,7 +467,7 @@ nombre1_v3("Vero", "Cruz")
 
 ```
 
-📝 Si la función tiene más de dos lineas es mejor usar llaves siempre para que quede bien delimitada. La llave de apertura nunca debe ir sola pero sí la de cierre (excepto con *else*). Las sangrías también ayudan mucho a entender la jerarquía del código dentro de las funciones. En este sentido recomendamos usar *Code \> Reindent lines/Reformat code* en el menú de RStudio.
+📝 Si la función tiene más de dos lineas es mejor usar llaves siempre para que quede bien delimitada. La llave de apertura nunca debe ir sola pero sí la de cierre (excepto con *else*). Las sangrías también ayudan mucho a entender la jerarquía del código dentro de las funciones. En este sentido recomendamos usar *Code \> Reindent lines/Reformat code* (Ctrl + Shift + a) en el menú de RStudio.
 
 💡Los operadores infijos (`+`), de flujo (`for`, `if`), de subdivisión (`[ ]`, `$`), de reemplazo (`<-`) o incluso las llaves (`{ }`) también son funciones. La tilde invertida "\`" permite referirse a funciones o variables que de otro modo tienen "nombre ilegales".
 
@@ -482,6 +489,7 @@ models <- penguins|>
   group_split(species) |>
   map(\(df) lm(body_mass_g ~ bill_length_mm, data = df)) 
 
+summary(models[[1]])
 ```
 
 📝 Mejor reservar el uso de funciones anónimas para funciones cortas y simples. Si la función es larga, ocupa varias líneas o tenemos que usarla con frecuencia mejor darle un nombre.
@@ -570,9 +578,7 @@ ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
 
 👀 La función `ggplot` necesita argumentos (data-variable) que estén dentro del `data.frame` que va a representar. Para poder generalizar la función hemos guardado el nombre de la variable en un objeto (tipo `character`), pero `ggplot` no acepta `characters`. Por ello necesitamos utilizar una función intermedia que sí los acepte.
 
-📝 Crear objetos con cálculos intermedios dentro de una función, es una buena práctica porque deja más claro lo que el código está haciendo.
-
-3.  Elegir un nombre para la función (📝). Idealmente tiene que ser corto y evocar lo que la función hace. En general, debe ser un verbo (p.ej. imputar_valores) mientras que los argumentos son sustantivos (p.ej. data, variable, etc.). Usar un sustantivo para una función está permitido si la función calcula algo muy conocido (p.ej. `mean()`) o si sirve para acceder a partes de un objeto (p.ej. `residuals()`). También se recomienda evitar verbos muy genéricos (p.ej. calcular) y si el nombre tiene varias palabras separarlas con guión bajo o mayúsculas, pero ser consistente. Si programas varias funciones que hacen cosas parecidas se recomienda usar el mismo prefijo para todas (p.ej. "str\_" en el paquete {stringr}).
+3.  Elegir un nombre para la función (📝). Idealmente tiene que ser corto y evocar lo que la función hace. En general, debe ser un verbo (p. ej. imputar_valores) mientras que los argumentos son sustantivos (p. ej. data, variable, etc.). Usar un sustantivo para una función está permitido si la función calcula algo muy conocido (p. ej. `mean()`) o si sirve para acceder a partes de un objeto (p. ej. `residuals()`). También se recomienda evitar verbos muy genéricos (p. ej. calcular) y si el nombre tiene varias palabras separarlas con guión bajo o mayúsculas, pero ser consistente. Si programas varias funciones que hacen cosas parecidas se recomienda usar el mismo prefijo para todas (p. ej. "str\_" en el paquete {stringr}).
 
 Cuanto más claramente puedas expresar la intención de tu código a través de los nombres de funciones, más fácilmente otros e incluyendo tú mismo en el futuro podrán leer y comprender el código.
 
@@ -604,6 +610,8 @@ explorar_penguins <- function (var) {
 ```
 
 📝 Utiliza comentarios (#) para explicar el razonamiento detrás de tus funciones. Se debe evitar explicar qué se está haciendo o cómo, ya que el propio código ya lo comunica. También se recomienda usar \# para separar apartados (Cmd/Ctrl + Shift + R).
+
+📝 Crear objetos con cálculos intermedios dentro de una función, es una buena práctica porque deja más claro lo que el código está haciendo.
 
 5.  Probar con entradas diferentes
 
@@ -687,13 +695,13 @@ La última expresión ejecutada en una función es el valor de retorno. Es el re
 
 <!--# Se os ocurre algún caso donde usar invisible? -->
 
-📝 La función `return()` se usa para indicar explicitamente qué se quiere obtener en una función. Se recomienda su uso cuando el retorno no se espera al final de la función. P.ej. en las ramas de una estructura `if-else`, sobre todo cuando hay alguna rama larga y compleja.
+📝 La función `return()` se usa para indicar explicitamente qué se quiere obtener en una función. Se recomienda su uso cuando el retorno no se espera al final de la función. P. ej. en las ramas de una estructura `if-else`, sobre todo cuando hay alguna rama larga y compleja.
 
 #### Ejercicio
 
 ¿Cómo generalizarías la función `explorar_penguins()` para que te sirviera para cualquier base de datos?
 
-## Programación orientada a objetos (POO)
+## Programación orientada a objetos (POO) e iteración utilizando bucles
 
 > \- Todo lo que existe es un objeto.
 >
@@ -706,6 +714,7 @@ En R, la programación funcional suele ser más relevante que la POO, ya que fre
 La principal razón para utilizar la POO es el polimorfismo (del latín "muchas formas"). El polimorfismo permite a un desarrollador considerar la interfaz de una función por separado de su implementación, lo que facilita el uso de la misma función con diferentes tipos de entrada. Para entender esto, probad a correr el siguiente código.
 
 ```{r polimorfismo}
+
 summary(penguins$bill_depth_mm)
 summary(penguins$sex) 
 ```
@@ -714,11 +723,11 @@ Podrías pensar que `summary()` utiliza una serie de declaraciones `if-else` seg
 
 En los sistemas de POO, el tipo de un objeto se denomina su clase y una implementación específica para una clase se conoce como método. En términos generales, una clase define las características de un objeto (¿qué es?) y los métodos describen las acciones que ese objeto puede realizar (¿qué hace?).
 
-La programación orientada a objetos, utilizada por lenguajes como Java o Python, ha sido el paradigma de programación más popular en las últimas décadas y utiliza un estilo de programación imperativo. R base proporciona tres sistemas de POO (S3 –que es la más utilizada-, S4 y RC), aunque también existen otros sistemas POO proporcionados por diferentes paquetes del CRAN.
+La programación orientada a objetos, utilizada por lenguajes como Java o Python, ha sido el paradigma de programación más popular en las últimas décadas y utiliza un estilo de programación imperativo. R base proporciona tres sistemas de POO (S3 –que es el más utilizado-, S4 y RC), aunque también existen otros sistemas de POO proporcionados por diferentes paquetes del CRAN.
 
-💡Información más detallada sobre [POO](https://adv-r.hadley.nz/oo.html) y [compromisos entre algunos sistemas de POO](https://adv-r.hadley.nz/oo-tradeoffs.html)
+💡Información más detallada sobre [POO](https://adv-r.hadley.nz/oo.html) y [compromisos entre algunos sistemas de POO](https://adv-r.hadley.nz/oo-tradeoffs.html).
 
-En la programación imperativa las herramientas más comunes para reducir duplicidades son los bucles *for* y los bucles *while* *for loops* y *while loops*. Los bucles son recomendables para adentrarse en el mundo de las iteraciones porque hacen cada iteración muy explícita para que quede claro lo que está pasando.
+En la programación imperativa las herramientas más comunes para reducir duplicidades son los bucles *for* y los bucles *while* (*for loops* y *while loops*). Los bucles son recomendables para adentrarse en el mundo de las iteraciones porque hacen cada iteración muy explícita para que quede claro lo que está pasando.
 
 ![Representación gráfica del funcionamiento de los bucles *for* donde se ve claramente que se está realizando una iteración. Ilustración de Allison Horst obtenido de la charla de Hadley Wickham The Joy of Functional Programming (para ciencia de datos)](images/forloops.png)
 
@@ -759,7 +768,7 @@ salida
 
 ```
 
-1.  Salida: aquí determinamos el espacio de la salida, es decir, primero tenemos que crear la libreta donde vamos a ir apuntando todos los resultados. Esto es muy importante para la eficiencia puesto que si aumentamos el tamaño del *for loop* en cada iteración con `c()` u otra función que vaya añadiendo elementos, el bucle for será mucho más lento.
+1.  Salida: aquí determinamos el espacio de la salida, es decir, primero tenemos que crear la libreta donde vamos a ir apuntando todos los resultados. Esto es muy importante para la eficiencia puesto que si aumentamos el tamaño del *for loop* en cada iteración con `c()` u otra función que vaya añadiendo elementos, el bucle *for* será mucho más lento.
 
 ```{r optimizacion}
 
@@ -783,7 +792,7 @@ system.time(
 
 3.  Cuerpo: aquí determinamos lo que queremos que haga cada iteración. Se ejecuta repetidamente, cada vez con un valor diferente para `i`.
 
-Existen distintas [variaciones de los bucles *for*](https://r4ds.had.co.nz/iteration.html#for-loop-variations): (i) modificar un objeto existente en lugar de crear un nuevo; (ii) bucles sobre nombres o valores en lugar de sobre índices; (iii) bucles cuando desconocemos la longitud de la salida; (iv) bucles cuando desconocemos la longitud de la secuencia de entrada, es decir, bucles *while*.
+Existen distintas [variaciones de los bucles *for*](https://r4ds.had.co.nz/iteration.html#for-loop-variations): (i) modificar un objeto existente en lugar de crear uno nuevo; (ii) bucles sobre nombres o valores en lugar de sobre índices; (iii) bucles cuando desconocemos la longitud de la salida; (iv) bucles cuando desconocemos la longitud de la secuencia de entrada, es decir, bucles *while*.
 
 👀 Algunos [errores comunes](https://adv-r.hadley.nz/control-flow.html) cuando se utilizan bucles *for* (ver 5.3.1 Common pitfalls).
 
@@ -803,7 +812,9 @@ Los bucles pueden ser más explícitos en cuanto a que se ve claramente la itera
 
 En la programación funcional, las funciones están diseñadas para realizar una única tarea específica y luego se combinan llamando a estas funciones sucesivamente para el conjunto de datos. Una ventaja significativa de este enfoque es que estas funciones pueden ser reutilizadas en cualquier otro proyecto, lo que facilita la modularidad del código. Además, cuando están bien documentadas y son fácilmente testables, resulta sencillo comprender y mantener el programa.
 
-R es un lenguaje de programación funcional por lo que se basa principalmente en un estilo de resolución de problemas centrado en funciones (<https://adv-r.hadley.nz/fp.html>). Un funcional es una función que toma una función como entrada y devuelve un vector u otro tipo de objeto como salida.
+R es un lenguaje de programación funcional por lo que se basa principalmente en un estilo de resolución de problemas centrado en funciones (<https://adv-r.hadley.nz/fp.html>).
+
+Un funcional es una función que toma una función como entrada y devuelve un vector u otro tipo de objeto como salida.
 
 ```{r ejemplo_funcional}
 
@@ -819,7 +830,7 @@ Para programar un funcional, primero, solucionamos el problema para un elemento.
 
 La ventaja de utilizar {purrr} en vez de bucles *for* es que ofrece una función (funcional) para cada uno de los problemas comunes de manipulación de datos y, por lo tanto, cada bucle for tiene su propia función. Por ejemplo, para iterar sobre un argumento utilizamos la función `map()` y para iterar sobre dos argumentos la funcion `map2()`. La familia `apply` de R base soluciona problemas similares, pero {purrr} es más consistente y, por lo tanto, más fácil de aprender.
 
-Iteracionar sobre un vector es tan común que el paquete {purrr} proporciona una familia de funciones (la familia `map()`) para ello. Recordad que los data frames son un tipo especial de lista donde cada elemento de la lista es una columna (vector), y todas las columnas deben tener la misma longitud (es decir, el número de filas debe ser consistente), por lo que cualquier cálculo por columnas supone iteracionar sobre un vector. Existe una función en {purrr} para cada tipo de salida. Los sufijos indican el tipo de salida que queremos:
+Iterar sobre un vector es tan común que el paquete {purrr} proporciona una familia de funciones (la familia `map()`) para ello. Existe una función en {purrr} para cada tipo de salida. Los sufijos indican el tipo de salida que queremos:
 
 -   `map()` genera una lista.
 -   `map_lgl()` genera un vector lógico.
@@ -827,6 +838,10 @@ Iteracionar sobre un vector es tan común que el paquete {purrr} proporciona una
 -   `map_dbl()` genera un vector de números decimales.
 -   `map_chr()` genera un vector de caracteres.
 -   `map_vec()` genera un vector que determina automáticamente el tipo.
+
+<!--# V: Creo que este parrafito a continuación rompia el flujo de infromación de lo que pone encima y por eso lo he separado -->
+
+Recordad que los data.frame son un tipo especial de lista donde cada elemento de la lista es una columna (vector), y todas las columnas deben tener la misma longitud (es decir, el número de filas debe ser consistente), por lo que cualquier cálculo por columnas supone iteracionar sobre un vector.
 
 💡¿[Por qué está función se llama *map*](https://adv-r.hadley.nz/functionals.html#map)?
 

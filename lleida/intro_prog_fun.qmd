@@ -335,7 +335,7 @@ misdatos <- data.frame(valores = 1:10)
 mean(x = 1:10)
 mean(x = valores)
 mean(x = misdatos$valores)
-mean(x = misdatos[,"valores"])
+mean(x = misdatos[, "valores"])
 
 misdatos |> 
   summarise(mean = mean(valores))
@@ -467,7 +467,7 @@ nombre1_v3("Vero", "Cruz")
 
 ```
 
-📝 Si la función tiene más de dos lineas es mejor usar llaves siempre para que quede bien delimitada. La llave de apertura nunca debe ir sola pero sí la de cierre (excepto con *else*). Las sangrías también ayudan mucho a entender la jerarquía del código dentro de las funciones. En este sentido recomendamos usar *Code \> Reindent lines/Reformat code* (Ctrl + Shift + a) en el menú de RStudio.
+📝 Si la función tiene más de dos lineas es mejor usar llaves siempre para que quede bien delimitada. La llave de apertura nunca debe ir sola pero sí la de cierre (excepto con *else*). Las sangrías también ayudan mucho a entender la jerarquía del código dentro de las funciones. En este sentido recomendamos usar *Code \> Reindent lines/Reformat code* (Ctrl + i; Ctrl + Shift + a) en el menú de RStudio.
 
 💡Los operadores infijos (`+`), de flujo (`for`, `if`), de subdivisión (`[ ]`, `$`), de reemplazo (`<-`) o incluso las llaves (`{ }`) también son funciones. La tilde invertida "\`" permite referirse a funciones o variables que de otro modo tienen "nombre ilegales".
 

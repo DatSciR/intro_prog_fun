@@ -111,19 +111,19 @@ Genera una función para estandarizar (es decir, restar la media y dividir por l
 ```{r 5.0.2}
 
 # R base
-estandarizar <- function(x, my.na.rm) {
-  (x - mean(x, na.rm = my.na.rm)) / sd(x, na.rm = my.na.rm)
+estandarizar <- function(x, na.rm) {
+  (x - mean(x, na.rm = na.rm)) / sd(x, na.rm = na.rm)
 }
 
-estandarizar(penguins$bill_length_mm, my.na.rm = T)
+estandarizar(penguins$bill_length_mm, na.rm = T)
 
 # Tidyverse
-estandarizar_tidy <- function(x, my.na.rm) {
-  ({{ x }} - mean({{ x }}, na.rm = my.na.rm)) / sd({{ x }}, na.rm = my.na.rm)
+estandarizar_tidy <- function(x, na.rm) {
+  ({{ x }} - mean({{ x }}, na.rm = na.rm)) / sd({{ x }}, na.rm = na.rm)
 } 
 
 penguins |> 
-  mutate(st_bill_length = estandarizar_tidy(x = bill_length_mm, my.na.rm = T)) |> 
+  mutate(st_bill_length = estandarizar_tidy(x = bill_length_mm, na.rm = T)) |> 
   select(bill_length_mm, st_bill_length)
 
 ```
@@ -308,7 +308,7 @@ walk2(penguins_nested_str$data, penguins_nested_str$path, write_csv)
 
 ```
 
-Meidante la función [`nest()`](https://tidyr.tidyverse.org/reference/nest.html) de {tidyr} generamos listas-columnas en el data frame de penguins, generando una fila para cada especie de pingüino. Como es un `data.frame` podemos aplicarle la función `mutate()` directamente y generamos la variable `path` que contiene el nombre de salida que le queremos dar a cada base de datos. Por último, mediante la función `walk2()` guardamos los datos relativos a cada pingüino con su respectivo path que hemos generado anteriormente.
+Mediante la función [`nest()`](https://tidyr.tidyverse.org/reference/nest.html) de {tidyr} generamos listas-columnas en el data frame de penguins, generando una fila para cada especie de pingüino. Como es un `data.frame` podemos aplicarle la función `mutate()` directamente y generamos la variable `path` que contiene el nombre de salida que le queremos dar a cada base de datos. Por último, mediante la función `walk2()` guardamos los datos relativos a cada pingüino con su respectivo path que hemos generado anteriormente.
 
 ## 10.1.2 Ejercicio avanzado
 

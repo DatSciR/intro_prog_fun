@@ -319,7 +319,7 @@ myfunction()
 
 ![Si un nombre no está definido dentro de una función, R buscará en un nivel superior. Ilustración de Cristina Grajera](images/environment.png)
 
-En general, con R base sólo podemos llamar a objetos que forman parte del entorno (*env-variables*) aunque hay excepciones; en cambio, con *tidyverse* es muy común llamar a las variables dentro de las tablas (*data-variables*). Esta característica llamada [*non-standard evaluation*](http://adv-r.had.co.nz/Computing-on-the-language.html) simplifica el código en *tidyverse*, pero la ventaja no tiene coste cero y tiene implicaciones en la gramática de las funciones como veremos más adelante.
+En general, con R base sólo podemos llamar a objetos que forman parte del entorno (*env-variables*) aunque hay excepciones; en cambio, con *tidyverse* es muy común llamar a las variables dentro de las tablas (*data-variables*). Esta característica llamada [*non-standard evaluation*](http://adv-r.had.co.nz/Computing-on-the-language.html) simplifica el código en *tidyverse*, pero la ventaja no tiene coste cero y tiene implicaciones en la sintaxis de las funciones como veremos más adelante.
 
 ```{r name_masking}
 #| warning: false
@@ -576,7 +576,7 @@ ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
 
 ```
 
-👀 La función `ggplot` necesita argumentos (data-variable) que estén dentro del `data.frame` que va a representar. Para poder generalizar la función hemos guardado el nombre de la variable en un objeto (tipo `character`), pero `ggplot` no acepta `characters`. Por ello necesitamos utilizar una función intermedia que sí los acepte.
+👀 La función `ggplot` necesita argumentos (data-variable) que estén dentro del `data.frame` que va a representar. Para poder generalizar la función hemos guardado el nombre de la variable en un objeto (tipo `character`), pero `ggplot` no acepta `characters`. Por ello necesitamos utilizar una función intermedia que sí los acepte. Para resolver problemas comunes de programación funcional derivados de la *non-standard evaluation* de *tidyverse* [mira este enlace](https://dplyr.tidyverse.org/articles/programming.html#introduction).
 
 3.  Elegir un nombre para la función (📝). Idealmente tiene que ser corto y evocar lo que la función hace. En general, debe ser un verbo (p. ej. imputar_valores) mientras que los argumentos son sustantivos (p. ej. data, variable, etc.). Usar un sustantivo para una función está permitido si la función calcula algo muy conocido (p. ej. `mean()`) o si sirve para acceder a partes de un objeto (p. ej. `residuals()`). También se recomienda evitar verbos muy genéricos (p. ej. calcular) y si el nombre tiene varias palabras separarlas con guión bajo o mayúsculas, pero ser consistente. Si programas varias funciones que hacen cosas parecidas se recomienda usar el mismo prefijo para todas (p. ej. "str\_" en el paquete {stringr}).
 
@@ -876,7 +876,7 @@ cuadratica <- function(x) {
   x ^ 2
 }
 
-map(1:4, cuadratica)
+map(.x = 1:4, .f = cuadratica)
 
 lapply(X = 1:4, FUN = cuadratica)
 
@@ -884,10 +884,10 @@ lapply(X = 1:4, FUN = cuadratica)
 glimpse(penguins)
 
 # atajo para generar una funcion anonima:  \(nombre_del_argumento)
-map(penguins, \(x) length(unique(x)))
+map(.x = penguins, .f = \(x) length(unique(x)))
 
 # salida dataframe
-map_df(penguins, \(x) length(unique(x)))
+map_df(.x = penguins, .f = \(x) length(unique(x)))
 
 ```
 
@@ -1226,9 +1226,13 @@ ls <- list(
 ls |> 
   reduce(full_join, by = "name")
 
-```
+# equivalente a hacer
 
-<!--# V: Quizás poner después del reduce como se haría paso a paso para hacerlo más explícito? es decir, primero full join de age con sex, luego de lo que sale con height -->
+ls[["age"]] |> 
+  full_join(ls[["sex"]]) |> 
+  full_join(ls[["height"]])
+
+```
 
 #### Operadores funcionales
 

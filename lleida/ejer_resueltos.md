@@ -1,6 +1,6 @@
 # Programación funcional en R - ejercicios resueltos
 Julen Astigarraga y Verónica Cruz-Alonso
-18/09/2024
+20/09/2024
 
 - [2.1.1 Ejercicio](#211-ejercicio)
 - [2.2.1 Ejercicio](#221-ejercicio)
@@ -85,10 +85,24 @@ library(palmerpenguins)
 library(tidyverse)
 ```
 
+    Warning: package 'ggplot2' was built under R version 4.3.3
+
+    Warning: package 'tidyr' was built under R version 4.3.3
+
+    Warning: package 'readr' was built under R version 4.3.2
+
+    Warning: package 'purrr' was built under R version 4.3.2
+
+    Warning: package 'dplyr' was built under R version 4.3.2
+
+    Warning: package 'stringr' was built under R version 4.3.2
+
+    Warning: package 'lubridate' was built under R version 4.3.2
+
     ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
     ✔ dplyr     1.1.4     ✔ readr     2.1.5
     ✔ forcats   1.0.0     ✔ stringr   1.5.1
-    ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+    ✔ ggplot2   3.5.0     ✔ tibble    3.2.1
     ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
     ✔ purrr     1.0.2     
     ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -180,11 +194,11 @@ dividir por la desviación típica) las variables numéricas de penguins.
 
 ``` r
 # R base
-estandarizar <- function(x, my.na.rm) {
-  (x - mean(x, na.rm = my.na.rm)) / sd(x, na.rm = my.na.rm)
+estandarizar <- function(x, na.rm) {
+  (x - mean(x, na.rm = na.rm)) / sd(x, na.rm = na.rm)
 }
 
-estandarizar(penguins$bill_length_mm, my.na.rm = T)
+estandarizar(penguins$bill_length_mm, na.rm = T)
 ```
 
       [1] -0.88320467 -0.80993901 -0.66340769          NA -1.32279862 -0.84657184
@@ -248,12 +262,12 @@ estandarizar(penguins$bill_length_mm, my.na.rm = T)
 
 ``` r
 # Tidyverse
-estandarizar_tidy <- function(x, my.na.rm) {
-  ({{ x }} - mean({{ x }}, na.rm = my.na.rm)) / sd({{ x }}, na.rm = my.na.rm)
+estandarizar_tidy <- function(x, na.rm) {
+  ({{ x }} - mean({{ x }}, na.rm = na.rm)) / sd({{ x }}, na.rm = na.rm)
 } 
 
 penguins |> 
-  mutate(st_bill_length = estandarizar_tidy(x = bill_length_mm, my.na.rm = T)) |> 
+  mutate(st_bill_length = estandarizar_tidy(x = bill_length_mm, na.rm = T)) |> 
   select(bill_length_mm, st_bill_length)
 ```
 
@@ -357,7 +371,9 @@ map(penguins, \(x) mean(x))
 ```
 
     Warning in mean.default(x): argument is not numeric or logical: returning NA
+
     Warning in mean.default(x): argument is not numeric or logical: returning NA
+
     Warning in mean.default(x): argument is not numeric or logical: returning NA
 
     $species
@@ -393,6 +409,7 @@ map(penguins, \(x) mean(x, na.rm = T)) # opcion 1
 
     Warning in mean.default(x, na.rm = T): argument is not numeric or logical:
     returning NA
+
     Warning in mean.default(x, na.rm = T): argument is not numeric or logical:
     returning NA
 
@@ -429,6 +446,7 @@ map(penguins, mean, na.rm = T) # opcion 2
 
     Warning in mean.default(.x[[i]], ...): argument is not numeric or logical:
     returning NA
+
     Warning in mean.default(.x[[i]], ...): argument is not numeric or logical:
     returning NA
 
@@ -747,7 +765,7 @@ penguins_nested_str
 walk2(penguins_nested_str$data, penguins_nested_str$path, write_csv)
 ```
 
-Meidante la función
+Mediante la función
 [`nest()`](https://tidyr.tidyverse.org/reference/nest.html) de {tidyr}
 generamos listas-columnas en el data frame de penguins, generando una
 fila para cada especie de pingüino. Como es un `data.frame` podemos
@@ -1091,27 +1109,27 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2024-09-18 09:48:02 CEST"
+    [1] "2024-09-20 12:55:01 CEST"
 
 ``` r
 sessionInfo()
 ```
 
-    R version 4.4.1 (2024-06-14 ucrt)
-    Platform: x86_64-w64-mingw32/x64
-    Running under: Windows 10 x64 (build 19045)
+    R version 4.3.1 (2023-06-16 ucrt)
+    Platform: x86_64-w64-mingw32/x64 (64-bit)
+    Running under: Windows 11 x64 (build 22631)
 
     Matrix products: default
 
 
     locale:
-    [1] LC_COLLATE=English_United Kingdom.utf8 
-    [2] LC_CTYPE=English_United Kingdom.utf8   
-    [3] LC_MONETARY=English_United Kingdom.utf8
-    [4] LC_NUMERIC=C                           
-    [5] LC_TIME=English_United Kingdom.utf8    
+    [1] LC_COLLATE=English_United States.utf8 
+    [2] LC_CTYPE=English_United States.utf8   
+    [3] LC_MONETARY=English_United States.utf8
+    [4] LC_NUMERIC=C                          
+    [5] LC_TIME=English_United States.utf8    
 
-    time zone: Europe/Madrid
+    time zone: Europe/Paris
     tzcode source: internal
 
     attached base packages:
@@ -1120,21 +1138,21 @@ sessionInfo()
     other attached packages:
      [1] lubridate_1.9.3      forcats_1.0.0        stringr_1.5.1       
      [4] dplyr_1.1.4          purrr_1.0.2          readr_2.1.5         
-     [7] tidyr_1.3.1          tibble_3.2.1         ggplot2_3.5.1       
+     [7] tidyr_1.3.1          tibble_3.2.1         ggplot2_3.5.0       
     [10] tidyverse_2.0.0      palmerpenguins_0.1.1
 
     loaded via a namespace (and not attached):
-     [1] utf8_1.2.4        generics_0.1.3    stringi_1.8.4     hms_1.1.3        
-     [5] digest_0.6.36     magrittr_2.0.3    evaluate_0.24.0   grid_4.4.1       
-     [9] timechange_0.3.0  fastmap_1.2.0     jsonlite_1.8.8    fansi_1.0.6      
-    [13] scales_1.3.0      textshaping_0.4.0 cli_3.6.3         rlang_1.1.4      
-    [17] crayon_1.5.3      bit64_4.0.5       munsell_0.5.1     withr_3.0.1      
-    [21] yaml_2.3.9        tools_4.4.1       parallel_4.4.1    tzdb_0.4.0       
-    [25] colorspace_2.1-1  vctrs_0.6.5       R6_2.5.1          lifecycle_1.0.4  
-    [29] bit_4.0.5         vroom_1.6.5       ragg_1.3.2        pkgconfig_2.0.3  
-    [33] pillar_1.9.0      gtable_0.3.5      glue_1.7.0        systemfonts_1.1.0
-    [37] xfun_0.45         tidyselect_1.2.1  rstudioapi_0.16.0 knitr_1.48       
-    [41] farver_2.1.2      htmltools_0.5.8.1 rmarkdown_2.27    labeling_0.4.3   
-    [45] compiler_4.4.1   
+     [1] utf8_1.2.4        generics_0.1.3    stringi_1.8.3     hms_1.1.3        
+     [5] digest_0.6.35     magrittr_2.0.3    evaluate_0.23     grid_4.3.1       
+     [9] timechange_0.3.0  fastmap_1.1.1     jsonlite_1.8.8    fansi_1.0.6      
+    [13] scales_1.3.0      textshaping_0.3.7 cli_3.6.1         rlang_1.1.3      
+    [17] crayon_1.5.2      bit64_4.0.5       munsell_0.5.0     withr_3.0.0      
+    [21] yaml_2.3.8        tools_4.3.1       parallel_4.3.1    tzdb_0.4.0       
+    [25] colorspace_2.1-0  vctrs_0.6.5       R6_2.5.1          lifecycle_1.0.4  
+    [29] bit_4.0.5         vroom_1.6.5       ragg_1.3.0        pkgconfig_2.0.3  
+    [33] pillar_1.9.0      gtable_0.3.4      glue_1.7.0        systemfonts_1.0.6
+    [37] xfun_0.42         tidyselect_1.2.1  rstudioapi_0.15.0 knitr_1.45       
+    [41] farver_2.1.1      htmltools_0.5.7   rmarkdown_2.26    labeling_0.4.3   
+    [45] compiler_4.3.1   
 
 </details>

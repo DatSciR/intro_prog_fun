@@ -1,6 +1,6 @@
 # Programación funcional en R
 Julen Astigarraga y Verónica Cruz-Alonso
-19/09/2024
+20/09/2024
 
 - [<span class="toc-section-number">1</span>
   Presentación](#presentación)
@@ -86,10 +86,10 @@ programación.
 
 ### Estructura del curso
 
-<table style="width:82%;">
+<table style="width:75%;">
 <colgroup>
 <col style="width: 59%" />
-<col style="width: 22%" />
+<col style="width: 15%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -852,7 +852,7 @@ del entorno (*env-variables*) aunque hay excepciones; en cambio, con
 (*data-variables*). Esta característica llamada [*non-standard
 evaluation*](http://adv-r.had.co.nz/Computing-on-the-language.html)
 simplifica el código en *tidyverse*, pero la ventaja no tiene coste cero
-y tiene implicaciones en la gramática de las funciones como veremos más
+y tiene implicaciones en la sintaxis de las funciones como veremos más
 adelante.
 
 ``` r
@@ -915,7 +915,7 @@ mean(x = misdatos$valores)
     [1] 5.5
 
 ``` r
-mean(x = misdatos[,"valores"])
+mean(x = misdatos[, "valores"])
 ```
 
     [1] 5.5
@@ -1147,7 +1147,7 @@ para que quede bien delimitada. La llave de apertura nunca debe ir sola
 pero sí la de cierre (excepto con *else*). Las sangrías también ayudan
 mucho a entender la jerarquía del código dentro de las funciones. En
 este sentido recomendamos usar *Code \> Reindent lines/Reformat code*
-(Ctrl + Shift + a) en el menú de RStudio.
+(Ctrl + i; Ctrl + Shift + a) en el menú de RStudio.
 
 💡Los operadores infijos (`+`), de flujo (`for`, `if`), de subdivisión
 (`[ ]`, `$`), de reemplazo (`<-`) o incluso las llaves (`{ }`) también
@@ -1328,7 +1328,10 @@ ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
 dentro del `data.frame` que va a representar. Para poder generalizar la
 función hemos guardado el nombre de la variable en un objeto (tipo
 `character`), pero `ggplot` no acepta `characters`. Por ello necesitamos
-utilizar una función intermedia que sí los acepte.
+utilizar una función intermedia que sí los acepte. Para resolver
+problemas comunes de programación funcional derivados de la
+*non-standard evaluation* de *tidyverse* [mira este
+enlace](https://dplyr.tidyverse.org/articles/programming.html#introduction).
 
 3.  Elegir un nombre para la función (📝). Idealmente tiene que ser
     corto y evocar lo que la función hace. En general, debe ser un verbo
@@ -1658,7 +1661,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.29    0.14    0.47 
+       0.19    0.20    0.47 
 
 ``` r
 y <- vector("double", length = 20000)
@@ -1841,7 +1844,7 @@ cuadratica <- function(x) {
   x ^ 2
 }
 
-map(1:4, cuadratica)
+map(.x = 1:4, .f = cuadratica)
 ```
 
     [[1]]
@@ -1890,7 +1893,7 @@ glimpse(penguins)
 
 ``` r
 # atajo para generar una funcion anonima:  \(nombre_del_argumento)
-map(penguins, \(x) length(unique(x)))
+map(.x = penguins, .f = \(x) length(unique(x)))
 ```
 
     $species
@@ -1919,7 +1922,7 @@ map(penguins, \(x) length(unique(x)))
 
 ``` r
 # salida dataframe
-map_df(penguins, \(x) length(unique(x)))
+map_df(.x = penguins, .f = \(x) length(unique(x)))
 ```
 
     # A tibble: 1 × 8
@@ -2848,7 +2851,22 @@ ls |>
     1 Vero    100 F     180   
     2 Julen   140 M     150   
 
-<!--# V: Quizás poner después del reduce como se haría paso a paso para hacerlo más explícito? es decir, primero full join de age con sex, luego de lo que sale con height -->
+``` r
+# equivalente a hacer
+
+ls[["age"]] |> 
+  full_join(ls[["sex"]]) |> 
+  full_join(ls[["height"]])
+```
+
+    Joining with `by = join_by(name)`
+    Joining with `by = join_by(name)`
+
+    # A tibble: 2 × 4
+      name    age sex   height
+      <chr> <dbl> <chr> <chr> 
+    1 Vero    100 F     180   
+    2 Julen   140 M     150   
 
 #### Operadores funcionales
 
@@ -3057,7 +3075,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2024-09-19 12:48:21 CEST"
+    [1] "2024-09-20 12:55:17 CEST"
 
 ``` r
 sessionInfo()

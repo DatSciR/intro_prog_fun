@@ -31,31 +31,31 @@ Dentro del modelo de ciencia de datos de Hadley Wickham, Mine Çetinkaya-Rundel 
 
 ### Estructura del curso
 
-+------------------------------------------+---------------+
-| Bloques                                  | Día           |
-+==========================================+===============+
-| Presentación del curso                   | 19/09/24      |
-|                                          |               |
-| Introducción a la programación en R      |               |
-|                                          |               |
-| Introducción a la programación funcional |               |
-+------------------------------------------+---------------+
-| Teoría sobre funciones en R              | 19/09/24      |
-|                                          |               |
-| Cómo escribir funciones                  |               |
-+------------------------------------------+---------------+
-| Programación orientada a objetos         | 20/09/24      |
-|                                          |               |
-| Programación funcional                   |               |
-|                                          |               |
-| Iteraciones sobre uno y dos argumentos   |               |
-+------------------------------------------+---------------+
-| Iteraciones sobre múltiples argumentos   | 20/09/24      |
-|                                          |               |
-| Iteraciones sin salida                   |               |
-|                                          |               |
-| Operadores y otros funcionales           |               |
-+------------------------------------------+---------------+
++------------------------------------------+----------+
+| Bloques                                  | Día      |
++==========================================+==========+
+| Presentación del curso                   | 19/09/24 |
+|                                          |          |
+| Introducción a la programación en R      |          |
+|                                          |          |
+| Introducción a la programación funcional |          |
++------------------------------------------+----------+
+| Teoría sobre funciones en R              | 19/09/24 |
+|                                          |          |
+| Cómo escribir funciones                  |          |
++------------------------------------------+----------+
+| Programación orientada a objetos         | 20/09/24 |
+|                                          |          |
+| Programación funcional                   |          |
+|                                          |          |
+| Iteraciones sobre uno y dos argumentos   |          |
++------------------------------------------+----------+
+| Iteraciones sobre múltiples argumentos   | 20/09/24 |
+|                                          |          |
+| Iteraciones sin salida                   |          |
+|                                          |          |
+| Operadores y otros funcionales           |          |
++------------------------------------------+----------+
 
 ### Quiénes somos
 

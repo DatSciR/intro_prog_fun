@@ -24,43 +24,43 @@ The objectives of this course are:
 
 -   to learn coding styles that facilitate script understanding (📝)
 
-Within the model of the tools needed in a typical data science project of Wickham and Grolemund (@fig-datascience), this course focuses in the envelope wrapping all the other tools, that is, programming.
+Within the model of the tools needed in a typical data science project of Hadley Wickham, Mine Çetinkaya-Rundel and Garrett Grolemund (@fig-datascience), this course focuses in the envelope wrapping all the other tools, that is, programming.
 
-![Data science model of Wickham and Grolemund. https://r4ds.hadley.nz/intro#fig-ds-diagram](images/data-science.png){#fig-datascience}
+![Data science model of Hadley Wickham, Mine Çetinkaya-Rundel and Garrett Grolemund. https://r4ds.hadley.nz/intro#fig-ds-diagram](images/data-science.png){#fig-datascience}
 
 ### Course structure
 
-+-----------------------------------------------------+---------------+
-| Blocks                                              | Day           |
-+=====================================================+===============+
-| Course introduction                                 | 27/05/24      |
-|                                                     |               |
-| Refresh of tidyverse                                |               |
-|                                                     |               |
-| Introduction to Functional Programming              |               |
-+-----------------------------------------------------+---------------+
-| Theory of functions in R                            | 27/05/24      |
-|                                                     |               |
-| How to write functions. Arguments and return values |               |
-+-----------------------------------------------------+---------------+
-| Object-Oriented Programming                         | 31/05/24      |
-|                                                     |               |
-| Functional Programming                              |               |
-|                                                     |               |
-| Iterations over one argument                        |               |
-+-----------------------------------------------------+---------------+
-| Iterations over multiple arguments                  | 31/05/24      |
-|                                                     |               |
-| Iterations without output                           |               |
-|                                                     |               |
-| Function operators and other functionals            |               |
-+-----------------------------------------------------+---------------+
++------------------------------------------+---------------+
+| Blocks                                   | Day           |
++==========================================+===============+
+| Course introduction                      | 27/05/25      |
+|                                          |               |
+| Introduction to programming in R         |               |
+|                                          |               |
+| Introduction to Functional Programming   |               |
++------------------------------------------+---------------+
+| Theory of functions in R                 | 28/05/25      |
+|                                          |               |
+| How to write functions                   |               |
++------------------------------------------+---------------+
+| Object-Oriented Programming              | 29/05/25      |
+|                                          |               |
+| Functional Programming                   |               |
+|                                          |               |
+| Iterations over one and two arguments    |               |
++------------------------------------------+---------------+
+| Iterations over multiple arguments       | 30/05/25      |
+|                                          |               |
+| Iterations without output                |               |
+|                                          |               |
+| Function operators and other functionals |               |
++------------------------------------------+---------------+
 
-### Who we are?
+### Who are we?
 
 ![](images/1_N_0YimgDh2_IbBT9jJNtOg.jpg)
 
-We coordinate the [Ecoinformatics Working Group](https://ecoinfaeet.github.io/website/index.html) of the Spanish Association of Terrestrial Ecology (AEET).
+Verónica Cruz-Alonso (veronica.cral\@gmail.com) y Julen Astigarraga (julenastigarraga\@gmail.com). We coordinate the [Ecoinformatics Working Group](https://ecoinfaeet.github.io/) of the Spanish Association of Terrestrial Ecology (AEET). In [DatSciR](https://github.com/DatSciR) we publish the materials of the courses we teach.
 
 And you... who are you?
 
@@ -621,26 +621,36 @@ The last expression executed in a function is the return value. It is the result
 
 How would you generalize the function `explore_penguins()` so you can use any data frame as input?
 
-## Object-oriented programming (OOP)
+## Object-oriented programming (OOP) and iterations using loops
 
-Most people tend to program imperatively. In imperative programming, scripts tend to be long and gradually change the state of the program. This often involves the use of temporary databases that are modified throughout the analysis process. As a result, it can be more difficult to understand what is being done in each step of the script. Object-oriented programming, used by languages, such as Java or Python, has been the most popular programming paradigm in recent decades and uses an imperative programming style.
+> \- Everything that exists is an object.
+>
+> --- John Chambers
+>
+> \- However, not everything is object-oriented
 
-```{r temporary_databases}
+In R, functional programming is often more relevant than OOP, as complex problems are often addressed by decomposing them into simple functions rather than simple objects.
 
-mypenguins <- penguins |> 
-  mutate(
-    bill_volume_mm2 = (bill_length_mm * bill_depth_mm) / 2,
-    female_penguin = case_when(
-      sex == "female" & body_mass_g < 3600 ~ "small female",
-      sex == "female" & body_mass_g >= 3600 ~ "big female",
-      TRUE ~ NA)
-  ) 
+The main reason for using OOP is *polymorphism* (from the Latin "many forms"). Polymorphism allows a developer to consider a function's interface separately from its implementation, making it easier to use the same function with different input types. To understand this, try running the following code:
 
-mypenguins |> 
-  group_by(female_penguin) |> 
-  summarise(body_mass_mean = mean(body_mass_g))
+```{r polymorphism}
+
+library(sloop)
+
+summary(penguins$bill_depth_mm)
+summary(penguins$sex)
+
+ftype(summary)
 
 ```
+
+You might think that `summary()` uses a series of `if-else` statements depending on the type of the input data, but in this case only the original author could add new implementations. However, an OOP system allows any developer to extend the interface by creating implementations for new input types.
+
+In OOP systems, the type of an object is called its *class*, and a specific implementation for a class is known as a *method*. Broadly speaking, a class defines the characteristics of an object (what is it?) and methods describe the actions that object can perform (what does it do?).
+
+Object-oriented programming, used by languages, such as Java or Python, has been the most popular programming paradigm in recent decades and uses an imperative programming style. Base R provides three OOP systems (S3 –which is the most used-, S4 and RC), although there are also other OOP systems provided by different CRAN packages.
+
+💡More detailed information on [OOP](https://adv-r.hadley.nz/oo.html) and [trade-offs between some OOP systems](https://adv-r.hadley.nz/oo-tradeoffs.html)
 
 In imperative programming the most common tools to reduce duplications are *for loops* and *while loops*. *loops* are recommended to delve into the world of iterations because they make each iteration very explicit so it is clear what is happening.
 
@@ -672,6 +682,15 @@ for (i in seq_along(df_sam)) {             # 2. sequence
 }
 
 output
+
+# we could also iterate over rows
+output <- vector("double", nrow(df_sam)) 
+for(i in 1:nrow(df_sam)) {
+    output[[i]] <- sum(df_sam[i, ])
+}
+
+output
+
 
 ```
 
@@ -707,7 +726,7 @@ Despite being widely used in R, *for* loops are not as important as they may be 
 
 There is a belief that *for loops* are slow, but the real disadvantage of *for loops is that they are too flexible* and may execute many different tasks. Instead, each functional ({purrr}, `apply`) is designed for a specific task, so as soon as you see it in the code, you immediately know why it's being used. That is, the main advantage is its clarity by making the code easier to write and read (see this advanced example to understand it: <https://adv-r.hadley.nz/functionals.html>, 9.3 Purrr style). Once we master functional programming, we will be able to solve many iteration problems with less code, more ease, and fewer errors.
 
-Loops can be more explicit in the sense that you see the iteration clearly, but it takes more time to understand what you are doing. On the contrary, functionals require one more step of abstraction and may require time until we understand them. The most important thing is that you solve the problem and little by little write increasingly simpler and more elegant code. See @sec-OOP for more information on object-oriented programming.
+Loops can be more explicit in the sense that you see the iteration clearly, but it takes more time to understand what you are doing. On the contrary, functionals require one more step of abstraction and may require time until we understand them. Anyway, the most important aspect is that you are able to solve the problems you are facing and little by little write increasingly simpler and more elegant code.
 
 > To become significantly more reliable, code must become more transparent. In particular, nested conditions and loops must be viewed with great suspicion. Complicated control flows confuse programmers. Messy code often hides bugs.
 >
@@ -719,7 +738,9 @@ Loops can be more explicit in the sense that you see the iteration clearly, but 
 
 In functional programming, functions are designed to perform a single specific task and are then combined by calling these functions successively for the data set. A significant advantage of this approach is that these functions can be reused in any other project, facilitating code modularity. Furthermore, when they are well documented and easily testable, it is easy to understand and maintain the program.
 
-R is a functional programming language so it relies primarily on a function-centric problem-solving style (<https://adv-r.hadley.nz/fp.html>). A functional is a function that takes a function as input and returns a vector or other type of object as output.
+R is a functional programming language so it relies primarily on a function-centric problem-solving style (<https://adv-r.hadley.nz/fp.html>).
+
+A functional is a function that takes a function as input and returns a vector or other type of object as output.
 
 ```{r functional_example}
 
@@ -733,9 +754,11 @@ randomization(f = median)
 
 To program a functional, first, we solve the problem for an element. Next, we generate a function that allows us to wrap the solution in a function (as we did in @sec-writefun). Finally, we *apply the function to all the elements we are interested in.* That is, we divide large problems into smaller problems and solve each task with one or more functions.
 
-The advantage of using {purrr} instead of *for* loops is that it provides a function (functional) for each of the common data manipulation problems, and therefore each *for* loop has its own function. For example, to iterate over one argument we use the `map()` function and to iterate over two arguments we use the `map2()` function. The base R `apply` family solves similar problems, but {purrr} is more consistent and therefore easier to learn.
+The advantage of using {purrr} instead of *for* loops is that it provides a function (functional) for each of the common data manipulation problems, and therefore each *for* loop has its own function. For example, to iterate over one argument we use the `map()` function and to iterate over two arguments we use the `map2()` function. 
 
-Iterating over one vector (i.e. vector of values or vector of elements in a list) is so common that the {purrr} package provides a family of functions (the `map()` family) for it. Remember that data frames are lists of vectors of the same length, so any calculation by rows or columns involves iterating over a vector. There is a function in {purrr} for each type of output. The suffixes indicate the type of output we want:
+The base R `apply` family solves similar problems, but {purrr} is more consistent and therefore easier to learn. In addition, {purrr} supports helpers that the `apply` family doesn't (e.g. `map_dbl()`, `\(x)`). However, if you are an experienced `apply` user and only use `map()` from {purrr}, you can skip the additional dependency of using {purrr} and continue using the `apply` family.
+
+Iterating over one vector (i.e. vector of values or vector of elements in a list) is so common that the {purrr} package provides a family of functions (the `map()` family) for it. There is a function in {purrr} for each type of output. The suffixes indicate the type of output we want:
 
 -   `map()` generates a list.
 -   `map_lgl()` generates a logical vector.
@@ -744,7 +767,9 @@ Iterating over one vector (i.e. vector of values or vector of elements in a list
 -   `map_chr()` generates a character vector.
 -   `map_vec()` generates a vector automatically determining the type.
 
-💡¿[Why is this function called *map*](https://adv-r.hadley.nz/functionals.html#map)?
+Remember that data frames are lists of vectors of the same length, so any calculation by rows or columns involves iterating over a vector.
+
+💡[Why is this function called *map*](https://adv-r.hadley.nz/functionals.html#map)?
 
 ```{r map_focus}
 
@@ -777,7 +802,7 @@ quadratic <- function(x) {
   x ^ 2
 }
 
-map(1:4, quadratic)
+map(1:4, .f = quadratic)
 
 lapply(X = 1:4, FUN = quadratic)
 
@@ -785,10 +810,10 @@ lapply(X = 1:4, FUN = quadratic)
 glimpse(penguins)
 
 # shortcut to generate an anonymous function: \(name_of_the_argument)
-map(penguins, \(x) length(unique(x)))
+map(penguins, .f = \(x) length(unique(x)))
 
 # output dataframe
-map_df(penguins, \(x) length(unique(x)))
+map_df(penguins, .f = \(x) length(unique(x)))
 
 ```
 
@@ -814,11 +839,11 @@ imple_map(1:4, quadratic)
 
 ```
 
-💡Comparing {purrr} functions with wrapping a *for* loop on your own, {purrr} functions are written in C to maximize performance, preserve names, and support some shortcuts (e.g. `\(x)`).
+💡Some advantages of {purrr} functions versus wrapping a *for* loop on your own in a function are that {purrr} functions are written in C to maximize performance, preserve names, and support some shortcuts (e.g. `\(x)`).
 
 #### Exercise
 
-Now that you have understood the logic of `map()`, spot the differences between the following three lines of code. What does the `map()` functional do? What differences do you detect in the code? And at the output?
+Now that you have understood the logic of `map()`, spot the differences between the following three lines of code. What does the `map()` functional do? What differences do you detect in the code? And in the output?
 
 ```{r additional_arguments}
 
@@ -826,18 +851,30 @@ map(penguins, \(x) mean(x))
 map(penguins, \(x) mean(x, na.rm = T)) # option 1
 map(penguins, mean, na.rm = T) # option 2
 
-# map vs anonymous function
-x <- c(0, 0)
- 
-set.seed(123)
-map_dbl(x, sum, rnorm(1))
- 
-set.seed(123)
-map_dbl(x, \(x) sum(x, rnorm(1)))
+```
+
+As we have seen in the previous exercise, arguments that vary for each run are written before the function, and arguments that are the same for each run are written after the function (e.g. `na.rm = T`).
+
+![](images/map+fix.png)
+
+If we wanted to pass additional arguments to the function we are using within `map()`, one option would be through an anonymous function (see option 1 of the previous exercise). However, since `map()` includes `...` among its arguments, we can also include the additional arguments after the function inside `map()` in a much simpler way (see option 2 of the previous exercise). There is a slight difference between including additional arguments inside an anonymous function and including it directly inside the `map()`. Including it in an anonymous function means that it will be evaluated every time the function is executed, not just once when `map()` is called (see the following example).
+
+```{r additional_arguments_evaluation}
+
+multiply <- function(x, y) {
+  x * y
+}
+
+input_vec <- c(4, 4, 4)
+
+# the result is always the same
+map_dbl(input_vec, multiply, y = sample(x = 1:10, 1))
+
+# the result is not always the same
+map_dbl(input_vec, \(x) multiply(x, y = sample(x = 1:10, 1)))
 
 ```
 
-As we have seen in the previous exercise, if we wanted to pass additional arguments to the function we are using within `map()`, one option would be through an anonymous function (see option 1 of the previous exercise). However, since `map()` includes `...` among its arguments, we can also include the additional arguments after the function inside `map()` in a much simpler way (see option 2 of the previous exercise).
 
 ### Our second functional: generating vectors, `map_*()`
 
@@ -848,18 +885,14 @@ Take a couple of minutes to understand what the following functions do:
 ```{r map_vectors}
 
 map_lgl(penguins, is.numeric)
-penguins_num <- penguins[ , map_lgl(penguins, is.numeric)] 
+penguins_num <- penguins[, map_lgl(penguins, is.numeric)]
 map_dbl(penguins_num, median, na.rm = T)
 map_chr(penguins, class)
 map_int(penguins, \(x) length(unique(x)))
 1:4 |> 
-  map_vec(\(x) as.Date(ISOdate(x + 2024, 05, 13)))
+  map_vec(\(x) as.Date(ISOdate(2025, 05, 26)) + x)
 
 ```
-
-Arguments that vary for each run are written before the function, and arguments that are the same for each run are written after the function (e.g. `na.rm = T`).
-
-![](images/map+fix.png)
 
 Base R has two functions from the `apply()` family that can return vectors: `sapply()` and `vapply()`. We recommend avoiding `sapply()` because it tries to simplify the result and chooses a default output format, potentially returning a list, a vector or a matrix. `vapply()` is safer because it allows you to indicate the output format with FUN.VALUE. The main disadvantage of `vapply()` is that we need to specify more arguments than in `map_*()`.
 
@@ -1192,50 +1225,6 @@ cat("Computing time:", round(time_final - time_initial, 1), "seconds\n")
 ```
 
 The information presented here about parallel programming is explained in more detail in: <https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/>
-
-### More information about Object-Oriented Programming (OOP) {#sec-OOP}
-
-> \- Everything that exists is an object.
->
-> --- John Chambers
->
-> \- However, not everything is object-oriented
-
-In R, functional programming is often more relevant than OOP, as complex problems are often addressed by decomposing them into simple functions rather than simple objects.
-
-The main reason for using OOP is *polymorphism* (from the Latin "many forms"). Polymorphism allows a developer to consider a function's interface separately from its implementation, making it easier to use the same function with different input types. To understand this, try running the following code:
-
-```{r polymorphism}
-
-summary(penguins$bill_depth_mm)
-summary(penguins$sex)
-
-```
-
-You might think that `summary()` uses a series of `if-else` statements depending on the type of the input data, but in this case only the original author could add new implementations. However, an OOP system allows any developer to extend the interface by creating implementations for new input types.
-
-In OOP systems, the type of an object is called its *class*, and a specific implementation for a class is known as a *method*. Broadly speaking, a class defines the characteristics of an object (what is it?) and methods describe the actions that object can perform (what does it do?).
-
-Base R provides three OOP systems (S3 –which is the most used-, S4 and RC), although there are also other OOP systems provided by different CRAN packages.
-
-```{r OOP}
-
-library(sloop)
-
-is.object(1:5) # base object but not object oriented
-otype(1:5) # base object
-attr(1:5, "class") # without class
-
-is.object(penguins) # object-oriented
-otype(penguins) # S3
-attr(penguins, "class") # with clase
-
-ftype(summary) # generic function S3
-# a generic function defines the interface, which uses a different implementation (method) depending on the class of the argument. Remember the idea of polymorphism that we have seen before ;)
-
-```
-
-💡More detailed information on [OOP](https://adv-r.hadley.nz/oo.html) and [trade-offs between some OOP systems](https://adv-r.hadley.nz/oo-tradeoffs.html)
 
 ### Links of interest
 

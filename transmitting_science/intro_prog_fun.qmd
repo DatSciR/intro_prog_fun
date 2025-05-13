@@ -30,31 +30,31 @@ Within the model of the tools needed in a typical data science project of Hadley
 
 ### Course structure
 
-+------------------------------------------+---------------+
-| Blocks                                   | Day           |
-+==========================================+===============+
-| Course introduction                      | 27/05/25      |
-|                                          |               |
-| Introduction to programming in R         |               |
-|                                          |               |
-| Introduction to Functional Programming   |               |
-+------------------------------------------+---------------+
-| Theory of functions in R                 | 28/05/25      |
-|                                          |               |
-| How to write functions                   |               |
-+------------------------------------------+---------------+
-| Object-Oriented Programming              | 29/05/25      |
-|                                          |               |
-| Functional Programming                   |               |
-|                                          |               |
-| Iterations over one and two arguments    |               |
-+------------------------------------------+---------------+
-| Iterations over multiple arguments       | 30/05/25      |
-|                                          |               |
-| Iterations without output                |               |
-|                                          |               |
-| Function operators and other functionals |               |
-+------------------------------------------+---------------+
++--------------------------------------------------------+---------------+
+| Blocks                                                 | Day           |
++========================================================+===============+
+| Course introduction                                    | 27/05/25      |
+|                                                        |               |
+| Introduction to programming in R                       |               |
+|                                                        |               |
+| Introduction to Functional Programming                 |               |
++--------------------------------------------------------+---------------+
+| Theory of functions in R                               | 28/05/25      |
+|                                                        |               |
+| How to write functions                                 |               |
++--------------------------------------------------------+---------------+
+| Object-Oriented Programming and iterations using loops | 29/05/25      |
+|                                                        |               |
+| Functional Programming                                 |               |
+|                                                        |               |
+| Iterations over one and two arguments                  |               |
++--------------------------------------------------------+---------------+
+| Iterations over multiple arguments                     | 30/05/25      |
+|                                                        |               |
+| Iterations without output                              |               |
+|                                                        |               |
+| Function operators and other functionals               |               |
++--------------------------------------------------------+---------------+
 
 ### Who are we?
 
@@ -346,7 +346,7 @@ It is recommended to follow the "do not repeat yourself" principle ([DRY princip
 
 Writing a function is worthwhile when you have copied and pasted the same code more than twice (don't be WET! - Write Everything Twice). The more times a piece of code is repeated in different places, the more you will need to update it if there is a change, and the higher the likelihood of errors.
 
-## Theory on functions in R
+## Theory of functions in R
 
 Functions have three components:
 
@@ -718,6 +718,10 @@ system.time(
 
 3.  Body: Here we determine what we want each iteration to do. The action is executed repeatedly, each time with a different value for *i*.
 
+#### Exercise
+
+Compute the mean of every column in the {palmerpenguins} dataset using a *for loop*.
+
 There are different [variations of for loops](https://r4ds.had.co.nz/iteration.html#for-loop-variations): (i) modifying an existing object instead of creating a new one; (ii) loops over names or values instead of indices; (iii) loops when we do not know the length of the output; (iv) loops when we do not know the length of the input sequence, i.e., *while* loops.
 
 👀 Some [common pitfalls](https://adv-r.hadley.nz/control-flow.html) when using *for* loops (see 5.3.1 Common pitfalls).
@@ -752,9 +756,13 @@ randomization(f = median)
 
 ```
 
+#### Exercise
+
+Based on the previous example, create a functional.
+
 To program a functional, first, we solve the problem for an element. Next, we generate a function that allows us to wrap the solution in a function (as we did in @sec-writefun). Finally, we *apply the function to all the elements we are interested in.* That is, we divide large problems into smaller problems and solve each task with one or more functions.
 
-The advantage of using {purrr} instead of *for* loops is that it provides a function (functional) for each of the common data manipulation problems, and therefore each *for* loop has its own function. For example, to iterate over one argument we use the `map()` function and to iterate over two arguments we use the `map2()` function. 
+The advantage of using {purrr} instead of *for* loops is that it provides a function (functional) for each of the common data manipulation problems, and therefore each *for* loop has its own function. For example, to iterate over one argument we use the `map()` function and to iterate over two arguments we use the `map2()` function.
 
 The base R `apply` family solves similar problems, but {purrr} is more consistent and therefore easier to learn. In addition, {purrr} supports helpers that the `apply` family doesn't (e.g. `map_dbl()`, `\(x)`). However, if you are an experienced `apply` user and only use `map()` from {purrr}, you can skip the additional dependency of using {purrr} and continue using the `apply` family.
 
@@ -875,7 +883,6 @@ map_dbl(input_vec, \(x) multiply(x, y = sample(x = 1:10, 1)))
 
 ```
 
-
 ### Our second functional: generating vectors, `map_*()`
 
 #### Exercise
@@ -904,8 +911,6 @@ map_dbl(penguins_num, median, na.rm = T)
 
 ```
 
-Working with lists is very common in R. In fact the default output of `map()` is lists. However, lists can sometimes be messy, e.g., when we lose the name of each element in the list. The function [`nest()`](https://tidyr.tidyverse.org/reference/nest.html) of {tidyr} allows us to work with list-columns in data frames, generating a row for each group defined by the non-nested columns.
-
 ```{r map_advanced_example}
 
 glimpse(penguins)
@@ -925,6 +930,8 @@ penguins_nested <- penguins_nona |>
 
 # select each item in the list
 penguins_nested[["lm_obj"]]
+
+penguins_nested$lm_obj
 
 penguins_nested |>
   pluck("lm_obj")
@@ -1050,7 +1057,7 @@ Transform the `map2()` that you have generated in the exercise @sec-exercise-map
 
 ### Our fifth functional: `walk()`, `walk2()` and `pwalk()`
 
-*Walk* family functionals are used when we want to use functions for their side effects (e.g. `ggsave()`) and not for their return value. What is important is the action and not the return value or object in R.
+When we want to use functions for their side effects (e.g. `ggsave()`) and not for their return value. The important thing is the action and not the return value or object in R.
 
 #### Exercise
 
@@ -1072,6 +1079,9 @@ penguins_nested_str <- penguins_nested |>
 penguins_nested_str
 
 walk2(penguins_nested_str$data, penguins_nested_str$path, write_csv)
+
+# see the action invisibly return using parentheses
+(walk2(penguins_nested_str$data, penguins_nested_str$path, write_csv))
 
 ```
 
@@ -1118,7 +1128,7 @@ In this course we do not delve into `modify()` and `imap()` because with the oth
 
 ### Predicate functionals and more useful stuff
 
-Predicates are functions that return a single TRUE or FALSE (e.g., `is.character()`). Thus, a functional predicate applies a predicate to each element of a vector: `keep()`, `discard()`, `some()`, `every()`, `detect()`, `detect_index()` ... For more information see: <https://r4ds.had.co.nz/iteration.html>, 21.9.1 Predicate functions.
+Predicates are functions that return a single TRUE or FALSE (e.g., `is.character()`). Thus, a functional predicate applies a predicate to each element of a vector: `keep()`, `discard()`, `some()`, `every()`, `detect()`, `detect_index()`... For more information see: <https://r4ds.had.co.nz/iteration.html>, 21.9.1 Predicate functions.
 
 ```{r predicate_functional_example}
 
@@ -1150,6 +1160,11 @@ ls <- list(
 
 ls |> 
   reduce(full_join, by = "name")
+
+# equivalent to doing
+ls[["age"]] |> 
+  full_join(ls[["sex"]]) |> 
+  full_join(ls[["height"]])
 
 ```
 
@@ -1187,7 +1202,7 @@ Use any variant of `map()` along with a function operator to the penguins databa
 
 Different CPU cores (*Central Processing Unit*) can be used to run the same process with different sets of data in parallel, speeding up long tasks. Some tasks are particularly well suited for parallelization, such as, those that are repetitive and have little or no dependence on each other, other than the source of the input data, allowing them to be easily split into parallel tasks. These tasks are usually those that can be solved through iterations like those we have seen previously. In theory, the process speeds up in proportion to the number of cores, but in practice, other factors must be taken into account, such as, the time consumed in transferring data to each process and the time spent gathering the results of the different processes.
 
-R was originally designed to run on a single CPU process because when it was developed, CPUs generally had a single core and parallel computing was not as common or developed as it is today. Therefore, to take advantage of parallelization in R, we need to resort to additional packages. However, it is important to note that these packages may be limited in their use to specific cases and data types.
+R was originally designed to operate on a single CPU process because, at the time of its development, CPUs typically had a single core, and parallel computing was neither common nor well-developed. As a result, leveraging parallelism in R traditionally required the use of additional packages.
 
 ```{r parallelization}
 #| eval: false
@@ -1200,7 +1215,7 @@ detectCores()
 
 # function to cube a number
 cube <- function(x) {
-  Sys.sleep(1) # simulation of a computationally intensive task
+  Sys.sleep(1) # simulate a heavy computation
   return(x ^ 3)
 }
 
@@ -1212,6 +1227,7 @@ cat("Computing time:", round(time_final - time_initial, 1), "seconds")
 
 # establish how we are going to resolve the process
 # here we will use 3 cores but depending on the number of cores available on your computer it can be modified
+# as a rule of thumb, for maximum efficiency this should be at most one less than the number of cores on your machine
 plan(multisession, workers = 3)
 
 # future_map to run in parallel
@@ -1225,6 +1241,8 @@ cat("Computing time:", round(time_final - time_initial, 1), "seconds\n")
 ```
 
 The information presented here about parallel programming is explained in more detail in: <https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/>
+
+However, this is changing. In the latest development version of purrr, the map functions now include a .parallel argument, enabling parallelization using the {mirai} package (see <https://purrr.tidyverse.org/dev/reference/parallelization.html>).
 
 ### Links of interest
 

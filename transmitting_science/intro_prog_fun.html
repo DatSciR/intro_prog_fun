@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -64,10 +64,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="intro_prog_fun_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="intro_prog_fun_files/libs/quarto-html/anchor.min.js"></script>
 <link href="intro_prog_fun_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="intro_prog_fun_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="intro_prog_fun_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="intro_prog_fun_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="intro_prog_fun_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="intro_prog_fun_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="intro_prog_fun_files/libs/bootstrap/bootstrap-1bc8a17f135ab3d594c857e9f48e611b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -151,7 +151,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">13/05/2025</p>
+      <p class="date">15/05/2025</p>
     </div>
   </div>
   
@@ -696,7 +696,7 @@ Figure&nbsp;1: Data science model of Hadley Wickham, Mine Çetinkaya-Rundel and 
 <section id="scoping" class="level3" data-number="2.3">
 <h3 data-number="2.3" class="anchored" data-anchor-id="scoping"><span class="header-section-number">2.3</span> Scoping</h3>
 <p><a href="https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping">Scoping</a> is the set of rules that govern how to look up the value of a symbol in the environment in each programming language. R uses <em>lexical scoping</em> and there are four basic rules: name masking, functions versus variables, a fresh start and dynamic lookup. A deeper understanding of scoping will help us to use more advanced functional programming tools.</p>
-<p>In relation to name masking, the basic principle of&nbsp;lexical&nbsp;scoping is that names defined inside a function mask names defined outside a function.</p>
+<p>In relation to name masking, the basic principle of lexical scoping is that names defined inside a function mask names defined outside a function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">20</span></span>
@@ -1272,7 +1272,7 @@ Removed 2 rows containing missing values or values outside the scale range
 <span id="cb134-6"><a href="#cb134-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-   0.17    0.05    0.22 </code></pre>
+   0.20    0.01    0.22 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb136"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"double"</span>, <span class="at">length =</span> <span class="dv">20000</span>)</span>
 <span id="cb136-2"><a href="#cb136-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(</span>
@@ -1390,7 +1390,8 @@ Removed 2 rows containing missing values or values outside the scale range
 [[4]]
 [1] 16</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb148"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(<span class="at">X =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">FUN =</span> quadratic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb148"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="co"># equivalent</span></span>
+<span id="cb148-2"><a href="#cb148-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(<span class="at">X =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">FUN =</span> quadratic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
 [1] 1
@@ -1660,14 +1661,15 @@ flipper_length_mm       body_mass_g               sex              year
 </div>
 <p>Base R has two functions from the <code>apply()</code> family that can return vectors: <code>sapply()</code> and <code>vapply()</code>. We recommend avoiding <code>sapply()</code> because it tries to simplify the result and chooses a default output format, potentially returning a list, a vector or a matrix. <code>vapply()</code> is safer because it allows you to indicate the output format with FUN.VALUE. The main disadvantage of <code>vapply()</code> is that we need to specify more arguments than in <code>map_*()</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb183"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vapply</span>(penguins_num, median, <span class="at">na.rm =</span> T, <span class="at">FUN.VALUE =</span> <span class="fu">double</span>(<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb183"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(penguins_num, median, <span class="at">na.rm =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   bill_length_mm     bill_depth_mm flipper_length_mm       body_mass_g 
             44.45             17.30            197.00           4050.00 
              year 
           2008.00 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb185"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb185-1"><a href="#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(penguins_num, median, <span class="at">na.rm =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb185"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb185-1"><a href="#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="co"># equivalent</span></span>
+<span id="cb185-2"><a href="#cb185-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vapply</span>(penguins_num, median, <span class="at">na.rm =</span> T, <span class="at">FUN.VALUE =</span> <span class="fu">double</span>(<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   bill_length_mm     bill_depth_mm flipper_length_mm       body_mass_g 
             44.45             17.30            197.00           4050.00 
@@ -2003,6 +2005,9 @@ Coefficients:
 <section id="exercise-10" class="level4" data-number="9.2.1">
 <h4 data-number="9.2.1" class="anchored" data-anchor-id="exercise-10"><span class="header-section-number">9.2.1</span> Exercise</h4>
 <p>Transform the <code>map2()</code> that you have generated in the exercise <a href="#sec-exercise-map2" class="quarto-xref">Section&nbsp;9.1.1</a> to <code>pmap()</code>.</p>
+<p>The closest base R equivalents to <code>map2()</code> and <code>pmap()</code> are <code>Map()</code> and <code>mapply()</code>, but both have notable limitations:</p>
+<p><code>Map()</code> vectorises over all arguments, which means you cannot include arguments that should remain constant.</p>
+<p><code>mapply()</code> is essentially a multidimensional version of <code>sapply()</code>. It takes the output of <code>Map()</code> and attempts to simplify it, which can lead to the same issues as <code>sapply()</code>. There is no multi-input equivalent of <code>vapply()</code>, making type safety harder to ensure.</p>
 </section>
 </section>
 </section>
@@ -2094,6 +2099,8 @@ Coefficients:
 <section id="advanced-exercise-1" class="level4" data-number="10.1.2">
 <h4 data-number="10.1.2" class="anchored" data-anchor-id="advanced-exercise-1"><span class="header-section-number">10.1.2</span> Advanced exercise</h4>
 <p>Generate an example where you use <code>walk2()</code> or <code>pwalk()</code> to save multiple plots generated with <code>ggplot()</code>. Hint: the first entry will be the plot you want to save and the second the name of the file you want to give it.</p>
+<p>There is no base R equivalent to <code>walk()</code>. You can mimic its behavior by wrapping the result of <code>lapply()</code> in <code>invisible()</code> or save it to a variable that is never used.</p>
+<p>For R base functionals that have no equivalent in purrr, see: <a href="https://adv-r.hadley.nz/functionals.html#base-functionals" class="uri">https://adv-r.hadley.nz/functionals.html#base-functionals</a></p>
 </section>
 </section>
 </section>
@@ -2426,6 +2433,7 @@ NULL</code></pre>
 <li><p><a href="https://adv-r.hadley.nz/oo.html">Advanced R (Object-oriented programming)</a></p></li>
 </ul>
 <p>This course is primarily based on the first edition of the book <a href="https://r4ds.had.co.nz/">R for Data Science</a> by Hadley Wickham &amp; Garrett Grolemund and the second edition of the book <a href="https:%20//adv-r.hadley.nz/index.html">Advanced R</a> by Hadley Wickham.</p>
+<p>You can ask questions, make suggestions or share new knowledge related to functional programming that you consider relevant to share <a href="https://github.com/DatSciR/intro_prog_fun/discussions/7">here</a>.</p>
 <hr>
 <details>
 <summary>
@@ -2434,7 +2442,7 @@ Session Info
 <div class="cell">
 <div class="sourceCode cell-code" id="cb244"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb244-1"><a href="#cb244-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2025-05-13 15:22:41 CEST"</code></pre>
+<pre><code>[1] "2025-05-15 11:45:43 CEST"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb246"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb246-1"><a href="#cb246-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2469,11 +2477,11 @@ loaded via a namespace (and not attached):
 [13] codetools_0.2-20  cli_3.6.4         rlang_1.1.5       crayon_1.5.3     
 [17] bit64_4.6.0-1     munsell_0.5.1     withr_3.0.2       yaml_2.3.10      
 [21] tools_4.4.3       parallel_4.4.3    tzdb_0.5.0        colorspace_2.1-1 
-[25] vctrs_0.6.5       R6_2.6.1          lifecycle_1.0.4   bit_4.6.0        
-[29] vroom_1.6.5       pkgconfig_2.0.3   pillar_1.10.1     gtable_0.3.6     
-[33] glue_1.8.0        xfun_0.51         tidyselect_1.2.1  rstudioapi_0.17.1
-[37] knitr_1.50        farver_2.1.2      htmltools_0.5.8.1 rmarkdown_2.29   
-[41] labeling_0.4.3    compiler_4.4.3   </code></pre>
+[25] vctrs_0.6.5       R6_2.6.1          lifecycle_1.0.4   htmlwidgets_1.6.4
+[29] bit_4.6.0         vroom_1.6.5       pkgconfig_2.0.3   pillar_1.10.1    
+[33] gtable_0.3.6      glue_1.8.0        xfun_0.51         tidyselect_1.2.1 
+[37] rstudioapi_0.17.1 knitr_1.50        farver_2.1.2      htmltools_0.5.8.1
+[41] rmarkdown_2.29    labeling_0.4.3    compiler_4.4.3   </code></pre>
 </div>
 </div>
 </details>
@@ -2564,8 +2572,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -2676,7 +2682,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

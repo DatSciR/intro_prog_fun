@@ -249,7 +249,7 @@ penguins |>
 
 [Scoping](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) is the set of rules that govern how to look up the value of a symbol in the environment in each programming language. R uses *lexical scoping* and there are four basic rules: name masking, functions versus variables, a fresh start and dynamic lookup. A deeper understanding of scoping will help us to use more advanced functional programming tools.
 
-In relation to name masking, the basic principle of lexical scoping is that names defined inside a function mask names defined outside a function.
+In relation to name masking, the basic principle of lexical scoping is that names defined inside a function mask names defined outside a function.
 
 ```{r lexical_scoping}
 
@@ -812,6 +812,7 @@ quadratic <- function(x) {
 
 map(1:4, .f = quadratic)
 
+# equivalent
 lapply(X = 1:4, FUN = quadratic)
 
 # some more interesting use
@@ -905,9 +906,10 @@ Base R has two functions from the `apply()` family that can return vectors: `sap
 
 ```{r vapply}
 
-vapply(penguins_num, median, na.rm = T, FUN.VALUE = double(1))
-
 map_dbl(penguins_num, median, na.rm = T)
+
+# equivalent
+vapply(penguins_num, median, na.rm = T, FUN.VALUE = double(1))
 
 ```
 
@@ -1053,6 +1055,12 @@ args3 |>
 
 Transform the `map2()` that you have generated in the exercise @sec-exercise-map2 to `pmap()`.
 
+The closest base R equivalents to `map2()` and `pmap()` are `Map()` and `mapply()`, but both have notable limitations:
+
+`Map()` vectorises over all arguments, which means you cannot include arguments that should remain constant.
+
+`mapply()` is essentially a multidimensional version of `sapply()`. It takes the output of `Map()` and attempts to simplify it, which can lead to the same issues as `sapply()`. There is no multi-input equivalent of `vapply()`, making type safety harder to ensure.
+
 ## Iterations without output
 
 ### Our fifth functional: `walk()`, `walk2()` and `pwalk()`
@@ -1088,6 +1096,10 @@ walk2(penguins_nested_str$data, penguins_nested_str$path, write_csv)
 #### Advanced exercise
 
 Generate an example where you use `walk2()` or `pwalk()` to save multiple plots generated with `ggplot()`. Hint: the first entry will be the plot you want to save and the second the name of the file you want to give it.
+
+There is no base R equivalent to `walk()`. You can mimic its behavior by wrapping the result of `lapply()` in `invisible()` or save it to a variable that is never used.
+
+For R base functionals that have no equivalent in purrr, see: <https://adv-r.hadley.nz/functionals.html#base-functionals>
 
 ## Function operators and other functionals
 
@@ -1269,6 +1281,8 @@ However, this is changing. In the latest development version of purrr, the map f
 -   [Advanced R (Object-oriented programming)](https://adv-r.hadley.nz/oo.html)
 
 This course is primarily based on the first edition of the book [R for Data Science](https://r4ds.had.co.nz/) by Hadley Wickham & Garrett Grolemund and the second edition of the book [Advanced R](https:%20//adv-r.hadley.nz/index.html) by Hadley Wickham.
+
+You can ask questions, make suggestions or share new knowledge related to functional programming that you consider relevant to share [here](https://github.com/DatSciR/intro_prog_fun/discussions/7).
 
 ------------------------------------------------------------------------
 

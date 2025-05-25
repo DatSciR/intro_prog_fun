@@ -629,28 +629,24 @@ How would you generalize the function `explore_penguins()` so you can use any da
 
 ## Object-oriented programming (OOP) and iterations using loops
 
-> \- Everything that exists is an object.
->
-> --- John Chambers
->
-> \- However, not everything is object-oriented
-
-In R, functional programming is often more relevant than OOP, as complex problems are often addressed by decomposing them into simple functions rather than simple objects.
-
 The main reason for using OOP is *polymorphism* (from the Latin "many forms"). Polymorphism allows a developer to consider a function's interface separately from its implementation, making it easier to use the same function with different input types. To understand this, try running the following code:
 
-```{r polymorphism}
-
-library(sloop)
+```{r polymorphism_example}
 
 summary(penguins$bill_depth_mm)
 summary(penguins$sex)
 
-ftype(summary)
-
 ```
 
 You might think that `summary()` uses a series of `if-else` statements depending on the type of the input data, but in this case only the original author could add new implementations. However, an OOP system allows any developer to extend the interface by creating implementations for new input types.
+
+```{r polymorphism_type}
+
+library(sloop)
+ftype(summary)
+methods(summary)
+
+```
 
 In OOP systems, the type of an object is called its *class*, and a specific implementation for a class is known as a *method*. Broadly speaking, a class defines the characteristics of an object (what is it?) and methods describe the actions that object can perform (what does it do?).
 
@@ -736,19 +732,23 @@ Despite being widely used in R, *for* loops are not as important as they may be 
 
 There is a belief that *for loops* are slow, but the real disadvantage of *for loops is that they are too flexible* and may execute many different tasks. Instead, each functional ({purrr}, `apply`) is designed for a specific task, so as soon as you see it in the code, you immediately know why it's being used. That is, the main advantage is its clarity by making the code easier to write and read (see this advanced example to understand it: <https://adv-r.hadley.nz/functionals.html>, 9.3 Purrr style). Once we master functional programming, we will be able to solve many iteration problems with less code, more ease, and fewer errors.
 
-Loops can be more explicit in the sense that you see the iteration clearly, but it takes more time to understand what you are doing. On the contrary, functionals require one more step of abstraction and may require time until we understand them. Anyway, the most important aspect is that you are able to solve the problems you are facing and little by little write increasingly simpler and more elegant code.
-
 > To become significantly more reliable, code must become more transparent. In particular, nested conditions and loops must be viewed with great suspicion. Complicated control flows confuse programmers. Messy code often hides bugs.
 >
 > --- Bjarne Stroustrup ([Advanced R](https://adv-r.hadley.nz/index.html))
 
+Loops can be more explicit in the sense that you see the iteration clearly, but it takes more time to understand what you are doing. On the contrary, functionals require one more step of abstraction and may require time until we understand them. Anyway, the most important aspect is that you are able to solve the problems you are facing and little by little write increasingly simpler and more elegant code.
+
 ## Functional programming
 
-![Graphical representation of the operation of `map()` where the focus is on the operation performed. Illustration by Allison Horst taken from Hadley Wickham's talk The Joy of Functional Programming (for data science)](images/map_frosting.png)
+> \- Everything that exists is an object.
+>
+> --- John Chambers
+>
+> \- However, not everything is object-oriented
+
+In R, functional programming is often more relevant than OOP, as complex problems are often addressed by decomposing them into simple functions rather than simple objects.
 
 In functional programming, functions are designed to perform a single specific task and are then combined by calling these functions successively for the data set. A significant advantage of this approach is that these functions can be reused in any other project, facilitating code modularity. Furthermore, when they are well documented and easily testable, it is easy to understand and maintain the program.
-
-R is a functional programming language so it relies primarily on a function-centric problem-solving style (<https://adv-r.hadley.nz/fp.html>).
 
 A functional is a function that takes a function as input and returns a vector or other type of object as output.
 
@@ -767,6 +767,8 @@ randomization(f = median)
 Based on the previous example, create a functional.
 
 To program a functional, first, we solve the problem for an element. Next, we generate a function that allows us to wrap the solution in a function (as we did in @sec-writefun). Finally, we *apply the function to all the elements we are interested in.* That is, we divide large problems into smaller problems and solve each task with one or more functions.
+
+![Graphical representation of the operation of `map()` where the focus is on the operation performed. Illustration by Allison Horst taken from Hadley Wickham's talk The Joy of Functional Programming (for data science)](images/map_frosting.png)
 
 The advantage of using {purrr} instead of *for* loops is that it provides a function (functional) for each of the common data manipulation problems, and therefore each *for* loop has its own function. For example, to iterate over one argument we use the `map()` function and to iterate over two arguments we use the `map2()` function.
 

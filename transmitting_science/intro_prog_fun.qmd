@@ -37,15 +37,15 @@ Within the model of the tools needed in a typical data science project of Hadley
 |                                                        |               |
 | Introduction to programming in R                       |               |
 |                                                        |               |
-| Introduction to Functional Programming                 |               |
+| Introduction to functional programming                 |               |
 +--------------------------------------------------------+---------------+
 | Theory of functions in R                               | 28/05/25      |
 |                                                        |               |
 | How to write functions                                 |               |
 +--------------------------------------------------------+---------------+
-| Object-Oriented Programming and iterations using loops | 29/05/25      |
+| Object-oriented programming and iterations using loops | 29/05/25      |
 |                                                        |               |
-| Functional Programming                                 |               |
+| Functional programming                                 |               |
 |                                                        |               |
 | Iterations over one and two arguments                  |               |
 +--------------------------------------------------------+---------------+
@@ -64,7 +64,7 @@ Verónica Cruz-Alonso (veronica.cral\@gmail.com) y Julen Astigarraga (julenastig
 
 And you... who are you?
 
-<https://www.menti.com/alsrpp5991gr>
+<https://www.menti.com/alc3k7zmd7uu>
 
 ## Introduction to programming in tidyverse
 
@@ -95,15 +95,6 @@ mydf <- data.frame(a, b, c)
 mylist <- list(a, b, c, d)
 mylist
 
-mylist_from_tibble <- mytibble |> # list
-  group_split(c)
-mylist_from_tibble
-
-mynested_tibble <- mytibble |> # data.frame with list-columns
-  group_by(c) |> 
-  nest()
-mynested_tibble
-
 ```
 
 > Names have objects; objects don't have names
@@ -114,9 +105,24 @@ In the example above, the length 4 numeric vector `c(1, 2, 3, 4)` (object) has t
 
 💡By doing `mean(x = a)` we link the value of "a" with the name "x" as well. This link is called a *promise* in R: it is a promise to provide the value of "a", if "x" is ever needed within the `sum()` function.
 
-📝Object names should be descriptive and can not have some special characters (`^`, `!`, `$`, `@`, `+`, `-`, `/`, `*`).
+📝Object names should be descriptive and can not have some special characters (`^`, `!`, `$`, `@`, `+`, `-`, `/`, `*`). Also, R is sensitive to capital letters. In general, it is better to avoid them.
 
-📝R is sensitive to capital letters. In general, it is better to avoid them.
+Working with lists is very common in R. In fact, the default output of `map()` is lists. However, lists can sometimes become messy — for example, when we lose the name of each list element. The `nest()` function from the `{tidyr}` package allows us to work with list-columns inside data frames, generating one row for each group defined by the non-nested columns.
+
+```{r more_objects}
+
+mylist_from_tibble <- mytibble |> # list
+  group_split(v3)
+mylist_from_tibble
+
+mynested_tibble <- mytibble |> # data.frame with list-columns
+  group_by(v3) |> 
+  nest()
+mynested_tibble
+
+```
+
+💡You can explore different types of objects in R [here](https://rstudio-education.github.io/hopr/r-objects.html).
 
 -   Functions: objects in R that take an input and give an output doing a specific action (specific functionality). Functions are the fundamental *building blocks* in R which is a functional programming language.
 
@@ -146,8 +152,8 @@ In the example above, the length 4 numeric vector `c(1, 2, 3, 4)` (object) has t
 
 myvector <- c(6, 4)
 mean(myvector)
-myvector |> 
-  mean() # CTRL+SHIFT+M - shortcut for the pipe
+myvector |> # CTRL+SHIFT+M - shortcut for the pipe
+  mean() 
 
 length(unique(myvector)) # vs
 myvector |> unique() |> length()
@@ -247,9 +253,9 @@ penguins |>
 
 ### Scoping
 
-[Scoping](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) is the set of rules that govern how to look up the value of a symbol in the environment in each programming language. R uses *lexical scoping* and there are four basic rules: name masking, functions versus variables, a fresh start and dynamic lookup. A deeper understanding of scoping will help us to use more advanced functional programming tools.
+The [scoping](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) is the set of rules that govern how to look up the value of a symbol in the environment in each programming language. R uses *lexical scoping* and there are four basic rules: name masking, functions versus variables, a fresh start and dynamic lookup. A deeper understanding of scoping will help us to use more advanced functional programming tools. *Lexical* derives from "lexing”, which is part of the process that converts code represented as text to meaningful pieces that the programming language understands.
 
-In relation to name masking, the basic principle of lexical scoping is that names defined inside a function mask names defined outside a function.
+In relation to name masking, the basic principle of lexical scoping is that names defined inside a function mask names defined outside a function. If a name isn't defined inside a function, R will look one level up in the environment. For functions, there is one small tweak to the rule. If you are using a name in a context where it’s obvious that you want a function R will ignore objects that are not functions while it is searching. 
 
 ```{r lexical_scoping}
 
@@ -267,7 +273,7 @@ myfunction()
 
 ![If a name isn't defined inside a function, R will look one level up. Art by Cristina Grajera](images/environment.png)
 
-In general, with base R, we can only call objects that are part of the environment (env-variables); however, with *tidyverse*, we can also call variables within tables (data-variables). This feature called *data masking* simplifies the code in *tidyverse*, but the advantage does not come for free and has implications for the grammar of the functions as we will see later.
+In general, with base R, we can only call objects that are part of the environment (env-variables); however, with *tidyverse*, we can also call variables within tables (data-variables) as objects. This feature called [*non-standard evaluation*](http://adv-r.had.co.nz/Computing-on-the-language.html) simplifies the code in *tidyverse*, but the advantage does not come for free and has implications for the grammar of the functions as we will see later.
 
 ```{r data_masking}
 #| warning: false

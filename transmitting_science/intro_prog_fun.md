@@ -1,15 +1,15 @@
 # Functional Programming with R
 Julen Astigarraga and Verónica Cruz-Alonso
-05/06/2024
+26/05/2025
 
 - [<span class="toc-section-number">1</span>
   Introduction](#introduction)
   - [<span class="toc-section-number">1.1</span> Course
     structure](#course-structure)
-  - [<span class="toc-section-number">1.2</span> Who we
-    are?](#who-we-are)
+  - [<span class="toc-section-number">1.2</span> Who are
+    we?](#who-are-we)
 - [<span class="toc-section-number">2</span> Introduction to programming
-  in tidyverse](#introduction-to-programming-in-tidyverse)
+  in R](#introduction-to-programming-in-r)
   - [<span class="toc-section-number">2.1</span> Basic
     concepts](#basic-concepts)
   - [<span class="toc-section-number">2.2</span> Tidyverse](#tidyverse)
@@ -18,15 +18,16 @@ Julen Astigarraga and Verónica Cruz-Alonso
   Programming](#introduction-to-functional-programming)
   - [<span class="toc-section-number">3.1</span> When do we have to use
     a function?](#when-do-we-have-to-use-a-function)
-- [<span class="toc-section-number">4</span> Theory on functions in
-  R](#theory-on-functions-in-r)
+- [<span class="toc-section-number">4</span> Theory of functions in
+  R](#theory-of-functions-in-r)
 - [<span class="toc-section-number">5</span> How to write
   functions](#sec-writefun)
   - [<span class="toc-section-number">5.1</span> Arguments](#arguments)
   - [<span class="toc-section-number">5.2</span> Return
     values](#return-values)
 - [<span class="toc-section-number">6</span> Object-oriented programming
-  (OOP)](#object-oriented-programming-oop)
+  (OOP) and iterations using
+  loops](#object-oriented-programming-oop-and-iterations-using-loops)
 - [<span class="toc-section-number">7</span> Functional
   programming](#functional-programming)
 - [<span class="toc-section-number">8</span> Iterations over one
@@ -60,9 +61,7 @@ Julen Astigarraga and Verónica Cruz-Alonso
   information](#further-information)
   - [<span class="toc-section-number">12.1</span>
     Parallelization](#parallelization)
-  - [<span class="toc-section-number">12.2</span> More information about
-    Object-Oriented Programming (OOP)](#sec-OOP)
-  - [<span class="toc-section-number">12.3</span> Links of
+  - [<span class="toc-section-number">12.2</span> Links of
     interest](#links-of-interest)
 
 ## Introduction
@@ -77,19 +76,27 @@ The objectives of this course are:
 - to learn coding styles that facilitate script understanding (📝)
 
 Within the model of the tools needed in a typical data science project
-of Wickham and Grolemund
+of Hadley Wickham, Mine Çetinkaya-Rundel and Garrett Grolemund
 (<a href="#fig-datascience" class="quarto-xref">Figure 1</a>), this
 course focuses in the envelope wrapping all the other tools, that is,
 programming.
 
+<div id="fig-datascience">
+
 ![](images/data-science.png)
+
+
+Figure 1: Data science model of Hadley Wickham, Mine Çetinkaya-Rundel
+and Garrett Grolemund. https://r4ds.hadley.nz/intro#fig-ds-diagram
+
+</div>
 
 ### Course structure
 
-<table style="width:97%;">
+<table>
 <colgroup>
-<col style="width: 75%" />
-<col style="width: 22%" />
+<col style="width: 78%" />
+<col style="width: 21%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -100,45 +107,59 @@ programming.
 <tbody>
 <tr class="odd">
 <td><p>Course introduction</p>
-<p>Refresh of tidyverse</p>
-<p>Introduction to Functional Programming</p></td>
-<td>27/05/24</td>
+<p>Introduction to programming in R</p>
+<p>Introduction to functional programming</p></td>
+<td>27/05/25</td>
 </tr>
 <tr class="even">
 <td><p>Theory of functions in R</p>
-<p>How to write functions. Arguments and return values</p></td>
-<td>27/05/24</td>
+<p>How to write functions</p></td>
+<td>28/05/25</td>
 </tr>
 <tr class="odd">
-<td><p>Object-Oriented Programming</p>
-<p>Functional Programming</p>
-<p>Iterations over one argument</p></td>
-<td>31/05/24</td>
+<td><p>Object-oriented programming and iterations using loops</p>
+<p>Functional programming</p>
+<p>Iterations over one and two arguments</p></td>
+<td>29/05/25</td>
 </tr>
 <tr class="even">
 <td><p>Iterations over multiple arguments</p>
 <p>Iterations without output</p>
 <p>Function operators and other functionals</p></td>
-<td>31/05/24</td>
+<td>30/05/25</td>
 </tr>
 </tbody>
 </table>
 
-### Who we are?
+### Who are we?
 
 ![](images/1_N_0YimgDh2_IbBT9jJNtOg.jpg)
 
-We coordinate the [Ecoinformatics Working
-Group](https://ecoinfaeet.github.io/website/index.html) of the Spanish
-Association of Terrestrial Ecology (AEET).
+Verónica Cruz-Alonso (veronica.cral@gmail.com) and Julen Astigarraga
+(julenastigarraga@gmail.com). We coordinate the [Ecoinformatics Working
+Group](https://ecoinfaeet.github.io/) of the Spanish Association of
+Terrestrial Ecology (AEET). In [DatSciR](https://github.com/DatSciR) we
+publish the materials of the courses we teach.
 
 And you… who are you?
 
-<https://www.menti.com/alsrpp5991gr>
+<https://www.menti.com/alc3k7zmd7uu>
 
-## Introduction to programming in tidyverse
+## Introduction to programming in R
+
+<img src="images/r_horst.png" width="362"
+alt="The process of learning R, por Allison Horst. https://allisonhorst.com/everything-else" />
 
 ### Basic concepts
+
+- R: dynamic programming language (dynamic means that code is
+  interpreted at the moment of execution).
+
+- RStudio: an integrated development environment (IDE) for programming
+  in R. It is organized into four main panels: the code editor, the
+  console (where the code is executed), the workspace browser (which
+  includes the *environment* and command history), and the bottom-right
+  panel, which combines Files, Plots, Packages, and Help tabs.
 
 - Object: any element associated to a name. There are many different
   types: `numeric`, `integer`, `logical`, `data.frame`, `SpatVector`,
@@ -148,35 +169,24 @@ And you… who are you?
 library(tidyverse)
 ```
 
-    ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-    ✔ ggplot2 3.4.2     ✔ purrr   1.0.1
-    ✔ tibble  3.2.1     ✔ dplyr   1.1.2
-    ✔ tidyr   1.3.0     ✔ stringr 1.5.0
-    ✔ readr   2.1.2     ✔ forcats 0.5.1
-
-    Warning: package 'ggplot2' was built under R version 4.2.3
-
-    Warning: package 'tibble' was built under R version 4.2.3
-
-    Warning: package 'tidyr' was built under R version 4.2.3
-
-    Warning: package 'purrr' was built under R version 4.2.3
-
-    Warning: package 'dplyr' was built under R version 4.2.3
-
-    Warning: package 'stringr' was built under R version 4.2.3
-
+    ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+    ✔ dplyr     1.1.4     ✔ readr     2.1.5
+    ✔ forcats   1.0.0     ✔ stringr   1.5.1
+    ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+    ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+    ✔ purrr     1.0.2     
     ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
     ✖ dplyr::filter() masks stats::filter()
     ✖ dplyr::lag()    masks stats::lag()
+    ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 
 ``` r
-a <- c(1, 2, 3, 4)
-b <- c(1, 2, 3, 4)
-c <- c("hi", "hola", "hola", "hi")
-d <- c(TRUE, TRUE, TRUE, FALSE, FALSE)
+v1 <- c(1, 2, 3, 4)
+v2 <- c(1, 2, 3, 4)
+v3 <- c("hi", "hola", "hola", "hi")
+v4 <- c(TRUE, TRUE, TRUE, FALSE, FALSE)
 
-mymatrix_num <- matrix(c(a, b), nrow = 4, ncol = 2)
+mymatrix_num <- matrix(c(v1, v2), nrow = 4, ncol = 2)
 mymatrix_num
 ```
 
@@ -187,7 +197,7 @@ mymatrix_num
     [4,]    4    4
 
 ``` r
-mymatrix_cha <- matrix(c(a, b, c), nrow = 4, ncol = 3)
+mymatrix_cha <- matrix(c(v1, v2, v3), nrow = 4, ncol = 3)
 mymatrix_cha
 ```
 
@@ -198,12 +208,12 @@ mymatrix_cha
     [4,] "4"  "4"  "hi"  
 
 ``` r
-mytibble <- tibble(a, b, c)
+mytibble <- tibble(v1, v2, v3)
 mytibble
 ```
 
     # A tibble: 4 × 3
-          a     b c    
+         v1    v2 v3   
       <dbl> <dbl> <chr>
     1     1     1 hi   
     2     2     2 hola 
@@ -211,9 +221,9 @@ mytibble
     4     4     4 hi   
 
 ``` r
-mydf <- data.frame(a, b, c)
+mydf <- data.frame(v1, v2, v3)
 
-mylist <- list(a, b, c, d)
+mylist <- list(v1, v2, v3, v4)
 mylist
 ```
 
@@ -229,47 +239,6 @@ mylist
     [[4]]
     [1]  TRUE  TRUE  TRUE FALSE FALSE
 
-``` r
-mylist_from_tibble <- mytibble |> # list
-  group_split(c)
-mylist_from_tibble
-```
-
-    <list_of<
-      tbl_df<
-        a: double
-        b: double
-        c: character
-      >
-    >[2]>
-    [[1]]
-    # A tibble: 2 × 3
-          a     b c    
-      <dbl> <dbl> <chr>
-    1     1     1 hi   
-    2     4     4 hi   
-
-    [[2]]
-    # A tibble: 2 × 3
-          a     b c    
-      <dbl> <dbl> <chr>
-    1     2     2 hola 
-    2     3     3 hola 
-
-``` r
-mynested_tibble <- mytibble |> # data.frame with list-columns
-  group_by(c) |> 
-  nest()
-mynested_tibble
-```
-
-    # A tibble: 2 × 2
-    # Groups:   c [2]
-      c     data            
-      <chr> <list>          
-    1 hi    <tibble [2 × 2]>
-    2 hola  <tibble [2 × 2]>
-
 > Names have objects; objects don’t have names
 >
 > — Hadley Wickham ([Advanced R](https://adv-r.hadley.nz/index.html))
@@ -282,10 +251,60 @@ well. This link is called a *promise* in R: it is a promise to provide
 the value of “a”, if “x” is ever needed within the `sum()` function.
 
 📝Object names should be descriptive and can not have some special
-characters (`^`, `!`, `$`, `@`, `+`, `-`, `/`, `*`).
+characters (`^`, `!`, `$`, `@`, `+`, `-`, `/`, `*`). Also, R is
+sensitive to capital letters. In general, it is better to avoid them.
 
-📝R is sensitive to capital letters. In general, it is better to avoid
-them.
+Working with lists is very common in R. In fact, the default output of
+`map()` is lists. However, lists can sometimes become messy — for
+example, when we lose the name of each list element. The
+[`nest()`](https://tidyr.tidyverse.org/reference/nest.html) function
+from the `{tidyr}` package allows us to work with list-columns inside
+data frames, generating one row for each group defined by the non-nested
+columns.
+
+``` r
+mylist_from_tibble <- mytibble |> # list
+  group_split(v3)
+mylist_from_tibble
+```
+
+    <list_of<
+      tbl_df<
+        v1: double
+        v2: double
+        v3: character
+      >
+    >[2]>
+    [[1]]
+    # A tibble: 2 × 3
+         v1    v2 v3   
+      <dbl> <dbl> <chr>
+    1     1     1 hi   
+    2     4     4 hi   
+
+    [[2]]
+    # A tibble: 2 × 3
+         v1    v2 v3   
+      <dbl> <dbl> <chr>
+    1     2     2 hola 
+    2     3     3 hola 
+
+``` r
+mynested_tibble <- mytibble |> # data.frame with list-columns
+  group_by(v3) |> 
+  nest()
+mynested_tibble
+```
+
+    # A tibble: 2 × 2
+    # Groups:   v3 [2]
+      v3    data            
+      <chr> <list>          
+    1 hi    <tibble [2 × 2]>
+    2 hola  <tibble [2 × 2]>
+
+💡You can explore different types of objects in R
+[here](https://rstudio-education.github.io/hopr/r-objects.html).
 
 - Functions: objects in R that take an input and give an output doing a
   specific action (specific functionality). Functions are the
@@ -302,19 +321,47 @@ them.
 >
 > — John Chambers ([Advanced R](https://adv-r.hadley.nz/index.html))
 
-- Libraries or packages: hold reusable functions, documentation on how
-  to use them and example data. They are the fundamental units of
-  reproducible code in R.
-
 💡More info about Three Deep Truths About R
 [here](https://www.r-bloggers.com/2018/06/three-deep-truths-about-r/).
+
+- Packages or libraries: they contain reusable functions, documentation
+  on how to use them, and example datasets. They are the fundamental
+  units of reproducible code in R.
+
+<img src="images/library.png" width="348"
+alt="Libraries contain functions focused on a common purpose—for example, building a castle." />
+
+- CRAN: the Comprehensive R Archive Network.
+
+#### Exercise
+
+1.  Choose a number and multiply it by 3.
+
+2.  Create an object that contains 100 values between 1900 and 2000.
+
+3.  Add a number to your object.
+
+4.  Multiply your object by itself.
+
+5.  Create an object that contains the number 5 repeated 9 times along
+    with a sequence from 5 to 50 in steps of 5.
+
+6.  What is the length of the previous object?
+
+#### Exercise
+
+1.  Create a list that contains two data frames, each with two named
+    variables and ten observations per variable.
+
+2.  Access the eighth observation of the second variable from each data
+    frame by using indexation.
 
 ### Tidyverse
 
 [*Tidyverse*](https://www.tidyverse.org/) is a collection of R packages
 (meta-package) initially developed by Hadley Wickham. It contains eight
-main packages: `readr`, `tibble`, `dplyr`, `tidyr`, `stringr`,
-`forcats`, `ggplot2` and `purrr`. *Tidyverse* can be considered a
+main packages: {readr}, {tibble}, {dplyr}, {tidyr}, {stringr},
+{forcats}, {ggplot2} and {purrr}. *Tidyverse* can be considered a
 dialect of the R programming language, and as such, it may be difficult
 to learn for people with experience in base R. However, it is important
 to know the basics of programming using *Tidyverse* for this course due
@@ -335,7 +382,7 @@ most people.
 
 💡The two pipe operators have small
 [differences](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/)
-but in general their behaviour is the same.
+but in general their behavior is the same.
 
 ``` r
 myvector <- c(6, 4)
@@ -345,8 +392,8 @@ mean(myvector)
     [1] 5
 
 ``` r
-myvector |> 
-  mean() # CTRL+SHIFT+M - shortcut for the pipe
+myvector |> # CTRL+SHIFT+M - shortcut for the pipe
+  mean() 
 ```
 
     [1] 5
@@ -364,6 +411,7 @@ myvector |> unique() |> length()
     [1] 2
 
 ``` r
+# install.packages("palmerpenguins")
 library(palmerpenguins)
 
 penguins <- palmerpenguins::penguins
@@ -433,7 +481,7 @@ penguins |>
 
 ``` r
 penguins |> 
-  filter(island == "Dream" & body_mass_g > 4500) # Combining criteria
+  filter(island == "Dream" & body_mass_g > 4500) # combining criteria
 ```
 
     # A tibble: 4 × 8
@@ -651,7 +699,7 @@ penguins |>
 penguins |> 
   group_by(sex) |> 
   summarise(body_min = min(body_mass_g, na.rm = TRUE),
-  body_max = max(body_mass_g, na.rm = TRUE))
+            body_max = max(body_mass_g, na.rm = TRUE))
 ```
 
     # A tibble: 3 × 3
@@ -698,18 +746,42 @@ penguins |>
 2.  Calculate the ratio between the weight in kg and the flipper length
     for each individual.
 
+``` r
+mypenguins <- penguins |> 
+  mutate(bill_volume_mm2 = (bill_length_mm * bill_depth_mm) / 2,
+    female_penguin = case_when(
+      sex == "female" & body_mass_g < 3600 ~ "small female",
+      sex == "female" & body_mass_g >= 3600 ~ "big female",
+      TRUE ~ NA)) 
+
+write_delim(mypenguins, file = "mypenguins.csv", delim = ";")
+# In the argument file, you have to specify the directory where you want it to be saved. Otherwise, it will be saved in the working directory (getwd()).
+
+mydata <- read_delim(file = "mypenguins.csv")
+View(mydata)
+```
+
 ### Scoping
 
-[Scoping](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping)
+The
+[scoping](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping)
 is the set of rules that govern how to look up the value of a symbol in
-the environment in each programming language. R uses *lexical scoping*
-and there are four basic rules: name masking, functions versus
-variables, a fresh start and dynamic lookup. A deeper understanding of
-scoping will help us to use more advanced functional programming tools.
+the environment in each programming language. That is, how a variable
+(name) is associated with a value. A deeper understanding of scoping
+allows for more advanced use of functional programming. R uses *lexical
+scoping*. *Lexical* derives from “lexing”, which is part of the process
+that converts code represented as text to meaningful pieces that the
+programming language understands. *Lexical scoping* follows four basic
+rules (*name masking*, *functions versus variables*, *a fresh start*,
+and *dynamic lookup*), but the most important one for getting started
+with functional programming is *name masking*.
 
-In relation to name masking, the basic principle of lexical scoping is
-that names defined inside a function mask names defined outside a
-function.
+In relation to name masking, the basic principle is that names defined
+inside a function mask names defined outside a function. If a name isn’t
+defined inside a function, R will look one level up in the environment.
+For functions, there is one small tweak to the rule. If you are using a
+name in a context where it’s obvious that you want a function R will
+ignore objects that are not functions while it is searching.
 
 ``` r
 x <- 10
@@ -730,11 +802,51 @@ myfunction()
 Art by Cristina Grajera](images/environment.png)
 
 In general, with base R, we can only call objects that are part of the
-environment (env-variables); however, with *tidyverse*, we can also call
-variables within tables (data-variables). This feature called *data
-masking* simplifies the code in *tidyverse*, but the advantage does not
-come for free and has implications for the grammar of the functions as
-we will see later.
+environment (env-variables) although there are some exceptions; however,
+with *tidyverse*, we can also call variables within tables
+(data-variables) as objects. This feature called [*non-standard
+evaluation*](http://adv-r.had.co.nz/Computing-on-the-language.html)
+simplifies the code in *tidyverse*, but the advantage does not come for
+free and has implications for the grammar of the functions as we will
+see later.
+
+``` r
+penguins |> select(island)
+```
+
+    # A tibble: 344 × 1
+       island   
+       <fct>    
+     1 Torgersen
+     2 Torgersen
+     3 Torgersen
+     4 Torgersen
+     5 Torgersen
+     6 Torgersen
+     7 Torgersen
+     8 Torgersen
+     9 Torgersen
+    10 Torgersen
+    # ℹ 334 more rows
+
+``` r
+penguins[, "island"]
+```
+
+    # A tibble: 344 × 1
+       island   
+       <fct>    
+     1 Torgersen
+     2 Torgersen
+     3 Torgersen
+     4 Torgersen
+     5 Torgersen
+     6 Torgersen
+     7 Torgersen
+     8 Torgersen
+     9 Torgersen
+    10 Torgersen
+    # ℹ 334 more rows
 
 ``` r
 penguins |> filter(island == "Dream", species == "Chinstrap") 
@@ -786,14 +898,14 @@ mean(x = 1:10)
 mean(x = values)
 ```
 
-    Error in mean(x = values): object 'values' not found
+    Error: objeto 'values' no encontrado
 
 ``` r
 mydata <- tibble(values = 1:10)
 mean(x = values)
 ```
 
-    Error in mean(x = values): object 'values' not found
+    Error: objeto 'values' no encontrado
 
 ``` r
 mean(x = mydata$values)
@@ -811,30 +923,46 @@ mydata |>
       <dbl>
     1   5.5
 
-![Data masking in *tidyverse* allows to use data-variables (toys within
-the box –the tibble) as if they were env-variables (toys all around the
-carpets). When Monchi uses the *tidyglasses* he could access as well to
-the toys within the box. Art by Cristina
-Grajera](images/data_masking.png)
+![*tidyverse* allows to use data variables (toys inside the box – the
+data.frame) as if they were environment variables (toys on the carpet).
+When Monchi puts on the *tidyglasses*, he can also easily access the
+toys inside the box. The *tidyglasses* makes Monchi evaluate the
+function in a different environment than usual. Art by Cristina
+Grajera.](images/data_masking.png)
 
 ## Introduction to Functional Programming
 
 The growing availability of data and the versatility of analysis
-software have led to an increase in the quantity and complexity of the
-analyses we conduct in biological sciences. This makes efficiency in the
-process of data management and analysis increasingly necessary. One
-possible way to optimize these processes and reduce work time for R
-users is function-based programming. Functions allow the automation of
-common tasks (for example, reading different databases), simplifying the
-code.
+software have led to a rise in the quantity and complexity of the
+analyses we perform. This makes efficiency in the process of data
+management and analysis increasingly necessary. One possible way to
+optimize these processes and reduce work time for R users is
+function-based programming. Functions allow the automation of common
+tasks (for example, reading different databases), simplifying the code.
 
 A function can be called through another function and the process can be
 iterated, making R a very powerful tool. Iterations are used to perform
 the same action on multiple inputs. There are two main paradigms of
 iteration: object-oriented programming (OOP) and functional programming
-(FP). In this workshop, we will primarily focus on functional
-programming and learn to use the {purrr} package, which provides
-functions to eliminate many common loops.
+(FP). In this course, we will primarily focus on functional programming
+and learn to use the {purrr} package, which provides functions to
+eliminate many common loops.
+
+> It’s hard to describe exactly what a functional style is, but
+> generally I think it means decomposing a big problem into smaller
+> pieces, then solving each piece with a function or combination of
+> functions. When using a functional style, you strive to decompose
+> components of the problem into isolated functions that operate
+> independently. Each function taken by itself is simple and
+> straightforward to understand; complexity is handled by composing
+> functions in various ways.
+>
+> — Hadley Wickham ([Advanced R](https://adv-r.hadley.nz/index.html))
+
+![Imagine we want to build a castle in R. The idea would be to start
+with simple processes such as creating a wall or a roof, and then
+iterate the process to move from simpler (room) to more complex results
+(final castle).](images/fp.png)
 
 ``` r
 df <- penguins |> 
@@ -898,7 +1026,7 @@ more times a piece of code is repeated in different places, the more you
 will need to update it if there is a change, and the higher the
 likelihood of errors.
 
-## Theory on functions in R
+## Theory of functions in R
 
 Functions have three components:
 
@@ -928,6 +1056,24 @@ environment(rescale01)
 ```
 
     <environment: R_GlobalEnv>
+
+``` r
+f <- function(x) {
+  x + y
+}
+
+y <- 100
+f(x = 10)
+```
+
+    [1] 110
+
+``` r
+y <- 1000
+f(x = 10)
+```
+
+    [1] 1010
 
 **Primitive functions** are the exception as they do not have the
 aforementioned components. They are written in C instead of R and only
@@ -1043,7 +1189,29 @@ nxcase <- lapply(penguins, function(x) length(unique(x)))
 models <- penguins|>
   group_split(species) |>
   map(\(df) lm(body_mass_g ~ bill_length_mm, data = df)) 
+
+summary(models |> pluck(1))
 ```
+
+
+    Call:
+    lm(formula = body_mass_g ~ bill_length_mm, data = df)
+
+    Residuals:
+        Min      1Q  Median      3Q     Max 
+    -782.58 -260.68    0.07  247.32 1095.42 
+
+    Coefficients:
+                   Estimate Std. Error t value Pr(>|t|)    
+    (Intercept)       34.88     458.44   0.076    0.939    
+    bill_length_mm    94.50      11.79   8.015 2.95e-13 ***
+    ---
+    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+    Residual standard error: 384.6 on 149 degrees of freedom
+      (1 observation deleted due to missingness)
+    Multiple R-squared:  0.3013,    Adjusted R-squared:  0.2966 
+    F-statistic: 64.24 on 1 and 149 DF,  p-value: 2.955e-13
 
 📝It is better to reserve the use of anonymous functions for short and
 simple functions. If the function is long, spans multiple lines or we
@@ -1128,11 +1296,22 @@ ggplot(penguins_num, aes(x = species, y = var, color = sex)) +
 var <- body_mass_g
 ```
 
-    Error in eval(expr, envir, enclos): object 'body_mass_g' not found
+    Error: objeto 'body_mass_g' no encontrado
 
 ``` r
 var <- "body_mass_g"
 
+ggplot(penguins_num, aes(x = species, y = var, color = sex)) +
+  geom_point(position = position_jitterdodge(), alpha = 0.3) +
+  geom_boxplot(alpha = 0.5) +
+  scale_color_manual(values = c("turquoise", "goldenrod1")) +
+  theme_light() +
+  ylab(var) # wrong
+```
+
+![](intro_prog_fun_files/figure-commonmark/function_simplify_2-1.png)
+
+``` r
 ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
   geom_point(position = position_jitterdodge(), alpha = 0.3) +
   geom_boxplot(alpha = 0.5) +
@@ -1141,13 +1320,16 @@ ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
   ylab(var)
 ```
 
-![](intro_prog_fun_files/figure-commonmark/function_simplify_2-1.png)
+![](intro_prog_fun_files/figure-commonmark/function_simplify_2-2.png)
 
-👀 `ggplot()` needs arguments (data-variables) that are within the data
-frame it will represent. To generalize the function, we have associated
-the name of the variable (of type character) to the name “var”, but
-`ggplot()` does not accept characters. Therefore, we need to use an
-intermediate function that does accept them.
+👀 `ggplot()` needs arguments (data-variables) that are within the
+`data.frame` it will represent. To generalize the function, we have
+associated the name of the variable (of type character) to the name
+“var”, but `ggplot()` does not accept characters. Therefore, we need to
+use an intermediate function that does accept them. To solve common
+functional programming problems arising from the *non-standard
+evaluation* of the *tidyverse*, check out [this
+link](https://dplyr.tidyverse.org/articles/programming.html#introduction).
 
 📝 Creating objects with intermediate calculations within a function is
 good practice because it makes the code clearer about what the function
@@ -1204,9 +1386,11 @@ sections (Cmd/Ctrl + Shift + R).
 explore_penguins(var = "body_mass_g") 
 ```
 
-    Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).
+    Warning: Removed 2 rows containing non-finite outside the scale range
+    (`stat_boxplot()`).
 
-    Warning: Removed 2 rows containing missing values (`geom_point()`).
+    Warning: Removed 2 rows containing missing values or values outside the scale range
+    (`geom_point()`).
 
 ![](intro_prog_fun_files/figure-commonmark/function_trials-1.png)
 
@@ -1214,8 +1398,10 @@ explore_penguins(var = "body_mass_g")
 explore_penguins(var = "flipper_length_mm") 
 ```
 
-    Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).
-    Removed 2 rows containing missing values (`geom_point()`).
+    Warning: Removed 2 rows containing non-finite outside the scale range
+    (`stat_boxplot()`).
+    Removed 2 rows containing missing values or values outside the scale range
+    (`geom_point()`).
 
 ![](intro_prog_fun_files/figure-commonmark/function_trials-2.png)
 
@@ -1223,8 +1409,10 @@ explore_penguins(var = "flipper_length_mm")
 explore_penguins(var = "bill_depth_mm")
 ```
 
-    Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).
-    Removed 2 rows containing missing values (`geom_point()`).
+    Warning: Removed 2 rows containing non-finite outside the scale range
+    (`stat_boxplot()`).
+    Removed 2 rows containing missing values or values outside the scale range
+    (`geom_point()`).
 
 ![](intro_prog_fun_files/figure-commonmark/function_trials-3.png)
 
@@ -1297,7 +1485,7 @@ mean(rnorm(10,mean=50,sd=25)/12,trim=0.2)
 
 There is a special argument called `…`, which captures any other
 argument that does not correspond to those named in the function. It is
-used to pass arguments to other functions in our function.
+used to pass arguments to other functions included in our function.
 
 ``` r
 ?plot
@@ -1330,50 +1518,115 @@ the result of executing the function, unless `invisible()` is specified.
 Functions return only one object. If you want to obtain more, they must
 be grouped in one list.
 
-<!--# Can you thik of any case where using invisible() would be useful? -->
+<!--# Can you think of any case where using invisible() would be useful? -->
 
-📝 The function `return()` is used to explicity show what do you want to
-get from a function. It is recommended to use it when the return is not
-expected at the end of the function. For example, in the branches of an
-if/else structure, especially if there is a long and complex branch.
+📝 The function `return()` is used to explicitly show what do you want
+to get from a function. It is recommended to use it when the return is
+not expected at the end of the function. For example, in the branches of
+an if/else structure, especially if there is a long and complex branch.
 
 #### Exercise
 
 How would you generalize the function `explore_penguins()` so you can
 use any data frame as input?
 
-## Object-oriented programming (OOP)
+#### Exercise
 
-Most people tend to program imperatively. In imperative programming,
-scripts tend to be long and gradually change the state of the program.
-This often involves the use of temporary databases that are modified
-throughout the analysis process. As a result, it can be more difficult
-to understand what is being done in each step of the script.
-Object-oriented programming, used by languages, such as Java or Python,
-has been the most popular programming paradigm in recent decades and
-uses an imperative programming style.
+Create a function like rescale01 that can be applied to a dataset and a
+variable but includes the mutate inside the function itself.
+
+💡Hint:
 
 ``` r
-mypenguins <- penguins |> 
-  mutate(
-    bill_volume_mm2 = (bill_length_mm * bill_depth_mm) / 2,
-    female_penguin = case_when(
-      sex == "female" & body_mass_g < 3600 ~ "small female",
-      sex == "female" & body_mass_g >= 3600 ~ "big female",
-      TRUE ~ NA)
-  ) 
-
-mypenguins |> 
-  group_by(female_penguin) |> 
-  summarise(body_mass_mean = mean(body_mass_g))
+name <- function(data, x) {
+  data |> 
+    mutate(...)
+}
 ```
 
-    # A tibble: 3 × 2
-      female_penguin body_mass_mean
-      <chr>                   <dbl>
-    1 big female              4338.
-    2 small female            3277.
-    3 <NA>                      NA 
+## Object-oriented programming (OOP) and iterations using loops
+
+The main reason for using OOP is *polymorphism* (from the Latin “many
+forms”). Polymorphism allows a developer to consider a function’s
+interface separately from its implementation, making it easier to use
+the same function with different input types. To understand this, try
+running the following code:
+
+``` r
+summary(penguins$bill_depth_mm)
+```
+
+       Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+      13.10   15.60   17.30   17.15   18.70   21.50       2 
+
+``` r
+summary(penguins$sex)
+```
+
+    female   male   NA's 
+       165    168     11 
+
+You might think that `summary()` uses a series of `if-else` statements
+depending on the type of the input data, but in this case only the
+original author could add new implementations. However, an OOP system
+allows any developer to extend the interface by creating implementations
+for new input types.
+
+``` r
+library(sloop)
+```
+
+    Warning: package 'sloop' was built under R version 4.4.3
+
+``` r
+ftype(summary)
+```
+
+    [1] "S3"      "generic"
+
+``` r
+methods(summary)
+```
+
+     [1] summary.aov                         summary.aovlist*                   
+     [3] summary.aspell*                     summary.check_packages_in_dir*     
+     [5] summary.connection                  summary.data.frame                 
+     [7] summary.Date                        summary.default                    
+     [9] summary.Duration*                   summary.ecdf*                      
+    [11] summary.factor                      summary.ggplot*                    
+    [13] summary.glm                         summary.hcl_palettes*              
+    [15] summary.infl*                       summary.Interval*                  
+    [17] summary.lm                          summary.loess*                     
+    [19] summary.manova                      summary.matrix                     
+    [21] summary.mlm*                        summary.nls*                       
+    [23] summary.packageStatus*              summary.Period*                    
+    [25] summary.POSIXct                     summary.POSIXlt                    
+    [27] summary.ppr*                        summary.prcomp*                    
+    [29] summary.princomp*                   summary.proc_time                  
+    [31] summary.rlang:::list_of_conditions* summary.rlang_error*               
+    [33] summary.rlang_message*              summary.rlang_trace*               
+    [35] summary.rlang_warning*              summary.srcfile                    
+    [37] summary.srcref                      summary.stepfun                    
+    [39] summary.stl*                        summary.table                      
+    [41] summary.tukeysmooth*                summary.vctrs_sclr*                
+    [43] summary.vctrs_vctr*                 summary.warnings                   
+    see '?methods' for accessing help and source code
+
+In OOP systems, the type of an object is called its *class*, and a
+specific implementation for a class is known as a *method*. Broadly
+speaking, a class defines the characteristics of an object (what is it?)
+and methods describe the actions that object can perform (what does it
+do?).
+
+Object-oriented programming, used by languages, such as Java or Python,
+has been the most popular programming paradigm in recent decades and
+uses an imperative programming style. Base R provides three OOP systems
+(S3 –which is the most used-, S4 and RC), although there are also other
+OOP systems provided by different CRAN packages.
+
+💡More detailed information on [OOP](https://adv-r.hadley.nz/oo.html)
+and [trade-offs between some OOP
+systems](https://adv-r.hadley.nz/oo-tradeoffs.html)
 
 In imperative programming the most common tools to reduce duplications
 are *for loops* and *while loops*. *loops* are recommended to delve into
@@ -1419,6 +1672,18 @@ output
 
     [1] 3 3 2
 
+``` r
+# we could also iterate over rows
+output <- vector("double", nrow(df_sam)) 
+for(i in 1:nrow(df_sam)) {
+    output[[i]] <- sum(df_sam[i, ])
+}
+
+output
+```
+
+    [1]  8  6  8 13 10
+
 1.  Output: here we determine the output space, i.e., first we have to
     create the “notebook” where we are going to write down all the
     results. This is very important for efficiency since if we increase
@@ -1435,7 +1700,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.44    0.29    0.72 
+       0.23    0.18    0.49 
 
 ``` r
 y <- vector("double", length = 20000)
@@ -1456,6 +1721,11 @@ system.time(
 3.  Body: Here we determine what we want each iteration to do. The
     action is executed repeatedly, each time with a different value for
     *i*.
+
+#### Exercise
+
+Compute the mean of every column in the {palmerpenguins} dataset using a
+*for loop*.
 
 There are different [variations of for
 loops](https://r4ds.had.co.nz/iteration.html#for-loop-variations): (i)
@@ -1483,15 +1753,6 @@ example to understand it: <https://adv-r.hadley.nz/functionals.html>,
 to solve many iteration problems with less code, more ease, and fewer
 errors.
 
-Loops can be more explicit in the sense that you see the iteration
-clearly, but it takes more time to understand what you are doing. On the
-contrary, functionals require one more step of abstraction and may
-require time until we understand them. The most important thing is that
-you solve the problem and little by little write increasingly simpler
-and more elegant code. See
-<a href="#sec-OOP" class="quarto-xref">Section 12.2</a> for more
-information on object-oriented programming.
-
 > To become significantly more reliable, code must become more
 > transparent. In particular, nested conditions and loops must be viewed
 > with great suspicion. Complicated control flows confuse programmers.
@@ -1499,12 +1760,24 @@ information on object-oriented programming.
 >
 > — Bjarne Stroustrup ([Advanced R](https://adv-r.hadley.nz/index.html))
 
+Loops can be more explicit in the sense that you see the iteration
+clearly, but it takes more time to understand what you are doing. On the
+contrary, functionals require one more step of abstraction and may
+require time until we understand them. Anyway, the most important aspect
+is that you are able to solve the problems you are facing and little by
+little write increasingly simpler and more elegant code.
+
 ## Functional programming
 
-![Graphical representation of the operation of `map()` where the focus
-is on the operation performed. Illustration by Allison Horst taken from
-Hadley Wickham’s talk The Joy of Functional Programming (for data
-science)](images/map_frosting.png)
+> \- Everything that exists is an object.
+>
+> — John Chambers
+>
+> \- However, not everything is object-oriented
+
+In R, functional programming is often more relevant than OOP, as complex
+problems are often addressed by decomposing them into simple functions
+rather than simple objects.
 
 In functional programming, functions are designed to perform a single
 specific task and are then combined by calling these functions
@@ -1513,11 +1786,8 @@ is that these functions can be reused in any other project, facilitating
 code modularity. Furthermore, when they are well documented and easily
 testable, it is easy to understand and maintain the program.
 
-R is a functional programming language so it relies primarily on a
-function-centric problem-solving style
-(<https://adv-r.hadley.nz/fp.html>). A functional is a function that
-takes a function as input and returns a vector or other type of object
-as output.
+A functional is a function that takes a function as input and returns a
+vector or other type of object as output.
 
 ``` r
 randomization <- function(f) {
@@ -1529,6 +1799,10 @@ randomization(f = median)
 
     [1] 0.3598138
 
+#### Exercise
+
+Based on the previous example, create a functional.
+
 To program a functional, first, we solve the problem for an element.
 Next, we generate a function that allows us to wrap the solution in a
 function (as we did in
@@ -1537,19 +1811,27 @@ function (as we did in
 we divide large problems into smaller problems and solve each task with
 one or more functions.
 
+![Graphical representation of the operation of `map()` where the focus
+is on the operation performed. Illustration by Allison Horst taken from
+Hadley Wickham’s talk The Joy of Functional Programming (for data
+science)](images/map_frosting.png)
+
 The advantage of using {purrr} instead of *for* loops is that it
 provides a function (functional) for each of the common data
 manipulation problems, and therefore each *for* loop has its own
 function. For example, to iterate over one argument we use the `map()`
 function and to iterate over two arguments we use the `map2()` function.
+
 The base R `apply` family solves similar problems, but {purrr} is more
-consistent and therefore easier to learn.
+consistent and therefore easier to learn. In addition, {purrr} supports
+helpers that the `apply` family doesn’t (e.g. `map_dbl()`, `\(x)`).
+However, if you are an experienced `apply` user and only use `map()`
+from {purrr}, you can skip the additional dependency of using {purrr}
+and continue using the `apply` family.
 
 Iterating over one vector (i.e. vector of values or vector of elements
 in a list) is so common that the {purrr} package provides a family of
-functions (the `map()` family) for it. Remember that data frames are
-lists of vectors of the same length, so any calculation by rows or
-columns involves iterating over a vector. There is a function in {purrr}
+functions (the `map()` family) for it. There is a function in {purrr}
 for each type of output. The suffixes indicate the type of output we
 want:
 
@@ -1560,7 +1842,10 @@ want:
 - `map_chr()` generates a character vector.
 - `map_vec()` generates a vector automatically determining the type.
 
-💡¿[Why is this function called
+Remember that data frames are lists of vectors of the same length, so
+any calculation by rows or columns involves iterating over a vector.
+
+💡[Why is this function called
 *map*](https://adv-r.hadley.nz/functionals.html#map)?
 
 ``` r
@@ -1611,7 +1896,7 @@ quadratic <- function(x) {
   x ^ 2
 }
 
-map(1:4, quadratic)
+map(1:4, .f = quadratic)
 ```
 
     [[1]]
@@ -1627,6 +1912,7 @@ map(1:4, quadratic)
     [1] 16
 
 ``` r
+# equivalent
 lapply(X = 1:4, FUN = quadratic)
 ```
 
@@ -1660,7 +1946,7 @@ glimpse(penguins)
 
 ``` r
 # shortcut to generate an anonymous function: \(name_of_the_argument)
-map(penguins, \(x) length(unique(x)))
+map(penguins, .f = \(x) length(unique(x)))
 ```
 
     $species
@@ -1689,7 +1975,7 @@ map(penguins, \(x) length(unique(x)))
 
 ``` r
 # output dataframe
-map_df(penguins, \(x) length(unique(x)))
+map_df(penguins, .f = \(x) length(unique(x)))
 ```
 
     # A tibble: 1 × 8
@@ -1732,15 +2018,16 @@ imple_map(1:4, quadratic)
     [[4]]
     [1] 16
 
-💡Comparing {purrr} functions with wrapping a *for* loop on your own,
-{purrr} functions are written in C to maximize performance, preserve
-names, and support some shortcuts (e.g. `\(x)`).
+💡Some advantages of {purrr} functions versus wrapping a *for* loop on
+your own in a function are that {purrr} functions are written in C to
+maximize performance, preserve names, and support some shortcuts
+(e.g. `\(x)`).
 
 #### Exercise
 
 Now that you have understood the logic of `map()`, spot the differences
 between the following three lines of code. What does the `map()`
-functional do? What differences do you detect in the code? And at the
+functional do? What differences do you detect in the code? And in the
 output?
 
 ``` r
@@ -1748,9 +2035,7 @@ map(penguins, \(x) mean(x))
 ```
 
     Warning in mean.default(x): argument is not numeric or logical: returning NA
-
     Warning in mean.default(x): argument is not numeric or logical: returning NA
-
     Warning in mean.default(x): argument is not numeric or logical: returning NA
 
     $species
@@ -1786,7 +2071,6 @@ map(penguins, \(x) mean(x, na.rm = T)) # option 1
 
     Warning in mean.default(x, na.rm = T): argument is not numeric or logical:
     returning NA
-
     Warning in mean.default(x, na.rm = T): argument is not numeric or logical:
     returning NA
 
@@ -1823,7 +2107,6 @@ map(penguins, mean, na.rm = T) # option 2
 
     Warning in mean.default(.x[[i]], ...): argument is not numeric or logical:
     returning NA
-
     Warning in mean.default(.x[[i]], ...): argument is not numeric or logical:
     returning NA
 
@@ -1851,30 +2134,42 @@ map(penguins, mean, na.rm = T) # option 2
     $year
     [1] 2008.029
 
+As we have seen in the previous exercise, arguments that vary for each
+run are written before the function, and arguments that are the same for
+each run are written after the function (e.g. `na.rm = T`).
+
+![](images/map+fix.png)
+
+If we wanted to pass additional arguments to the function we are using
+within `map()`, one option would be through an anonymous function (see
+option 1 of the previous exercise). However, since `map()` includes
+`...` among its arguments, we can also include the additional arguments
+after the function inside `map()` in a much simpler way (see option 2 of
+the previous exercise). There is a slight difference between including
+additional arguments inside an anonymous function and including it
+directly inside the `map()`. Including it in an anonymous function means
+that it will be evaluated every time the function is executed, not just
+once when `map()` is called (see the following example).
+
 ``` r
-# map vs anonymous function
-x <- c(0, 0)
- 
-set.seed(123)
-map_dbl(x, sum, rnorm(1))
+multiply <- function(x, y) {
+  x * y
+}
+
+input_vec <- c(4, 4, 4)
+
+# the result is always the same
+map_dbl(input_vec, multiply, y = sample(x = 1:10, 1))
 ```
 
-    [1] -0.5604756 -0.5604756
+    [1] 36 36 36
 
 ``` r
-set.seed(123)
-map_dbl(x, \(x) sum(x, rnorm(1)))
+# the result is not always the same
+map_dbl(input_vec, \(x) multiply(x, y = sample(x = 1:10, 1)))
 ```
 
-    [1] -0.5604756 -0.2301775
-
-As we have seen in the previous exercise, if we wanted to pass
-additional arguments to the function we are using within `map()`, one
-option would be through an anonymous function (see option 1 of the
-previous exercise). However, since `map()` includes `...` among its
-arguments, we can also include the additional arguments after the
-function inside `map()` in a much simpler way (see option 2 of the
-previous exercise).
+    [1] 12 16  4
 
 ### Our second functional: generating vectors, `map_*()`
 
@@ -1892,7 +2187,7 @@ map_lgl(penguins, is.numeric)
                  TRUE              TRUE             FALSE              TRUE 
 
 ``` r
-penguins_num <- penguins[ , map_lgl(penguins, is.numeric)] 
+penguins_num <- penguins[, map_lgl(penguins, is.numeric)]
 map_dbl(penguins_num, median, na.rm = T)
 ```
 
@@ -1921,16 +2216,10 @@ map_int(penguins, \(x) length(unique(x)))
 
 ``` r
 1:4 |> 
-  map_vec(\(x) as.Date(ISOdate(x + 2024, 05, 13)))
+  map_vec(\(x) as.Date(ISOdate(2025, 05, 26)) + x)
 ```
 
-    [1] "2025-05-13" "2026-05-13" "2027-05-13" "2028-05-13"
-
-Arguments that vary for each run are written before the function, and
-arguments that are the same for each run are written after the function
-(e.g. `na.rm = T`).
-
-![](images/map+fix.png)
+    [1] "2025-05-27" "2025-05-28" "2025-05-29" "2025-05-30"
 
 Base R has two functions from the `apply()` family that can return
 vectors: `sapply()` and `vapply()`. We recommend avoiding `sapply()`
@@ -1941,15 +2230,6 @@ FUN.VALUE. The main disadvantage of `vapply()` is that we need to
 specify more arguments than in `map_*()`.
 
 ``` r
-vapply(penguins_num, median, na.rm = T, FUN.VALUE = double(1))
-```
-
-       bill_length_mm     bill_depth_mm flipper_length_mm       body_mass_g 
-                44.45             17.30            197.00           4050.00 
-                 year 
-              2008.00 
-
-``` r
 map_dbl(penguins_num, median, na.rm = T)
 ```
 
@@ -1958,12 +2238,15 @@ map_dbl(penguins_num, median, na.rm = T)
                  year 
               2008.00 
 
-Working with lists is very common in R. In fact the default output of
-`map()` is lists. However, lists can sometimes be messy, e.g., when we
-lose the name of each element in the list. The function
-[`nest()`](https://tidyr.tidyverse.org/reference/nest.html) of {tidyr}
-allows us to work with list-columns in data frames, generating a row for
-each group defined by the non-nested columns.
+``` r
+# equivalent
+vapply(penguins_num, median, na.rm = T, FUN.VALUE = double(1))
+```
+
+       bill_length_mm     bill_depth_mm flipper_length_mm       body_mass_g 
+                44.45             17.30            197.00           4050.00 
+                 year 
+              2008.00 
 
 ``` r
 glimpse(penguins)
@@ -1996,6 +2279,39 @@ penguins_nested <- penguins_nona |>
 
 # select each item in the list
 penguins_nested[["lm_obj"]]
+```
+
+    [[1]]
+
+    Call:
+    lm(formula = bill_length_mm ~ body_mass_g, data = df)
+
+    Coefficients:
+    (Intercept)  body_mass_g  
+       27.11291      0.00316  
+
+
+    [[2]]
+
+    Call:
+    lm(formula = bill_length_mm ~ body_mass_g, data = df)
+
+    Coefficients:
+    (Intercept)  body_mass_g  
+       26.53788      0.00413  
+
+
+    [[3]]
+
+    Call:
+    lm(formula = bill_length_mm ~ body_mass_g, data = df)
+
+    Coefficients:
+    (Intercept)  body_mass_g  
+      32.174193     0.004463  
+
+``` r
+penguins_nested$lm_obj
 ```
 
     [[1]]
@@ -2285,13 +2601,24 @@ Transform the `map2()` that you have generated in the exercise
 <a href="#sec-exercise-map2" class="quarto-xref">Section 9.1.1</a> to
 `pmap()`.
 
+The closest base R equivalents to `map2()` and `pmap()` are `Map()` and
+`mapply()`, but both have notable limitations:
+
+`Map()` vectorises over all arguments, which means you cannot include
+arguments that should remain constant.
+
+`mapply()` is essentially a multidimensional version of `sapply()`. It
+takes the output of `Map()` and attempts to simplify it, which can lead
+to the same issues as `sapply()`. There is no multi-input equivalent of
+`vapply()`, making type safety harder to ensure.
+
 ## Iterations without output
 
 ### Our fifth functional: `walk()`, `walk2()` and `pwalk()`
 
-*Walk* family functionals are used when we want to use functions for
-their side effects (e.g. `ggsave()`) and not for their return value.
-What is important is the action and not the return value or object in R.
+When we want to use functions for their side effects (e.g. `ggsave()`)
+and not for their return value. The important thing is the action and
+not the return value or object in R.
 
 #### Exercise
 
@@ -2323,7 +2650,58 @@ penguins_nested_str
 
 ``` r
 walk2(penguins_nested_str$data, penguins_nested_str$path, write_csv)
+
+# see the action invisibly return using parentheses
+(walk2(penguins_nested_str$data, penguins_nested_str$path, write_csv))
 ```
+
+    [[1]]
+    # A tibble: 152 × 7
+       island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g sex    year
+       <fct>           <dbl>         <dbl>             <int>       <int> <fct> <int>
+     1 Torge…           39.1          18.7               181        3750 male   2007
+     2 Torge…           39.5          17.4               186        3800 fema…  2007
+     3 Torge…           40.3          18                 195        3250 fema…  2007
+     4 Torge…           NA            NA                  NA          NA <NA>   2007
+     5 Torge…           36.7          19.3               193        3450 fema…  2007
+     6 Torge…           39.3          20.6               190        3650 male   2007
+     7 Torge…           38.9          17.8               181        3625 fema…  2007
+     8 Torge…           39.2          19.6               195        4675 male   2007
+     9 Torge…           34.1          18.1               193        3475 <NA>   2007
+    10 Torge…           42            20.2               190        4250 <NA>   2007
+    # ℹ 142 more rows
+
+    [[2]]
+    # A tibble: 124 × 7
+       island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g sex    year
+       <fct>           <dbl>         <dbl>             <int>       <int> <fct> <int>
+     1 Biscoe           46.1          13.2               211        4500 fema…  2007
+     2 Biscoe           50            16.3               230        5700 male   2007
+     3 Biscoe           48.7          14.1               210        4450 fema…  2007
+     4 Biscoe           50            15.2               218        5700 male   2007
+     5 Biscoe           47.6          14.5               215        5400 male   2007
+     6 Biscoe           46.5          13.5               210        4550 fema…  2007
+     7 Biscoe           45.4          14.6               211        4800 fema…  2007
+     8 Biscoe           46.7          15.3               219        5200 male   2007
+     9 Biscoe           43.3          13.4               209        4400 fema…  2007
+    10 Biscoe           46.8          15.4               215        5150 male   2007
+    # ℹ 114 more rows
+
+    [[3]]
+    # A tibble: 68 × 7
+       island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g sex    year
+       <fct>           <dbl>         <dbl>             <int>       <int> <fct> <int>
+     1 Dream            46.5          17.9               192        3500 fema…  2007
+     2 Dream            50            19.5               196        3900 male   2007
+     3 Dream            51.3          19.2               193        3650 male   2007
+     4 Dream            45.4          18.7               188        3525 fema…  2007
+     5 Dream            52.7          19.8               197        3725 male   2007
+     6 Dream            45.2          17.8               198        3950 fema…  2007
+     7 Dream            46.1          18.2               178        3250 fema…  2007
+     8 Dream            51.3          18.2               197        3750 male   2007
+     9 Dream            46            18.9               195        4150 fema…  2007
+    10 Dream            51.3          19.9               198        3700 male   2007
+    # ℹ 58 more rows
 
 #### Advanced exercise
 
@@ -2331,6 +2709,13 @@ Generate an example where you use `walk2()` or `pwalk()` to save
 multiple plots generated with `ggplot()`. Hint: the first entry will be
 the plot you want to save and the second the name of the file you want
 to give it.
+
+There is no base R equivalent to `walk()`. You can mimic its behavior by
+wrapping the result of `lapply()` in `invisible()` or save it to a
+variable that is never used.
+
+For R base functionals that have no equivalent in purrr, see:
+<https://adv-r.hadley.nz/functionals.html#base-functionals>
 
 ## Function operators and other functionals
 
@@ -2457,7 +2842,7 @@ iteration problems. However, if anyone is interested you can check out
 Predicates are functions that return a single TRUE or FALSE (e.g.,
 `is.character()`). Thus, a functional predicate applies a predicate to
 each element of a vector: `keep()`, `discard()`, `some()`, `every()`,
-`detect()`, `detect_index()` … For more information see:
+`detect()`, `detect_index()`… For more information see:
 <https://r4ds.had.co.nz/iteration.html>, 21.9.1 Predicate functions.
 
 ``` r
@@ -2535,6 +2920,23 @@ ls |>
     2 Julen    140 M     150   
     3 Monchi   200 M     500   
 
+``` r
+# equivalent to doing
+ls[["age"]] |> 
+  full_join(ls[["sex"]]) |> 
+  full_join(ls[["height"]])
+```
+
+    Joining with `by = join_by(name)`
+    Joining with `by = join_by(name)`
+
+    # A tibble: 3 × 4
+      name     age sex   height
+      <chr>  <dbl> <chr> <chr> 
+    1 Vero     100 F     180   
+    2 Julen    140 M     150   
+    3 Monchi   200 M     500   
+
 #### Function operators
 
 When we use `map()` functions to repeat many operations, the probability
@@ -2554,7 +2956,7 @@ x |>
     Error in `map()`:
     ℹ In index: 2.
     Caused by error:
-    ! non-numeric argument to mathematical function
+    ! Argumento no numérico para una función matemática
 
 ``` r
 x |> 
@@ -2574,7 +2976,7 @@ x |>
     NULL
 
     [[2]]$error
-    <simpleError in .Primitive("log")(x, base): non-numeric argument to mathematical function>
+    <simpleError in .Primitive("log")(x, base): Argumento no numérico para una función matemática>
 
 
     [[3]]
@@ -2606,7 +3008,7 @@ x |>
     NULL
 
     $error[[2]]
-    <simpleError in .Primitive("log")(x, base): non-numeric argument to mathematical function>
+    <simpleError in .Primitive("log")(x, base): Argumento no numérico para una función matemática>
 
     $error[[3]]
     NULL
@@ -2646,12 +3048,11 @@ in practice, other factors must be taken into account, such as, the time
 consumed in transferring data to each process and the time spent
 gathering the results of the different processes.
 
-R was originally designed to run on a single CPU process because when it
-was developed, CPUs generally had a single core and parallel computing
-was not as common or developed as it is today. Therefore, to take
-advantage of parallelization in R, we need to resort to additional
-packages. However, it is important to note that these packages may be
-limited in their use to specific cases and data types.
+R was originally designed to operate on a single CPU process because, at
+the time of its development, CPUs typically had a single core, and
+parallel computing was neither common nor well-developed. As a result,
+leveraging parallelism in R traditionally required the use of additional
+packages.
 
 ``` r
 library(parallel) # detect number of cores
@@ -2662,7 +3063,7 @@ detectCores()
 
 # function to cube a number
 cube <- function(x) {
-  Sys.sleep(1) # simulation of a computationally intensive task
+  Sys.sleep(1) # simulate a heavy computation
   return(x ^ 3)
 }
 
@@ -2674,6 +3075,7 @@ cat("Computing time:", round(time_final - time_initial, 1), "seconds")
 
 # establish how we are going to resolve the process
 # here we will use 3 cores but depending on the number of cores available on your computer it can be modified
+# as a rule of thumb, for maximum efficiency this should be at most one less than the number of cores on your machine
 plan(multisession, workers = 3)
 
 # future_map to run in parallel
@@ -2689,109 +3091,10 @@ The information presented here about parallel programming is explained
 in more detail in:
 <https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/>
 
-### More information about Object-Oriented Programming (OOP)
-
-> \- Everything that exists is an object.
->
-> — John Chambers
->
-> \- However, not everything is object-oriented
-
-In R, functional programming is often more relevant than OOP, as complex
-problems are often addressed by decomposing them into simple functions
-rather than simple objects.
-
-The main reason for using OOP is *polymorphism* (from the Latin “many
-forms”). Polymorphism allows a developer to consider a function’s
-interface separately from its implementation, making it easier to use
-the same function with different input types. To understand this, try
-running the following code:
-
-``` r
-summary(penguins$bill_depth_mm)
-```
-
-       Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-      13.10   15.60   17.30   17.15   18.70   21.50       2 
-
-``` r
-summary(penguins$sex)
-```
-
-    female   male   NA's 
-       165    168     11 
-
-You might think that `summary()` uses a series of `if-else` statements
-depending on the type of the input data, but in this case only the
-original author could add new implementations. However, an OOP system
-allows any developer to extend the interface by creating implementations
-for new input types.
-
-In OOP systems, the type of an object is called its *class*, and a
-specific implementation for a class is known as a *method*. Broadly
-speaking, a class defines the characteristics of an object (what is it?)
-and methods describe the actions that object can perform (what does it
-do?).
-
-Base R provides three OOP systems (S3 –which is the most used-, S4 and
-RC), although there are also other OOP systems provided by different
-CRAN packages.
-
-``` r
-library(sloop)
-```
-
-    Warning: package 'sloop' was built under R version 4.2.3
-
-``` r
-is.object(1:5) # base object but not object oriented
-```
-
-    [1] FALSE
-
-``` r
-otype(1:5) # base object
-```
-
-    [1] "base"
-
-``` r
-attr(1:5, "class") # without class
-```
-
-    NULL
-
-``` r
-is.object(penguins) # object-oriented
-```
-
-    [1] TRUE
-
-``` r
-otype(penguins) # S3
-```
-
-    [1] "S3"
-
-``` r
-attr(penguins, "class") # with clase
-```
-
-    [1] "tbl_df"     "tbl"        "data.frame"
-
-``` r
-ftype(summary) # generic function S3
-```
-
-    [1] "S3"      "generic"
-
-``` r
-# a generic function defines the interface, which uses a different implementation (method) depending on the class of the argument. Remember the idea of polymorphism that we have seen before ;)
-```
-
-💡More detailed information on [OOP](https://adv-r.hadley.nz/oo.html)
-and [trade-offs between some OOP
-systems](https://adv-r.hadley.nz/oo-tradeoffs.html)
+However, this is changing. In the latest development version of purrr,
+the map functions now include a .parallel argument, enabling
+parallelization using the {mirai} package (see
+<https://purrr.tidyverse.org/dev/reference/parallelization.html>).
 
 ### Links of interest
 
@@ -2818,6 +3121,8 @@ systems](https://adv-r.hadley.nz/oo-tradeoffs.html)
 
 - [Style guide](http://adv-r.had.co.nz/Style.html)
 
+- [Tidyverse style guide](https://style.tidyverse.org/)
+
 - [Parallel computation in
   R](https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/)
 
@@ -2828,6 +3133,10 @@ This course is primarily based on the first edition of the book [R for
 Data Science](https://r4ds.had.co.nz/) by Hadley Wickham & Garrett
 Grolemund and the second edition of the book [Advanced
 R](https:%20//adv-r.hadley.nz/index.html) by Hadley Wickham.
+
+You can ask questions, make suggestions or share new knowledge related
+to functional programming that you consider relevant to share
+[here](https://github.com/DatSciR/intro_prog_fun/discussions/7).
 
 ------------------------------------------------------------------------
 
@@ -2840,55 +3149,47 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2024-06-05 11:49:08 CEST"
+    [1] "2025-05-26 07:53:51 CEST"
 
 ``` r
 sessionInfo()
 ```
 
-    R version 4.2.2 (2022-10-31 ucrt)
-    Platform: x86_64-w64-mingw32/x64 (64-bit)
-    Running under: Windows 10 x64 (build 19045)
+    R version 4.4.2 (2024-10-31 ucrt)
+    Platform: x86_64-w64-mingw32/x64
+    Running under: Windows 11 x64 (build 22631)
 
     Matrix products: default
 
+
     locale:
-    [1] LC_COLLATE=English_United Kingdom.utf8 
-    [2] LC_CTYPE=English_United Kingdom.utf8   
-    [3] LC_MONETARY=English_United Kingdom.utf8
-    [4] LC_NUMERIC=C                           
-    [5] LC_TIME=English_United Kingdom.utf8    
+    [1] LC_COLLATE=Spanish_Spain.utf8  LC_CTYPE=Spanish_Spain.utf8   
+    [3] LC_MONETARY=Spanish_Spain.utf8 LC_NUMERIC=C                  
+    [5] LC_TIME=Spanish_Spain.utf8    
+
+    time zone: Europe/Madrid
+    tzcode source: internal
 
     attached base packages:
     [1] stats     graphics  grDevices utils     datasets  methods   base     
 
     other attached packages:
-     [1] sloop_1.0.1          palmerpenguins_0.1.1 forcats_0.5.1       
-     [4] stringr_1.5.0        dplyr_1.1.2          purrr_1.0.1         
-     [7] readr_2.1.2          tidyr_1.3.0          tibble_3.2.1        
-    [10] ggplot2_3.4.2        tidyverse_1.3.2     
+     [1] sloop_1.0.1          palmerpenguins_0.1.1 lubridate_1.9.4     
+     [4] forcats_1.0.0        stringr_1.5.1        dplyr_1.1.4         
+     [7] purrr_1.0.2          readr_2.1.5          tidyr_1.3.1         
+    [10] tibble_3.2.1         ggplot2_3.5.1        tidyverse_2.0.0     
 
     loaded via a namespace (and not attached):
-     [1] lubridate_1.8.0     assertthat_0.2.1    digest_0.6.29      
-     [4] utf8_1.2.3          R6_2.5.1            cellranger_1.1.0   
-     [7] backports_1.4.1     reprex_2.0.1        evaluate_0.18      
-    [10] httr_1.4.3          pillar_1.9.0        rlang_1.1.1        
-    [13] googlesheets4_1.0.0 readxl_1.4.0        rstudioapi_0.13    
-    [16] rmarkdown_2.16      labeling_0.4.2      googledrive_2.0.0  
-    [19] bit_4.0.5           munsell_0.5.0       broom_1.0.0        
-    [22] compiler_4.2.2      modelr_0.1.8        xfun_0.39          
-    [25] pkgconfig_2.0.3     htmltools_0.5.3     tidyselect_1.2.0   
-    [28] codetools_0.2-18    fansi_1.0.4         crayon_1.5.2       
-    [31] tzdb_0.3.0          dbplyr_2.2.1        withr_2.5.0        
-    [34] grid_4.2.2          jsonlite_1.8.0      gtable_0.3.3       
-    [37] lifecycle_1.0.3     DBI_1.1.3           magrittr_2.0.3     
-    [40] scales_1.2.1        cli_3.6.1           stringi_1.7.12     
-    [43] vroom_1.5.7         farver_2.1.1        fs_1.5.2           
-    [46] xml2_1.3.3          ellipsis_0.3.2      generics_0.1.3     
-    [49] vctrs_0.6.3         tools_4.2.2         bit64_4.0.5        
-    [52] glue_1.6.2          hms_1.1.1           parallel_4.2.2     
-    [55] fastmap_1.1.0       yaml_2.3.5          colorspace_2.1-0   
-    [58] gargle_1.2.0        rvest_1.0.2         knitr_1.40.1       
-    [61] haven_2.5.0        
+     [1] utf8_1.2.4        generics_0.1.3    stringi_1.8.4     hms_1.1.3        
+     [5] digest_0.6.37     magrittr_2.0.3    evaluate_1.0.3    grid_4.4.2       
+     [9] timechange_0.3.0  fastmap_1.2.0     jsonlite_1.8.9    scales_1.3.0     
+    [13] codetools_0.2-20  cli_3.6.3         rlang_1.1.5       crayon_1.5.3     
+    [17] bit64_4.6.0-1     munsell_0.5.1     withr_3.0.2       yaml_2.3.10      
+    [21] tools_4.4.2       parallel_4.4.2    tzdb_0.4.0        colorspace_2.1-1 
+    [25] vctrs_0.6.5       R6_2.5.1          lifecycle_1.0.4   bit_4.5.0.1      
+    [29] vroom_1.6.5       pkgconfig_2.0.3   pillar_1.10.1     gtable_0.3.6     
+    [33] glue_1.8.0        xfun_0.50         tidyselect_1.2.1  rstudioapi_0.17.1
+    [37] knitr_1.49        farver_2.1.2      htmltools_0.5.8.1 rmarkdown_2.29   
+    [41] labeling_0.4.3    compiler_4.4.2   
 
 </details>

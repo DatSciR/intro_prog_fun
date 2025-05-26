@@ -66,7 +66,7 @@ And you... who are you?
 
 <https://www.menti.com/alc3k7zmd7uu>
 
-## Introduction to programmin in R
+## Introduction to programming in R
 
 ![The process of learning R, por Allison Horst. https://allisonhorst.com/everything-else](images/r_horst.png){width="362"}
 
@@ -142,23 +142,33 @@ mynested_tibble
 >
 > --- John Chambers ([Advanced R](https://adv-r.hadley.nz/index.html))
 
--   Libraries or packages: hold reusable functions, documentation on how to use them and example data. They are the fundamental units of reproducible code in R.
-
 💡More info about Three Deep Truths About R [here](https://www.r-bloggers.com/2018/06/three-deep-truths-about-r/).
 
 -   Packages or libraries: they contain reusable functions, documentation on how to use them, and example datasets. They are the fundamental units of reproducible code in R.
+
+![Libraries contain functions focused on a common purpose—for example, building a castle.](images/library.png){#library width="348"}
 
 -   CRAN: the Comprehensive R Archive Network.
 
 #### Exercise
 
-1. Choose a number and multiply it by 3.
+1.  Choose a number and multiply it by 3.
 
-2. Create an object that contains 100 values between 1900 and 2000.
+2.  Create an object that contains 100 values between 1900 and 2000.
 
-3. Add a number to your object.
+3.  Add a number to your object.
 
-4. Multiply your object by itself.
+4.  Multiply your object by itself.
+
+5.  Create an object that contains the number 5 repeated 9 times along with a sequence from 5 to 50 in steps of 5.
+
+6.  What is the length of the previous object?
+
+#### Exercise
+
+1.  Create a list that contains two data frames, each with two named variables and ten observations per variable.
+
+2.  Access the eighth observation of the second variable from each data frame by using indexation.
 
 ### Tidyverse
 
@@ -293,9 +303,9 @@ View(mydata)
 
 ### Scoping
 
-The [scoping](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) is the set of rules that govern how to look up the value of a symbol in the environment in each programming language. That is, how a variable (name) is associated with a value. A deeper understanding of scoping allows for more advanced use of functional programming. R uses *lexical scoping* and it follows four basic rules (*name masking*, *functions versus variables*, *a fresh start*, and *dynamic lookup*), but the most important one for getting started with functional programming is *name masking*. *Lexical* derives from "lexing”, which is part of the process that converts code represented as text to meaningful pieces that the programming language understands. 
+The [scoping](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) is the set of rules that govern how to look up the value of a symbol in the environment in each programming language. That is, how a variable (name) is associated with a value. A deeper understanding of scoping allows for more advanced use of functional programming. R uses *lexical scoping*. *Lexical* derives from "lexing”, which is part of the process that converts code represented as text to meaningful pieces that the programming language understands. *Lexical scoping* follows four basic rules (*name masking*, *functions versus variables*, *a fresh start*, and *dynamic lookup*), but the most important one for getting started with functional programming is *name masking*.
 
-In relation to name masking, the basic principle is that names defined inside a function mask names defined outside a function. If a name isn't defined inside a function, R will look one level up in the environment. For functions, there is one small tweak to the rule. If you are using a name in a context where it’s obvious that you want a function R will ignore objects that are not functions while it is searching. 
+In relation to name masking, the basic principle is that names defined inside a function mask names defined outside a function. If a name isn't defined inside a function, R will look one level up in the environment. For functions, there is one small tweak to the rule. If you are using a name in a context where it’s obvious that you want a function R will ignore objects that are not functions while it is searching.
 
 ```{r lexical_scoping}
 
@@ -334,13 +344,15 @@ mydata |>
   summarise(mean = mean(values))
 ```
 
-![Data masking in *tidyverse* allows to use data-variables (toys within the box –the tibble) as if they were env-variables (toys all around the carpets). When Monchi uses the *tidyglasses* he could access as well to the toys within the box. Art by Cristina Grajera](images/data_masking.png)
+![*tidyverse* allows to use data variables (toys inside the box – the data.frame) as if they were environment variables (toys on the carpet). When Monchi puts on the *tidyglasses*, he can also easily access the toys inside the box. The *tidyglasses* makes Monchi evaluate the function in a different environment than usual. Art by Cristina Grajera.](images/data_masking.png)
 
 ## Introduction to Functional Programming
 
-The growing availability of data and the versatility of analysis software have led to an increase in the quantity and complexity of the analyses we conduct in biological sciences. This makes efficiency in the process of data management and analysis increasingly necessary. One possible way to optimize these processes and reduce work time for R users is function-based programming. Functions allow the automation of common tasks (for example, reading different databases), simplifying the code.
+The growing availability of data and the versatility of analysis software have led to a rise in the quantity and complexity of the analyses we perform. This makes efficiency in the process of data management and analysis increasingly necessary. One possible way to optimize these processes and reduce work time for R users is function-based programming. Functions allow the automation of common tasks (for example, reading different databases), simplifying the code.
 
-A function can be called through another function and the process can be iterated, making R a very powerful tool. Iterations are used to perform the same action on multiple inputs. There are two main paradigms of iteration: object-oriented programming (OOP) and functional programming (FP). In this workshop, we will primarily focus on functional programming and learn to use the {purrr} package, which provides functions to eliminate many common loops.
+A function can be called through another function and the process can be iterated, making R a very powerful tool. Iterations are used to perform the same action on multiple inputs. There are two main paradigms of iteration: object-oriented programming (OOP) and functional programming (FP). In this course, we will primarily focus on functional programming and learn to use the {purrr} package, which provides functions to eliminate many common loops.
+
+![Imagine we want to build a castle in R. The idea would be to start with simple processes such as creating a wall or a roof, and then iterate the process to move from simpler (room) to more complex results (final castle).](images/fp.png){#fp}
 
 ```{r example_importance_PF}
 #| warning: false

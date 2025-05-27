@@ -343,7 +343,7 @@ misdatos |>
 subset(misdatos, select = valores) # R base
 ```
 
-![*tidyverse* permite usar data-variables (juguetes dentro de la caja –el data.frame) como si fueran env-variables (juguetes sobre las alfombras). Cuando Monchi usa las *tidygafas* puede acceder también fácilmente a los juguetes de la caja. Las *tidygafas* hacen que Monchi *evalúe* la función en un entorno diferente al que sería habitual. Ilustración de Cristina Grajera](images/data_masking.png)
+![*tidyverse* allows to use data variables (toys inside the box – the data.frame) as if they were environment variables (toys on the carpet). When Monchi puts on the *tidyglasses*, he can also easily access the toys inside the box. The *tidyglasses* make Monchi evaluate the function in a different environment than usual. Art by Cristina Grajera.](images/data_masking.png)
 
 ## Introducción a la programación funcional
 

@@ -353,7 +353,7 @@ The growing availability of data and the versatility of analysis software have l
 A function can be called through another function and the process can be iterated, making R a very powerful tool. Iterations are used to perform the same action on multiple inputs. There are two main paradigms of iteration: object-oriented programming (OOP) and functional programming (FP). In this course, we will primarily focus on functional programming and learn to use the {purrr} package, which provides functions to eliminate many common loops.
 
 > It’s hard to describe exactly what a functional style is, but generally I think it means decomposing a big problem into smaller pieces, then solving each piece with a function or combination of functions. When using a functional style, you strive to decompose components of the problem into isolated functions that operate independently. Each function taken by itself is simple and straightforward to understand; complexity is handled by composing functions in various ways.
-> 
+>
 > --- Hadley Wickham ([Advanced R](https://adv-r.hadley.nz/index.html))
 
 ![Imagine we want to build a castle in R. The idea would be to start with simple processes such as creating a wall or a roof, and then iterate the process to move from simpler (room) to more complex results (final castle).](images/fp.png){#fp}
@@ -714,7 +714,7 @@ How would you generalize the function `explore_penguins()` so you can use any da
 
 Create a function like rescale01 that can be applied to a dataset and a variable but includes the mutate inside the function itself.
 
-💡Hint: 
+💡Hint:
 
 ```{r embrace}
 #| eval: false
@@ -871,7 +871,7 @@ To program a functional, first, we solve the problem for an element. Next, we ge
 
 The advantage of using {purrr} instead of *for* loops is that it provides a function (functional) for each of the common data manipulation problems, and therefore each *for* loop has its own function. For example, to iterate over one argument we use the `map()` function and to iterate over two arguments we use the `map2()` function.
 
-The base R `apply` family solves similar problems, but {purrr} is more consistent and therefore easier to learn. In addition, {purrr} supports helpers that the `apply` family doesn't (e.g. `map_dbl()`, `\(x)`). However, if you are an experienced `apply` user and only use `map()` from {purrr}, you can skip the additional dependency of using {purrr} and continue using the `apply` family.
+💡The base R `apply` family solves similar problems, but {purrr} is more consistent and therefore easier to learn. In addition, {purrr} supports helpers that the `apply` family doesn't (e.g. `map_dbl()`, `\(x)`). However, if you are an experienced `apply` user and only use `map()` from {purrr}, you can skip the additional dependency of using {purrr} and continue using the `apply` family.
 
 Iterating over one vector (i.e. vector of values or vector of elements in a list) is so common that the {purrr} package provides a family of functions (the `map()` family) for it. There is a function in {purrr} for each type of output. The suffixes indicate the type of output we want:
 
@@ -909,7 +909,9 @@ Compared to a loop, the focus is on the operation being executed (`first()`), an
 
 ### Our first functional: generating lists, `map()`
 
-It takes a vector and a function, calls the function once for each element of the vector, and returns the results in a list. `map(1:3, f)` is equivalent to `list(f(1), f(2), f(3))`. It is the equivalent of base R's `lapply()`.
+It takes a vector and a function, calls the function once for each element of the vector, and returns the results in a list. `map(1:3, f)` is equivalent to `list(f(1), f(2), f(3))`.
+
+💡It is the equivalent of base R's `lapply()`.
 
 ```{r map_example}
 
@@ -1009,7 +1011,7 @@ map_int(penguins, \(x) length(unique(x)))
 
 ```
 
-Base R has two functions from the `apply()` family that can return vectors: `sapply()` and `vapply()`. We recommend avoiding `sapply()` because it tries to simplify the result and chooses a default output format, potentially returning a list, a vector or a matrix. `vapply()` is safer because it allows you to indicate the output format with FUN.VALUE. The main disadvantage of `vapply()` is that we need to specify more arguments than in `map_*()`.
+💡Base R has two functions from the `apply()` family that can return vectors: `sapply()` and `vapply()`. We recommend avoiding `sapply()` because it tries to simplify the result and chooses a default output format, potentially returning a list, a vector or a matrix. `vapply()` is safer because it allows you to indicate the output format with FUN.VALUE. The main disadvantage of `vapply()` is that we need to specify more arguments than in `map_*()`.
 
 ```{r vapply}
 
@@ -1162,11 +1164,11 @@ args3 |>
 
 Transform the `map2()` that you have generated in the exercise @sec-exercise-map2 to `pmap()`.
 
-The closest base R equivalents to `map2()` and `pmap()` are `Map()` and `mapply()`, but both have notable limitations:
+💡 The closest base R equivalents to `map2()` and `pmap()` are `Map()` and `mapply()`, but both have notable limitations:
 
-`Map()` vectorises over all arguments, which means you cannot include arguments that should remain constant.
+-   `Map()` vectorises over all arguments, which means you cannot include arguments that should remain constant.
 
-`mapply()` is essentially a multidimensional version of `sapply()`. It takes the output of `Map()` and attempts to simplify it, which can lead to the same issues as `sapply()`. There is no multi-input equivalent of `vapply()`, making type safety harder to ensure.
+-   `mapply()` is essentially a multidimensional version of `sapply()`. It takes the output of `Map()` and attempts to simplify it, which can lead to the same issues as `sapply()`. There is no multi-input equivalent of `vapply()`, making type safety harder to ensure.
 
 ## Iterations without output
 
@@ -1204,9 +1206,7 @@ walk2(penguins_nested_str$data, penguins_nested_str$path, write_csv)
 
 Generate an example where you use `walk2()` or `pwalk()` to save multiple plots generated with `ggplot()`. Hint: the first entry will be the plot you want to save and the second the name of the file you want to give it.
 
-There is no base R equivalent to `walk()`. You can mimic its behavior by wrapping the result of `lapply()` in `invisible()` or save it to a variable that is never used.
-
-For R base functionals that have no equivalent in purrr, see: <https://adv-r.hadley.nz/functionals.html#base-functionals>
+💡There is no base R equivalent to `walk()`. You can mimic its behavior by wrapping the result of `lapply()` in `invisible()` or save it to a variable that is never used. For R base functionals that have no equivalent in purrr, see: <https://adv-r.hadley.nz/functionals.html#base-functionals>
 
 ## Function operators and other functionals
 
@@ -1361,7 +1361,7 @@ cat("Computing time:", round(time_final - time_initial, 1), "seconds\n")
 
 The information presented here about parallel programming is explained in more detail in: <https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/>
 
-However, this is changing. In the latest development version of purrr, the map functions now include a .parallel argument, enabling parallelization using the {mirai} package (see <https://purrr.tidyverse.org/dev/reference/parallelization.html>).
+However, this is changing. In the latest development version of purrr, the map functions now include a `.parallel` argument, enabling parallelization using the {mirai} package (see <https://purrr.tidyverse.org/dev/reference/parallelization.html>).
 
 ### Links of interest
 

@@ -1,6 +1,6 @@
 # Functional Programming with R
 Julen Astigarraga and Verónica Cruz-Alonso
-26/05/2025
+27/05/2025
 
 - [<span class="toc-section-number">1</span>
   Introduction](#introduction)
@@ -167,20 +167,7 @@ alt="The process of learning R, por Allison Horst. https://allisonhorst.com/ever
 
 ``` r
 library(tidyverse)
-```
 
-    ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-    ✔ dplyr     1.1.4     ✔ readr     2.1.5
-    ✔ forcats   1.0.0     ✔ stringr   1.5.1
-    ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-    ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-    ✔ purrr     1.0.2     
-    ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ✖ dplyr::filter() masks stats::filter()
-    ✖ dplyr::lag()    masks stats::lag()
-    ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-
-``` r
 v1 <- c(1, 2, 3, 4)
 v2 <- c(1, 2, 3, 4)
 v3 <- c("hi", "hola", "hola", "hi")
@@ -409,6 +396,8 @@ myvector |> unique() |> length()
 ```
 
     [1] 2
+
+#### Basic functions in tidyverse
 
 ``` r
 # install.packages("palmerpenguins")
@@ -765,7 +754,7 @@ View(mydata)
 
 The
 [scoping](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping)
-is the set of rules that govern how to look up the value of a symbol in
+is the set of rules that governs how to look up the value of a symbol in
 the environment in each programming language. That is, how a variable
 (name) is associated with a value. A deeper understanding of scoping
 allows for more advanced use of functional programming. R uses *lexical
@@ -1700,7 +1689,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.23    0.18    0.49 
+       0.12    0.11    0.58 
 
 ``` r
 y <- vector("double", length = 20000)
@@ -3149,7 +3138,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2025-05-26 07:53:51 CEST"
+    [1] "2025-05-27 09:36:25 CEST"
 
 ``` r
 sessionInfo()

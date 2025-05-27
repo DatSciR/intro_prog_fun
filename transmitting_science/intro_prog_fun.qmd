@@ -79,6 +79,7 @@ And you... who are you?
 -   Object: any element associated to a name. There are many different types: `numeric`, `integer`, `logical`, `data.frame`, `SpatVector`, etc.
 
 ```{r objects}
+#| warning: false
 
 library(tidyverse)
 
@@ -103,9 +104,11 @@ mylist
 
 ```
 
+
 > Names have objects; objects don't have names
 >
 > --- Hadley Wickham ([Advanced R](https://adv-r.hadley.nz/index.html))
+
 
 In the example above, the length 4 numeric vector `c(1, 2, 3, 4)` (object) has two names: "a" and "b".
 
@@ -189,6 +192,8 @@ length(unique(myvector)) # vs
 myvector |> unique() |> length()
 
 ```
+
+#### Basic functions in tidyverse
 
 ```{r first_tidysteps}
 #| warning: false
@@ -303,7 +308,7 @@ View(mydata)
 
 ### Scoping
 
-The [scoping](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) is the set of rules that govern how to look up the value of a symbol in the environment in each programming language. That is, how a variable (name) is associated with a value. A deeper understanding of scoping allows for more advanced use of functional programming. R uses *lexical scoping*. *Lexical* derives from "lexing”, which is part of the process that converts code represented as text to meaningful pieces that the programming language understands. *Lexical scoping* follows four basic rules (*name masking*, *functions versus variables*, *a fresh start*, and *dynamic lookup*), but the most important one for getting started with functional programming is *name masking*.
+The [scoping](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) is the set of rules that governs how to look up the value of a symbol in the environment in each programming language. That is, how a variable (name) is associated with a value. A deeper understanding of scoping allows for more advanced use of functional programming. R uses *lexical scoping*. *Lexical* derives from "lexing”, which is part of the process that converts code represented as text to meaningful pieces that the programming language understands. *Lexical scoping* follows four basic rules (*name masking*, *functions versus variables*, *a fresh start*, and *dynamic lookup*), but the most important one for getting started with functional programming is *name masking*.
 
 In relation to name masking, the basic principle is that names defined inside a function mask names defined outside a function. If a name isn't defined inside a function, R will look one level up in the environment. For functions, there is one small tweak to the rule. If you are using a name in a context where it’s obvious that you want a function R will ignore objects that are not functions while it is searching.
 

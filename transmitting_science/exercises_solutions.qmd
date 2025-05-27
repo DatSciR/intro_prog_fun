@@ -14,6 +14,62 @@ editor_options:
 number-sections: false
 ---
 
+## 2.1.1 Exercise
+
+1.  Choose a number and multiply it by 3.
+
+2.  Create an object that contains 100 values between 1900 and 2000.
+
+3.  Add a number to your object.
+
+4.  Multiply your object by itself.
+
+5.  Create an object that contains the number 5 repeated 9 times along with a sequence from 5 to 50 in steps of 5.
+
+6.  What is the length of the previous object?
+
+```{r 2.1.1}
+
+# 1
+10 * 3
+
+# 2
+my_values <- 1901:2000
+
+# 3
+my_values + 5
+
+# 4
+my_values * my_values
+
+# 5
+object <- c(rep(x = 5, times = 9), seq(from = 5, to = 50, by = 5))
+
+# 6
+length(object)
+
+```
+
+#### 2.1.2 Exercise
+
+1.  Create a list that contains two data frames, each with two named variables and ten observations per variable.
+
+2.  Access the eighth observation of the second variable from each data frame by using indexation.
+
+```{r 2.1.2}
+
+# 1
+ls <- list(
+  df1 = data.frame(var1_numbers = 1:10, var2_letters = letters[1:10]),
+  df2 = data.frame(var1_sample = sample(x = 10), var2_rnorm = rnorm(n = 10))
+)
+
+# 2
+ls[[1]]$var2_letters[8]
+ls[[2]]$var2_rnorm[8]
+
+```
+
 ## 2.2.1 Exercise
 
 1.  With the penguins dataset, create an object with individuals of the Adelie species and arrange the `data.frame` according to flipper length.

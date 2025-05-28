@@ -30,31 +30,31 @@ Within the model of the tools needed in a typical data science project of Hadley
 
 ### Course structure
 
-+--------------------------------------------------------+---------------+
-| Blocks                                                 | Day           |
-+========================================================+===============+
-| Course introduction                                    | 27/05/25      |
-|                                                        |               |
-| Introduction to programming in R                       |               |
-|                                                        |               |
-| Introduction to functional programming                 |               |
-+--------------------------------------------------------+---------------+
-| Theory of functions in R                               | 28/05/25      |
-|                                                        |               |
-| How to write functions                                 |               |
-+--------------------------------------------------------+---------------+
-| Object-oriented programming and iterations using loops | 29/05/25      |
-|                                                        |               |
-| Functional programming                                 |               |
-|                                                        |               |
-| Iterations over one and two arguments                  |               |
-+--------------------------------------------------------+---------------+
-| Iterations over multiple arguments                     | 30/05/25      |
-|                                                        |               |
-| Iterations without output                              |               |
-|                                                        |               |
-| Function operators and other functionals               |               |
-+--------------------------------------------------------+---------------+
++--------------------------------------------------------+----------+
+| Blocks                                                 | Day      |
++========================================================+==========+
+| Course introduction                                    | 27/05/25 |
+|                                                        |          |
+| Introduction to programming in R                       |          |
+|                                                        |          |
+| Introduction to functional programming                 |          |
++--------------------------------------------------------+----------+
+| Theory of functions in R                               | 28/05/25 |
+|                                                        |          |
+| How to write functions                                 |          |
++--------------------------------------------------------+----------+
+| Object-oriented programming and iterations using loops | 29/05/25 |
+|                                                        |          |
+| Functional programming                                 |          |
+|                                                        |          |
+| Iterations over one and two arguments                  |          |
++--------------------------------------------------------+----------+
+| Iterations over multiple arguments                     | 30/05/25 |
+|                                                        |          |
+| Iterations without output                              |          |
+|                                                        |          |
+| Function operators and other functionals               |          |
++--------------------------------------------------------+----------+
 
 ### Who are we?
 
@@ -104,11 +104,9 @@ mylist
 
 ```
 
-
 > Names have objects; objects don't have names
 >
 > --- Hadley Wickham ([Advanced R](https://adv-r.hadley.nz/index.html))
-
 
 In the example above, the length 4 numeric vector `c(1, 2, 3, 4)` (object) has two names: "a" and "b".
 

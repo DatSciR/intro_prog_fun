@@ -1,6 +1,6 @@
 # Functional Programming with R
 Julen Astigarraga and Verónica Cruz-Alonso
-27/05/2025
+28/05/2025
 
 - [<span class="toc-section-number">1</span>
   Introduction](#introduction)
@@ -93,10 +93,10 @@ and Garrett Grolemund. https://r4ds.hadley.nz/intro#fig-ds-diagram
 
 ### Course structure
 
-<table>
+<table style="width:94%;">
 <colgroup>
-<col style="width: 78%" />
-<col style="width: 21%" />
+<col style="width: 79%" />
+<col style="width: 15%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1375,33 +1375,17 @@ sections (Cmd/Ctrl + Shift + R).
 explore_penguins(var = "body_mass_g") 
 ```
 
-    Warning: Removed 2 rows containing non-finite outside the scale range
-    (`stat_boxplot()`).
-
-    Warning: Removed 2 rows containing missing values or values outside the scale range
-    (`geom_point()`).
-
 ![](intro_prog_fun_files/figure-commonmark/function_trials-1.png)
 
 ``` r
 explore_penguins(var = "flipper_length_mm") 
 ```
 
-    Warning: Removed 2 rows containing non-finite outside the scale range
-    (`stat_boxplot()`).
-    Removed 2 rows containing missing values or values outside the scale range
-    (`geom_point()`).
-
 ![](intro_prog_fun_files/figure-commonmark/function_trials-2.png)
 
 ``` r
 explore_penguins(var = "bill_depth_mm")
 ```
-
-    Warning: Removed 2 rows containing non-finite outside the scale range
-    (`stat_boxplot()`).
-    Removed 2 rows containing missing values or values outside the scale range
-    (`geom_point()`).
 
 ![](intro_prog_fun_files/figure-commonmark/function_trials-3.png)
 
@@ -1519,7 +1503,7 @@ an if/else structure, especially if there is a long and complex branch.
 How would you generalize the function `explore_penguins()` so you can
 use any data frame as input?
 
-#### Exercise
+#### Advanced exercise
 
 Create a function like rescale01 that can be applied to a dataset and a
 variable but includes the mutate inside the function itself.
@@ -1689,7 +1673,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.12    0.11    0.58 
+       0.19    0.20    0.46 
 
 ``` r
 y <- vector("double", length = 20000)
@@ -1701,7 +1685,7 @@ system.time(
 ```
 
        user  system elapsed 
-          0       0       0 
+       0.00    0.00    0.02 
 
 2.  Sequence: here we determine what we want to iterate on. Each
     execution of the *for loop* will assign a different value of
@@ -1811,7 +1795,7 @@ manipulation problems, and therefore each *for* loop has its own
 function. For example, to iterate over one argument we use the `map()`
 function and to iterate over two arguments we use the `map2()` function.
 
-The base R `apply` family solves similar problems, but {purrr} is more
+💡The base R `apply` family solves similar problems, but {purrr} is more
 consistent and therefore easier to learn. In addition, {purrr} supports
 helpers that the `apply` family doesn’t (e.g. `map_dbl()`, `\(x)`).
 However, if you are an experienced `apply` user and only use `map()`
@@ -1877,8 +1861,9 @@ each column if `x` is a `data.frame`, each group if `x` is a grouped
 
 It takes a vector and a function, calls the function once for each
 element of the vector, and returns the results in a list. `map(1:3, f)`
-is equivalent to `list(f(1), f(2), f(3))`. It is the equivalent of base
-R’s `lapply()`.
+is equivalent to `list(f(1), f(2), f(3))`.
+
+💡It is the equivalent of base R’s `lapply()`.
 
 ``` r
 quadratic <- function(x) {
@@ -2210,7 +2195,7 @@ map_int(penguins, \(x) length(unique(x)))
 
     [1] "2025-05-27" "2025-05-28" "2025-05-29" "2025-05-30"
 
-Base R has two functions from the `apply()` family that can return
+💡Base R has two functions from the `apply()` family that can return
 vectors: `sapply()` and `vapply()`. We recommend avoiding `sapply()`
 because it tries to simplify the result and chooses a default output
 format, potentially returning a list, a vector or a matrix. `vapply()`
@@ -2590,16 +2575,16 @@ Transform the `map2()` that you have generated in the exercise
 <a href="#sec-exercise-map2" class="quarto-xref">Section 9.1.1</a> to
 `pmap()`.
 
-The closest base R equivalents to `map2()` and `pmap()` are `Map()` and
-`mapply()`, but both have notable limitations:
+💡 The closest base R equivalents to `map2()` and `pmap()` are `Map()`
+and `mapply()`, but both have notable limitations:
 
-`Map()` vectorises over all arguments, which means you cannot include
-arguments that should remain constant.
+- `Map()` vectorises over all arguments, which means you cannot include
+  arguments that should remain constant.
 
-`mapply()` is essentially a multidimensional version of `sapply()`. It
-takes the output of `Map()` and attempts to simplify it, which can lead
-to the same issues as `sapply()`. There is no multi-input equivalent of
-`vapply()`, making type safety harder to ensure.
+- `mapply()` is essentially a multidimensional version of `sapply()`. It
+  takes the output of `Map()` and attempts to simplify it, which can
+  lead to the same issues as `sapply()`. There is no multi-input
+  equivalent of `vapply()`, making type safety harder to ensure.
 
 ## Iterations without output
 
@@ -2699,11 +2684,10 @@ multiple plots generated with `ggplot()`. Hint: the first entry will be
 the plot you want to save and the second the name of the file you want
 to give it.
 
-There is no base R equivalent to `walk()`. You can mimic its behavior by
-wrapping the result of `lapply()` in `invisible()` or save it to a
-variable that is never used.
-
-For R base functionals that have no equivalent in purrr, see:
+💡There is no base R equivalent to `walk()`. You can mimic its behavior
+by wrapping the result of `lapply()` in `invisible()` or save it to a
+variable that is never used. For R base functionals that have no
+equivalent in purrr, see:
 <https://adv-r.hadley.nz/functionals.html#base-functionals>
 
 ## Function operators and other functionals
@@ -3081,7 +3065,7 @@ in more detail in:
 <https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/>
 
 However, this is changing. In the latest development version of purrr,
-the map functions now include a .parallel argument, enabling
+the map functions now include a `.parallel` argument, enabling
 parallelization using the {mirai} package (see
 <https://purrr.tidyverse.org/dev/reference/parallelization.html>).
 
@@ -3138,7 +3122,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2025-05-27 09:36:25 CEST"
+    [1] "2025-05-28 12:51:47 CEST"
 
 ``` r
 sessionInfo()

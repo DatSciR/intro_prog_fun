@@ -148,6 +148,13 @@ standardise <- function(x, my.na.rm) {
 
 standardise(penguins$bill_length_mm, my.na.rm = T)
 
+# ...
+standardise_dot <- function(x, ...) {
+  (x - mean(x, ...)) / sd(x, ...)
+}
+
+standardise_dot(penguins$bill_length_mm, na.rm = T)
+
 # Tidyverse
 standardise_tidy <- function(x, my.na.rm) {
   ({{ x }} - mean({{ x }}, na.rm = my.na.rm)) / sd({{ x }}, na.rm = my.na.rm)
@@ -196,6 +203,29 @@ explore_df(df = iris, # iris is a dataset loaded in RStudio by default
 
 ```
 
+## 5.2.2 Advanced exercise
+
+Create a function like rescale01 that can be applied to a dataset and a variable but includes the mutate inside the function itself.
+
+```{r 5.2.2}
+
+rescale01 <- function(x) {
+  rng <- range(x, na.rm = TRUE)   
+  (x - rng[1]) / (rng[2] - rng[1]) 
+} 
+
+mutate_rescale01 <- function(data, x) {
+  data |> 
+    mutate(var_rescaled = rescale01({{ x }}))
+} 
+
+df <- penguins |> 
+  select(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g)
+
+mutate_rescale01(data = df, x = bill_length_mm)
+
+```
+
 ## 6.0.1 Exercise
 
 Compute the mean of every column in the {palmerpenguins} dataset using a *for loop*.
@@ -213,7 +243,6 @@ for (i in seq_along(penguins)) {
 }
 
 output
-
 
 ```
 

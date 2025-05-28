@@ -630,6 +630,7 @@ explore_penguins <- function (var) {
 5.  Try with different inputs.
 
 ```{r function_trials}
+#| warning: false
 
 explore_penguins(var = "body_mass_g") 
 explore_penguins(var = "flipper_length_mm") 
@@ -715,7 +716,7 @@ The last expression executed in a function is the return value. It is the result
 
 How would you generalize the function `explore_penguins()` so you can use any data frame as input?
 
-#### Exercise
+#### Advanced exercise
 
 Create a function like rescale01 that can be applied to a dataset and a variable but includes the mutate inside the function itself.
 

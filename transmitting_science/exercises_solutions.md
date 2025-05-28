@@ -1,12 +1,16 @@
 # Functional Programming with R (exercises solutions)
 Julen Astigarraga y Verónica Cruz-Alonso
-05/06/2024
+28/05/2025
 
+- [2.1.1 Exercise](#211-exercise)
 - [2.2.1 Exercise](#221-exercise)
 - [2.2.2 Exercise](#222-exercise)
 - [5.0.1 Exercise](#501-exercise)
 - [5.0.2 Exercise](#502-exercise)
 - [5.2.1 Exercise](#521-exercise)
+- [5.2.2 Advanced exercise](#522-advanced-exercise)
+- [6.0.1 Exercise](#601-exercise)
+- [7.0.1 Exercise](#701-exercise)
 - [8.1.1 Exercise](#811-exercise)
 - [8.1.2 Exercise](#812-exercise)
 - [8.2.1 Exercise](#821-exercise)
@@ -16,6 +20,99 @@ Julen Astigarraga y Verónica Cruz-Alonso
 - [10.1.1 Exercise](#1011-exercise)
 - [10.1.2 Advanced exercise](#1012-advanced-exercise)
 - [11.3.1 Exercise](#1131-exercise)
+
+## 2.1.1 Exercise
+
+1.  Choose a number and multiply it by 3.
+
+2.  Create an object that contains 100 values between 1900 and 2000.
+
+3.  Add a number to your object.
+
+4.  Multiply your object by itself.
+
+5.  Create an object that contains the number 5 repeated 9 times along
+    with a sequence from 5 to 50 in steps of 5.
+
+6.  What is the length of the previous object?
+
+``` r
+# 1
+10 * 3
+```
+
+    [1] 30
+
+``` r
+# 2
+my_values <- 1901:2000
+
+# 3
+my_values + 5
+```
+
+      [1] 1906 1907 1908 1909 1910 1911 1912 1913 1914 1915 1916 1917 1918 1919 1920
+     [16] 1921 1922 1923 1924 1925 1926 1927 1928 1929 1930 1931 1932 1933 1934 1935
+     [31] 1936 1937 1938 1939 1940 1941 1942 1943 1944 1945 1946 1947 1948 1949 1950
+     [46] 1951 1952 1953 1954 1955 1956 1957 1958 1959 1960 1961 1962 1963 1964 1965
+     [61] 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980
+     [76] 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995
+     [91] 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005
+
+``` r
+# 4
+my_values * my_values
+```
+
+      [1] 3613801 3617604 3621409 3625216 3629025 3632836 3636649 3640464 3644281
+     [10] 3648100 3651921 3655744 3659569 3663396 3667225 3671056 3674889 3678724
+     [19] 3682561 3686400 3690241 3694084 3697929 3701776 3705625 3709476 3713329
+     [28] 3717184 3721041 3724900 3728761 3732624 3736489 3740356 3744225 3748096
+     [37] 3751969 3755844 3759721 3763600 3767481 3771364 3775249 3779136 3783025
+     [46] 3786916 3790809 3794704 3798601 3802500 3806401 3810304 3814209 3818116
+     [55] 3822025 3825936 3829849 3833764 3837681 3841600 3845521 3849444 3853369
+     [64] 3857296 3861225 3865156 3869089 3873024 3876961 3880900 3884841 3888784
+     [73] 3892729 3896676 3900625 3904576 3908529 3912484 3916441 3920400 3924361
+     [82] 3928324 3932289 3936256 3940225 3944196 3948169 3952144 3956121 3960100
+     [91] 3964081 3968064 3972049 3976036 3980025 3984016 3988009 3992004 3996001
+    [100] 4000000
+
+``` r
+# 5
+object <- c(rep(x = 5, times = 9), seq(from = 5, to = 50, by = 5))
+
+# 6
+length(object)
+```
+
+    [1] 19
+
+#### 2.1.2 Exercise
+
+1.  Create a list that contains two data frames, each with two named
+    variables and ten observations per variable.
+
+2.  Access the eighth observation of the second variable from each data
+    frame by using indexation.
+
+``` r
+# 1
+ls <- list(
+  df1 = data.frame(var1_numbers = 1:10, var2_letters = letters[1:10]),
+  df2 = data.frame(var1_sample = sample(x = 10), var2_rnorm = rnorm(n = 10))
+)
+
+# 2
+ls[[1]]$var2_letters[8]
+```
+
+    [1] "h"
+
+``` r
+ls[[2]]$var2_rnorm[8]
+```
+
+    [1] -0.2855604
 
 ## 2.2.1 Exercise
 
@@ -34,27 +131,16 @@ library(palmerpenguins)
 library(tidyverse)
 ```
 
-    ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-    ✔ ggplot2 3.4.2     ✔ purrr   1.0.1
-    ✔ tibble  3.2.1     ✔ dplyr   1.1.2
-    ✔ tidyr   1.3.0     ✔ stringr 1.5.0
-    ✔ readr   2.1.2     ✔ forcats 0.5.1
-
-    Warning: package 'ggplot2' was built under R version 4.2.3
-
-    Warning: package 'tibble' was built under R version 4.2.3
-
-    Warning: package 'tidyr' was built under R version 4.2.3
-
-    Warning: package 'purrr' was built under R version 4.2.3
-
-    Warning: package 'dplyr' was built under R version 4.2.3
-
-    Warning: package 'stringr' was built under R version 4.2.3
-
+    ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+    ✔ dplyr     1.1.4     ✔ readr     2.1.5
+    ✔ forcats   1.0.0     ✔ stringr   1.5.1
+    ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+    ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+    ✔ purrr     1.0.4     
     ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
     ✖ dplyr::filter() masks stats::filter()
     ✖ dplyr::lag()    masks stats::lag()
+    ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 
 ``` r
 # 1
@@ -207,6 +293,74 @@ standardise(penguins$bill_length_mm, my.na.rm = T)
     [343]  1.25981586  1.14991738
 
 ``` r
+# ...
+standardise_dot <- function(x, ...) {
+  (x - mean(x, ...)) / sd(x, ...)
+}
+
+standardise_dot(penguins$bill_length_mm, na.rm = T)
+```
+
+      [1] -0.88320467 -0.80993901 -0.66340769          NA -1.32279862 -0.84657184
+      [7] -0.91983750 -0.86488825 -1.79902541 -0.35202864 -1.12131806 -1.12131806
+     [13] -0.51687637 -0.97478674 -1.70744334 -1.34111504 -0.95647033 -0.26044656
+     [19] -1.74407616  0.38062795 -1.12131806 -1.13963448 -1.46932994 -1.04805240
+     [25] -0.93815391 -1.57922843 -0.60845845 -0.62677486 -1.10300165 -0.62677486
+     [31] -0.80993901 -1.23121655 -0.80993901 -0.55350920 -1.37774787 -0.86488825
+     [37] -0.93815391 -0.31539581 -1.15795089 -0.75498976 -1.35943145 -0.57182562
+     [43] -1.45101353  0.03261607 -1.26784938 -0.79162259 -0.51687637 -1.17626731
+     [49] -1.45101353 -0.29707939 -0.79162259 -0.70004052 -1.63417768 -0.35202864
+     [55] -1.72575975 -0.46192713 -0.90152108 -0.60845845 -1.35943145 -1.15795089
+     [61] -1.50596277 -0.48024354 -1.15795089 -0.51687637 -1.37774787 -0.42529430
+     [67] -1.54259560 -0.51687637 -1.46932994 -0.38866147 -1.90892390 -0.77330618
+     [73] -0.79162259  0.34399512 -1.54259560 -0.20549732 -0.55350920 -1.23121655
+     [79] -1.41438070 -0.33371222 -1.70744334 -0.18718091 -1.32279862 -1.61586126
+     [85] -1.21290014 -0.48024354 -1.39606428 -1.28616579 -1.02973599 -0.91983750
+     [91] -1.50596277 -0.51687637 -1.81734182 -0.79162259 -1.41438070 -0.57182562
+     [97] -1.06636882 -0.66340769 -1.98218956 -0.13223166 -1.63417768 -0.53519279
+    [103] -1.13963448 -1.12131806 -1.10300165 -0.77330618 -0.97478674 -1.04805240
+    [109] -1.06636882 -0.13223166 -1.06636882  0.30736229 -0.77330618 -0.31539581
+    [115] -0.79162259 -0.22381374 -0.97478674 -1.21290014 -1.50596277 -0.51687637
+    [121] -1.41438070 -1.13963448 -0.68172411 -0.46192713 -1.59754485 -0.60845845
+    [127] -0.93815391 -0.44361071 -0.90152108  0.03261607 -0.99310316 -0.15054808
+    [133] -1.30448221 -1.17626731 -1.06636882 -0.51687637 -1.52427919 -0.68172411
+    [139] -1.26784938 -0.77330618 -0.68172411 -0.60845845 -2.16535371 -0.59014203
+    [145] -1.21290014 -0.90152108 -0.86488825 -1.34111504 -1.45101353 -1.12131806
+    [151] -1.45101353 -0.44361071  0.39894437  1.11328455  0.87517115  1.11328455
+    [157]  0.67369059  0.47221003  0.27072946  0.50884286 -0.11391525  0.52715927
+    [163] -0.55350920  0.93012040  0.28904588  0.82022191  0.34399512  0.98506964
+    [169] -0.35202864  0.96675323  0.41726078  0.87517115  1.14991738  0.21578022
+    [175]  0.47221003  0.43557720 -0.18718091  0.39894437  0.10588173  0.71032342
+    [181]  0.78358908  1.11328455  0.61874135 -0.20549732  0.21578022  2.87166037
+    [187]  0.94843681  0.82022191 -0.24213015  0.08756532  0.01429966  0.87517115
+    [193] -0.22381374  1.04001889  0.25241305  1.04001889  1.20486662 -0.05896600
+    [199]  0.28904588  1.20486662  0.17914739  0.23409663  0.49052644  0.83853832
+    [205]  0.21578022  1.13160096  0.47221003  0.19746381 -0.02233317  0.28904588
+    [211] -0.13223166  1.18655021  0.25241305  0.41726078  0.32567871  1.90089038
+    [217]  0.34399512  1.07665172  0.41726078  1.02170247 -0.07728242  1.24149945
+    [223]  0.69200701  0.45389361  0.78358908  0.47221003  0.45389361  0.85685474
+    [229]  0.65537418  1.31476511  0.23409663  0.23409663  0.94843681  1.57119492
+    [235]  0.63705776  1.11328455  0.17914739  1.25981586 -0.09559883  1.35139794
+    [241]  0.65537418  1.49792926  0.65537418  1.51624567  0.28904588  1.02170247
+    [247]  0.10588173  1.25981586  1.00338606  0.54547569  0.82022191  1.31476511
+    [253]  0.83853832  2.19395302  0.60042493  0.94843681  0.61874135  0.52715927
+    [259] -0.40697788  1.73604265 -0.11391525  0.76527266  1.20486662  1.07665172
+    [265] -0.07728242  1.38803077  0.41726078  2.04742170  0.10588173  0.89348757
+    [271]  0.60042493          NA  0.52715927  1.18655021  0.23409663  1.09496813
+    [277]  0.47221003  1.11328455  1.35139794  0.27072946  1.60782775  0.23409663
+    [283]  0.39894437  1.35139794  0.38062795  1.35139794  0.49052644  1.42466360
+    [289]  0.56379210  1.47961284  0.36231154  1.20486662  1.16823379  2.57859773
+    [295]  0.45389361  0.96675323 -0.27876298  0.83853832 -0.13223166  1.22318303
+    [301]  0.50884286  1.47961284  1.20486662  1.02170247  0.45389361  1.62614416
+    [307] -0.55350920  1.88257397 -0.26044656  1.29644869  1.05833530  0.65537418
+    [313]  0.67369059  1.47961284  0.54547569  1.75435906  0.93012040  0.41726078
+    [319]  1.27813228  0.28904588  1.27813228  1.25981586  1.13160096  0.93012040
+    [325]  1.38803077  1.07665172  0.76527266  1.36971435  0.32567871  1.24149945
+    [331] -0.26044656  1.51624567  0.23409663  0.98506964  1.14991738  0.30736229
+    [337]  1.46129643  0.52715927  0.32567871  2.17563660 -0.07728242  1.04001889
+    [343]  1.25981586  1.14991738
+
+``` r
 # Tidyverse
 standardise_tidy <- function(x, my.na.rm) {
   ({{ x }} - mean({{ x }}, na.rm = my.na.rm)) / sd({{ x }}, na.rm = my.na.rm)
@@ -254,9 +408,11 @@ explore_penguins <-
 explore_penguins("body_mass_g")
 ```
 
-    Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).
+    Warning: Removed 2 rows containing non-finite outside the scale range
+    (`stat_boxplot()`).
 
-    Warning: Removed 2 rows containing missing values (`geom_point()`).
+    Warning: Removed 2 rows containing missing values or values outside the scale range
+    (`geom_point()`).
 
 ![](exercises_solutions_files/figure-commonmark/5.2.1-1.png)
 
@@ -277,6 +433,79 @@ explore_df(df = iris, # iris is a dataset loaded in RStudio by default
 ```
 
 ![](exercises_solutions_files/figure-commonmark/5.2.1-2.png)
+
+## 5.2.2 Advanced exercise
+
+Create a function like rescale01 that can be applied to a dataset and a
+variable but includes the mutate inside the function itself.
+
+``` r
+rescale01 <- function(x) {
+  rng <- range(x, na.rm = TRUE)   
+  (x - rng[1]) / (rng[2] - rng[1]) 
+} 
+
+mutate_rescale01 <- function(data, x) {
+  data |> 
+    mutate(var_rescaled = rescale01({{ x }}))
+} 
+
+df <- penguins |> 
+  select(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g)
+
+mutate_rescale01(data = df, x = bill_length_mm)
+```
+
+    # A tibble: 344 × 5
+       bill_length_mm bill_depth_mm flipper_length_mm body_mass_g var_rescaled
+                <dbl>         <dbl>             <int>       <int>        <dbl>
+     1           39.1          18.7               181        3750       0.255 
+     2           39.5          17.4               186        3800       0.269 
+     3           40.3          18                 195        3250       0.298 
+     4           NA            NA                  NA          NA      NA     
+     5           36.7          19.3               193        3450       0.167 
+     6           39.3          20.6               190        3650       0.262 
+     7           38.9          17.8               181        3625       0.247 
+     8           39.2          19.6               195        4675       0.258 
+     9           34.1          18.1               193        3475       0.0727
+    10           42            20.2               190        4250       0.36  
+    # ℹ 334 more rows
+
+## 6.0.1 Exercise
+
+Compute the mean of every column in the {palmerpenguins} dataset using a
+*for loop*.
+
+``` r
+output <- vector("double", ncol(penguins))
+
+for (i in seq_along(penguins)) {
+  if (is.numeric(penguins[[i]])) {
+    output[[i]] <- mean(penguins[[i]], na.rm = TRUE)
+  } else {
+    output[[i]] <- NA
+  }
+}
+
+output
+```
+
+    [1]         NA         NA   43.92193   17.15117  200.91520 4201.75439         NA
+    [8] 2008.02907
+
+## 7.0.1 Exercise
+
+``` r
+apply_1_5 <- function(f) {
+  f(1:5)
+}
+
+apply_1_5(sqrt)
+```
+
+    [1] 1.000000 1.414214 1.732051 2.000000 2.236068
+
+Based on the previous example, create a functional.
 
 ## 8.1.1 Exercise
 
@@ -307,7 +536,7 @@ map(1:4, sum_10)
 
 Now that you have understood the logic of `map()`, spot the differences
 between the following three lines of code. What does the `map()`
-functional do? What differences do you detect in the code? And at the
+functional do? What differences do you detect in the code? And in the
 output?
 
 ``` r
@@ -315,9 +544,7 @@ map(penguins, \(x) mean(x))
 ```
 
     Warning in mean.default(x): argument is not numeric or logical: returning NA
-
     Warning in mean.default(x): argument is not numeric or logical: returning NA
-
     Warning in mean.default(x): argument is not numeric or logical: returning NA
 
     $species
@@ -353,7 +580,6 @@ map(penguins, \(x) mean(x, na.rm = T)) # option 1
 
     Warning in mean.default(x, na.rm = T): argument is not numeric or logical:
     returning NA
-
     Warning in mean.default(x, na.rm = T): argument is not numeric or logical:
     returning NA
 
@@ -390,7 +616,6 @@ map(penguins, mean, na.rm = T) # option 2
 
     Warning in mean.default(.x[[i]], ...): argument is not numeric or logical:
     returning NA
-
     Warning in mean.default(.x[[i]], ...): argument is not numeric or logical:
     returning NA
 
@@ -473,11 +698,11 @@ map_int(penguins, \(x) length(unique(x)))
                    56                95                 3                 3 
 
 ``` r
-1:4 |>   
-  map_vec(\(x) as.Date(ISOdate(x + 2024, 05, 13)))
+1:4 |> 
+  map_vec(\(x) as.Date(ISOdate(2025, 05, 26)) + x)
 ```
 
-    [1] "2025-05-13" "2026-05-13" "2027-05-13" "2028-05-13"
+    [1] "2025-05-27" "2025-05-28" "2025-05-29" "2025-05-30"
 
 `map_lgl()` returns a logical vector indicating whether each column in
 the penguins dataset is numeric or not.
@@ -492,7 +717,7 @@ numeric variable in the penguins dataset.
 column in the penguins dataset.
 
 `map_int()` returns an integer vector that gives the number of unique
-observations in each variable of the penguins dataset, including NA.
+observations in each variable of the penguins dataset, including `NA`.
 
 `map_vec()` automatically determines the output type, which in this
 case, returns a vector of type date.
@@ -711,9 +936,7 @@ it is a data frame, we can directly apply the `mutate()` function to it,
 generating the `path` variable that contains the output name we want to
 assign to each dataset. Finally, using the `walk2()` function, we save
 the data related to each penguin with its respective path that we
-generated earlier. We could substitute walk2 by map2 and files would be
-created as well, but also it would return the output in the console and
-we don’t need it.
+generated earlier.
 
 ## 10.1.2 Advanced exercise
 
@@ -755,11 +978,13 @@ pwalk(list(plot = penguins_nested_str$gg_obj, filename = penguins_nested_str$pat
 
     Saving 7 x 5 in image
 
-    Warning: Removed 1 rows containing missing values (`geom_point()`).
+    Warning: Removed 1 row containing missing values or values outside the scale range
+    (`geom_point()`).
 
     Saving 7 x 5 in image
 
-    Warning: Removed 1 rows containing missing values (`geom_point()`).
+    Warning: Removed 1 row containing missing values or values outside the scale range
+    (`geom_point()`).
 
     Saving 7 x 5 in image
 
@@ -1036,7 +1261,9 @@ penguins |>
     NULL
 
 <details>
+
 <summary>
+
 Session Info
 </summary>
 
@@ -1044,55 +1271,47 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2024-06-05 11:54:49 CEST"
+    [1] "2025-05-28 12:10:42 CEST"
 
 ``` r
 sessionInfo()
 ```
 
-    R version 4.2.2 (2022-10-31 ucrt)
-    Platform: x86_64-w64-mingw32/x64 (64-bit)
-    Running under: Windows 10 x64 (build 19045)
+    R version 4.4.3 (2025-02-28 ucrt)
+    Platform: x86_64-w64-mingw32/x64
+    Running under: Windows 11 x64 (build 26100)
 
     Matrix products: default
 
+
     locale:
-    [1] LC_COLLATE=English_United Kingdom.utf8 
-    [2] LC_CTYPE=English_United Kingdom.utf8   
-    [3] LC_MONETARY=English_United Kingdom.utf8
-    [4] LC_NUMERIC=C                           
-    [5] LC_TIME=English_United Kingdom.utf8    
+    [1] LC_COLLATE=English_Sweden.utf8  LC_CTYPE=English_Sweden.utf8   
+    [3] LC_MONETARY=English_Sweden.utf8 LC_NUMERIC=C                   
+    [5] LC_TIME=English_Sweden.utf8    
+
+    time zone: Europe/Stockholm
+    tzcode source: internal
 
     attached base packages:
     [1] stats     graphics  grDevices utils     datasets  methods   base     
 
     other attached packages:
-     [1] forcats_0.5.1        stringr_1.5.0        dplyr_1.1.2         
-     [4] purrr_1.0.1          readr_2.1.2          tidyr_1.3.0         
-     [7] tibble_3.2.1         ggplot2_3.4.2        tidyverse_1.3.2     
-    [10] palmerpenguins_0.1.1
+     [1] lubridate_1.9.4      forcats_1.0.0        stringr_1.5.1       
+     [4] dplyr_1.1.4          purrr_1.0.4          readr_2.1.5         
+     [7] tidyr_1.3.1          tibble_3.2.1         ggplot2_3.5.1       
+    [10] tidyverse_2.0.0      palmerpenguins_0.1.1
 
     loaded via a namespace (and not attached):
-     [1] lubridate_1.8.0     assertthat_0.2.1    digest_0.6.29      
-     [4] utf8_1.2.3          R6_2.5.1            cellranger_1.1.0   
-     [7] backports_1.4.1     reprex_2.0.1        evaluate_0.18      
-    [10] httr_1.4.3          pillar_1.9.0        rlang_1.1.1        
-    [13] googlesheets4_1.0.0 readxl_1.4.0        rstudioapi_0.13    
-    [16] rmarkdown_2.16      textshaping_0.3.6   labeling_0.4.2     
-    [19] googledrive_2.0.0   bit_4.0.5           munsell_0.5.0      
-    [22] broom_1.0.0         compiler_4.2.2      modelr_0.1.8       
-    [25] xfun_0.39           systemfonts_1.0.4   pkgconfig_2.0.3    
-    [28] htmltools_0.5.3     tidyselect_1.2.0    fansi_1.0.4        
-    [31] crayon_1.5.2        tzdb_0.3.0          dbplyr_2.2.1       
-    [34] withr_2.5.0         grid_4.2.2          jsonlite_1.8.0     
-    [37] gtable_0.3.3        lifecycle_1.0.3     DBI_1.1.3          
-    [40] magrittr_2.0.3      scales_1.2.1        cli_3.6.1          
-    [43] stringi_1.7.12      vroom_1.5.7         farver_2.1.1       
-    [46] fs_1.5.2            xml2_1.3.3          ellipsis_0.3.2     
-    [49] ragg_1.2.5          generics_0.1.3      vctrs_0.6.3        
-    [52] tools_4.2.2         bit64_4.0.5         glue_1.6.2         
-    [55] hms_1.1.1           parallel_4.2.2      fastmap_1.1.0      
-    [58] yaml_2.3.5          colorspace_2.1-0    gargle_1.2.0       
-    [61] rvest_1.0.2         knitr_1.40.1        haven_2.5.0        
+     [1] utf8_1.2.4        generics_0.1.3    stringi_1.8.7     hms_1.1.3        
+     [5] digest_0.6.37     magrittr_2.0.3    evaluate_1.0.3    grid_4.4.3       
+     [9] timechange_0.3.0  fastmap_1.2.0     jsonlite_2.0.0    scales_1.3.0     
+    [13] textshaping_1.0.0 cli_3.6.4         rlang_1.1.5       crayon_1.5.3     
+    [17] bit64_4.6.0-1     munsell_0.5.1     withr_3.0.2       yaml_2.3.10      
+    [21] tools_4.4.3       parallel_4.4.3    tzdb_0.5.0        colorspace_2.1-1 
+    [25] vctrs_0.6.5       R6_2.6.1          lifecycle_1.0.4   bit_4.6.0        
+    [29] vroom_1.6.5       ragg_1.3.3        pkgconfig_2.0.3   pillar_1.10.1    
+    [33] gtable_0.3.6      glue_1.8.0        systemfonts_1.2.1 xfun_0.52        
+    [37] tidyselect_1.2.1  rstudioapi_0.17.1 knitr_1.50        farver_2.1.2     
+    [41] htmltools_0.5.8.1 rmarkdown_2.29    labeling_0.4.3    compiler_4.4.3   
 
 </details>

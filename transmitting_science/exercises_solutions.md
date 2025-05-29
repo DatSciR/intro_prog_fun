@@ -1,6 +1,6 @@
 # Functional Programming with R (exercises solutions)
 Julen Astigarraga y Verónica Cruz-Alonso
-28/05/2025
+29/05/2025
 
 - [2.1.1 Exercise](#211-exercise)
 - [2.2.1 Exercise](#221-exercise)
@@ -112,7 +112,7 @@ ls[[1]]$var2_letters[8]
 ls[[2]]$var2_rnorm[8]
 ```
 
-    [1] -0.2855604
+    [1] 0.2328667
 
 ## 2.2.1 Exercise
 
@@ -495,6 +495,8 @@ output
 
 ## 7.0.1 Exercise
 
+Based on the previous example, create a functional.
+
 ``` r
 apply_1_5 <- function(f) {
   f(1:5)
@@ -504,8 +506,6 @@ apply_1_5(sqrt)
 ```
 
     [1] 1.000000 1.414214 1.732051 2.000000 2.236068
-
-Based on the previous example, create a functional.
 
 ## 8.1.1 Exercise
 
@@ -1271,7 +1271,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2025-05-28 12:10:42 CEST"
+    [1] "2025-05-29 09:42:23 CEST"
 
 ``` r
 sessionInfo()

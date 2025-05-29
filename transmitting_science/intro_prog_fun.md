@@ -1,6 +1,6 @@
 # Functional Programming with R
 Julen Astigarraga and Verónica Cruz-Alonso
-28/05/2025
+29/05/2025
 
 - [<span class="toc-section-number">1</span>
   Introduction](#introduction)
@@ -85,7 +85,6 @@ programming.
 
 ![](images/data-science.png)
 
-
 Figure 1: Data science model of Hadley Wickham, Mine Çetinkaya-Rundel
 and Garrett Grolemund. https://r4ds.hadley.nz/intro#fig-ds-diagram
 
@@ -99,30 +98,30 @@ and Garrett Grolemund. https://r4ds.hadley.nz/intro#fig-ds-diagram
 <col style="width: 15%" />
 </colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th>Blocks</th>
 <th>Day</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><p>Course introduction</p>
 <p>Introduction to programming in R</p>
 <p>Introduction to functional programming</p></td>
 <td>27/05/25</td>
 </tr>
-<tr class="even">
+<tr>
 <td><p>Theory of functions in R</p>
 <p>How to write functions</p></td>
 <td>28/05/25</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><p>Object-oriented programming and iterations using loops</p>
 <p>Functional programming</p>
 <p>Iterations over one and two arguments</p></td>
 <td>29/05/25</td>
 </tr>
-<tr class="even">
+<tr>
 <td><p>Iterations over multiple arguments</p>
 <p>Iterations without output</p>
 <p>Function operators and other functionals</p></td>
@@ -887,14 +886,14 @@ mean(x = 1:10)
 mean(x = values)
 ```
 
-    Error: objeto 'values' no encontrado
+    Error: object 'values' not found
 
 ``` r
 mydata <- tibble(values = 1:10)
 mean(x = values)
 ```
 
-    Error: objeto 'values' no encontrado
+    Error: object 'values' not found
 
 ``` r
 mean(x = mydata$values)
@@ -1285,7 +1284,7 @@ ggplot(penguins_num, aes(x = species, y = var, color = sex)) +
 var <- body_mass_g
 ```
 
-    Error: objeto 'body_mass_g' no encontrado
+    Error: object 'body_mass_g' not found
 
 ``` r
 var <- "body_mass_g"
@@ -1547,11 +1546,6 @@ for new input types.
 
 ``` r
 library(sloop)
-```
-
-    Warning: package 'sloop' was built under R version 4.4.3
-
-``` r
 ftype(summary)
 ```
 
@@ -1673,7 +1667,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.19    0.20    0.46 
+       0.20    0.03    0.22 
 
 ``` r
 y <- vector("double", length = 20000)
@@ -1685,7 +1679,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.00    0.00    0.02 
+          0       0       0 
 
 2.  Sequence: here we determine what we want to iterate on. Each
     execution of the *for loop* will assign a different value of
@@ -2221,6 +2215,9 @@ vapply(penguins_num, median, na.rm = T, FUN.VALUE = double(1))
                 44.45             17.30            197.00           4050.00 
                  year 
               2008.00 
+
+Advanced example of `map()` combined with `nest()` and accessing the
+data:
 
 ``` r
 glimpse(penguins)
@@ -2929,7 +2926,7 @@ x |>
     Error in `map()`:
     ℹ In index: 2.
     Caused by error:
-    ! Argumento no numérico para una función matemática
+    ! non-numeric argument to mathematical function
 
 ``` r
 x |> 
@@ -2949,7 +2946,7 @@ x |>
     NULL
 
     [[2]]$error
-    <simpleError in .Primitive("log")(x, base): Argumento no numérico para una función matemática>
+    <simpleError in .Primitive("log")(x, base): non-numeric argument to mathematical function>
 
 
     [[3]]
@@ -2981,7 +2978,7 @@ x |>
     NULL
 
     $error[[2]]
-    <simpleError in .Primitive("log")(x, base): Argumento no numérico para una función matemática>
+    <simpleError in .Primitive("log")(x, base): non-numeric argument to mathematical function>
 
     $error[[3]]
     NULL
@@ -3114,7 +3111,9 @@ to functional programming that you consider relevant to share
 ------------------------------------------------------------------------
 
 <details>
+
 <summary>
+
 Session Info
 </summary>
 
@@ -3122,25 +3121,25 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2025-05-28 12:51:47 CEST"
+    [1] "2025-05-29 09:40:46 CEST"
 
 ``` r
 sessionInfo()
 ```
 
-    R version 4.4.2 (2024-10-31 ucrt)
+    R version 4.4.3 (2025-02-28 ucrt)
     Platform: x86_64-w64-mingw32/x64
-    Running under: Windows 11 x64 (build 22631)
+    Running under: Windows 11 x64 (build 26100)
 
     Matrix products: default
 
 
     locale:
-    [1] LC_COLLATE=Spanish_Spain.utf8  LC_CTYPE=Spanish_Spain.utf8   
-    [3] LC_MONETARY=Spanish_Spain.utf8 LC_NUMERIC=C                  
-    [5] LC_TIME=Spanish_Spain.utf8    
+    [1] LC_COLLATE=English_Sweden.utf8  LC_CTYPE=English_Sweden.utf8   
+    [3] LC_MONETARY=English_Sweden.utf8 LC_NUMERIC=C                   
+    [5] LC_TIME=English_Sweden.utf8    
 
-    time zone: Europe/Madrid
+    time zone: Europe/Stockholm
     tzcode source: internal
 
     attached base packages:
@@ -3149,20 +3148,20 @@ sessionInfo()
     other attached packages:
      [1] sloop_1.0.1          palmerpenguins_0.1.1 lubridate_1.9.4     
      [4] forcats_1.0.0        stringr_1.5.1        dplyr_1.1.4         
-     [7] purrr_1.0.2          readr_2.1.5          tidyr_1.3.1         
+     [7] purrr_1.0.4          readr_2.1.5          tidyr_1.3.1         
     [10] tibble_3.2.1         ggplot2_3.5.1        tidyverse_2.0.0     
 
     loaded via a namespace (and not attached):
-     [1] utf8_1.2.4        generics_0.1.3    stringi_1.8.4     hms_1.1.3        
-     [5] digest_0.6.37     magrittr_2.0.3    evaluate_1.0.3    grid_4.4.2       
-     [9] timechange_0.3.0  fastmap_1.2.0     jsonlite_1.8.9    scales_1.3.0     
-    [13] codetools_0.2-20  cli_3.6.3         rlang_1.1.5       crayon_1.5.3     
+     [1] utf8_1.2.4        generics_0.1.3    stringi_1.8.7     hms_1.1.3        
+     [5] digest_0.6.37     magrittr_2.0.3    evaluate_1.0.3    grid_4.4.3       
+     [9] timechange_0.3.0  fastmap_1.2.0     jsonlite_2.0.0    scales_1.3.0     
+    [13] codetools_0.2-20  cli_3.6.4         rlang_1.1.5       crayon_1.5.3     
     [17] bit64_4.6.0-1     munsell_0.5.1     withr_3.0.2       yaml_2.3.10      
-    [21] tools_4.4.2       parallel_4.4.2    tzdb_0.4.0        colorspace_2.1-1 
-    [25] vctrs_0.6.5       R6_2.5.1          lifecycle_1.0.4   bit_4.5.0.1      
+    [21] tools_4.4.3       parallel_4.4.3    tzdb_0.5.0        colorspace_2.1-1 
+    [25] vctrs_0.6.5       R6_2.6.1          lifecycle_1.0.4   bit_4.6.0        
     [29] vroom_1.6.5       pkgconfig_2.0.3   pillar_1.10.1     gtable_0.3.6     
-    [33] glue_1.8.0        xfun_0.50         tidyselect_1.2.1  rstudioapi_0.17.1
-    [37] knitr_1.49        farver_2.1.2      htmltools_0.5.8.1 rmarkdown_2.29   
-    [41] labeling_0.4.3    compiler_4.4.2   
+    [33] glue_1.8.0        xfun_0.52         tidyselect_1.2.1  rstudioapi_0.17.1
+    [37] knitr_1.50        farver_2.1.2      htmltools_0.5.8.1 rmarkdown_2.29   
+    [41] labeling_0.4.3    compiler_4.4.3   
 
 </details>

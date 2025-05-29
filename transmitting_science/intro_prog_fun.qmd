@@ -1026,6 +1026,8 @@ vapply(penguins_num, median, na.rm = T, FUN.VALUE = double(1))
 
 ```
 
+Advanced example of `map()` combined with `nest()` and accessing the data:
+
 ```{r map_advanced_example}
 
 glimpse(penguins)

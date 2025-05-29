@@ -249,6 +249,8 @@ output
 
 ## 7.0.1 Exercise
 
+Based on the previous example, create a functional.
+
 ```{r 7.0.1}
 
 apply_1_5 <- function(f) {
@@ -258,8 +260,6 @@ apply_1_5 <- function(f) {
 apply_1_5(sqrt)
 
 ```
-
-Based on the previous example, create a functional.
 
 ## 8.1.1 Exercise
 

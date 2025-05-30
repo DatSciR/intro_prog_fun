@@ -1,6 +1,6 @@
 # Functional Programming with R (exercises solutions)
 Julen Astigarraga y Verónica Cruz-Alonso
-29/05/2025
+30/05/2025
 
 - [2.1.1 Exercise](#211-exercise)
 - [2.2.1 Exercise](#221-exercise)
@@ -112,7 +112,7 @@ ls[[1]]$var2_letters[8]
 ls[[2]]$var2_rnorm[8]
 ```
 
-    [1] 0.2328667
+    [1] -1.043187
 
 ## 2.2.1 Exercise
 
@@ -735,7 +735,7 @@ penguins_list <- penguins |>
 names(penguins_list) <- c("p1", "p2", "p3")  
 
 # solution:
-map2(penguins_list, names(penguins_list), \(df, name) mutate(df, name = name)) 
+map2(penguins_list, names(penguins_list), \(arg_df, arg_name) mutate(arg_df, name = arg_name))
 ```
 
     $p1
@@ -795,11 +795,7 @@ Calculate the correlation between the predictions stored in the
 list-column `pred` and `bill_length_mm`.
 
 ``` r
-# first we remove NA values from bill_length_mm 
-penguins_nona <- penguins |>    
-  drop_na(bill_length_mm) 
-
-penguins_nested <- penguins_nona |>   
+penguins_nested <- penguins |>   
   group_by(species) |>   
   nest() |>    
   mutate(     
@@ -807,9 +803,12 @@ penguins_nested <- penguins_nona |>
       bill_length_mm ~ body_mass_g,       
       data = df)),     
     pred = map2(lm_obj, data, \(x, y) predict(x, y)),
+    # or equivalent
+    # pred = map2(lm_obj, data, predict),
     # solution:     
-    corr = map2_dbl(pred, data, \(x, y) cor(x, y$bill_length_mm))   
-    )  
+    corr = map2_dbl(pred, data,
+                    \(x, y) cor(x, y$bill_length_mm, use = "complete"))   
+    )
 
 # unnest() 
 penguins_nested |>    
@@ -817,21 +816,21 @@ penguins_nested |>
   select(!c(data, lm_obj)) 
 ```
 
-    # A tibble: 342 × 3
+    # A tibble: 344 × 3
     # Groups:   species [3]
        species  pred  corr
        <fct>   <dbl> <dbl>
      1 Adelie   38.9 0.549
      2 Adelie   39.1 0.549
      3 Adelie   37.4 0.549
-     4 Adelie   38.0 0.549
-     5 Adelie   38.6 0.549
+     4 Adelie   NA   0.549
+     5 Adelie   38.0 0.549
      6 Adelie   38.6 0.549
-     7 Adelie   41.9 0.549
-     8 Adelie   38.1 0.549
-     9 Adelie   40.5 0.549
-    10 Adelie   37.5 0.549
-    # ℹ 332 more rows
+     7 Adelie   38.6 0.549
+     8 Adelie   41.9 0.549
+     9 Adelie   38.1 0.549
+    10 Adelie   40.5 0.549
+    # ℹ 334 more rows
 
 ## 9.2.1 Exercise
 
@@ -848,7 +847,7 @@ names(penguins_list) <- c("p1", "p2", "p3")
 
 # exercise 9.2.1 
 pmap(list(penguins_list, names(penguins_list)), 
-  \(df, name) mutate(df, name = name)) 
+  \(arg_df, arg_name) mutate(arg_df, name = arg_name)) 
 ```
 
     $p1
@@ -954,8 +953,7 @@ gg_penguins_bill_body <- function(data_df) {
 penguins_nested <- penguins |>   
   group_by(species) |>   
   nest() |>   
-  mutate(gg_obj = map(data, 
-    \(df) gg_penguins_bill_body(data_df = df))) 
+  mutate(gg_obj = map(data, gg_penguins_bill_body)) 
 
 penguins_nested_str <- penguins_nested |>    
   mutate(path = str_glue("penguins_{species}.png"))  
@@ -1271,7 +1269,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2025-05-29 09:42:23 CEST"
+    [1] "2025-05-30 12:16:25 CEST"
 
 ``` r
 sessionInfo()

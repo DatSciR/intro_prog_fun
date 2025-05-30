@@ -331,7 +331,7 @@ penguins_list <- penguins |>
 names(penguins_list) <- c("p1", "p2", "p3")  
 
 # solution:
-map2(penguins_list, names(penguins_list), \(df, name) mutate(df, name = name)) 
+map2(penguins_list, names(penguins_list), \(arg_df, arg_name) mutate(arg_df, name = arg_name))
 
 ```
 
@@ -341,11 +341,7 @@ Calculate the correlation between the predictions stored in the list-column `pre
 
 ```{r 9.1.2}
 
-# first we remove NA values from bill_length_mm 
-penguins_nona <- penguins |>    
-  drop_na(bill_length_mm) 
-
-penguins_nested <- penguins_nona |>   
+penguins_nested <- penguins |>   
   group_by(species) |>   
   nest() |>    
   mutate(     
@@ -353,9 +349,12 @@ penguins_nested <- penguins_nona |>
       bill_length_mm ~ body_mass_g,       
       data = df)),     
     pred = map2(lm_obj, data, \(x, y) predict(x, y)),
+    # or equivalent
+    # pred = map2(lm_obj, data, predict),
     # solution:     
-    corr = map2_dbl(pred, data, \(x, y) cor(x, y$bill_length_mm))   
-    )  
+    corr = map2_dbl(pred, data,
+                    \(x, y) cor(x, y$bill_length_mm, use = "complete"))   
+    )
 
 # unnest() 
 penguins_nested |>    
@@ -379,7 +378,7 @@ names(penguins_list) <- c("p1", "p2", "p3")
 
 # exercise 9.2.1 
 pmap(list(penguins_list, names(penguins_list)), 
-  \(df, name) mutate(df, name = name)) 
+  \(arg_df, arg_name) mutate(arg_df, name = arg_name)) 
 
 ```
 
@@ -418,8 +417,7 @@ gg_penguins_bill_body <- function(data_df) {
 penguins_nested <- penguins |>   
   group_by(species) |>   
   nest() |>   
-  mutate(gg_obj = map(data, 
-    \(df) gg_penguins_bill_body(data_df = df))) 
+  mutate(gg_obj = map(data, gg_penguins_bill_body)) 
 
 penguins_nested_str <- penguins_nested |>    
   mutate(path = str_glue("penguins_{species}.png"))  

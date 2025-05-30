@@ -1,6 +1,6 @@
 # Functional Programming with R
 Julen Astigarraga and Verónica Cruz-Alonso
-29/05/2025
+30/05/2025
 
 - [<span class="toc-section-number">1</span>
   Introduction](#introduction)
@@ -1667,7 +1667,7 @@ system.time(
 ```
 
        user  system elapsed 
-       0.20    0.03    0.22 
+       0.21    0.03    0.22 
 
 ``` r
 y <- vector("double", length = 20000)
@@ -3121,7 +3121,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2025-05-29 09:40:46 CEST"
+    [1] "2025-05-30 12:18:52 CEST"
 
 ``` r
 sessionInfo()

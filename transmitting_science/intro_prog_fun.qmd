@@ -1,6 +1,6 @@
 ---
 title: "Functional Programming with R"
-author: Julen Astigarraga and Verónica Cruz-Alonso
+author: Julen Astigarraga (and Verónica Cruz-Alonso)
 date: today
 date-format: "DD/MM/YYYY"
 toc: true
@@ -16,55 +16,45 @@ number-sections: true
 
 ## Introduction
 
-The objectives of this course are:
+Course objectives:
 
--   to learn how to write functions
+-   Learn how to **write functions** in R.
 
--   to apply functions in iterations using the library {purrr} from {tidyverse}
+-   Apply functions in **iterations** using the `{purrr}` package from `{tidyverse}`.
 
--   to learn coding styles that facilitate script understanding (📝)
+-   Develop **coding styles** that make scripts easier to read and understand (📝)
 
-Within the model of the tools needed in a typical data science project of Hadley Wickham, Mine Çetinkaya-Rundel and Garrett Grolemund (@fig-datascience), this course focuses in the envelope wrapping all the other tools, that is, programming.
+This course follows the framework proposed by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund (@fig-datascience), which outlines the tools needed in a typical data science project. The focus of this course is on programming, which acts as the “envelope” that wraps around and connects all the other tools.
 
 ![Data science model of Hadley Wickham, Mine Çetinkaya-Rundel and Garrett Grolemund. https://r4ds.hadley.nz/intro#fig-ds-diagram](images/data-science.png){#fig-datascience}
 
 ### Course structure
 
-+--------------------------------------------------------+----------+
-| Blocks                                                 | Day      |
-+========================================================+==========+
-| Course introduction                                    | 27/05/25 |
-|                                                        |          |
-| Introduction to programming in R                       |          |
-|                                                        |          |
-| Introduction to functional programming                 |          |
-+--------------------------------------------------------+----------+
-| Theory of functions in R                               | 28/05/25 |
-|                                                        |          |
-| How to write functions                                 |          |
-+--------------------------------------------------------+----------+
-| Object-oriented programming and iterations using loops | 29/05/25 |
-|                                                        |          |
-| Functional programming                                 |          |
-|                                                        |          |
-| Iterations over one and two arguments                  |          |
-+--------------------------------------------------------+----------+
-| Iterations over multiple arguments                     | 30/05/25 |
-|                                                        |          |
-| Iterations without output                              |          |
-|                                                        |          |
-| Function operators and other functionals               |          |
-+--------------------------------------------------------+----------+
-
-### Who are we?
-
-![](images/1_N_0YimgDh2_IbBT9jJNtOg.jpg)
-
-Verónica Cruz-Alonso (veronica.cral\@gmail.com) and Julen Astigarraga (julenastigarraga\@gmail.com). We coordinate the [Ecoinformatics Working Group](https://ecoinfaeet.github.io/) of the Spanish Association of Terrestrial Ecology (AEET). In [DatSciR](https://github.com/DatSciR) we publish the materials of the courses we teach.
-
-And you... who are you?
-
-<https://www.menti.com/alc3k7zmd7uu>
++--------------------------------------------------------+---------------+
+| Blocks                                                 | Day           |
++========================================================+===============+
+| Course introduction                                    | 06/05/26      |
+|                                                        |               |
+| Introduction to programming in R                       |               |
+|                                                        |               |
+| Introduction to functional programming                 |               |
++--------------------------------------------------------+---------------+
+| Theory of functions in R                               | 08/05/26      |
+|                                                        |               |
+| How to write functions                                 |               |
++--------------------------------------------------------+---------------+
+| Object-oriented programming and iterations using loops | 13/05/26      |
+|                                                        |               |
+| Functional programming                                 |               |
+|                                                        |               |
+| Iterations over one and two arguments                  |               |
++--------------------------------------------------------+---------------+
+| Iterations over multiple arguments                     | 15/05/26      |
+|                                                        |               |
+| Iterations without output                              |               |
+|                                                        |               |
+| Function operators and other functionals               |               |
++--------------------------------------------------------+---------------+
 
 ## Introduction to programming in R
 
@@ -72,33 +62,46 @@ And you... who are you?
 
 ### Basic concepts
 
--   R: dynamic programming language (dynamic means that code is interpreted at the moment of execution).
+-   R: A dynamic programming language, meaning that code is interpreted and executed as it runs, rather than being precompiled.
 
--   RStudio: an integrated development environment (IDE) for programming in R. It is organized into four main panels: the code editor, the console (where the code is executed), the workspace browser (which includes the *environment* and command history), and the bottom-right panel, which combines Files, Plots, Packages, and Help tabs.
+-   RStudio: An Integrated Development Environment (IDE) for R programming. It is organized into four main panels:
 
--   Object: any element associated to a name. There are many different types: `numeric`, `integer`, `logical`, `data.frame`, `SpatVector`, etc.
+    1.  Code Editor: Where you write scripts and functions.
+
+    2.  Console: Where code is executed immediately.
+
+    3.  Workspace Browser: Shows your environment (objects) and command history.
+
+    4.  Bottom-right Panel: Contains Files, Plots, Packages, and Help tabs for managing projects and exploring results.
+
+-   Object: Any element in R that is associated with a name. Objects can be of various types: `numeric`, `integer`, `logical`, `data.frame`, `SpatVector`, etc.
 
 ```{r objects}
 #| warning: false
 
 library(tidyverse)
 
+# Vectors: one-dimensional objects
 v1 <- c(1, 2, 3, 4)
 v2 <- c(1, 2, 3, 4)
 v3 <- c("hi", "hola", "hola", "hi")
 v4 <- c(TRUE, TRUE, TRUE, FALSE, FALSE)
 
+# Matrices: two-dimensional structures with elements of the same type
 mymatrix_num <- matrix(c(v1, v2), nrow = 4, ncol = 2)
 mymatrix_num
 
 mymatrix_cha <- matrix(c(v1, v2, v3), nrow = 4, ncol = 3)
 mymatrix_cha
 
+# Data Frame: Traditional table structure
+mydf <- data.frame(v1, v2, v3)
+
+# Tibble: modern version of a data frame from {tibble}
 mytibble <- tibble(v1, v2, v3)
 mytibble
 
-mydf <- data.frame(v1, v2, v3)
-
+# List: Flexible container that can hold elements of different types:
 mylist <- list(v1, v2, v3, v4)
 mylist
 
@@ -108,13 +111,13 @@ mylist
 >
 > --- Hadley Wickham ([Advanced R](https://adv-r.hadley.nz/index.html))
 
-In the example above, the length 4 numeric vector `c(1, 2, 3, 4)` (object) has two names: "a" and "b".
+In R, an In R, an object is the actual data (e.g., `c(1, 2, 3, 4)`), while a name is a label that points to it (e.g., `a` or `b`).
 
-💡By doing `mean(x = a)` we link the value of "a" with the name "x" as well. This link is called a *promise* in R: it is a promise to provide the value of "a", if "x" is ever needed within the `sum()` function.
+💡When we write `mean(x = a)`, we are linking the value of `a` to the name `x`. In R, this link is called a promise: it is a promise to provide the value of `a` only if `x` is ever used inside the function. The value is not copied immediately.
 
-📝Object names should be descriptive and can not have some special characters (`^`, `!`, `$`, `@`, `+`, `-`, `/`, `*`). Also, R is sensitive to capital letters. In general, it is better to avoid them.
+📝Object names should be descriptive and cannot have some special characters (`^`, `!`, `$`, `@`, `+`, `-`, `/`, `*`). Also, R is case-sensitive (a ≠ A), so it's better to stick to lowercase letters.
 
-Working with lists is very common in R. In fact, the default output of `map()` is lists. However, lists can sometimes become messy — for example, when we lose the name of each list element. The [`nest()`](https://tidyr.tidyverse.org/reference/nest.html) function from the `{tidyr}` package allows us to work with list-columns inside data frames, generating one row for each group defined by the non-nested columns.
+In R, lists are very common, and functions like `map()` from `{purrr}` often return them by default. However, lists can become messy, especially if element names are lost. The `{tidyr}` function `nest()` helps manage this by creating list-columns inside a data frame: it generates one row per group defined by the non-nested columns, while the nested columns contain the corresponding subset of data as lists.
 
 ```{r more_objects}
 
@@ -131,7 +134,7 @@ mynested_tibble
 
 💡You can explore different types of objects in R [here](https://rstudio-education.github.io/hopr/r-objects.html).
 
--   Functions: objects in R that take an input and give an output doing a specific action (specific functionality). Functions are the fundamental *building blocks* in R which is a functional programming language.
+-   Functions: objects in R that take inputs and produce outputs by performing a specific action or task. They are the fundamental building blocks of R, which is a functional programming language, meaning that writing and combining functions is the primary way to structure and execute code efficiently.
 
     ![](images/function.png)
 
@@ -145,11 +148,11 @@ mynested_tibble
 
 💡More info about Three Deep Truths About R [here](https://www.r-bloggers.com/2018/06/three-deep-truths-about-r/).
 
--   Packages or libraries: they contain reusable functions, documentation on how to use them, and example datasets. They are the fundamental units of reproducible code in R.
+-   Packages: collections that contain reusable functions, documentation, and exampledatasets. They are the fundamental units of reproducible code in R, allowing you to share tools, workflows, and analyses with others easily.
 
-![Libraries contain functions focused on a common purpose—for example, building a castle.](images/library.png){#library width="348"}
+![Packages contain functions focused on a common purpose—for example, building a castle.](images/library.png){#library width="348"}
 
--   CRAN: the Comprehensive R Archive Network.
+-   CRAN (Comprehensive R Archive Network) is the official repository of R packages, functions, documentation, and example datasets. It provides a centralized, reliable source for installing and updating R packages.
 
 #### Exercise
 
@@ -163,7 +166,7 @@ mynested_tibble
 
 5.  Create an object that contains the number 5 repeated 9 times along with a sequence from 5 to 50 in steps of 5.
 
-6.  What is the length of the previous object?
+6.  Find the length of the previous object.
 
 #### Exercise
 
@@ -173,11 +176,11 @@ mynested_tibble
 
 ### Tidyverse
 
-[*Tidyverse*](https://www.tidyverse.org/) is a collection of R packages (meta-package) initially developed by Hadley Wickham. It contains eight main packages: {readr}, {tibble}, {dplyr}, {tidyr}, {stringr}, {forcats}, {ggplot2} and {purrr}. *Tidyverse* can be considered a dialect of the R programming language, and as such, it may be difficult to learn for people with experience in base R. However, it is important to know the basics of programming using *Tidyverse* for this course due to consistency with the sections on iteration where we will primarily use {purrr}.
+[*Tidyverse*](https://www.tidyverse.org/) is a collection of R packages (meta-package) initially developed by Hadley Wickham. It contains eight main packages: {readr}, {tibble}, {dplyr}, {tidyr}, {stringr}, {forcats}, {ggplot2} and {purrr}. It can be considered a dialect of R, optimized for human-friendly data analysis and [*tidy data*](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html) workflows, where each column is a variable, each row is an observation, and each cell contains a single value.
 
-*Tidyverse* is designed to support the activities of a human data analyst, making its programming structures more logical for the human mind. All the packages are designed to work with [*tidy data*](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html) meaning data where each column is a variable, each row is an observation, and each cell has a value. Additionally, the functions are prepared to be concatenated using the *pipe* operator (`%>%` from {magrittr} package or `|>` from base R), which takes what is on its left and uses it as the first argument of the function on its right. This allows for a left-to-right reading flow, which is more comfortable for most people.
+Additionally, the functions are designed to be combined using the *pipe* operator (`%>%` from {magrittr} package or `|>` from base R). Pipes allow a left-to-right reading flow, taking the output of the expression on the left and using it as the first argument of the function on the right.
 
-💡The two pipe operators have small [differences](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/) but in general their behavior is the same.
+💡 While `%>%` and `|>` have small [differences](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/), their overall behavior is very similar.
 
 ```{r pipe}
 
@@ -306,9 +309,15 @@ View(mydata)
 
 ### Scoping
 
-The [scoping](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) is the set of rules that governs how to look up the value of a symbol in the environment in each programming language. That is, how a variable (name) is associated with a value. A deeper understanding of scoping allows for more advanced use of functional programming. R uses *lexical scoping*. *Lexical* derives from "lexing”, which is part of the process that converts code represented as text to meaningful pieces that the programming language understands. *Lexical scoping* follows four basic rules (*name masking*, *functions versus variables*, *a fresh start*, and *dynamic lookup*), but the most important one for getting started with functional programming is *name masking*.
+[Scoping](https://adv-r.hadley.nz/functions.html?q=lexica#lexical-scoping) is the process R uses to find the value associated with a name.
 
-In relation to name masking, the basic principle is that names defined inside a function mask names defined outside a function. If a name isn't defined inside a function, R will look one level up in the environment. For functions, there is one small tweak to the rule. If you are using a name in a context where it’s obvious that you want a function R will ignore objects that are not functions while it is searching.
+R uses *lexical scoping*, which means it looks for the value of a name based on where a function is defined, not where it is called. *Lexical scoping* follows four basic rules (*name masking*, *functions versus variables*, *a fresh start*, and *dynamic lookup*), but the most important one for getting started with functional programming is *name masking*:
+
+-   Names defined inside a function take precedence over names defined outside.
+
+-   If a name is not found inside the function, R searches up one level in the environment hierarchy.
+
+-   For functions, R ignores non-function objects when searching for a function name.
 
 ```{r lexical_scoping}
 
@@ -324,44 +333,39 @@ myfunction <- function() {
 myfunction()
 ```
 
-![If a name isn't defined inside a function, R will look one level up. Art by Cristina Grajera](images/environment.png)
+![If a name isn't defined inside a function, R will look one level up in the environment where the function was defined to find its value. Art by Cristina Grajera](images/environment.png)
 
-In general, with base R, we can only call objects that are part of the environment (env-variables) although there are some exceptions; however, with *tidyverse*, we can also call variables within tables (data-variables) as objects. This feature called [*non-standard evaluation*](http://adv-r.had.co.nz/Computing-on-the-language.html) simplifies the code in *tidyverse*, but the advantage does not come for free and has implications for the grammar of the functions as we will see later.
+In base R, we typically work with environment variables (env-variables), meaning objects that exist in the workspace. In contrast, the tidyverse allows us to also refer directly to data variables, which are columns inside a data frame, as if they were regular objects.
 
-```{r data_masking}
-#| warning: false
-#| error: true
+This behavior is known as [*non-standard evaluation*](http://adv-r.had.co.nz/Computing-on-the-language.html). It simplifies code by letting us write expressions like `filter(species == "Adelie")` instead of explicitly referencing the data frame (e.g., `penguins$species`). However, this convenience introduces some complexity in how functions are written and understood.
 
-penguins |> select(island)
-penguins[, "island"]
+```{r NSE}
 
-penguins |> filter(island == "Dream", species == "Chinstrap") 
-penguins[penguins$island == "Dream" & penguins$species == "Chinstrap", ]
+# Base R
+penguins[penguins$island == "Dream", ]
 
-mean(x = 1:10)
-mean(x = values)
-mydata <- tibble(values = 1:10)
-mean(x = values)
-mean(x = mydata$values)
-mydata |> 
-  summarise(mean = mean(values))
+# Tidyverse
+penguins |> 
+  filter(island == "Dream")
 ```
 
-![*tidyverse* allows to use data variables (toys inside the box – the data.frame) as if they were environment variables (toys on the carpet). When Monchi puts on the *tidyglasses*, he can also easily access the toys inside the box. The *tidyglasses* makes Monchi evaluate the function in a different environment than usual. Art by Cristina Grajera.](images/data_masking.png)
+![*tidyverse* allows us to use data variables (toys inside the box – the data.frame) as if they were environment variables (toys on the carpet). When Monchi puts on the *tidyglasses*, he can easily see and use the toys inside the box without taking them out. These *tidyglasses* represent non-standard evaluation, which makes R evaluate expressions in a different environment, where the columns of the data frame are directly accessible. Art by Cristina Grajera.](images/data_masking.png)
 
 ## Introduction to Functional Programming
 
-The growing availability of data and the versatility of analysis software have led to a rise in the quantity and complexity of the analyses we perform. This makes efficiency in the process of data management and analysis increasingly necessary. One possible way to optimize these processes and reduce work time for R users is function-based programming. Functions allow the automation of common tasks (for example, reading different databases), simplifying the code.
+The increasing availability of data and the growing complexity of analyses make **e**fficient data management and analysis essential. One way to improve efficiency in R is through function-based programming, where repeated tasks are automated using functions (e.g., reading multiple datasets or applying the same transformation).
 
-A function can be called through another function and the process can be iterated, making R a very powerful tool. Iterations are used to perform the same action on multiple inputs. There are two main paradigms of iteration: object-oriented programming (OOP) and functional programming (FP). In this course, we will primarily focus on functional programming and learn to use the {purrr} package, which provides functions to eliminate many common loops.
+Functions can be combined and called within other functions, and this process can be iterated, making R a powerful and flexible tool. Iteration refers to performing the same operation on multiple inputs. There are two main paradigms for iteration: object-oriented programming (OOP) and functional programming (FP).
+
+In this course, the focus is on functional programming, particularly using the `{purrr}` package, which provides tools to replace traditional loops with more concise, readable, and consistent code.\
 
 > It’s hard to describe exactly what a functional style is, but generally I think it means decomposing a big problem into smaller pieces, then solving each piece with a function or combination of functions. When using a functional style, you strive to decompose components of the problem into isolated functions that operate independently. Each function taken by itself is simple and straightforward to understand; complexity is handled by composing functions in various ways.
 >
 > --- Hadley Wickham ([Advanced R](https://adv-r.hadley.nz/index.html))
 
-![Imagine we want to build a castle in R. The idea would be to start with simple processes such as creating a wall or a roof, and then iterate the process to move from simpler (room) to more complex results (final castle).](images/fp.png){#fp}
+![Imagine we want to build a castle in R. We start by creating simple components, such as a wall or a roof (basic functions). Then, we reuse and combine these components to build more complex structures, like rooms. By iterating these processes, we gradually construct the entire castle.](images/fp.png){#fp}
 
-```{r example_importance_PF}
+```{r example_importance_FP}
 #| warning: false
 
 df <- penguins |> 
@@ -396,23 +400,27 @@ head(df_rescaled3$bill_length_mm)
 
 ```
 
-The main advantages of functional programming (use of functions and iterations) are:
+The main advantages of functional programming (using functions and iterations) are:
 
-1.  Ease of understanding the code's intent, thereby improving comprehension for oneself, collaborators, and reviewers:
+1.  Improved readability and understanding:
 
-    -   Functions have evocative names.
+    -   Functions have clear, descriptive names that reflect their purpose.
 
-    -   The code is more organized.
+    -   Code is more organized and easier to follow for yourself, collaborators, and reviewers.
 
-2.  Speed in making changes, as functions are independent pieces that solve a specific problem.
+2.  Modularity and flexibility:
 
-3.  Reduction of error probability.
+    -   Functions are independent units that solve specific problems. This makes it easier to modify or update parts of the code without affecting the whole program.
+
+3.  Reduced error probability:
+
+    -   Reusing well-defined functions minimizes repetition and helps avoid mistakes.
 
 ### When do we have to use a function?
 
-It is recommended to follow the "do not repeat yourself" principle ([DRY principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself#:~:text=%22Don't%20repeat%20yourself%22,redundancy%20in%20the%20first%20place.)): each unit of knowledge or information should have a single, unambiguous, and authoritative representation within a system.
+It is recommended to follow the [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself#:~:text=%22Don't%20repeat%20yourself%22,redundancy%20in%20the%20first%20place.) (Don’t Repeat Yourself) principle, which states that each piece of knowledge or code should have a single, clear, and authoritative representation within a program.
 
-Writing a function is worthwhile when you have copied and pasted the same code more than twice (don't be WET! - Write Everything Twice). The more times a piece of code is repeated in different places, the more you will need to update it if there is a change, and the higher the likelihood of errors.
+In practice, writing a function becomes worthwhile when you find yourself copying and pasting the same code more than twice (avoid being *WET* — *Write Everything Twice*). Repeating code in multiple places makes it harder to maintain, since any change must be applied everywhere, increasing the risk of inconsistencies and errors.
 
 ## Theory of functions in R
 

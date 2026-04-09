@@ -1,6 +1,6 @@
 ---
 title: "Functional Programming with R (exercises solutions)"
-author: Julen Astigarraga y Verónica Cruz-Alonso
+author: Julen Astigarraga (and Verónica Cruz-Alonso)
 date: today
 date-format: "DD/MM/YYYY"
 toc: true
@@ -26,7 +26,7 @@ number-sections: false
 
 5.  Create an object that contains the number 5 repeated 9 times along with a sequence from 5 to 50 in steps of 5.
 
-6.  What is the length of the previous object?
+6.  Find the length of the previous object.
 
 ```{r 2.1.1}
 
@@ -245,7 +245,6 @@ for (i in seq_along(penguins)) {
 output
 
 ```
-
 
 ## 7.0.1 Exercise
 

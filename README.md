@@ -5,8 +5,8 @@ El directorio AEET contiene los apuntes del taller que impartimos en el XVI cong
 
 El directorio USAL contiene los apuntes del curso impartido en la Universidad de Salamanca entre el 13/05/2024 y 22/05/2024 
 
-The directory transmitting_science contains all notes in English of the course we taught in Transmitting Science in 2025 (2nd edition)
-
 El directorio lleida contiene los apuntes del curso impartido en la Universidad de Lleida el 19/09/2024 y 20/09/2024 
 
-**The most updated notes are those of lleida (in Spanish) and Transmitting Science (in English)**
+The directory transmitting_science contains all notes in English of the course we taught in Transmitting Science in 2026 (3nd edition)
+
+**The most updated notes are those of Transmitting Science**

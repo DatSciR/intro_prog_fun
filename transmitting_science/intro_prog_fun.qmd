@@ -426,9 +426,9 @@ In practice, writing a function becomes worthwhile when you find yourself copyin
 
 Functions have three components:
 
--   `body()`: the code inside the function.
+-   `body()`: the code inside the function that defines what the function does.
 -   `formals()`: the list of arguments that control how the function is executed.
--   `environment()`: the structure that supports the *scoping* of the function, i.e., the environment where the function is located.
+-   `environment()`: the environment where the function is defined, which determines how variables are found (*scoping*).
 
 ```{r components}
 
@@ -452,7 +452,7 @@ f(x = 10)
 
 ```
 
-**Primitive functions** are the exception as they do not have the aforementioned components. They are written in C instead of R and only appear in the base package. They are more efficient but behave differently from other functions, so the R Core Team tries not to create new primitive functions. The rest of the functions follow the structure outlined above.
+**Primitive functions** are the exception as they do not have the aforementioned components. They are written in C instead of R and only appear in the {base} package. Because they are written at a lower level, they are more efficient but behave differently from other functions. For this reason, the R Core Team rarely introduces new primitive functions, and most functions in R follow the standard structure described earlier.
 
 ```{r funciones_primitivas}
 
@@ -463,9 +463,9 @@ body(sum)
 
 According to the type of output, there are two types of functions:
 
--   **Transformation functions**: transform the object that enters the function (the first argument) and return another object or the original one with modifications. Functionals are special types of transformation functions.
+-   **Transformation functions**: they transform the object that enters the function (the first argument) and return another object or the original one with modifications. Functionals are special types of transformation functions.
 
--   **Side-effect functions**: have side effects and perform an action, such as saving a file or drawing a plot. Some commonly used examples are: `library()`, `setwd()`, `plot()`, `write_delim()`... These functions invisibly return the output, which is not saved but can be used in a pipeline.
+-   **Side-effect functions**: they have side effects and perform an action rather than returning a visible result, such as saving a file or drawing a plot. Some commonly used examples are: `library()`, `setwd()`, `plot()`, `write_delim()`. These functions invisibly return the output, which is not saved but can be used in a pipeline.
 
 In general, syntactically, functions have three components:
 
@@ -483,15 +483,15 @@ name1_v2 <- function(x, y) paste(x, y, sep = "_")
 
 name1_v3 <- \(x, y) paste(x, y, sep = "_")  
 
-name1_v1("Vero", "Cruz") 
-name1_v2("Vero", "Cruz") 
-name1_v3("Vero", "Cruz") 
+name1_v1("hi", "class") 
+name1_v2("hi", "class") 
+name1_v3("hi", "class") 
 
 ```
 
-📝If the function has more than two lines, it is better to always use curly braces to clearly delimit it. The opening brace should never be alone, but the closing one should be (except with `else`). Indentation also greatly helps to understand the hierarchy of the code within functions. In this regard, we recommend using *Code \> Reindent lines/Reformat code* in the RStudio menu.
+📝 When a function has more than two lines, it is recommended to use curly braces `{}` to clearly define its body. The opening brace `{` should be on the same line as the function definition, while the closing brace `}` should be on its own line (except when used with `else`). Indentation also helps a lot to read and understand the hierarchy of the code within functions. To help with formatting, you can use *Code \> Reindent Lines/Reformat Selection* in RStudio.
 
-💡Infix operators (`+`), flow control operators (`for`, `if`), subsetting operators (`[ ]`, `$`), assignment operators (`<-`) or even curly braces (`{ }`) are also functions. The backtick "\`" allows to refer to functions or variables that otherwise have "illegal" names.
+💡Infix operators (`+`), flow control operators (`for`, `if`), subsetting operators (`[ ]`, `$`), assignment operators (`<-`) or even curly braces (`{ }`) are also functions. Backticks `` ` `` can be used to refer to functions or variables that have otherwise "illegal" names.
 
 ```{r illegal_names}
 
@@ -501,17 +501,13 @@ for (i in 1:2) print(i)
 `for`(i, 1:2, print(i)) 
 ```
 
-In general, functions have a name that is executed when needed, as we have seen so far, but this is not mandatory. Some packages, such as {purrr}, or functions from the `apply` family, allow the use of anonymous functions for iteration.
+In R, functions usually have a name and are called when needed. However, naming a function is not required. **Anonymous functions** (functions without a name) can be used directly where they are needed. This is especially common in iteration tools, such as those in the `{purrr}` package or the base R *apply* family.
 
 ```{r anonymous_functions}
 
-nxcase <- lapply(penguins, function(x) length(unique(x)))
+ano_lapply <- lapply(penguins, function(x) length(unique(x)))
 
-models <- penguins|>
-  group_split(species) |>
-  map(\(df) lm(body_mass_g ~ bill_length_mm, data = df)) 
-
-summary(models |> pluck(1))
+ano_purrr <- map(penguins, function(x) length(unique(x)))
 
 ```
 
@@ -523,9 +519,9 @@ summary(models |> pluck(1))
 
 Create your first function that fulfills the functionality of dividing any value by 100.
 
-💡Shortcut to write functions: write word "fun" + tab.
+💡Shortcut to write functions: write word `fun + tab`
 
-Imagine that for a dataset we want to visualize the distribution for each numerical variable, based on other categorical variables that particularly interests us.
+Imagine we have a dataset and we want to visualize the distribution of each numerical variable, separated by specific categorical variables of interest.
 
 ```{r repeated_code_advanced}
 #| warning: false
@@ -556,9 +552,9 @@ ggplot(penguins_num, aes(x = species, y = flipper_length_mm, color = sex)) +
 # etc
 ```
 
-We have copied a code more than twice to perform the same action (i.e., a plot to see how a variable is distributed based on two others that remain constant), so we should consider the possibility that we need a function. Next, we will follow some simple steps to transform any repeated code into a function.
+We have copied a code more than twice to perform the same action (i.e., a plot to see how a variable is distributed based on two others that remain constant), this is a sign that we should consider the possibility of writing a function. Next, we will follow some simple steps to transform any repeated code into a function.
 
-1.  Analyze the code: what are the replicated parts? How many inputs do we have? Which inputs vary and which do not?
+1.  Analyze the code: which are the repeated parts? How many inputs do we have? Which inputs vary and which do not?
 
 2.  Simplify and reanalyze duplications.
 
@@ -597,13 +593,13 @@ ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
 
 ```
 
-👀 `ggplot()` needs arguments (data-variables) that are within the `data.frame` it will represent. To generalize the function, we have associated the name of the variable (of type character) to the name "var", but `ggplot()` does not accept characters. Therefore, we need to use an intermediate function that does accept them. To solve common functional programming problems arising from the *non-standard evaluation* of the *tidyverse*, check out [this link](https://dplyr.tidyverse.org/articles/programming.html#introduction).
+👀 `ggplot()` requires arguments (data-variables) that are within the `data.frame` being plotted. To generalize the function, we have associated the name of the variable as a character string to the name "var", but `ggplot()` does not accept character strings directly as aesthetic mappings. To handle this, we need a mechanism that can translate a character string into a data-variable inside the data frame. In the *tidyverse*, this is solved using tools for *non-standard evaluation* , such as `.data[[var]]` or `{{ }}` (in functions). To solve common functional programming problems arising from the *non-standard evaluation* of the *tidyverse*, check out [this link](https://dplyr.tidyverse.org/articles/programming.html#introduction).
 
 📝 Creating objects with intermediate calculations within a function is good practice because it makes the code clearer about what the function is doing. It is common when the function contains if/else statements.
 
-3.  Choose a name for the function (📝). Ideally, it should be short and evoke what the function does. In general, it should be a verb (e.g. impute_values) and the argument names are nouns (e.g. "data", "variable", etc.). Using a noun for a function is allowed if the function calculates something well-known (e.g. `mean()`) or if it serves to access parts of an object (e.g. `residuals()`). It is also recommended to avoid very generic verbs (e.g. "calculate"), and if the name has multiple words, to separate them with an underscore, a dot or use camelCase, but be consistent. If you program several function that do similar things, it is recommended to use the same prefix for all of them (e.g. "str\_" in {stringr} package).
+3.  Choose a name for the function (📝). Ideally, it should be short and descriptive, clearly reflecting what the function does. In general, it should be a verb (e.g. impute_values) since functions perform actions. In contrast, arguments should be nouns (e.g. "data", "variable", etc.) because they represent the objects being acted upon. Using a noun for a function is allowed if the function performs well-known operations (e.g. `mean()`) or if it serves to access parts of an object (e.g. `residuals()`). It is also recommended to avoid very generic verbs (e.g. "calculate"). If a function name contains multiple words, you can separate them using underscores (snake_case), dots, or camelCase, but it is important to stay consistent within a project. If you program several function that do similar things, it is recommended to use the same prefix for all of them (e.g. "str\_" in {stringr} package).
 
-    The more clearly you can express the intention of your code through function names, the more easily others, including yourself in the future, will be able to read and understand the code.
+    💡The more clearly you can express the intention of your code through function names, the more easily others, including yourself in the future, will be able to read and understand the code.
 
 ```{r avoid_names}
 
@@ -629,22 +625,31 @@ explore_penguins <- function (var) {
     theme_light() +
     ylab(var) 
 }
+
+explore_penguins2 <- function(var) {
+  ggplot(penguins_num, aes(x = species, y = {{ var }}, color = sex)) +
+    geom_point(position = position_jitterdodge(), alpha = 0.3) +
+    geom_boxplot(alpha = 0.5) +
+    scale_color_manual(values = c("turquoise", "goldenrod1")) +
+    theme_light()
+}
+
 ```
 
-📝 Use comments (#) to explain the reasoning behind your functions. Avoid explaining what the function is doing or how, as the code itself already communicates that. It is also recommended to use \# to separate sections (Cmd/Ctrl + Shift + R).
+📝 Comments (`#`) should be used to explain the reasoning behind the code, not to describe what the code is doing or how it works. The code itself should already communicate the "what" and "how". Good comments help clarify the "why". It is also recommended to use `#` to separate sections (Cmd/Ctrl + Shift + R).
 
-5.  Try with different inputs.
+5.  Try using different inputs.
 
 ```{r function_trials}
 #| warning: false
 
 explore_penguins(var = "body_mass_g") 
 explore_penguins(var = "flipper_length_mm") 
-explore_penguins(var = "bill_depth_mm")
+explore_penguins2(var = body_mass_g)
 
 ```
 
-💡You may want to convert these tests into formal tests. In complex functions, tests are useful to ensure that even if you make changes, the functionality has not been broken. If you're interested, check out this link: <https://r-pkgs.org/testing-basics.html>
+💡You may want to convert these tests into formal tests. In complex functions and packages, tests are essential to ensure that changes in the code do not break existing functionality. If you're interested, check out [this link](https://r-pkgs.org/testing-basics.html).
 
 #### Exercise
 
@@ -652,11 +657,17 @@ Create a function to standardize (i.e., subtract the mean and divide by the stan
 
 ### Arguments
 
-In general, there are two groups: those that specify the **data** and those that specify **details** of the function's execution. Typically, those specifying data come first, followed by detail arguments. The latter group often has default values (the most common ones), for when nothing is specified.
+Arguments are usually divided into two groups:
+
+-   **Data arguments:** specify the main input data the function works on.
+
+-   **Detail arguments:** control how the function is executed (settings, options, behavior).
+
+By convention, data arguments come first, followed by detail arguments. Detail arguments often have default values, which are used automatically if the user does not specify them.
 
 <!--# See quantile() help -->
 
-📝 The argument names should be short and descriptive. There are some names commonly used but non descriptive that are already known to most users, and it's fine to take advantage of them.
+📝 The argument names should be short and descriptive. In some cases, we can use standard argument names that are widely known by users, even if they are not highly descriptive, and it's fine to take advantage of them.
 
 -   `x, y, z`: vectors
 
@@ -674,7 +685,7 @@ In general, there are two groups: those that specify the **data** and those that
 
 When executing the function, arguments can be specified using the full name, a unequivocal abbreviation, or the order of their position (*unnamed* arguments), with this sequence (name \> abbreviation \> position) being the priority order when matching arguments with what is written.
 
-📝 Generally, only positional order is used to specify the first arguments, the most common ones that everyone knows. If a default value for a detail argument is changed, it is advisable to always use the full name of the argument.
+📝 Generally, only positional order is used to specify the first arguments, since they are the most common ones that everyone knows. If a default value for a detail argument is changed, it is advisable to always use the full name of the argument.
 
 📝Using spaces before and after `=` and after `,` makes it much easier to identify the arguments of the function and, in general, all components.
 
@@ -688,7 +699,7 @@ mean(rnorm(10,mean=50,sd=25)/12,trim=0.2)
 
 ```
 
-There is a special argument called `…`, which captures any other argument that does not correspond to those named in the function. It is used to pass arguments to other functions included in our function.
+There is a special argument called `…`, which captures any other argument not defined in the function. It is used to pass extra arguments to other functions inside it, making functions more flexible and extensible.
 
 ```{r argumento_dotdotdot}
 #| eval: false
@@ -701,22 +712,21 @@ plot(1:5, 1:5, main = "I am using an argument of title()")
 
 ```
 
-📝 Using `…` make functions being very flexible, but it makes necessary to carefully read the function documentation to use it. In addition, if there is a typo in an argument name, we don't get an error message.
+📝 Using `…` make functions being very flexible, but it makes necessary to carefully read the function documentation to use it. Another drawback is that typos in argument names may not produce errors, since unmatched arguments can be silently passed through.
 
 ```{r dotdotdot_flexibilidad}
 
 sum(1, 2, 5, na.mr = TRUE)
-sum(1, 2, NA, na.mr = TRUE)
 
 ```
 
 ### Return values
 
-The last expression executed in a function is the return value. It is the result of executing the function, unless `invisible()` is specified. Functions return only one object. If you want to obtain more, they must be grouped in one list.
+The last expression executed in a function is the return value. It is the result of executing the function, unless `invisible()` is specified. Functions return only one object. If you want to obtain more, they must be grouped in a list.
 
 <!--# Can you think of any case where using invisible() would be useful? -->
 
-📝 The function `return()` is used to explicitly show what do you want to get from a function. It is recommended to use it when the return is not expected at the end of the function. For example, in the branches of an if/else structure, especially if there is a long and complex branch.
+📝 The function `return()` is used to explicitly specify the output of a function. It is particularly useful in situations where the return value is not at the end of the function, such as in functions with conditional logic (`if/else`), where different branches may produce different outputs.
 
 #### Exercise
 

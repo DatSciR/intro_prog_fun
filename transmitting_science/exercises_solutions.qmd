@@ -141,7 +141,7 @@ Create a function to standardize (i.e., subtract the mean and divide by the stan
 
 ```{r 5.0.2}
 
-# R base
+# base R
 standardise <- function(x, my.na.rm) {
   (x - mean(x, na.rm = my.na.rm)) / sd(x, na.rm = my.na.rm)
 }
@@ -177,29 +177,27 @@ penguins_num <- penguins |>
 
 explore_penguins <-
   function(var) {
-    ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
+    ggplot(penguins_num, aes(x = species, y = {{ var }}, color = sex)) +
       geom_point(position = position_jitterdodge(), alpha = 0.3) +
       geom_boxplot(alpha = 0.5) +
       scale_color_manual(values = c("turquoise", "goldenrod1")) +
-      theme_light() +
-      ylab(var)
+      theme_light()
   }
 
-explore_penguins("body_mass_g")
+explore_penguins(body_mass_g)
 
 explore_df <- function(df, x_var, y_var, color) {
-  ggplot(data = df, aes(x = .data[[x_var]], y = .data[[y_var]], color = .data[[color]])) + 
+  ggplot(data = df, aes(x = {{ x_var }}, y = {{ y_var }}, color = {{ color }})) + 
     geom_point(position = position_jitterdodge(), alpha = 0.3) +
     geom_boxplot(alpha = 0.5) + 
-    scale_color_manual(values = rainbow(n = length(unique(df[[color]])))) +
-    theme_light() + 
-    ylab(y_var)
+    scale_color_manual(values = rainbow(n = length(unique(df {{ color }} )))) +
+    theme_light()
 }
 
 explore_df(df = iris, # iris is a dataset loaded in RStudio by default
-           y_var = "Petal.Length",
-           x_var = "Species",
-           color = "Species")
+           y_var = Petal.Length,
+           x_var = Species,
+           color = Species)
 
 ```
 

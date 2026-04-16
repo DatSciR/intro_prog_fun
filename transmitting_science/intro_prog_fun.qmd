@@ -734,7 +734,7 @@ How would you generalize the function `explore_penguins()` so you can use any da
 
 #### Advanced exercise
 
-Create a function like rescale01 that can be applied to a dataset and a variable but includes the mutate inside the function itself.
+Create a function like `rescale01()` that can be applied to a dataset and a variable but includes the `mutate()` inside the function itself.
 
 💡Hint:
 
@@ -750,7 +750,7 @@ name <- function(data, x) {
 
 ## Object-oriented programming (OOP) and iterations using loops
 
-The main reason for using OOP is *polymorphism* (from the Latin "many forms"). Polymorphism allows a developer to consider a function's interface separately from its implementation, making it easier to use the same function with different input types. To understand this, try running the following code:
+The main motivation for object-oriented programming (OOP) is polymorphism (from the Greek *“many forms”*). Polymorphism allows the same function to behave differently depending on the type (class) of the input object, while keeping a consistent interface for the user. For example, the function `summary()` produces different outputs depending on the type of input:
 
 ```{r polymorphism_example}
 
@@ -759,7 +759,7 @@ summary(penguins$sex)
 
 ```
 
-You might think that `summary()` uses a series of `if-else` statements depending on the type of the input data, but in this case only the original author could add new implementations. However, an OOP system allows any developer to extend the interface by creating implementations for new input types.
+At first glance, it may seem that `summary()` uses many `if/else` statements internally to handle different data types. However, in OOP systems, this behavior is instead achieved through methods, which are specific implementations of a function for different classes of objects. We can inspect this behavior using:
 
 ```{r polymorphism_type}
 
@@ -769,7 +769,15 @@ methods(summary)
 
 ```
 
-In OOP systems, the type of an object is called its *class*, and a specific implementation for a class is known as a *method*. Broadly speaking, a class defines the characteristics of an object (what is it?) and methods describe the actions that object can perform (what does it do?).
+**Key concepts**
+
+-   **Class**: the type of an object (what it is)
+
+-   **Method**: the implementation of a function for a specific class (what it does)
+
+-   **Generic function**: a function (like `summary()`) that selects the correct method automatically based on the class
+
+Object-oriented programming is very useful because it allows developers to extend existing functions without modifying them, by defining new methods for new classes.
 
 Object-oriented programming, used by languages, such as Java or Python, has been the most popular programming paradigm in recent decades and uses an imperative programming style. Base R provides three OOP systems (S3 –which is the most used-, S4 and RC), although there are also other OOP systems provided by different CRAN packages.
 
@@ -837,7 +845,7 @@ system.time(
 
 ```
 
-2.  Sequence: here we determine what we want to iterate on. Each execution of the *for loop* will assign a different value of `seq_along(y)` to *i*.
+2.  Sequence: here we determine what we want to iterate over. Each iteration of the *for loop* will assign a different value of `seq_along(y)` to *i*.
 
 3.  Body: Here we determine what we want each iteration to do. The action is executed repeatedly, each time with a different value for *i*.
 

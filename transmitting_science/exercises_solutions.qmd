@@ -203,7 +203,7 @@ explore_df(df = iris, # iris is a dataset loaded in RStudio by default
 
 ## 5.2.2 Advanced exercise
 
-Create a function like rescale01 that can be applied to a dataset and a variable but includes the mutate inside the function itself.
+Create a function like `rescale01()` that can be applied to a dataset and a variable but includes the `mutate()` inside the function itself.
 
 ```{r 5.2.2}
 

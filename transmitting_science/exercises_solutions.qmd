@@ -284,7 +284,7 @@ map(penguins, mean, na.rm = T) # option 2
 
 ```
 
-The first and second `map()` use anonymous functions (`\(x)`) while the third does not. The first returns many `NA` because some cells of numeric variables in the penguins dataset contain `NA`, and by default, `mean()` returns `NA` if it detects any `NA` in the variables to which `mean()` is applied. The result of the second and third `map()` is the same. However, in the second `map()`, additional arguments are passed to `mean()` through the anonymous function. In the third `map()`, since `map()` includes `...` among its arguments, additional arguments can be included after the function within `map()` in a much simpler way. The additional arguments can be used for any function included in the iteration.
+The first and second `map()` use anonymous functions (`\(x)`) while the third does not. The first returns many `NA` because some cells of numeric variables in the penguins dataset contain `NA`, and by default, `mean()` returns `NA` if it detects any missing values in the data it is applied to. The result of the second and third `map()` is the same. However, in the second `map()`, additional arguments are passed to `mean()` through the anonymous function. In the third `map()`, since `map()` includes `...` among its arguments, additional arguments can be included after the function within `map()` in a much simpler way. These additional arguments can be used for any function included in the iteration.
 
 ## 8.2.1 Exercise
 

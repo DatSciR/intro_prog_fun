@@ -381,7 +381,7 @@ pmap(list(penguins_list, names(penguins_list)),
 
 ## 10.1.1 Exercise
 
-Based on what it says in the definition about the `walk()` family, run this code and understand what it does.
+Based on the definition of the `walk()` family, run this code and understand what it does.
 
 ```{r 10.1.1}
 
@@ -398,11 +398,11 @@ walk2(penguins_nested_str$data, penguins_nested_str$path, write_csv)
 
 ```
 
-Using the `nest()` function from {tidyr}, we generate list-columns in the penguins data frame, creating a row for each penguin species. Since it is a data frame, we can directly apply the `mutate()` function to it, generating the `path` variable that contains the output name we want to assign to each dataset. Finally, using the `walk2()` function, we save the data related to each penguin with its respective path that we generated earlier.
+Using the `nest()` function from {tidyr}, we generate list-columns in the penguins data frame, resulting in one row per penguin species. Since the result is still a data frame, we can directly apply `mutate()` to it to create the `path` variable that contains the output file name we want to assign to each dataset. Finally, using `walk2()`, we save the data related to each penguin species with its respective path that we generated earlier.
 
 ## 10.1.2 Advanced exercise
 
-Generate an example where you use `walk2()` or `pwalk()` to save multiple plots generated with `ggplot()`. Hint: the first entry will be the plot you want to save and the second the name of the file you want to give it.
+Generate an example where you use `walk2()` or `pwalk()` to save multiple plots generated with `ggplot()`. Hint: the first entry will be the plot you want to save and the second the name of the file you want to assign to it.
 
 ```{r 10.1.2}
 

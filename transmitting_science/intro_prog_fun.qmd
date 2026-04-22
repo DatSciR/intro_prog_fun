@@ -54,6 +54,8 @@ This course follows the framework proposed by Hadley Wickham, Mine Çetinkaya-Ru
 | Iterations without output                              |               |
 |                                                        |               |
 | Function operators and other functionals               |               |
+|                                                        |               |
+| Parallelization                                        |               |
 +--------------------------------------------------------+---------------+
 
 ## Introduction to programming in R
@@ -1179,7 +1181,7 @@ pmap(list(n = x, mean = y, sd = z), rnorm)
 
 ```
 
-💡 If we do not name the list elements, `pmap()` will use the list elements in their order for consecutive arguments to the function. In any case, it is a good practice to name them so that it is very clear what the function will do.
+💡 If we do not name the list elements, `pmap()` will use the list elements in their order for consecutive arguments to the function. In any case, it is good practice to name the elements of the list so that it is clear which input corresponds to which argument of the function.
 
 ```{r pmap_example_pipe}
 
@@ -1196,21 +1198,21 @@ args3 |>
 
 Transform the `map2()` that you have generated in the exercise @sec-exercise-map2 to `pmap()`.
 
-💡 The closest base R equivalents to `map2()` and `pmap()` are `Map()` and `mapply()`, but both have notable limitations:
+💡 The closest base R equivalents to `map2()` and `pmap()` are `Map()` and `mapply()`, but both have important limitations:
 
--   `Map()` vectorises over all arguments, which means you cannot include arguments that should remain constant.
+-   `Map()` vectorises over all arguments, which means it is not possible to include arguments that should remain constant across iterations.
 
--   `mapply()` is essentially a multidimensional version of `sapply()`. It takes the output of `Map()` and attempts to simplify it, which can lead to the same issues as `sapply()`. There is no multi-input equivalent of `vapply()`, making type safety harder to ensure.
+-   `mapply()` is essentially a multidimensional version of `sapply()`. It takes the output of `Map()` and attempts to simplify it, which can lead to the same type of issues as `sapply()`. There is no multi-input equivalent of `vapply()`, making type safety harder to ensure.
 
 ## Iterations without output
 
 ### Our fifth functional: `walk()`, `walk2()` and `pwalk()`
 
-When we want to use functions for their side effects (e.g. `ggsave()`) and not for their return value. The important thing is the action and not the return value or object in R.
+When we use functions for their side effects (e.g. `ggsave()`) and not for their return value. The important part is the action performed and not the return value or object in R.
 
 #### Exercise
 
-Based on what it says in the definition about the `walk()` family, run this code and understand what it does.
+Based on the definition of the `walk()` family, run this code and understand what it does.
 
 ```{r walk_exercise}
 
@@ -1236,15 +1238,15 @@ walk2(penguins_nested_str$data, penguins_nested_str$path, write_csv)
 
 #### Advanced exercise
 
-Generate an example where you use `walk2()` or `pwalk()` to save multiple plots generated with `ggplot()`. Hint: the first entry will be the plot you want to save and the second the name of the file you want to give it.
+Generate an example where you use `walk2()` or `pwalk()` to save multiple plots generated with `ggplot()`. Hint: the first entry will be the plot you want to save and the second the name of the file you want to assign to it.
 
-💡 There is no base R equivalent to `walk()`. You can mimic its behavior by wrapping the result of `lapply()` in `invisible()` or save it to a variable that is never used. For R base functionals that have no equivalent in purrr, see: <https://adv-r.hadley.nz/functionals.html#base-functionals>
+💡 There is no base R equivalent to `walk()`. You can mimic its behavior by wrapping the result of `lapply()` in `invisible()` or by assigning it to a variable that is not used later in the code. For R base functionals that have no equivalent in {purrr}, see: <https://adv-r.hadley.nz/functionals.html#base-functionals>
 
 ## Function operators and other functionals
 
 ### More variants of `map()`: `modify()` and `imap()`
 
-`modify()` and `imap()` are also map family functions. `modify()` is analogous to `map()` but returns the same output type as the input type.
+`modify()` and `imap()` are also part of the map family. `modify()` is analogous to `map()` but it preserves the input type in the output.
 
 `imap()` is used to iterate over indexes, both numeric indexes and names. `imap(x, f)` is analogous to `map2(x, names(x), f)` when `x` has names and `map2(x, seq_along(x), f)` when it does not.
 
@@ -1277,9 +1279,9 @@ In this course we do not delve into `modify()` and `imap()` because with the oth
 
 💡 Examples of some specific tasks with {purrr}: <https://r4ds.hadley.nz/iteration>
 
-### Predicate functionals and more useful stuff
+### Functional predicates and more useful stuff
 
-Predicates are functions that return a single TRUE or FALSE (e.g., `is.character()`). Thus, a functional predicate applies a predicate to each element of a vector: `keep()`, `discard()`, `some()`, `every()`, `detect()`, `detect_index()`... For more information see: <https://r4ds.had.co.nz/iteration.html>, 21.9.1 Predicate functions.
+Predicates are functions that return a single logical value (`TRUE` or `FALSE`), for example `is.character()`. A functional predicate applies a predicate function to each element of a vector: `keep()`, `discard()`, `some()`, `every()`, `detect()`, `detect_index()`... For more information see: <https://r4ds.had.co.nz/iteration.html>, 21.9.1 Predicate functions.
 
 ```{r predicate_functional_example}
 
@@ -1332,9 +1334,9 @@ ls[["age"]] |>
 
 ```
 
-#### Function operators
+### Function operators
 
-When we use `map()` functions to repeat many operations, the probability that one of those operations fails increases and we will not get any output. {purrr} provides some function operators in the form of adverbs to ensure that an error doesn't ruin the entire process: `safely()`, `possibly()`, `quietly()`. For more information see: <https://r4ds.had.co.nz/iteration.html>, 21.6 Dealing with failure.
+When we use `map()` functions to repeat many operations, the probability that one of those operations fails increases and this can stop the entire process from producing output. {purrr} provides some function operators in the form of adverbs to ensure that an error doesn't ruin the entire process: `safely()`, `possibly()`, `quietly()`. For more information see: <https://r4ds.had.co.nz/iteration.html>, 21.6 Dealing with failure.
 
 ```{r function_operator_example}
 #| error: true
@@ -1360,13 +1362,13 @@ x |>
 
 Use any variant of `map()` along with a function operator to the penguins database.
 
-## Further information
+## Parallelization
 
-### Parallelization
+Different CPU cores (*Central Processing Unit*) can be used to run the same process with different sets of data in parallel, speeding up long tasks. Some tasks are particularly well suited for parallelization, such as, those that are repetitive and have little or no dependence on each other, other than the source of the input data, allowing them to be easily split into parallel tasks. These tasks are usually those that can be solved through iterations like those we have seen previously.
 
-Different CPU cores (*Central Processing Unit*) can be used to run the same process with different sets of data in parallel, speeding up long tasks. Some tasks are particularly well suited for parallelization, such as, those that are repetitive and have little or no dependence on each other, other than the source of the input data, allowing them to be easily split into parallel tasks. These tasks are usually those that can be solved through iterations like those we have seen previously. In theory, the process speeds up in proportion to the number of cores, but in practice, other factors must be taken into account, such as, the time consumed in transferring data to each process and the time spent gathering the results of the different processes.
+In theory, the process speeds up in proportion to the number of cores used. However, in practice, other factors must be considered, such as the time required to distribute data to each process and the time needed to combine the results afterward.
 
-R was originally designed to operate on a single CPU process because, at the time of its development, CPUs typically had a single core, and parallel computing was neither common nor well-developed. As a result, leveraging parallelism in R traditionally required the use of additional packages.
+R was originally designed to operate on a single CPU process because, at the time of its development, CPUs typically had a single core, and parallel computing was neither common nor well-developed. As a result, using parallel computing in R has traditionally required additional packages.
 
 ```{r parallelization}
 #| eval: false
@@ -1404,8 +1406,6 @@ cat("Computing time:", round(time_final - time_initial, 1), "seconds\n")
 
 ```
 
-The information presented here about parallel programming is explained in more detail in: <https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/>
-
 However, this is changing. In the latest development version of purrr, the map functions now include a `.parallel` argument, enabling parallelization using the {mirai} package (see <https://purrr.tidyverse.org/dev/reference/parallelization.html>).
 
 ### Links of interest
@@ -1422,7 +1422,7 @@ However, this is changing. In the latest development version of purrr, the map f
 
 -   [Advanced R (functionals)](https://adv-r.hadley.nz/functionals.html)
 
--   [purrr 1.0.0](https://www.tidyverse.org/blog/2022/12/purrr-1-0-0/)
+-   [purrr](https://purrr.tidyverse.org/)
 
 -   [Learn to purrr (Rebecca Barter)](https://www.rebeccabarter.com/blog/2019-08-19_purrr)
 
@@ -1434,9 +1434,11 @@ However, this is changing. In the latest development version of purrr, the map f
 
 -   [Advanced R (Object-oriented programming)](https://adv-r.hadley.nz/oo.html)
 
-This course is primarily based on the first edition of the book [R for Data Science](https://r4ds.had.co.nz/) by Hadley Wickham & Garrett Grolemund and the second edition of the book [Advanced R](https:%20//adv-r.hadley.nz/index.html) by Hadley Wickham.
+-   [Parallel computation in R](https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/)
 
-You can ask questions, make suggestions or share new knowledge related to functional programming that you consider relevant to share [here](https://github.com/DatSciR/intro_prog_fun/discussions/7).
+This course is mainly based on the first edition of the book [R for Data Science](https://r4ds.had.co.nz/) by Hadley Wickham & Garrett Grolemund and the second edition of the book [Advanced R](https:%20//adv-r.hadley.nz/index.html) by Hadley Wickham.
+
+You can ask questions, make suggestions or share new knowledge related to functional programming that you consider relevant [here](https://github.com/DatSciR/intro_prog_fun/discussions/7).
 
 ------------------------------------------------------------------------
 

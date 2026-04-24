@@ -14,6 +14,12 @@ editor_options:
 number-sections: false
 ---
 
+```{r packages}
+library(palmerpenguins)
+library(tidyverse)
+```
+
+
 ## 2.1.1 Exercise
 
 1.  Choose a number and multiply it by 3.
@@ -79,9 +85,6 @@ ls[[2]]$var2_rnorm[8]
 3.  Create an object from the one created in step 1 where you select everything except the species.
 
 ```{r 2.2.1}
-
-library(palmerpenguins)
-library(tidyverse)
 
 # 1
 adelie <- penguins |> 
@@ -187,17 +190,17 @@ explore_penguins <-
 explore_penguins(body_mass_g)
 
 explore_df <- function(df, x_var, y_var, color) {
-  ggplot(data = df, aes(x = {{ x_var }}, y = {{ y_var }}, color = {{ color }})) + 
+  ggplot(data = df, aes(x = .data[[x_var]], y = .data[[y_var]], color = .data[[color]])) + 
     geom_point(position = position_jitterdodge(), alpha = 0.3) +
     geom_boxplot(alpha = 0.5) + 
-    scale_color_manual(values = rainbow(n = length(unique(df {{ color }} )))) +
+    scale_color_manual(values = rainbow(n = length(unique(df[[color]])))) +
     theme_light()
 }
 
 explore_df(df = iris, # iris is a dataset loaded in RStudio by default
-           y_var = Petal.Length,
-           x_var = Species,
-           color = Species)
+           y_var = "Petal.Length",
+           x_var = "Species",
+           color = "Species")
 
 ```
 

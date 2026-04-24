@@ -1,6 +1,6 @@
 # Functional Programming with R (exercises solutions)
-Julen Astigarraga y Verónica Cruz-Alonso
-30/05/2025
+Julen Astigarraga (and Verónica Cruz-Alonso)
+24/04/2026
 
 - [2.1.1 Exercise](#211-exercise)
 - [2.2.1 Exercise](#221-exercise)
@@ -21,6 +21,33 @@ Julen Astigarraga y Verónica Cruz-Alonso
 - [10.1.2 Advanced exercise](#1012-advanced-exercise)
 - [11.3.1 Exercise](#1131-exercise)
 
+``` r
+library(palmerpenguins)
+```
+
+
+    Attaching package: 'palmerpenguins'
+
+    The following objects are masked from 'package:datasets':
+
+        penguins, penguins_raw
+
+``` r
+library(tidyverse)
+```
+
+    ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+    ✔ dplyr     1.2.1     ✔ readr     2.2.0
+    ✔ forcats   1.0.1     ✔ stringr   1.6.0
+    ✔ ggplot2   4.0.3     ✔ tibble    3.3.1
+    ✔ lubridate 1.9.5     ✔ tidyr     1.3.2
+    ✔ purrr     1.2.2     
+
+    ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+    ✖ dplyr::filter() masks stats::filter()
+    ✖ dplyr::lag()    masks stats::lag()
+    ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+
 ## 2.1.1 Exercise
 
 1.  Choose a number and multiply it by 3.
@@ -34,7 +61,7 @@ Julen Astigarraga y Verónica Cruz-Alonso
 5.  Create an object that contains the number 5 repeated 9 times along
     with a sequence from 5 to 50 in steps of 5.
 
-6.  What is the length of the previous object?
+6.  Find the length of the previous object.
 
 ``` r
 # 1
@@ -112,7 +139,7 @@ ls[[1]]$var2_letters[8]
 ls[[2]]$var2_rnorm[8]
 ```
 
-    [1] -1.043187
+    [1] 0.03418412
 
 ## 2.2.1 Exercise
 
@@ -125,22 +152,6 @@ ls[[2]]$var2_rnorm[8]
 
 3.  Create an object from the one created in step 1 where you select
     everything except the species.
-
-``` r
-library(palmerpenguins)
-library(tidyverse)
-```
-
-    ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-    ✔ dplyr     1.1.4     ✔ readr     2.1.5
-    ✔ forcats   1.0.0     ✔ stringr   1.5.1
-    ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-    ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-    ✔ purrr     1.0.4     
-    ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ✖ dplyr::filter() masks stats::filter()
-    ✖ dplyr::lag()    masks stats::lag()
-    ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 
 ``` r
 # 1
@@ -225,7 +236,7 @@ Create a function to standardize (i.e., subtract the mean and divide by
 the standard deviation) the numerical variables of the penguins dataset.
 
 ``` r
-# R base
+# base R
 standardise <- function(x, my.na.rm) {
   (x - mean(x, na.rm = my.na.rm)) / sd(x, na.rm = my.na.rm)
 }
@@ -397,15 +408,14 @@ penguins_num <- penguins |>
 
 explore_penguins <-
   function(var) {
-    ggplot(penguins_num, aes(x = species, y = .data[[var]], color = sex)) +
+    ggplot(penguins_num, aes(x = species, y = {{ var }}, color = sex)) +
       geom_point(position = position_jitterdodge(), alpha = 0.3) +
       geom_boxplot(alpha = 0.5) +
       scale_color_manual(values = c("turquoise", "goldenrod1")) +
-      theme_light() +
-      ylab(var)
+      theme_light()
   }
 
-explore_penguins("body_mass_g")
+explore_penguins(body_mass_g)
 ```
 
     Warning: Removed 2 rows containing non-finite outside the scale range
@@ -422,8 +432,7 @@ explore_df <- function(df, x_var, y_var, color) {
     geom_point(position = position_jitterdodge(), alpha = 0.3) +
     geom_boxplot(alpha = 0.5) + 
     scale_color_manual(values = rainbow(n = length(unique(df[[color]])))) +
-    theme_light() + 
-    ylab(y_var)
+    theme_light()
 }
 
 explore_df(df = iris, # iris is a dataset loaded in RStudio by default
@@ -436,8 +445,8 @@ explore_df(df = iris, # iris is a dataset loaded in RStudio by default
 
 ## 5.2.2 Advanced exercise
 
-Create a function like rescale01 that can be applied to a dataset and a
-variable but includes the mutate inside the function itself.
+Create a function like `rescale01()` that can be applied to a dataset
+and a variable but includes the `mutate()` inside the function itself.
 
 ``` r
 rescale01 <- function(x) {
@@ -646,12 +655,12 @@ map(penguins, mean, na.rm = T) # option 2
 The first and second `map()` use anonymous functions (`\(x)`) while the
 third does not. The first returns many `NA` because some cells of
 numeric variables in the penguins dataset contain `NA`, and by default,
-`mean()` returns `NA` if it detects any `NA` in the variables to which
-`mean()` is applied. The result of the second and third `map()` is the
-same. However, in the second `map()`, additional arguments are passed to
+`mean()` returns `NA` if it detects any missing values in the data it is
+applied to. The result of the second and third `map()` is the same.
+However, in the second `map()`, additional arguments are passed to
 `mean()` through the anonymous function. In the third `map()`, since
 `map()` includes `...` among its arguments, additional arguments can be
-included after the function within `map()` in a much simpler way. The
+included after the function within `map()` in a much simpler way. These
 additional arguments can be used for any function included in the
 iteration.
 
@@ -903,8 +912,8 @@ pmap(list(penguins_list, names(penguins_list)),
 
 ## 10.1.1 Exercise
 
-Based on what it says in the definition about the `walk()` family, run
-this code and understand what it does.
+Based on the definition of the `walk()` family, run this code and
+understand what it does.
 
 ``` r
 penguins_nested <- penguins |>   
@@ -930,11 +939,11 @@ walk2(penguins_nested_str$data, penguins_nested_str$path, write_csv)
 ```
 
 Using the `nest()` function from {tidyr}, we generate list-columns in
-the penguins data frame, creating a row for each penguin species. Since
-it is a data frame, we can directly apply the `mutate()` function to it,
-generating the `path` variable that contains the output name we want to
-assign to each dataset. Finally, using the `walk2()` function, we save
-the data related to each penguin with its respective path that we
+the penguins data frame, resulting in one row per penguin species. Since
+the result is still a data frame, we can directly apply `mutate()` to it
+to create the `path` variable that contains the output file name we want
+to assign to each dataset. Finally, using `walk2()`, we save the data
+related to each penguin species with its respective path that we
 generated earlier.
 
 ## 10.1.2 Advanced exercise
@@ -942,7 +951,7 @@ generated earlier.
 Generate an example where you use `walk2()` or `pwalk()` to save
 multiple plots generated with `ggplot()`. Hint: the first entry will be
 the plot you want to save and the second the name of the file you want
-to give it.
+to assign to it.
 
 ``` r
 gg_penguins_bill_body <- function(data_df) {
@@ -963,11 +972,11 @@ penguins_nested_str
 
     # A tibble: 3 × 4
     # Groups:   species [3]
-      species   data               gg_obj path                  
-      <fct>     <list>             <list> <glue>                
-    1 Adelie    <tibble [152 × 7]> <gg>   penguins_Adelie.png   
-    2 Gentoo    <tibble [124 × 7]> <gg>   penguins_Gentoo.png   
-    3 Chinstrap <tibble [68 × 7]>  <gg>   penguins_Chinstrap.png
+      species   data               gg_obj     path                  
+      <fct>     <list>             <list>     <glue>                
+    1 Adelie    <tibble [152 × 7]> <ggplt2::> penguins_Adelie.png   
+    2 Gentoo    <tibble [124 × 7]> <ggplt2::> penguins_Gentoo.png   
+    3 Chinstrap <tibble [68 × 7]>  <ggplt2::> penguins_Chinstrap.png
 
 ``` r
 pwalk(list(plot = penguins_nested_str$gg_obj, filename = penguins_nested_str$path),
@@ -1235,10 +1244,10 @@ penguins |>
 
     $error
     $error$species
-    <simpleError in Math.factor(x, base): 'log' not meaningful for factors>
+    <simpleError in Math.factor(...): 'log' not meaningful for factors>
 
     $error$island
-    <simpleError in Math.factor(x, base): 'log' not meaningful for factors>
+    <simpleError in Math.factor(...): 'log' not meaningful for factors>
 
     $error$bill_length_mm
     NULL
@@ -1253,7 +1262,7 @@ penguins |>
     NULL
 
     $error$sex
-    <simpleError in Math.factor(x, base): 'log' not meaningful for factors>
+    <simpleError in Math.factor(...): 'log' not meaningful for factors>
 
     $error$year
     NULL
@@ -1269,18 +1278,18 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2025-05-30 12:16:25 CEST"
+    [1] "2026-04-24 15:14:10 CEST"
 
 ``` r
 sessionInfo()
 ```
 
-    R version 4.4.3 (2025-02-28 ucrt)
+    R version 4.5.3 (2026-03-11 ucrt)
     Platform: x86_64-w64-mingw32/x64
-    Running under: Windows 11 x64 (build 26100)
+    Running under: Windows 11 x64 (build 26200)
 
     Matrix products: default
-
+      LAPACK version 3.12.1
 
     locale:
     [1] LC_COLLATE=English_Sweden.utf8  LC_CTYPE=English_Sweden.utf8   
@@ -1294,22 +1303,23 @@ sessionInfo()
     [1] stats     graphics  grDevices utils     datasets  methods   base     
 
     other attached packages:
-     [1] lubridate_1.9.4      forcats_1.0.0        stringr_1.5.1       
-     [4] dplyr_1.1.4          purrr_1.0.4          readr_2.1.5         
-     [7] tidyr_1.3.1          tibble_3.2.1         ggplot2_3.5.1       
+     [1] lubridate_1.9.5      forcats_1.0.1        stringr_1.6.0       
+     [4] dplyr_1.2.1          purrr_1.2.2          readr_2.2.0         
+     [7] tidyr_1.3.2          tibble_3.3.1         ggplot2_4.0.3       
     [10] tidyverse_2.0.0      palmerpenguins_0.1.1
 
     loaded via a namespace (and not attached):
-     [1] utf8_1.2.4        generics_0.1.3    stringi_1.8.7     hms_1.1.3        
-     [5] digest_0.6.37     magrittr_2.0.3    evaluate_1.0.3    grid_4.4.3       
-     [9] timechange_0.3.0  fastmap_1.2.0     jsonlite_2.0.0    scales_1.3.0     
-    [13] textshaping_1.0.0 cli_3.6.4         rlang_1.1.5       crayon_1.5.3     
-    [17] bit64_4.6.0-1     munsell_0.5.1     withr_3.0.2       yaml_2.3.10      
-    [21] tools_4.4.3       parallel_4.4.3    tzdb_0.5.0        colorspace_2.1-1 
-    [25] vctrs_0.6.5       R6_2.6.1          lifecycle_1.0.4   bit_4.6.0        
-    [29] vroom_1.6.5       ragg_1.3.3        pkgconfig_2.0.3   pillar_1.10.1    
-    [33] gtable_0.3.6      glue_1.8.0        systemfonts_1.2.1 xfun_0.52        
-    [37] tidyselect_1.2.1  rstudioapi_0.17.1 knitr_1.50        farver_2.1.2     
-    [41] htmltools_0.5.8.1 rmarkdown_2.29    labeling_0.4.3    compiler_4.4.3   
+     [1] utf8_1.2.6         generics_0.1.4     stringi_1.8.7      hms_1.1.4         
+     [5] digest_0.6.39      magrittr_2.0.5     evaluate_1.0.5     grid_4.5.3        
+     [9] timechange_0.4.0   RColorBrewer_1.1-3 fastmap_1.2.0      jsonlite_2.0.0    
+    [13] scales_1.4.0       textshaping_1.0.5  cli_3.6.6          rlang_1.2.0       
+    [17] crayon_1.5.3       bit64_4.8.0        withr_3.0.2        yaml_2.3.12       
+    [21] otel_0.2.0         tools_4.5.3        parallel_4.5.3     tzdb_0.5.0        
+    [25] vctrs_0.7.3        R6_2.6.1           lifecycle_1.0.5    bit_4.6.0         
+    [29] vroom_1.7.1        ragg_1.5.2         pkgconfig_2.0.3    pillar_1.11.1     
+    [33] gtable_0.3.6       glue_1.8.1         systemfonts_1.3.2  xfun_0.57         
+    [37] tidyselect_1.2.1   rstudioapi_0.18.0  knitr_1.51         farver_2.1.2      
+    [41] htmltools_0.5.9    rmarkdown_2.31     labeling_0.4.3     compiler_4.5.3    
+    [45] S7_0.2.1-1        
 
 </details>

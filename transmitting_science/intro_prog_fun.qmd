@@ -30,33 +30,33 @@ This course follows the framework proposed by Hadley Wickham, Mine Çetinkaya-Ru
 
 ### Course structure
 
-+--------------------------------------------------------+--------------+
-| Blocks                                                 | Day          |
-+========================================================+==============+
-| Course introduction                                    | 06/05/26     |
-|                                                        |              |
-| Introduction to programming in R                       |              |
-|                                                        |              |
-| Introduction to functional programming                 |              |
-+--------------------------------------------------------+--------------+
-| Theory of functions in R                               | 08/05/26     |
-|                                                        |              |
-| How to write functions                                 |              |
-+--------------------------------------------------------+--------------+
-| Object-oriented programming and iterations using loops | 13/05/26     |
-|                                                        |              |
-| Functional programming                                 |              |
-|                                                        |              |
-| Iterations over one and two arguments                  |              |
-+--------------------------------------------------------+--------------+
-| Iterations over multiple arguments                     | 15/05/26     |
-|                                                        |              |
-| Iterations without output                              |              |
-|                                                        |              |
-| Function operators and other functionals               |              |
-|                                                        |              |
-| Parallelization                                        |              |
-+--------------------------------------------------------+--------------+
++--------------------------------------------------------+----------+
+| Blocks                                                 | Day      |
++========================================================+==========+
+| Course introduction                                    | 06/05/26 |
+|                                                        |          |
+| Introduction to programming in R                       |          |
+|                                                        |          |
+| Introduction to functional programming                 |          |
++--------------------------------------------------------+----------+
+| Theory of functions in R                               | 08/05/26 |
+|                                                        |          |
+| How to write functions                                 |          |
++--------------------------------------------------------+----------+
+| Object-oriented programming and iterations using loops | 13/05/26 |
+|                                                        |          |
+| Functional programming                                 |          |
+|                                                        |          |
+| Iterations over one and two arguments                  |          |
++--------------------------------------------------------+----------+
+| Iterations over multiple arguments                     | 15/05/26 |
+|                                                        |          |
+| Iterations without output                              |          |
+|                                                        |          |
+| Function operators and other functionals               |          |
+|                                                        |          |
+| Parallelization                                        |          |
++--------------------------------------------------------+----------+
 
 ## Introduction to programming in R
 

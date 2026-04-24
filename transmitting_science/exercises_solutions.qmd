@@ -19,7 +19,6 @@ library(palmerpenguins)
 library(tidyverse)
 ```
 
-
 ## 2.1.1 Exercise
 
 1.  Choose a number and multiply it by 3.
@@ -56,7 +55,7 @@ length(object)
 
 ```
 
-#### 2.1.2 Exercise
+## 2.1.2 Exercise
 
 1.  Create a list that contains two data frames, each with two named variables and ten observations per variable.
 
@@ -76,7 +75,7 @@ ls[[2]]$var2_rnorm[8]
 
 ```
 
-## 2.2.1 Exercise
+## 2.2.2 Exercise
 
 1.  With the penguins dataset, create an object with individuals of the Adelie species and arrange the `data.frame` according to flipper length.
 
@@ -101,7 +100,7 @@ adelie2 <- adelie |>
 
 ```
 
-## 2.2.2 Exercise
+## 2.2.3 Exercise
 
 1.  With the penguins dataset, count the number of cases on each island and calculate the mean flipper length for each island.
 

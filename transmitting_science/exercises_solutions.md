@@ -3,8 +3,9 @@ Julen Astigarraga (and Verónica Cruz-Alonso)
 24/04/2026
 
 - [2.1.1 Exercise](#211-exercise)
-- [2.2.1 Exercise](#221-exercise)
+- [2.1.2 Exercise](#212-exercise)
 - [2.2.2 Exercise](#222-exercise)
+- [2.2.3 Exercise](#223-exercise)
 - [5.0.1 Exercise](#501-exercise)
 - [5.0.2 Exercise](#502-exercise)
 - [5.2.1 Exercise](#521-exercise)
@@ -114,7 +115,7 @@ length(object)
 
     [1] 19
 
-#### 2.1.2 Exercise
+## 2.1.2 Exercise
 
 1.  Create a list that contains two data frames, each with two named
     variables and ten observations per variable.
@@ -139,9 +140,9 @@ ls[[1]]$var2_letters[8]
 ls[[2]]$var2_rnorm[8]
 ```
 
-    [1] 0.03418412
+    [1] -1.03895
 
-## 2.2.1 Exercise
+## 2.2.2 Exercise
 
 1.  With the penguins dataset, create an object with individuals of the
     Adelie species and arrange the `data.frame` according to flipper
@@ -168,7 +169,7 @@ adelie2 <- adelie |>
   select(-species)
 ```
 
-## 2.2.2 Exercise
+## 2.2.3 Exercise
 
 1.  With the penguins dataset, count the number of cases on each island
     and calculate the mean flipper length for each island.
@@ -1278,7 +1279,7 @@ Session Info
 Sys.time()
 ```
 
-    [1] "2026-04-24 15:14:10 CEST"
+    [1] "2026-04-24 15:47:02 CEST"
 
 ``` r
 sessionInfo()

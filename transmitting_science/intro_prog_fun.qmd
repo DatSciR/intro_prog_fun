@@ -18,11 +18,11 @@ number-sections: true
 
 Course objectives:
 
--   Learn how to **write functions** in R.
+- Learn how to **write functions** in R.
 
--   Apply functions in **iterations** using the `{purrr}` package from `{tidyverse}`.
+- Apply functions in **iterations** using the `{purrr}` package from `{tidyverse}`.
 
--   Develop **coding styles** that make scripts easier to read and understand (📝)
+- Develop **coding styles** that make scripts easier to read and understand (📝)
 
 This course follows the framework proposed by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund (@fig-datascience), which outlines the tools needed in a typical data science project. The focus of this course is on programming, which acts as the “envelope” that wraps around and connects all the other tools.
 
@@ -30,33 +30,33 @@ This course follows the framework proposed by Hadley Wickham, Mine Çetinkaya-Ru
 
 ### Course structure
 
-+--------------------------------------------------------+---------------+
-| Blocks                                                 | Day           |
-+========================================================+===============+
-| Course introduction                                    | 06/05/26      |
-|                                                        |               |
-| Introduction to programming in R                       |               |
-|                                                        |               |
-| Introduction to functional programming                 |               |
-+--------------------------------------------------------+---------------+
-| Theory of functions in R                               | 08/05/26      |
-|                                                        |               |
-| How to write functions                                 |               |
-+--------------------------------------------------------+---------------+
-| Object-oriented programming and iterations using loops | 13/05/26      |
-|                                                        |               |
-| Functional programming                                 |               |
-|                                                        |               |
-| Iterations over one and two arguments                  |               |
-+--------------------------------------------------------+---------------+
-| Iterations over multiple arguments                     | 15/05/26      |
-|                                                        |               |
-| Iterations without output                              |               |
-|                                                        |               |
-| Function operators and other functionals               |               |
-|                                                        |               |
-| Parallelization                                        |               |
-+--------------------------------------------------------+---------------+
++--------------------------------------------------------+--------------+
+| Blocks                                                 | Day          |
++========================================================+==============+
+| Course introduction                                    | 06/05/26     |
+|                                                        |              |
+| Introduction to programming in R                       |              |
+|                                                        |              |
+| Introduction to functional programming                 |              |
++--------------------------------------------------------+--------------+
+| Theory of functions in R                               | 08/05/26     |
+|                                                        |              |
+| How to write functions                                 |              |
++--------------------------------------------------------+--------------+
+| Object-oriented programming and iterations using loops | 13/05/26     |
+|                                                        |              |
+| Functional programming                                 |              |
+|                                                        |              |
+| Iterations over one and two arguments                  |              |
++--------------------------------------------------------+--------------+
+| Iterations over multiple arguments                     | 15/05/26     |
+|                                                        |              |
+| Iterations without output                              |              |
+|                                                        |              |
+| Function operators and other functionals               |              |
+|                                                        |              |
+| Parallelization                                        |              |
++--------------------------------------------------------+--------------+
 
 ## Introduction to programming in R
 
@@ -64,19 +64,19 @@ This course follows the framework proposed by Hadley Wickham, Mine Çetinkaya-Ru
 
 ### Basic concepts
 
--   R: A dynamic programming language, meaning that code is interpreted and executed as it runs, rather than being precompiled.
+- R: A dynamic programming language, meaning that code is interpreted and executed as it runs, rather than being precompiled.
 
--   RStudio: An Integrated Development Environment (IDE) for R programming. It is organized into four main panels:
+- RStudio: An Integrated Development Environment (IDE) for R programming. It is organized into four main panels:
 
-    1.  Code Editor: Where you write scripts and functions.
+  1.  Code Editor: Where you write scripts and functions.
 
-    2.  Console: Where code is executed immediately.
+  2.  Console: Where code is executed immediately.
 
-    3.  Workspace Browser: Shows your environment (objects) and command history.
+  3.  Workspace Browser: Shows your environment (objects) and command history.
 
-    4.  Bottom-right Panel: Contains Files, Plots, Packages, and Help tabs for managing projects and exploring results.
+  4.  Bottom-right Panel: Contains Files, Plots, Packages, and Help tabs for managing projects and exploring results.
 
--   Object: Any element in R that is associated with a name. Objects can be of various types: `numeric`, `integer`, `logical`, `data.frame`, `SpatVector`, etc.
+- Object: Any element in R that is associated with a name. Objects can be of various types: `numeric`, `integer`, `logical`, `data.frame`, `SpatVector`, etc.
 
 ```{r objects}
 #| warning: false
@@ -136,9 +136,9 @@ mynested_tibble
 
 💡 You can explore different types of objects in R [here](https://rstudio-education.github.io/hopr/r-objects.html).
 
--   Functions: objects in R that take inputs and produce outputs by performing a specific action or task. They are the fundamental building blocks of R, which is a functional programming language, meaning that writing and combining functions is the primary way to structure and execute code efficiently.
+- Functions: objects in R that take inputs and produce outputs by performing a specific action or task. They are the fundamental building blocks of R, which is a functional programming language, meaning that writing and combining functions is the primary way to structure and execute code efficiently.
 
-    ![](images/function.png)
+  ![](images/function.png)
 
 > To understand computation in R, this two truths are very useful:
 >
@@ -150,11 +150,11 @@ mynested_tibble
 
 💡More info about Three Deep Truths About R [here](https://www.r-bloggers.com/2018/06/three-deep-truths-about-r/).
 
--   Packages: collections that contain reusable functions, documentation, and exampledatasets. They are the fundamental units of reproducible code in R, allowing you to share tools, workflows, and analyses with others easily.
+- Packages: collections that contain reusable functions, documentation, and exampledatasets. They are the fundamental units of reproducible code in R, allowing you to share tools, workflows, and analyses with others easily.
 
 ![Packages contain functions focused on a common purpose—for example, building a castle.](images/library.png){#library width="348"}
 
--   CRAN (Comprehensive R Archive Network) is the official repository of R packages, functions, documentation, and example datasets. It provides a centralized, reliable source for installing and updating R packages.
+- CRAN (Comprehensive R Archive Network) is the official repository of R packages, functions, documentation, and example datasets. It provides a centralized, reliable source for installing and updating R packages.
 
 #### Exercise
 
@@ -315,11 +315,11 @@ View(mydata)
 
 R uses *lexical scoping*, which means it looks for the value of a name based on where a function is defined, not where it is called. *Lexical scoping* follows four basic rules (*name masking*, *functions versus variables*, *a fresh start*, and *dynamic lookup*), but the most important one for getting started with functional programming is *name masking*:
 
--   Names defined inside a function take precedence over names defined outside.
+- Names defined inside a function take precedence over names defined outside.
 
--   If a name is not found inside the function, R searches up one level in the environment hierarchy.
+- If a name is not found inside the function, R searches up one level in the environment hierarchy.
 
--   For functions, R ignores non-function objects when searching for a function name.
+- For functions, R ignores non-function objects when searching for a function name.
 
 ```{r lexical_scoping}
 
@@ -406,17 +406,17 @@ The main advantages of functional programming (using functions and iterations) a
 
 1.  Improved readability and understanding:
 
-    -   Functions have clear, descriptive names that reflect their purpose.
+    - Functions have clear, descriptive names that reflect their purpose.
 
-    -   Code is more organized and easier to follow for yourself, collaborators, and reviewers.
+    - Code is more organized and easier to follow for yourself, collaborators, and reviewers.
 
 2.  Modularity and flexibility:
 
-    -   Functions are independent units that solve specific problems. This makes it easier to modify or update parts of the code without affecting the whole program.
+    - Functions are independent units that solve specific problems. This makes it easier to modify or update parts of the code without affecting the whole program.
 
 3.  Reduced error probability:
 
-    -   Reusing well-defined functions minimizes repetition and helps avoid mistakes.
+    - Reusing well-defined functions minimizes repetition and helps avoid mistakes.
 
 ### When do we have to use a function?
 
@@ -428,9 +428,9 @@ In practice, writing a function becomes worthwhile when you find yourself copyin
 
 Functions have three components:
 
--   `body()`: the code inside the function that defines what the function does.
--   `formals()`: the list of arguments that control how the function is executed.
--   `environment()`: the environment where the function is defined, which determines how variables are found (*scoping*).
+- `body()`: the code inside the function that defines what the function does.
+- `formals()`: the list of arguments that control how the function is executed.
+- `environment()`: the environment where the function is defined, which determines how variables are found (*scoping*).
 
 ```{r components}
 
@@ -465,15 +465,15 @@ body(sum)
 
 According to the type of output, there are two types of functions:
 
--   **Transformation functions**: they transform the object that enters the function (the first argument) and return another object or the original one with modifications. Functionals are special types of transformation functions.
+- **Transformation functions**: they transform the object that enters the function (the first argument) and return another object or the original one with modifications. Functionals are special types of transformation functions.
 
--   **Side-effect functions**: they have side effects and perform an action rather than returning a visible result, such as saving a file or drawing a plot. Some commonly used examples are: `library()`, `setwd()`, `plot()`, `write_delim()`. These functions invisibly return the output, which is not saved but can be used in a pipeline.
+- **Side-effect functions**: they have side effects and perform an action rather than returning a visible result, such as saving a file or drawing a plot. Some commonly used examples are: `library()`, `setwd()`, `plot()`, `write_delim()`. These functions invisibly return the output, which is not saved but can be used in a pipeline.
 
 In general, syntactically, functions have three components:
 
--   The function `function()` (primitive)
--   Arguments: list of inputs.
--   Body: the piece of code that follows `function()`, traditionally enclosed in curly braces.
+- The function `function()` (primitive)
+- Arguments: list of inputs.
+- Body: the piece of code that follows `function()`, traditionally enclosed in curly braces.
 
 ```{r notations}
 
@@ -661,9 +661,9 @@ Create a function to standardize (i.e., subtract the mean and divide by the stan
 
 Arguments are usually divided into two groups:
 
--   **Data arguments:** specify the main input data the function works on.
+- **Data arguments:** specify the main input data the function works on.
 
--   **Detail arguments:** control how the function is executed (settings, options, behavior).
+- **Detail arguments:** control how the function is executed (settings, options, behavior).
 
 By convention, data arguments come first, followed by detail arguments. Detail arguments often have default values, which are used automatically if the user does not specify them.
 
@@ -671,19 +671,19 @@ By convention, data arguments come first, followed by detail arguments. Detail a
 
 📝 The argument names should be short and descriptive. In some cases, we can use standard argument names that are widely known by users, even if they are not highly descriptive, and it's fine to take advantage of them.
 
--   `x, y, z`: vectors
+- `x, y, z`: vectors
 
--   `w`: vector of weights
+- `w`: vector of weights
 
--   `df`: data frame
+- `df`: data frame
 
--   `i, j`: numerical indices, rows and columns, respectively
+- `i, j`: numerical indices, rows and columns, respectively
 
--   `n`: length or row numbers
+- `n`: length or row numbers
 
--   `p`: column number
+- `p`: column number
 
--   `na.rm`: not available values
+- `na.rm`: not available values
 
 When executing the function, arguments can be specified using the full name, a unequivocal abbreviation, or the order of their position (*unnamed* arguments), with this sequence (name \> abbreviation \> position) being the priority order when matching arguments with what is written.
 
@@ -773,11 +773,11 @@ methods(summary)
 
 **Key concepts**
 
--   **Class**: the type of an object (what it is)
+- **Class**: the type of an object (what it is)
 
--   **Method**: the implementation of a function for a specific class (what it does)
+- **Method**: the implementation of a function for a specific class (what it does)
 
--   **Generic function**: a function (like `summary()`) that selects the correct method automatically based on the class
+- **Generic function**: a function (like `summary()`) that selects the correct method automatically based on the class
 
 Object-oriented programming is very useful because it allows developers to extend existing functions without modifying them, by defining new methods for new classes.
 
@@ -907,12 +907,12 @@ The advantage of using {purrr} instead of *for* loops is that it provides a spec
 
 Iterating over one vector (i.e. vector of values or vector of elements in a list) is so common that the {purrr} package provides a family of functions (the `map()` family) for it. There is a different function for each type of output. The suffix indicates the type of output we want:
 
--   `map()` returns a list.
--   `map_lgl()` returns a logical vector.
--   `map_int()` returns a vector of integers.
--   `map_dbl()` returns a vector of decimal numbers.
--   `map_chr()` returns a character vector.
--   `map_vec()` returns a vector automatically determining the type.
+- `map()` returns a list.
+- `map_lgl()` returns a logical vector.
+- `map_int()` returns a vector of integers.
+- `map_dbl()` returns a vector of decimal numbers.
+- `map_chr()` returns a character vector.
+- `map_vec()` returns a vector automatically determining the type.
 
 Remember that data frames are lists of vectors of the same length, so any calculation by rows or columns involves iterating over a vector.
 
@@ -1200,9 +1200,9 @@ Transform the `map2()` that you have generated in the exercise @sec-exercise-map
 
 💡 The closest base R equivalents to `map2()` and `pmap()` are `Map()` and `mapply()`, but both have important limitations:
 
--   `Map()` vectorises over all arguments, which means it is not possible to include arguments that should remain constant across iterations.
+- `Map()` vectorises over all arguments, which means it is not possible to include arguments that should remain constant across iterations.
 
--   `mapply()` is essentially a multidimensional version of `sapply()`. It takes the output of `Map()` and attempts to simplify it, which can lead to the same type of issues as `sapply()`. There is no multi-input equivalent of `vapply()`, making type safety harder to ensure.
+- `mapply()` is essentially a multidimensional version of `sapply()`. It takes the output of `Map()` and attempts to simplify it, which can lead to the same type of issues as `sapply()`. There is no multi-input equivalent of `vapply()`, making type safety harder to ensure.
 
 ## Iterations without output
 
@@ -1406,35 +1406,50 @@ cat("Computing time:", round(time_final - time_initial, 1), "seconds\n")
 
 ```
 
-However, this is changing. In the latest development version of purrr, the map functions now include a `.parallel` argument, enabling parallelization using the {mirai} package (see <https://purrr.tidyverse.org/dev/reference/parallelization.html>).
+However, this is changing fast. In the latest development version of purrr, the map functions now include a `.parallel` argument, enabling parallelization using the {mirai} package (see <https://purrr.tidyverse.org/dev/reference/parallelization.html>).
 
-### Links of interest
+💡 Or even easier! The [`{futurize}`](https://futurize.futureverse.org/index.html) package allows you to automatically transform sequential iteration code into parallel code. Instead of rewriting your code for parallel computing, you simply write your usual code (e.g. `map()`, `lapply()`, `foreach()`) and then "wrap" it with `futurize()`.
 
--   [Hands-On Programming with R (basics)](https://rstudio-education.github.io/hopr/basics.html)
+```{r futurize}
+#| eval: false
 
--   [R for data Science (functions)](https://r4ds.had.co.nz/functions.html)
+library(futurize)
 
--   [Advanced R (functions)](https://adv-r.hadley.nz/functions.html)
+plan(multisession, workers = 3)
 
--   [Tidy evaluation to program functions with tidyverse](https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html)
+time_initial <- Sys.time()
+output <- map(1:10, cube) |> 
+  futurize()
+time_final <- Sys.time()
+cat("Computing time:", round(time_final - time_initial, 1), "seconds\n")
 
--   [R for data Science (iteration)](https://r4ds.had.co.nz/iteration.html)
+```
 
--   [Advanced R (functionals)](https://adv-r.hadley.nz/functionals.html)
+## Links of interest
 
--   [purrr](https://purrr.tidyverse.org/)
+- [Hands-On Programming with R (basics)](https://rstudio-education.github.io/hopr/basics.html)
 
--   [Learn to purrr (Rebecca Barter)](https://www.rebeccabarter.com/blog/2019-08-19_purrr)
+- [R for data Science (functions)](https://r4ds.had.co.nz/functions.html)
 
--   [Style guide](http://adv-r.had.co.nz/Style.html)
+- [Advanced R (functions)](https://adv-r.hadley.nz/functions.html)
 
--   [Tidyverse style guide](https://style.tidyverse.org/)
+- [Tidy evaluation to program functions with tidyverse](https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html)
 
--   [Parallel computation in R](https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/)
+- [R for data Science (iteration)](https://r4ds.had.co.nz/iteration.html)
 
--   [Advanced R (Object-oriented programming)](https://adv-r.hadley.nz/oo.html)
+- [Advanced R (functionals)](https://adv-r.hadley.nz/functionals.html)
 
--   [Parallel computation in R](https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/)
+- [purrr](https://purrr.tidyverse.org/)
+
+- [Learn to purrr (Rebecca Barter)](https://www.rebeccabarter.com/blog/2019-08-19_purrr)
+
+- [Style guide](http://adv-r.had.co.nz/Style.html)
+
+- [Tidyverse style guide](https://style.tidyverse.org/)
+
+- [Parallel computation in R](https://emf.creaf.cat/workflows/r_parallel_computing_tech_doc/)
+
+- [Advanced R (Object-oriented programming)](https://adv-r.hadley.nz/oo.html)
 
 This course is mainly based on the first edition of the book [R for Data Science](https://r4ds.had.co.nz/) by Hadley Wickham & Garrett Grolemund and the second edition of the book [Advanced R](https:%20//adv-r.hadley.nz/index.html) by Hadley Wickham.
 

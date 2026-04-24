@@ -35,3 +35,4 @@ po/*~
 rsconnect/
 info_workshop
 *.csv
+.positai
